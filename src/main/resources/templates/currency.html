@@ -2,8 +2,8 @@
 <div th:replace="~{layout/support}"></div>
                 <div class='container-fluid' >
                     <div class="d-flex justify-content-end gap-2 py-3 fw-bold"> <p>Select Language</p>
-                        <button type="button" class="btn btn-danger" onclick="toggleLanguage('bangla')">BN</button>
-                        <button type="button" class="btn btn-success" onclick="toggleLanguage('english')">EN</button>
+                        <button type="button" class="btn btn-danger" onclick="toggleLanguage2('bangla')">BN</button>
+                        <button type="button" class="btn btn-success" onclick="toggleLanguage2('english')">EN</button>
                     </div>
                     <div class='card'>
                         <div class='card-body'>
@@ -16,22 +16,22 @@
                                   
 
                                         <div class="mb-3">
-                                            <label for="passengerName" class="form-label" id="passengerName">Full Name</label>
+                                            <label for="passengerName" class="form-label" id="passengerNamelabell">Full Name</label><span class="astrick">*</span>
                                             <input type="text" class="form-control" id="example1" name="passengerName" placeholder="Enter Full Name" required>
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="passportNumber" class="form-label" id="passportNumberLabel">Passport Number</label>
+                                            <label for="passportNumber" class="form-label" id="passportNumberLabel">Passport Number</label><span class="astrick">*</span>
                                             <input type="text" class="form-control" id="example1" name="passportNumber" placeholder="Enter passport number" required>
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="passportIssueDate" class="form-label" id="passportIssueDate">Passport Issue Date</label>
+                                            <label for="passportIssueDate" class="form-label" id="passportIssueDate">Passport Issue Date</label><span class="astrick">*</span>
                                             <input type="date" class="form-control" id="passportIssueDate" name="passportIssueDate" required>
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="passportIssuePlace" class="form-label" id="passportNumberLabel">Issue Place</label>
+                                            <label for="passportIssuePlace" class="form-label" id="passportIssuePlaceLabel">Issue Place</label><span class="astrick">*</span>
                                             <input type="text" class="form-control" id="example1" name="passportIssuePlace" placeholder="Enter Issue Place" required>
                                         </div>
 
@@ -50,14 +50,14 @@
                                           </div>
 
                                           <div class="mb-3">
-                                            <label for="profession" class="form-label" id="passportNumberLabel">Profession</label>
-                                            <input type="text" class="form-control" id="example1" name="profession" placeholder="Enter Profession" required>
+                                            <label for="profession" class="form-label" id="professionLabel">Profession</label>
+                                            <input type="text" class="form-control" id="example1" name="profession" placeholder="Enter Profession">
                                         </div>
                                     </div>
 
                                     <div class="col-sm-6">
                                         <div class="mb-3">
-                                            <label for="previousCountry" class="form-label" id="previousCountry">Country from where coming</label>
+                                            <label for="previousCountry" class="form-label" id="previousCountry">Country from where coming</label><span class="astrick">*</span>
                                             <select class="form-select" name="previousCountry" id="previousCountry" required>
                                                 <option value="">---Select Country----</option>
                                                 <option value="Bangladesh">Bangladesh</option>
@@ -171,17 +171,17 @@
                                         
 
                                         <div class="mb-3">
-                                            <label for="dateOfArrival" class="form-label" id="dateOfArrivalLabel">Date Of Arrival</label>
+                                            <label for="dateOfArrival" class="form-label" id="dateOfArrivalLabel">Date Of Arrival</label><span class="astrick">*</span>
                                             <input type="datetime-local" class="form-control" id="dateOfArrival" name="dateOfArrival" required>
                                         </div>
 
                                         <div class="mb-3">
                                             <label for="flightNo" class="form-label" id="flightNoLabel">Flight No</label>
-                                            <input type="text" class="form-control" id="flightNo" name="flightNo" placeholder="Enter Flight  No Ex:BG 805" required>
+                                            <input type="text" class="form-control" id="flightNo" name="flightNo" placeholder="Enter Flight  No Ex:BG 805" >
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="addressInBangladesh" class="form-label" id="address">Address in Bangladesh</label>
+                                            <label for="addressInBangladesh" class="form-label" id="address">Address in Bangladesh</label><span class="astrick">*</span>
                                             <input type="text" class="form-control" id="addressInBangladesh" name="addressInBangladesh" placeholder="Enter Address" required>
                                         </div>
 
@@ -194,7 +194,7 @@
                                             <label for="mobileNo" class="form-label" id="mobileNoLabel">Mobile No</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
-                                                    <select class="form-select" name="countryCode" id="countryCode" required>
+                                                    <select class="form-select" name="countryCode" id="countryCode" >
                                                         <option value="Bangladesh +880">Bangladesh +880</option>
                                                         <option value="USA +1">USA +1</option>
                                                         <option value="UK +44">UK +44</option>

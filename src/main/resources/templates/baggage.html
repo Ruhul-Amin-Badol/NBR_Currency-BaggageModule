@@ -2,8 +2,8 @@
 <div th:replace="~{layout/support}"></div>
                 <div class='container-fluid' th:object="${baggageDetails}">
                     <div class="d-flex justify-content-end gap-2 py-3 fw-bold"> <p>Select Language</p>
-                        <button type="button" class="btn btn-danger" onclick="toggleLanguage('bangla')">BN</button>
-                        <button type="button" class="btn btn-success" onclick="toggleLanguage('english')">EN</button>
+                        <button type="button" class="btn btn-danger" onclick="toggleLanguage1('bangla')">BN</button>
+                        <button type="button" class="btn btn-success" onclick="toggleLanguage1('english')">EN</button>
                     </div>
                     <div class='card'>
                         <div class='card-body'>
@@ -14,7 +14,7 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="mb-3">
-                                            <label for="entryPoint" class="form-label" id="entryPointLabel">Select Entry Point</label>
+                                            <label for="entryPoint" class="form-label" id="entryPointLabel">Select Entry Point</label><span class="astrick">*</span>
                                             <select class="form-select" name="entryPoint" aria-label="Default select example" required>
                                                 <option selected>--Please Select--</option>
                                                 <option value="Hazrat Shahjalal International Airport">Hazrat Shahjalal International Airport</option>
@@ -28,17 +28,17 @@
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="passengerName" class="form-label" id="passengerNameLabel">Name of the Passenger(Same As Passport)</label>
+                                            <label for="passengerName" class="form-label" id="passengerNameLabel">Name of the Passenger(Same As Passport) </label><span class="astrick">*</span>
                                             <input type="text" class="form-control" id="example1" name="passengerName" placeholder="Enter Passenger Name" required>
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="passportNumber" class="form-label" id="passportNumberLabel">Passport Number</label>
+                                            <label for="passportNumber" class="form-label" id="passportNumberLabel">Passport Number</label><span class="astrick">*</span>
                                             <input type="text" class="form-control" id="example1" name="passportNumber" placeholder="Enter passport number" required>
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="passportValidityDate" class="form-label" id="passportValidityDateLabel">Passport Validity Date</label>
+                                            <label for="passportValidityDate" class="form-label" id="passportValidityDateLabel">Passport Validity Date</label><span class="astrick">*</span>
                                             <input type="date" class="form-control" id="example1" name="passportValidityDate" required>
                                         </div>
 
@@ -59,7 +59,7 @@
 
                                     <div class="col-sm-6">
                                         <div class="mb-3">
-                                            <label for="countryFrom" class="form-label" id="countryFromLabel">Country from where coming</label>
+                                            <label for="countryFrom" class="form-label" id="countryFromLabel">Country from where coming</label><span class="astrick">*</span>
                                             <select class="form-select" name="countryFrom" id="previous_country" required>
                                                 <option value="">---Select Country----</option>
                                                 <option value="Bangladesh">Bangladesh</option>
@@ -173,20 +173,20 @@
                                         
 
                                         <div class="mb-3">
-                                            <label for="dateOfArrival" class="form-label" id="dateOfArrivalLabel">Date Of Arrival</label>
+                                            <label for="dateOfArrival" class="form-label" id="dateOfArrivalLabel">Date Of Arrival</label><span class="astrick">*</span>
                                             <input type="date" class="form-control" id="example1" name="dateOfArrival" required>
                                         </div>
 
                                         <div class="mb-3">
                                             <label for="flightNo" class="form-label" id="flightNoLabel">Flight No</label>
-                                            <input type="text" class="form-control" id="example1" name="flightNo" placeholder="Enter Flight  No Ex:BG 805" required>
+                                            <input type="text" class="form-control" id="example1" name="flightNo" placeholder="Enter Flight  No Ex:BG 805">
                                         </div>
 
                                         <div class="mb-3">
                                             <label for="mobileNo" class="form-label" id="mobileNoLabel">Mobile No</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
-                                                    <select class="form-select" name="countryCode" id="countryCode" required>
+                                                    <select class="form-select" name="countryCode" id="countryCode" >
                                                         <option value="Bangladesh +880">Bangladesh +880</option>
                                                         <option value="USA +1">USA +1</option>
                                                         <option value="UK +44">UK +44</option>
@@ -300,13 +300,13 @@
                                                     
                                                     
                                                 </div>
-                                                <input type="text" class="form-control" id="mobileNo" name="mobileNo" placeholder="Enter Mobile No" required>
+                                                <input type="text" class="form-control" id="mobileNo" name="mobileNo" placeholder="Enter Mobile No" >
                                             </div>
                                         </div>
 
                                         <div class="mb-3">
                                             <label for="email" class="form-label" id="emailLabel">Email</label>
-                                            <input type="email" class="form-control" id="example1" name="email" placeholder="Enter Your Email" required>
+                                            <input type="email" class="form-control" id="example1" name="email" placeholder="Enter Your Email" >
                                         </div>
 
                                         <div class="form-check">
@@ -379,7 +379,7 @@
                                 <input type="hidden" id="baggageID" name="id" th:value="${ID}" />
                                 <input  type="hidden" id="idMeat" name="idMeat" th:value="${''}" />
                                 <input type="hidden" id="idCurrency" name="idCurrency" th:value="${''}" />
-                                <label for="entryPoint" class="form-label" id="entryPointLabel">Select Entry Point</label>
+                                <label for="entryPoint" class="form-label" id="entryPointLabel">Select Entry Point</label><span class="astrick">*</span>
                                 <select class="form-select" name="entryPoint" th:value="${baggageDetails['entry_point']}" required>
                                     <option value="Hazrat Shahjalal International Airport" th:selected="${baggageDetails['entry_point'] == 'Hazrat Shahjalal International Airport'}">Hazrat Shahjalal International Airport</option>
                                     <option value="Shah Amanat International Airport" th:selected="${baggageDetails['entry_point'] == 'Shah Amanat International Airport'}">Shah Amanat International Airport</option>
@@ -392,23 +392,23 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="passengerName" class="form-label" id="passengerNameLabel">Name of the Passenger(Same As Passport)</label>
+                                <label for="passengerName" class="form-label" id="passengerNameLabel">Name of the Passenger(Same As Passport)</label><span class="astrick">*</span>
                                 <input type="text" class="form-control" name="passengerName" th:value="${baggageDetails['passenger_name']}" placeholder="Enter Passenger Name" required>
                             </div>
 
                             <div class="mb-3">
-                                <label for="passportNumber" class="form-label" id="passportNumberLabel">Passport Number</label>
+                                <label for="passportNumber" class="form-label" id="passportNumberLabel">Passport Number</label><span class="astrick">*</span>
                                 <input type="text" class="form-control" name="passportNumber" th:value="${baggageDetails['passport_number']}" placeholder="Enter Passport Number" required>
                             </div>
 
                             <div class="mb-3">
-                                <label for="passportValidityDate" class="form-label" id="passportValidityDateLabel">Passport Validity Date</label>
+                                <label for="passportValidityDate" class="form-label" id="passportValidityDateLabel">Passport Validity Date</label><span class="astrick">*</span>
                                 <input type="date" class="form-control" name="passportValidityDate" th:value="${baggageDetails['passport_validity_date']}" required>
                             </div>
 
                             <div class="mb-3">
                                 <label for="nationality" class="form-label" id="nationalityLabel">Nationality</label>
-                                <select class="form-select" name="nationality" id="nationality" required>
+                                <select class="form-select" name="nationality" id="nationality" >
                                     <option th:if="${baggageDetails['nationality'] == 'Other'}" value="Other" th:selected="selected">Other</option>
                                     <option th:unless="${baggageDetails['nationality'] == 'Other'}" th:value="${baggageDetails['nationality']}"
                                         th:selected="selected">[[${baggageDetails['nationality']}]]</option>
@@ -426,7 +426,7 @@
 
                         <div class="col-sm-6">
                             <div class="mb-3">
-                                <label for="countryFrom" class="form-label" id="countryFromLabel">Country from where coming</label>
+                                <label for="countryFrom" class="form-label" id="countryFromLabel">Country from where coming</label><span class="astrick">*</span>
                                 <select class="form-select" name="countryFrom" id="previous_country" th:value="${baggageDetails['previous_country']}" required>
                                     <option value="">---Select Country----</option>
                                     <option value="Bangladesh" th:selected="${baggageDetails['previous_country'] == 'Bangladesh'}">Bangladesh</option>
@@ -488,13 +488,13 @@
                             
 
                             <div class="mb-3">
-                                <label for="dateOfArrival" class="form-label" id="dateOfArrivalLabel">Date Of Arrival</label>
+                                <label for="dateOfArrival" class="form-label" id="dateOfArrivalLabel">Date Of Arrival</label><span class="astrick">*</span>
                                 <input type="date" class="form-control" name="dateOfArrival" th:value="${baggageDetails['dateofarrival']}" required>
                             </div>
 
                             <div class="mb-3">
                                 <label for="flightNo" class="form-label" id="flightNoLabel">Flight No</label>
-                                <input type="text" class="form-control" name="flightNo" th:value="${baggageDetails['flight_no']}" placeholder="Enter Flight No (Ex: BG 805)" required>
+                                <input type="text" class="form-control" name="flightNo" th:value="${baggageDetails['flight_no']}" placeholder="Enter Flight No (Ex: BG 805)" >
                             </div>
 
                             <div class="mb-3">
@@ -502,7 +502,7 @@
                                 <!-- <input type="text" class="form-control" name="mobileNo" th:value="${baggageDetails['mobile_no']}" placeholder="Enter Mobile No" required> -->
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <select class="form-select" name="countryCode" id="countryCode" required>
+                                        <select class="form-select" name="countryCode" id="countryCode" >
                                             <option>--select country code--</option>
                                             <option value="USA +1" th:selected="${baggageDetails['country_code'] == 'USA +1'}">USA +1</option>
                                             <option value="UK +44" th:selected="${baggageDetails['country_code'] == 'UK +44'}">UK +44</option>
@@ -618,13 +618,13 @@
                                         
                                         
                                     </div>
-                                    <input type="text" class="form-control" id="mobileNo" name="mobileNo" th:value="${baggageDetails['mobile_no']}" placeholder="Enter Mobile No" required>
+                                    <input type="text" class="form-control" id="mobileNo" name="mobileNo" th:value="${baggageDetails['mobile_no']}" placeholder="Enter Mobile No" >
                                 </div>
                             </div>
 
                             <div class="mb-3">
                                 <label for="email" class="form-label" id="emailLabel">Email</label>
-                                <input type="email" class="form-control" name="email" th:value="${baggageDetails['email']}" placeholder="Enter Your Email" required>
+                                <input type="email" class="form-control" name="email" th:value="${baggageDetails['email']}" placeholder="Enter Your Email" >
                             </div>
 
                             <div class="form-check">
@@ -678,7 +678,7 @@
                 <form action="" method="">
 
                             <div class="container p-3 mt-3 bg-light">
-                                <p class="fw-bold">More than one of any goods (More than two for cellular phone) which are duty free including Gold <button type="button" class="btn btn-success" id="openFileButton">View Goods List on Baggage Rule</button></p>
+                                <p class="fw-bold">More than one of any goods (More than two for cellular phone) which are duty free including Gold<span class="astrick">*</span> <button type="button" class="btn btn-success" id="openFileButton">View Goods List on Baggage Rule</button></p>
                                 <div class="d-flex justify-content-start mb-3">
                                     <div class="col-sm-6">
                                             <select class="form-select" aria-label="Default select example"  id="dropdownSelect" >

@@ -436,6 +436,11 @@ h1, .h1 {
     overflow: hidden;
     background-color: rgba(236, 238, 239, 0.3);
 }
+.astrick{
+    color:red;
+    font-weight:bold;
+    font-size:25px;
+}
 
 
 /* mobile media start code  */
