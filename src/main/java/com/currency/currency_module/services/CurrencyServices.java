@@ -73,27 +73,27 @@ public class CurrencyServices {
 public CurrencyDeclaration findcurrency(Long id) {
   return currencyDeclarationRepository.findById(id).orElseThrow(()->new ResourceNotFound("User not found"));
 }
-@Transactional
-public void updateStatusToProcessing(Long id) {
-  // Fetch the entity by its ID
-  CurrencyDeclaration currency = currencyDeclarationRepository.findById(id).orElse(null);
+// @Transactional
+// public void updateStatusToProcessing(Long id) {
+//   // Fetch the entity by its ID
+//   CurrencyDeclaration currency = currencyDeclarationRepository.findById(id).orElse(null);
 
-  if (currency != null) {
-    // Update the "status" column value to "processing"
-    currency.setStatus("processing");
-    currencyDeclarationRepository.save(currency);
-  }
-}
+//   if (currency != null) {
+//     // Update the "status" column value to "processing"
+//     currency.setStatus("processing");
+//     currencyDeclarationRepository.save(currency);
+//   }
+// }
 
-@Transactional
-public void updateCurrencyStatusToUnchecked(Long id) {
-    CurrencyDeclaration currency = currencyDeclarationRepository.findById(id).orElse(null);
+// @Transactional
+// public void updateCurrencyStatusToUnchecked(Long id) {
+//     CurrencyDeclaration currency = currencyDeclarationRepository.findById(id).orElse(null);
 
-    if (currency != null) {
-        // Update the "status" column value to "unchecked"
-        currency.setStatus("unchecked");
-        currencyDeclarationRepository.save(currency);
-}
-}
+//     if (currency != null) {
+//         // Update the "status" column value to "unchecked"
+//         currency.setStatus("unchecked");
+//         currencyDeclarationRepository.save(currency);
+// }
+// }
 
 }
