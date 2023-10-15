@@ -1,0 +1,576 @@
+
+<div th:replace="~{layout/support}"></div>
+                <div class='container-fluid' >
+                    <div class="d-flex justify-content-end gap-2 py-3 fw-bold"> <p>Select Language</p>
+                        <button type="button" class="btn btn-danger" onclick="toggleLanguage('bangla')">BN</button>
+                        <button type="button" class="btn btn-success" onclick="toggleLanguage('english')">EN</button>
+                    </div>
+                    <div class='card'>
+                        <div class='card-body'>
+                            <h1 class="fw-bold text-center text-success">Currency Declaration Form</h1>
+                 <div>
+                        <form th:action="@{/currencystart/currencyUpdate}"  method="post" th:object="${currencyDeclaration}" id="myForm">
+                            <input type="hidden" id="id" name="id" th:value="${currencyDeclaration.id}"/>
+                            <div class="container p-3 bg-light">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                  
+
+                                        <div class="mb-3">
+                                            <label for="passengerName" class="form-label" id="passengerName">Full Name</label>
+                                            <input type="text" class="form-control"   id="passengerName" name="passengerName" th:value="${currencyDeclaration.passengerName}" placeholder="Enter Full Name" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="passportNumber" class="form-label" id="passportNumberLabel">Passport Number</label>
+                                            <input type="text" class="form-control" id="example1"  name="passportNumber" th:value="${currencyDeclaration.passportNumber}" placeholder="Enter passport number" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="passportIssueDate" class="form-label" id="passportissuedate">Passport Issue Date</label>
+                                            <input type="date" class="form-control" id="example1" name="passportIssueDate" th:value="${currencyDeclaration.passportIssueDate}" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="passportIssuePlace" class="form-label" id="passportNumberLabel">Issue Place</label>
+                                            <input type="text" class="form-control" id="example1" name="passportIssuePlace" th:value="${currencyDeclaration.passportIssuePlace}" placeholder="Enter Issue Place" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="nationality" class="form-label" id="nationalityLabel">Nationality</label>
+                                            <select class="form-select" name="nationality"  id="nationality" th:value="${currencyDeclaration.nationality}" required>
+                                              <option value="Bangladesh" >Bangladesh</option>
+                                              <option value="Other" >Other</option>
+                                            </select>
+                                          </div>
+                                        
+                                          <!-- Additional input box for "Other" nationality -->
+                                          <div class="mb-3" id="otherNationality" style="display: none;">
+                                            <label for="otherNationality" class="form-label" id="otherNationalityLabel">Other Nationality</label>
+                                            <input type="text" class="form-control"  name="otherNationality" id="otherNationalityInput" th:value="${currencyDeclaration.nationality}" placeholder="Enter your nationality">
+                                          </div>
+
+                                          <div class="mb-3">
+                                            <label for="profession" class="form-label" id="passportNumberLabel">Profession</label>
+                                            <input type="text" class="form-control"  id="example1" name="profession" th:value="${currencyDeclaration.profession}"placeholder="Enter Profession" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="mb-3">
+                                            <label for="previousCountry" class="form-label" id="countryFromLabel">Country from where coming</label>
+                                            <select class="form-select" name="previousCountry" th:if="${currencyDeclaration != null}" id="previousCountry" th:value="${currencyDeclaration.previousCountry}" required>
+                                                <option value="Bangladesh" th:selected="${currencyDeclaration.previousCountry == 'Bangladesh'}">Bangladesh</option>
+                                                <option value="India" th:selected="${currencyDeclaration.previousCountry == 'India'}">India</option>
+                                                <option value="USA" th:selected="${currencyDeclaration.previousCountry == 'USA'}">USA</option>
+                                                <option value="Canada" th:selected="${currencyDeclaration.previousCountry == 'Canada'}">Canada</option>
+                                                <option value="United Kingdom" th:selected="${currencyDeclaration.previousCountry == 'United Kingdom'}">United Kingdom</option>
+                                                <option value="Australia" th:selected="${currencyDeclaration.previousCountry == 'Australia'}">Australia</option>
+                                                <option value="Germany" th:selected="${currencyDeclaration.previousCountry == 'Germany'}">Germany</option>
+                                                <option value="France" th:selected="${currencyDeclaration.previousCountry == 'France'}">France</option>
+                                                <option value="Spain" th:selected="${currencyDeclaration.previousCountry == 'Spain'}">Spain</option>
+                                                <option value="Italy" th:selected="${currencyDeclaration.previousCountry == 'Italy'}">Italy</option>
+                                                <option value="Japan" th:selected="${currencyDeclaration.previousCountry == 'Japan'}">Japan</option>
+                                                <option value="China" th:selected="${currencyDeclaration.previousCountry == 'China'}">China</option>
+                                                <option value="Brazil" th:selected="${currencyDeclaration.previousCountry == 'Brazil'}">Brazil</option>
+                                                <option value="Mexico" th:selected="${currencyDeclaration.previousCountry == 'Mexico'}">Mexico</option>
+                                                <option value="Argentina" th:selected="${currencyDeclaration.previousCountry == 'Argentina'}">Argentina</option>
+                                                <option value="South Africa" th:selected="${currencyDeclaration.previousCountry == 'South Africa'}">South Africa</option>
+                                                <option value="Nigeria" th:selected="${currencyDeclaration.previousCountry == 'Nigeria'}">Nigeria</option>
+                                                <option value="Kenya" th:selected="${currencyDeclaration.previousCountry == 'Kenya'}">Kenya</option>
+                                                <option value="New Zealand" th:selected="${currencyDeclaration.previousCountry == 'New Zealand'}">New Zealand</option>
+                                                <option value="Singapore" th:selected="${currencyDeclaration.previousCountry == 'Singapore'}">Singapore</option>
+                                                <option value="Malaysia" th:selected="${currencyDeclaration.previousCountry == 'Malaysia'}">Malaysia</option>
+                                                <option value="Switzerland" th:selected="${currencyDeclaration.previousCountry == 'Switzerland'}">Switzerland</option>
+                                                <option value="Austria" th:selected="${currencyDeclaration.previousCountry == 'Austria'}">Austria</option>
+                                                <option value="Netherlands" th:selected="${currencyDeclaration.previousCountry == 'Netherlands'}">Netherlands</option>
+                                                <option value="Sweden" th:selected="${currencyDeclaration.previousCountry == 'Sweden'}">Sweden</option>
+                                                <option value="Denmark" th:selected="${currencyDeclaration.previousCountry == 'Denmark'}">Denmark</option>
+                                                <option value="Norway" th:selected="${currencyDeclaration.previousCountry == 'Norway'}">Norway</option>
+                                                <option value="Finland" th:selected="${currencyDeclaration.previousCountry == 'Finland'}">Finland</option>
+                                                <option value="Poland" th:selected="${currencyDeclaration.previousCountry == 'Poland'}">Poland</option>
+                                                <option value="Portugal" th:selected="${currencyDeclaration.previousCountry == 'Portugal'}">Portugal</option>
+                                                <option value="Greece" th:selected="${currencyDeclaration.previousCountry == 'Greece'}">Greece</option>
+                                                <option value="Russia" th:selected="${currencyDeclaration.previousCountry == 'Russia'}">Russia</option>
+                                                <option value="Ukraine" th:selected="${currencyDeclaration.previousCountry == 'Ukraine'}">Ukraine</option>
+                                                <option value="Hungary" th:selected="${currencyDeclaration.previousCountry == 'Hungary'}">Hungary</option>
+                                                <option value="Czech Republic" th:selected="${currencyDeclaration.previousCountry == 'Czech Republic'}">Czech Republic</option>
+                                                <option value="Chile" th:selected="${currencyDeclaration.previousCountry == 'Chile'}">Chile</option>
+                                                <option value="Ecuador" th:selected="${currencyDeclaration.previousCountry == 'Ecuador'}">Ecuador</option>
+                                                <option value="Peru" th:selected="${currencyDeclaration.previousCountry == 'Peru'}">Peru</option>
+                                                <option value="Colombia" th:selected="${currencyDeclaration.previousCountry == 'Colombia'}">Colombia</option>
+                                                <option value="Venezuela" th:selected="${currencyDeclaration.previousCountry == 'Venezuela'}">Venezuela</option>
+                                                <option value="Panama" th:selected="${currencyDeclaration.previousCountry == 'Panama'}">Panama</option>
+                                                <option value="Belize" th:selected="${currencyDeclaration.previousCountry == 'Belize'}">Belize</option>
+                                                <option value="Guatemala" th:selected="${currencyDeclaration.previousCountry == 'Guatemala'}">Guatemala</option>
+                                                <option value="El Salvador" th:selected="${currencyDeclaration.previousCountry == 'El Salvador'}">El Salvador</option>
+                                                <option value="Honduras" th:selected="${currencyDeclaration.previousCountry == 'Honduras'}">Honduras</option>
+                                                <option value="Nicaragua" th:selected="${currencyDeclaration.previousCountry == 'Nicaragua'}">Nicaragua</option>
+                                                <option value="Costa Rica" th:selected="${currencyDeclaration.previousCountry == 'Costa Rica'}">Costa Rica</option>
+                                                <option value="Saint Pierre and Miquelon" th:selected="${currencyDeclaration.previousCountry == 'Saint Pierre and Miquelon'}">Saint Pierre and Miquelon</option>
+                                                <option value="Haiti" th:selected="${currencyDeclaration.previousCountry == 'Haiti'}">Haiti</option>
+                                                <option value="Bolivia" th:selected="${currencyDeclaration.previousCountry == 'Bolivia'}">Bolivia</option>
+                                                <option value="Guyana" th:selected="${currencyDeclaration.previousCountry == 'Guyana'}">Guyana</option>
+                                                <option value="French Guiana" th:selected="${currencyDeclaration.previousCountry == 'French Guiana'}">French Guiana</option>
+                                                <option value="Paraguay" th:selected="${currencyDeclaration.previousCountry == 'Paraguay'}">Paraguay</option>
+                                                <option value="Martinique" th:selected="${currencyDeclaration.previousCountry == 'Martinique'}">Martinique</option>
+                                                <option value="Suriname" th:selected="${currencyDeclaration.previousCountry == 'Suriname'}">Suriname</option>
+                                                <option value="Uruguay" th:selected="${currencyDeclaration.previousCountry == 'Uruguay'}">Uruguay</option>
+                                                <option value="Netherlands Antilles" th:selected="${currencyDeclaration.previousCountry == 'Netherlands Antilles'}">Netherlands Antilles</option>
+                                                <option value="East Timor" th:selected="${currencyDeclaration.previousCountry == 'East Timor'}">East Timor</option>
+                                                <option value="Guam" th:selected="${currencyDeclaration.previousCountry == 'Guam'}">Guam</option>
+                                                <option value="Norfolk Island" th:selected="${currencyDeclaration.previousCountry == 'Norfolk Island'}">Norfolk Island</option>
+                                                <option value="Brunei" th:selected="${currencyDeclaration.previousCountry == 'Brunei'}">Brunei</option>
+                                                <option value="Nauru" th:selected="${currencyDeclaration.previousCountry == 'Nauru'}">Nauru</option>
+                                                <option value="Papua New Guinea" th:selected="${currencyDeclaration.previousCountry == 'Papua New Guinea'}">Papua New Guinea</option>
+                                                <option value="Tonga" th:selected="${currencyDeclaration.previousCountry == 'Tonga'}">Tonga</option>
+                                                <option value="Solomon Islands" th:selected="${currencyDeclaration.previousCountry == 'Solomon Islands'}">Solomon Islands</option>
+                                                <option value="Vanuatu" th:selected="${currencyDeclaration.previousCountry == 'Vanuatu'}">Vanuatu</option>
+                                                <option value="Fiji" th:selected="${currencyDeclaration.previousCountry == 'Fiji'}">Fiji</option>
+                                                <option value="Palau" th:selected="${currencyDeclaration.previousCountry == 'Palau'}">Palau</option>
+                                                <option value="Wallis and Futuna" th:selected="${currencyDeclaration.previousCountry == 'Wallis and Futuna'}">Wallis and Futuna</option>
+                                                <option value="Cook Islands" th:selected="${currencyDeclaration.previousCountry == 'Cook Islands'}">Cook Islands</option>
+                                                <option value="Niue" th:selected="${currencyDeclaration.previousCountry == 'Niue'}">Niue</option>
+                                                <option value="Samoa" th:selected="${currencyDeclaration.previousCountry == 'Samoa'}">Samoa</option>
+                                                <option value="Kiribati" th:selected="${currencyDeclaration.previousCountry == 'Kiribati'}">Kiribati</option>
+                                                <option value="New Caledonia" th:selected="${currencyDeclaration.previousCountry == 'New Caledonia'}">New Caledonia</option>
+                                                <option value="Tuvalu" th:selected="${currencyDeclaration.previousCountry == 'Tuvalu'}">Tuvalu</option>
+                                                <option value="French Polynesia" th:selected="${currencyDeclaration.previousCountry == 'French Polynesia'}">French Polynesia</option>
+                                                <option value="Tokelau" th:selected="${currencyDeclaration.previousCountry == 'Tokelau'}">Tokelau</option>
+                                                <option value="Micronesia" th:selected="${currencyDeclaration.previousCountry == 'Micronesia'}">Micronesia</option>
+                                                <option value="Marshall Islands" th:selected="${currencyDeclaration.previousCountry == 'Marshall Islands'}">Marshall Islands</option>
+                                                <option value="North Korea" th:selected="${currencyDeclaration.previousCountry == 'North Korea'}">North Korea</option>
+                                                <option value="Hong Kong" th:selected="${currencyDeclaration.previousCountry == 'Hong Kong'}">Hong Kong</option>
+                                                <option value="Macau" th:selected="${currencyDeclaration.previousCountry == 'Macau'}">Macau</option>
+                                                <option value="Cambodia" th:selected="${currencyDeclaration.previousCountry == 'Cambodia'}">Cambodia</option>
+                                                <option value="Laos" th:selected="${currencyDeclaration.previousCountry == 'Laos'}">Laos</option>
+                                                <option value="Maldives" th:selected="${currencyDeclaration.previousCountry == 'Maldives'}">Maldives</option>
+                                                <option value="Lebanon" th:selected="${currencyDeclaration.previousCountry == 'Lebanon'}">Lebanon</option>
+                                                <option value="Jordan" th:selected="${currencyDeclaration.previousCountry == 'Jordan'}">Jordan</option>
+                                                <option value="Syria" th:selected="${currencyDeclaration.previousCountry == 'Syria'}">Syria</option>
+                                                <option value="Iraq" th:selected="${currencyDeclaration.previousCountry == 'Iraq'}">Iraq</option>
+                                                <option value="Kuwait" th:selected="${currencyDeclaration.previousCountry == 'Kuwait'}">Kuwait</option>
+                                                <option value="Saudi Arabia" th:selected="${currencyDeclaration.previousCountry == 'Saudi Arabia'}">Saudi Arabia</option>
+                                                <option value="Yemen" th:selected="${currencyDeclaration.previousCountry == 'Yemen'}">Yemen</option>
+                                                <option value="Oman" th:selected="${currencyDeclaration.previousCountry == 'Oman'}">Oman</option>
+                                                <option value="United Arab Emirates" th:selected="${currencyDeclaration.previousCountry == 'United Arab Emirates'}">United Arab Emirates</option>
+                                                <option value="Israel" th:selected="${currencyDeclaration.previousCountry == 'Israel'}">Israel</option>
+                                                <option value="Bahrain" th:selected="${currencyDeclaration.previousCountry == 'Bahrain'}">Bahrain</option>
+                                                <option value="Qatar" th:selected="${currencyDeclaration.previousCountry == 'Qatar'}">Qatar</option>
+                                                <option value="Bhutan" th:selected="${currencyDeclaration.previousCountry == 'Bhutan'}">Bhutan</option>
+                                                <option value="Mongolia" th:selected="${currencyDeclaration.previousCountry == 'Mongolia'}">Mongolia</option>
+                                                <option value="Tajikistan" th:selected="${currencyDeclaration.previousCountry == 'Tajikistan'}">Tajikistan</option>
+                                                <option value="Turkmenistan" th:selected="${currencyDeclaration.previousCountry == 'Turkmenistan'}">Turkmenistan</option>
+                                                <option value="Azerbaijan" th:selected="${currencyDeclaration.previousCountry == 'Azerbaijan'}">Azerbaijan</option>
+                                                <option value="Georgia" th:selected="${currencyDeclaration.previousCountry == 'Georgia'}">Georgia</option>
+                                                <option value="Kyrgyzstan" th:selected="${currencyDeclaration.previousCountry == 'Kyrgyzstan'}">Kyrgyzstan</option>
+                                                <option value="Uzbekistan" th:selected="${currencyDeclaration.previousCountry == 'Uzbekistan'}">Uzbekistan</option>
+                                            </select>
+                                            
+                                        </div>
+                                        
+
+                                        <div class="mb-3">
+                                            <label for="dateOfArrival" class="form-label" id="dateOfArrivalLabel">Date Of Arrival</label>
+                                            <input type="datetime-local" class="form-control"  id="dateOfArrival" name="dateOfArrival"th:value="${currencyDeclaration.dateOfArrival}" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="flightNo" class="form-label" id="flightNoLabel">Flight No</label>
+                                            <input type="text" class="form-control"  id="flightNo" name="flightNo" th:value="${currencyDeclaration.flightNo}"placeholder="Enter Flight  No Ex:BG 805" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="addressInBangladesh" class="form-label" id="address">Address in Bangladesh</label>
+                                            <input type="text" class="form-control"  id="addressInBangladesh" name="addressInBangladesh" th:value="${currencyDeclaration.addressInBangladesh}"placeholder="Enter Address" required>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="stayTimeAbroad" class="form-label" id="stayTimeAbroad">Duration Of Stay In Abroad</label>
+                                            <input type="text" class="form-control" id="stayTimeAbroad" name="stayTimeAbroad" th:value="${currencyDeclaration.stayTimeAbroad}">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="mobileNo" class="form-label" id="mobileNoLabel">Mobile No</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <select class="form-select" name="countryCode" id="countryCode" required>
+                                                        <option value="Bangladesh +880">Bangladesh +880</option>
+                                                        <option value="USA +1">USA +1</option>
+                                                        <option value="UK +44">UK +44</option>
+                                                        <option value="Australia +61">Australia +61</option>
+                                                        <option value="Nepal +977">Nepal +977</option>
+                                                        <option value="Sri Lanka +94">Sri Lanka +94</option>
+                                                        <option value="Spain +34">Spain +34</option>
+                                                        <option value="Belgium +32">Belgium +32</option>
+                                                        <option value="Germany +49">Germany +49</option>
+                                                        <option value="France +33">France +33</option>
+                                                        <option value="Italy +39">Italy +39</option>
+                                                        <option value="India +91">India +91</option>
+                                                        <option value="Japan +81">Japan +81</option>
+                                                        <option value="South Korea +82">South Korea +82</option>
+                                                        <option value="China +86">China +86</option>
+                                                        <option value="Brazil +55">Brazil +55</option>
+                                                        <option value="Mexico +52">Mexico +52</option>
+                                                        <option value="Argentina +54">Argentina +54</option>
+                                                        <option value="South Africa +27">South Africa +27</option>
+                                                        <option value="Nigeria +234">Nigeria +234</option>
+                                                        <option value="Kenya +254">Kenya +254</option>
+                                                        <option value="New Zealand +64">New Zealand +64</option>
+                                                        <option value="Singapore +65">Singapore +65</option>
+                                                        <option value="Malaysia +60">Malaysia +60</option>
+                                                        <option value="Switzerland +41">Switzerland +41</option>
+                                                        <option value="Austria +43">Austria +43</option>
+                                                        <option value="Netherlands +31">Netherlands +31</option>
+                                                        <option value="Sweden +46">Sweden +46</option>
+                                                        <option value="Denmark +45">Denmark +45</option>
+                                                        <option value="Norway +47">Norway +47</option>
+                                                        <option value="Finland +358">Finland +358</option>
+                                                        <option value="Poland +48">Poland +48</option>
+                                                        <option value="Portugal +351">Portugal +351</option>
+                                                        <option value="Greece +30">Greece +30</option>
+                                                        <option value="Russia +7">Russia +7</option>
+                                                        <option value="Ukraine +380">Ukraine +380</option>
+                                                        <option value="Hungary +36">Hungary +36</option>
+                                                        <option value="Czech Republic +420">Czech Republic +420</option>
+                                                        <option value="Chile +56">Chile +56</option>
+                                                        <option value="Ecuador +593">Ecuador +593</option>
+                                                        <option value="Peru +51">Peru +51</option>
+                                                        <option value="Colombia +57">Colombia +57</option>
+                                                        <option value="Venezuela +58">Venezuela +58</option>
+                                                        <option value="Panama +507">Panama +507</option>
+                                                        <option value="Belize +501">Belize +501</option>
+                                                        <option value="Guatemala +502">Guatemala +502</option>
+                                                        <option value="El Salvador +503">El Salvador +503</option>
+                                                        <option value="Honduras +504">Honduras +504</option>
+                                                        <option value="Nicaragua +505">Nicaragua +505</option>
+                                                        <option value="Costa Rica +506">Costa Rica +506</option>
+                                                        <option value="Saint Pierre and Miquelon +508">Saint Pierre and Miquelon +508</option>
+                                                        <option value="Haiti +509">Haiti +509</option>
+                                                        <option value="Brazil +55">Brazil +55</option>
+                                                        <option value="Bolivia +591">Bolivia +591</option>
+                                                        <option value="Guyana +592">Guyana +592</option>
+                                                        <option value="French Guiana +594">French Guiana +594</option>
+                                                        <option value="Paraguay +595">Paraguay +595</option>
+                                                        <option value="Martinique +596">Martinique +596</option>
+                                                        <option value="Suriname +597">Suriname +597</option>
+                                                        <option value="Uruguay +598">Uruguay +598</option>
+                                                        <option value="Netherlands Antilles +599">Netherlands Antilles +599</option>
+                                                        <option value="East Timor +670">East Timor +670</option>
+                                                        <option value="Guam +671">Guam +671</option>
+                                                        <option value="Norfolk Island +672">Norfolk Island +672</option>
+                                                        <option value="Brunei +673">Brunei +673</option>
+                                                        <option value="Nauru +674">Nauru +674</option>
+                                                        <option value="Papua New Guinea +675">Papua New Guinea +675</option>
+                                                        <option value="Tonga +676">Tonga +676</option>
+                                                        <option value="Solomon Islands +677">Solomon Islands +677</option>
+                                                        <option value="Vanuatu +678">Vanuatu +678</option>
+                                                        <option value="Fiji +679">Fiji +679</option>
+                                                        <option value="Palau +680">Palau +680</option>
+                                                        <option value="Wallis and Futuna +681">Wallis and Futuna +681</option>
+                                                        <option value="Cook Islands +682">Cook Islands +682</option>
+                                                        <option value="Niue +683">Niue +683</option>
+                                                        <option value="Samoa +685">Samoa +685</option>
+                                                        <option value="Kiribati +686">Kiribati +686</option>
+                                                        <option value="New Caledonia +687">New Caledonia +687</option>
+                                                        <option value="Tuvalu +688">Tuvalu +688</option>
+                                                        <option value="French Polynesia +689">French Polynesia +689</option>
+                                                        <option value="Tokelau +690">Tokelau +690</option>
+                                                        <option value="Micronesia +691">Micronesia +691</option>
+                                                        <option value="Marshall Islands +692">Marshall Islands +692</option>
+                                                        <option value="North Korea +850">North Korea +850</option>
+                                                        <option value="Hong Kong +852">Hong Kong +852</option>
+                                                        <option value="Macau +853">Macau +853</option>
+                                                        <option value="Cambodia +855">Cambodia +855</option>
+                                                        <option value="Laos +856">Laos +856</option>
+                                                        <option value="Maldives +960">Maldives +960</option>
+                                                        <option value="Lebanon +961">Lebanon +961</option>
+                                                        <option value="Jordan +962">Jordan +962</option>
+                                                        <option value="Syria +963">Syria +963</option>
+                                                        <option value="Iraq +964">Iraq +964</option>
+                                                        <option value="Kuwait +965">Kuwait +965</option>
+                                                        <option value="Saudi Arabia +966">Saudi Arabia +966</option>
+                                                        <option value="Yemen +967">Yemen +967</option>
+                                                        <option value="Oman +968">Oman +968</option>
+                                                        <option value="United Arab Emirates +971">United Arab Emirates +971</option>
+                                                        <option value="Israel +972">Israel +972</option>
+                                                        <option value="Bahrain +973">Bahrain +973</option>
+                                                        <option value="Qatar +974">Qatar +974</option>
+                                                        <option value="Bhutan +975">Bhutan +975</option>
+                                                        <option value="Mongolia +976">Mongolia +976</option>
+                                                        <option value="Tajikistan +992">Tajikistan +992</option>
+                                                        <option value="Turkmenistan +993">Turkmenistan +993</option>
+                                                        <option value="Azerbaijan +994">Azerbaijan +994</option>
+                                                        <option value="Georgia +995">Georgia +995</option>
+                                                        <option value="Kyrgyzstan +996">Kyrgyzstan +996</option>
+                                                        <option value="Uzbekistan +998">Uzbekistan +998</option>
+                                                    </select>
+                                                    
+                                                    
+                                                </div>
+                                                <input type="text" class="form-control"  id="contactNo" name="contactNo" placeholder="Enter Mobile No" th:value="${currencyDeclaration.contactNo}">
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="email" class="form-label" id="emailLabel">Email</label>
+                                            <input type="email" class="form-control"  id="example1" name="email" th:value="${currencyDeclaration.email}"placeholder="Enter Your Email" required>
+                                        </div>
+
+                                    </div>
+                                    <div class="d-flex justify-content-center" id="unaccompaniedDiv">
+                                    <button type="submit" class="btn btn-success mt-3">Update</button>
+                                    </div>
+                                    
+                                </div>
+
+                            </div>
+                    </form>
+                </div>
+
+
+           
+
+    <!-- AJax form -->
+    <div >
+                <form action="" method="" >
+
+                            <div class="container p-3 mt-3 bg-light">
+                               
+                                <!-- table 1nd start -->
+                                <div id="table1">
+                                    <table class="table table-bordered w-100">
+                                        <thead class="bg-danger">
+                                            <tr>
+                                                <th scope="col">Description Of Currency</th>                                    
+                                                <th scope="col"> Amount</th>
+                                                <th scope="col">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <select class="form-select" id="currencyName" name="currencyName" aria-label="Default select example" onchange="fetchProductData()">
+                                                        <option selected> --Please Select-- </option>
+                                                        <option selected> USD </option>
+                                                        <option value="EUR" label="Euro">EUR</option>
+                                                        <option value="JPY" label="Japanese yen">JPY</option>
+                                                        <option value="GBP" label="Pound sterling">GBP</option>
+                                                        <option disabled>─────────</option>
+                                                        <option value="AED" label="United Arab Emirates dirham">AED</option>
+                                                        <option value="AFN" label="Afghan afghani">AFN</option>
+                                                        <option value="ALL" label="Albanian lek">ALL</option>
+                                                        <option value="AMD" label="Armenian dram">AMD</option>
+                                                        <option value="ANG" label="Netherlands Antillean guilder">ANG</option>
+                                                        <option value="AOA" label="Angolan kwanza">AOA</option>
+                                                        <option value="ARS" label="Argentine peso">ARS</option>
+                                                        <option value="AUD" label="Australian dollar">AUD</option>
+                                                        <option value="AWG" label="Aruban florin">AWG</option>
+                                                        <option value="AZN" label="Azerbaijani manat">AZN</option>
+                                                        <option value="BAM" label="Bosnia and Herzegovina convertible mark">BAM</option>
+                                                        <option value="BBD" label="Barbadian dollar">BBD</option>
+                                                        <option value="BDT" label="Bangladeshi taka">BDT</option>
+                                                        <option value="BGN" label="Bulgarian lev">BGN</option>
+                                                        <option value="BHD" label="Bahraini dinar">BHD</option>
+                                                        <option value="BIF" label="Burundian franc">BIF</option>
+                                                        <option value="BMD" label="Bermudian dollar">BMD</option>
+                                                        <option value="BND" label="Brunei dollar">BND</option>
+                                                        <option value="BOB" label="Bolivian boliviano">BOB</option>
+                                                        <option value="BRL" label="Brazilian real">BRL</option>
+                                                        <option value="BSD" label="Bahamian dollar">BSD</option>
+                                                        <option value="BTN" label="Bhutanese ngultrum">BTN</option>
+                                                        <option value="BWP" label="Botswana pula">BWP</option>
+                                                        <option value="BYN" label="Belarusian ruble">BYN</option>
+                                                        <option value="BZD" label="Belize dollar">BZD</option>
+                                                        <option value="CAD" label="Canadian dollar">CAD</option>
+                                                        <option value="CDF" label="Congolese franc">CDF</option>
+                                                        <option value="CHF" label="Swiss franc">CHF</option>
+                                                        <option value="CLP" label="Chilean peso">CLP</option>
+                                                        <option value="CNY" label="Chinese yuan">CNY</option>
+                                                        <option value="COP" label="Colombian peso">COP</option>
+                                                        <option value="CRC" label="Costa Rican colón">CRC</option>
+                                                        <option value="CUC" label="Cuban convertible peso">CUC</option>
+                                                        <option value="CUP" label="Cuban peso">CUP</option>
+                                                        <option value="CVE" label="Cape Verdean escudo">CVE</option>
+                                                        <option value="CZK" label="Czech koruna">CZK</option>
+                                                        <option value="DJF" label="Djiboutian franc">DJF</option>
+                                                        <option value="DKK" label="Danish krone">DKK</option>
+                                                        <option value="DOP" label="Dominican peso">DOP</option>
+                                                        <option value="DZD" label="Algerian dinar">DZD</option>
+                                                        <option value="EGP" label="Egyptian pound">EGP</option>
+                                                        <option value="ERN" label="Eritrean nakfa">ERN</option>
+                                                        <option value="ETB" label="Ethiopian birr">ETB</option>
+                                                        <option value="EUR" label="EURO">EUR</option>
+                                                        <option value="FJD" label="Fijian dollar">FJD</option>
+                                                        <option value="FKP" label="Falkland Islands pound">FKP</option>
+                                                        <option value="GBP" label="British pound">GBP</option>
+                                                        <option value="GEL" label="Georgian lari">GEL</option>
+                                                        <option value="GGP" label="Guernsey pound">GGP</option>
+                                                        <option value="GHS" label="Ghanaian cedi">GHS</option>
+                                                        <option value="GIP" label="Gibraltar pound">GIP</option>
+                                                        <option value="GMD" label="Gambian dalasi">GMD</option>
+                                                        <option value="GNF" label="Guinean franc">GNF</option>
+                                                        <option value="GTQ" label="Guatemalan quetzal">GTQ</option>
+                                                        <option value="GYD" label="Guyanese dollar">GYD</option>
+                                                        <option value="HKD" label="Hong Kong dollar">HKD</option>
+                                                        <option value="HNL" label="Honduran lempira">HNL</option>
+                                                        <option value="HRK" label="Croatian kuna">HRK</option>
+                                                        <option value="HTG" label="Haitian gourde">HTG</option>
+                                                        <option value="HUF" label="Hungarian forint">HUF</option>
+                                                        <option value="IDR" label="Indonesian rupiah">IDR</option>
+                                                        <option value="ILS" label="Israeli new shekel">ILS</option>
+                                                        <option value="IMP" label="Manx pound">IMP</option>
+                                                        <option value="INR" label="Indian rupee">INR</option>
+                                                        <option value="IQD" label="Iraqi dinar">IQD</option>
+                                                        <option value="IRR" label="Iranian rial">IRR</option>
+                                                        <option value="ISK" label="Icelandic króna">ISK</option>
+                                                        <option value="JEP" label="Jersey pound">JEP</option>
+                                                        <option value="JMD" label="Jamaican dollar">JMD</option>
+                                                        <option value="JOD" label="Jordanian dinar">JOD</option>
+                                                        <option value="JPY" label="Japanese yen">JPY</option>
+                                                        <option value="KES" label="Kenyan shilling">KES</option>
+                                                        <option value="KGS" label="Kyrgyzstani som">KGS</option>
+                                                        <option value="KHR" label="Cambodian riel">KHR</option>
+                                                        <option value="KID" label="Kiribati dollar">KID</option>
+                                                        <option value="KMF" label="Comorian franc">KMF</option>
+                                                        <option value="KPW" label="North Korean won">KPW</option>
+                                                        <option value="KRW" label="South Korean won">KRW</option>
+                                                        <option value="KWD" label="Kuwaiti dinar">KWD</option>
+                                                        <option value="KYD" label="Cayman Islands dollar">KYD</option>
+                                                        <option value="KZT" label="Kazakhstani tenge">KZT</option>
+                                                        <option value="LAK" label="Lao kip">LAK</option>
+                                                        <option value="LBP" label="Lebanese pound">LBP</option>
+                                                        <option value="LKR" label="Sri Lankan rupee">LKR</option>
+                                                        <option value="LRD" label="Liberian dollar">LRD</option>
+                                                        <option value="LSL" label="Lesotho loti">LSL</option>
+                                                        <option value="LYD" label="Libyan dinar">LYD</option>
+                                                        <option value="MAD" label="Moroccan dirham">MAD</option>
+                                                        <option value="MDL" label="Moldovan leu">MDL</option>
+                                                        <option value="MGA" label="Malagasy ariary">MGA</option>
+                                                        <option value="MKD" label="Macedonian denar">MKD</option>
+                                                        <option value="MMK" label="Burmese kyat">MMK</option>
+                                                        <option value="MNT" label="Mongolian tögrög">MNT</option>
+                                                        <option value="MOP" label="Macanese pataca">MOP</option>
+                                                        <option value="MRU" label="Mauritanian ouguiya">MRU</option>
+                                                        <option value="MUR" label="Mauritian rupee">MUR</option>
+                                                        <option value="MVR" label="Maldivian rufiyaa">MVR</option>
+                                                        <option value="MWK" label="Malawian kwacha">MWK</option>
+                                                        <option value="MXN" label="Mexican peso">MXN</option>
+                                                        <option value="MYR" label="Malaysian ringgit">MYR</option>
+                                                        <option value="MZN" label="Mozambican metical">MZN</option>
+                                                        <option value="NAD" label="Namibian dollar">NAD</option>
+                                                        <option value="NGN" label="Nigerian naira">NGN</option>
+                                                        <option value="NIO" label="Nicaraguan córdoba">NIO</option>
+                                                        <option value="NOK" label="Norwegian krone">NOK</option>
+                                                        <option value="NPR" label="Nepalese rupee">NPR</option>
+                                                        <option value="NZD" label="New Zealand dollar">NZD</option>
+                                                        <option value="OMR" label="Omani rial">OMR</option>
+                                                        <option value="PAB" label="Panamanian balboa">PAB</option>
+                                                        <option value="PEN" label="Peruvian sol">PEN</option>
+                                                        <option value="PGK" label="Papua New Guinean kina">PGK</option>
+                                                        <option value="PHP" label="Philippine peso">PHP</option>
+                                                        <option value="PKR" label="Pakistani rupee">PKR</option>
+                                                        <option value="PLN" label="Polish złoty">PLN</option>
+                                                        <option value="PRB" label="Transnistrian ruble">PRB</option>
+                                                        <option value="PYG" label="Paraguayan guaraní">PYG</option>
+                                                        <option value="QAR" label="Qatari riyal">QAR</option>
+                                                        <option value="RON" label="Romanian leu">RON</option>
+                                                        <option value="RSD" label="Serbian dinar">RSD</option>
+                                                        <option value="RUB" label="Russian ruble">RUB</option>
+                                                        <option value="RWF" label="Rwandan franc">RWF</option>
+                                                        <option value="SAR" label="Saudi riyal">SAR</option>
+                                                        <option value="SEK" label="Swedish krona">SEK</option>
+                                                        <option value="SGD" label="Singapore dollar">SGD</option>
+                                                        <option value="SHP" label="Saint Helena pound">SHP</option>
+                                                        <option value="SLL" label="Sierra Leonean leone">SLL</option>
+                                                        <option value="SLS" label="Somaliland shilling">SLS</option>
+                                                    
+                                                        <option value="SOS" label="Somali shilling">SOS</option>
+                                                        <option value="SRD" label="Surinamese dollar">SRD</option>
+                                                        <option value="SSP" label="South Sudanese pound">SSP</option>
+                                                        <option value="STN" label="São Tomé and Príncipe dobra">STN</option>
+                                                        <option value="SYP" label="Syrian pound">SYP</option>
+                                                        <option value="SZL" label="Swazi lilangeni">SZL</option>
+                                                        <option value="THB" label="Thai baht">THB</option>
+                                                        <option value="TJS" label="Tajikistani somoni">TJS</option>
+                                                        <option value="TMT" label="Turkmenistan manat">TMT</option>
+                                                        <option value="TND" label="Tunisian dinar">TND</option>
+                                                        <option value="TOP" label="Tongan paʻanga">TOP</option>
+                                                        <option value="TRY" label="Turkish lira">TRY</option>
+                                                        <option value="TTD" label="Trinidad and Tobago dollar">TTD</option>
+                                                        <option value="TVD" label="Tuvaluan dollar">TVD</option>
+                                                        <option value="TWD" label="New Taiwan dollar">TWD</option>
+                                                        <option value="TZS" label="Tanzanian shilling">TZS</option>
+                                                        <option value="UAH" label="Ukrainian hryvnia">UAH</option>
+                                                        <option value="UGX" label="Ugandan shilling">UGX</option>
+                                                        <option value="USD" label="United States dollar">USD</option>
+                                                        <option value="UYU" label="Uruguayan peso">UYU</option>
+                                                        <option value="UZS" label="Uzbekistani soʻm">UZS</option>
+                                                        <option value="VES" label="Venezuelan bolívar soberano">VES</option>
+                                                        <option value="VND" label="Vietnamese đồng">VND</option>
+                                                        <option value="VUV" label="Vanuatu vatu">VUV</option>
+                                                        <option value="WST" label="Samoan tālā">WST</option>
+                                                        <option value="XAF" label="Central African CFA franc">XAF</option>
+                                                        <option value="XCD" label="Eastern Caribbean dollar">XCD</option>
+                                                        <option value="XOF" label="West African CFA franc">XOF</option>
+                                                        <option value="XPF" label="CFP franc">XPF</option>
+                                                        <option value="ZAR" label="South African rand">ZAR</option>
+                                                        <option value="ZMW" label="Zambian kwacha">ZMW</option>
+                                                        <option value="ZWB" label="Zimbabwean bonds">ZWB</option>
+                                                    </select>
+                                                </td>
+                                                <td><input type="text" class="form-control" id="currencyAmount" name="currencyAmount"></td>
+                                                <td><button type="button" class="btn btn-success" id="addButton">Add</button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- table 2nd start table2currency -->
+                                <div id="table2currency">
+                                <table id="currencyajaxtable"class="table table-bordered ">
+                                    <thead class="bg-danger">
+                                        <tr>
+                                            <th scope="col">Description Of Currency</th>
+                                            <th scope="col">Amount</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                        
+
+                                        <!-- <tr>
+                                            <th colspan="7" class="text-end"> Total Tax Amount</th>
+                                            <td></td>
+                                            <td></td>
+                                        </tr> -->
+                                    </tbody>
+                                </table>
+                                </div>
+
+
+                         
+
+
+                                    <div class="d-flex justify-content-center">
+                                    <button id="lastSubmitButton" type="button" onclick="finalsubmitcurrency()" class="btn btn-success">SUBMIT</button>
+                                    </div>
+                                    
+                                </div>
+
+                            </div>
+                            
+                        </form>
+                    </div>
+                        
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+ <div th:replace="~{layout/footer}"></div>

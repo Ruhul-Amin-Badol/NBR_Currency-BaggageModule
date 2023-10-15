@@ -1,0 +1,57 @@
+<div th:replace="~{layout/support}"></div>
+
+<div class="" style="zoom: 70%;">
+    <h2>Baggage Application</h2>
+    <table class="table" >
+        <thead>
+            <tr>
+                <th>SN</th>
+                <th>Entry Point</th>
+                <th>Passenger Name</th>
+                <th>Passport Number</th>
+                <th>Passport Validity Date</th>
+                <th>Other Nationality</th>
+                <th>Country From</th>
+                <th>Date of Arrival</th>
+                <th>Flight Number</th>
+                <th>Mobile Number</th>
+                <th>Email</th>
+                <th>Accompanied Baggage Count</th>
+                <th>Unaccompanied Baggage Count</th>
+                <th>ID Meat</th>
+                <th>ID Currency</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+       <tbody th:each="show : ${baggageshow}" th:object="${'baggageshow'}">
+        <tr >
+            <input type="hidden" th:value="${show['id']}">
+           
+            <td th:text="${show['sn']}"></td>
+                <td th:text="${show['entry_point']}"></td>
+                <td th:text="${show['passenger_name']}"></td>
+                <td th:text="${show['passport_number']}"></td>
+                <td th:text="${show['passport_validity_date']}"></td>
+                <td th:text="${show['nationality']}"></td>
+                <td th:text="${show['previous_country']}"></td>
+                <td th:text="${show['dateofarrival']}"></td>
+                <td th:text="${show['flight_no']}"></td>
+                <td th:text="${show['mobile_no']}"></td>
+                <td th:text="${show['email']}"></td>
+                <td th:text="${show['accom_no']}"></td>
+                <td th:text="${show['unaccom_no']}"></td>
+                <td th:text="${show['meat_products']}"></td>
+                <td th:text="${show['foreign_currency']}"></td>
+                <!-- <td><a th:href="@{'/baggageshow/baggagetotalid/'+ ${show['id']}}">show</a></td> -->
+                <td>
+                    <a th:href="@{/baggageshow/baggagetotalid(id=${show.id})}">View Application</a>
+                </td>
+              
+        </tr>
+
+       </tbody>
+           
+    </table>
+</div>
+
+<div th:replace="~{layout/footer}"></div>

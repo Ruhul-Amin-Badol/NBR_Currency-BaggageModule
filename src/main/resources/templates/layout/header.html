@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/x-icon" th:href="@{/img/favicon/favicon.ico}">
+  <title>ERP.COM.BD</title>
+  <!-- bootstrap 5 css -->
+  <link rel="stylesheet" th:href="@{/css/bootstrap@5.0.2.min.css}" />
+
+  <!-- FONTAWESOM ICONS CSS-->
+  <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.2.1/css/all.css">
+
+  <!-- Include custom CSS file -->
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+
+  <!-- search box cdn -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+
+  <div class='dashboard'>
+  <div th:replace="~{layout/menu}"></div>
+
+    <div class='dashboard-app'>
+
+    <div th:replace="~{layout/top_menu}"></div>
+
+      <div class='dashboard-content'>

@@ -1,0 +1,54 @@
+<div th:replace="~{layout/header}"></div>
+
+<div class='container'>
+    <div class='card'>
+        <div class='card-header'>
+            <h1>Welcome back </h1>
+        </div>
+        <div class='card-body'>
+            <p>Your account type is: Administrator</p>
+        </div>
+    </div>
+
+    <!--3 card-->
+    <div class="row mt-5">
+        <div class="col-4">
+            <div class='card'>
+                <a href="/currencystart/showunapprovedcurrency" class="text-decoration-none text-white">
+                    <div class='card-header btn-danger'>
+                       <h4>Total Unapproved Currency Application</h4>
+                    </div>
+                </a>
+                <div class='card-body text-center'>
+                    <p>update Today</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class='card'>
+                <a href="/baggageshow/baggagetotal" class="text-decoration-none text-white">
+                <div class='card-header  bg-info text-white'>
+                    <h4>Total Baggage Application</h4>
+                </div>
+                </a>
+                <div class='card-body text-center'>
+                    <p>update Today</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class='card '><a href="#" class="text-decoration-none text-white">
+                <div class='card-header bg-info '>
+                   <h4>Total Approved Currency Application</h4>
+                </div>
+            </a> 
+                <div class='card-body text-center'>
+                    <p>processing...</p>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<div th:replace="~{layout/footer}"></div>

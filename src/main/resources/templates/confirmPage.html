@@ -1,0 +1,188 @@
+<div th:replace="~{layout/support}"></div>
+
+<div class="container-fluid" style="background: white;">
+    <div class="logo d-flex justify-content-center">
+        <img src="/img/logo/nbr.png" alt="nbr_logo">
+
+    </div>
+    <div class="container">
+        <div class="d-flex gap-2 py-3">
+            <button type="button" class="btn btn-primary print-button" onclick="printPage()">Print</button>
+        <button type="button" class="btn btn-primary print-button" onclick="redirectToHomePage()">Go Back</button>
+        </div>
+        <table>
+            <tbody th:object="${reportShow}">
+                <input type="hidden" id="reportShow" name="id" th:value="${reportShow['ID']}" />
+                <tr>
+                   <td><span><span class="fw-bold">Entry Point: </span><span th:text="${reportShow['entry_point']}"></span></span></td>
+                </tr>
+                <tr>
+                    <td><span class="fw-bold">Name of the Passenger: </span><span th:text="${reportShow['passenger_name']}"></span></td>
+                </tr>
+                <tr>
+                    <td><span class="fw-bold">Passport Number: </span><span th:text="${reportShow['passport_number']}"></span></td>
+                </tr>
+                <tr>
+                    <td><span class="fw-bold">Passport Validity Date: </span><span th:text="${reportShow['passport_validity_date']}"></span></td>
+                </tr>
+                <tr>
+                    <td><span class="fw-bold">Nationality: </span><span th:text="${reportShow['nationality']}"></span></td>
+                </tr>
+                <tr>
+                    <td><span class="fw-bold">Country from where comming: </span><span th:text="${reportShow['previous_country']}"></span></td>
+                </tr>
+                <tr>
+                    <td><span class="fw-bold">Date Of Arrival: </span><span th:text="${reportShow['dateofarrival']}"></span></td>
+                </tr>
+                <tr>
+                    <td><span class="fw-bold">Flight No: </span><span th:text="${reportShow['flight_no']}"></span></td>
+                </tr>
+                <tr>
+                    <td><span class="fw-bold">Mobile No: </span><span th:text="${reportShow['mobile_no']}"></span></td>
+                </tr>
+                <tr>
+                    <td><span class="fw-bold">Email: </span><span th:text="${reportShow['email']}"></span></td>
+                </tr>
+                <tr> 
+                    <td><span class="fw-bold">Accompanied: </span><span th:text="${reportShow['accom_no']}"></span></td>
+                </tr>
+                <tr>
+                    <td><span class="fw-bold">Un-Accompanied: </span><span th:text="${reportShow['unaccom_no']}"></span></td>
+                </tr>
+                
+            </tbody>
+        </table>
+
+        <!-- table 2nd start -->
+        <table id="ajaxtable"
+            class="table table-bordered mt-5">
+            <thead class=" bg-danger">
+                <tr>
+                   
+                    <th scope="col">Product Name</th>
+                    <th scope="col">Unit</th>
+                    <th scope="col">Inchi(For Telivision)</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Value</th>
+                    <th scope="col">Tax(%)</th>
+                    <th scope="col">Tax Amount</th>
+                </tr>
+            </thead>
+            <tbody >
+
+              <tr th:each="reportShow : ${showProduct}">
+                    
+                    <td th:text="${reportShow['item_name']}"></td>
+                    <td th:text="${reportShow['unit_name']}"></td>
+                    <td th:text="${reportShow['inchi']}"></td>
+                    <td th:text="${reportShow['qty']}"></td>
+                    <td th:text="${reportShow['value']}"></td>
+                    <td th:text="${reportShow['tax_percentage']}"></td>
+                    <td class="tax-amount" th:text="${reportShow['tax_amount']}"></td>
+                </tr> 
+
+                <tr>
+                        <th colspan="6" class="text-end"> Total Tax Amount</th>
+                        <td>
+                            <span id="totalTaxAmount"></span>
+                        </td>
+                    </td>
+                    </tr>
+                   
+            </tbody>
+        </table>
+     <div class="d-flex justify-content-center">
+        <svg id="barcode"></svg>
+    </div>
+    <div class="d-flex justify-content-center">
+        <div id="barcode-value" class="fw-bold"></div>
+    </div>
+     
+        
+
+    </div>
+    <script>
+
+function generateBarcode() {
+    console.log("Fahim");
+    // Get the value from the hidden input field
+    var idValue = document.getElementById("reportShow").value*1000;
+
+    // Define the element where you want to display the barcode
+    var barcodeElement = document.getElementById("barcode");
+
+    // Generate the barcode using JsBarcode
+    JsBarcode(barcodeElement, idValue, {
+        format: "CODE128", // Specify the barcode format you want to use
+        displayValue: false, // Set to true if you want to display the value alongside the barcode
+    });
+    var barcodeValueElement = document.getElementById("barcode-value");
+    barcodeValueElement.textContent = idValue;
+}
+        function redirectToHomePage() {
+            
+            // Get the id value from the hidden input field
+            var id = document.getElementById("reportShow").value;
+            var url = "/baggagestart/show?id=" + id;
+            window.location.href = url;
+        }
+
+        function calculateTotalTaxAmount() {
+            // Get all the tax amount elements using a class selector
+            var taxAmountElements = document.querySelectorAll(".tax-amount");
+    
+            // Initialize a variable to store the total tax amount
+            var totalTaxAmount = 0;
+    
+            // Iterate through each tax amount element
+            taxAmountElements.forEach(function (element) {
+                // Parse the text content of the element to a floating-point number
+                var taxAmount = parseFloat(element.textContent);
+    
+                totalTaxAmount += taxAmount;
+            });
+    
+            // Set the calculated total tax amount in the totalTaxAmount span
+            document.getElementById("totalTaxAmount").textContent = totalTaxAmount.toFixed(2);
+            generateBarcode();
+        }
+       function fahim(){
+        console.log("Fahim");
+       }
+        // Call the function when the page loads
+        window.addEventListener("load", calculateTotalTaxAmount);
+        window.addEventListener("load", generateBarcode);
+
+
+        function printPage() {
+        // Hide the print buttons
+        var printButtons = document.querySelectorAll(".print-button");
+        for (var i = 0; i < printButtons.length; i++) {
+            printButtons[i].style.display = "none";
+        }
+
+          // Add an event listener for the afterprint event
+          window.addEventListener('afterprint', function () {
+            // Show the print buttons when the print dialog is closed
+            for (var i = 0; i < printButtons.length; i++) {
+                printButtons[i].style.display = "block";
+            }
+        });
+
+        // Print the content of the page
+        window.print();
+      
+        
+     
+    }
+
+    
+ 
+    </script>
+    
+
+    <!-- table 2nd start -->
+
+</div>
+
+<div th:replace="~{layout/footer}"></div>
