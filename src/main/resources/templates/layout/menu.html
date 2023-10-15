@@ -1,17 +1,19 @@
 <div class="dashboard-nav">
     <header>
         <a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a>
-        <a href="#" class="brand-logo"><img th:src="@{/img/logo/logo.png}" alt="ERP Logo" width="100%"></a>
+        <a href="#" class="brand-logo"><img th:src="@{/img/logo/bdlogo.png}" alt="ERP Logo" width="100%"></a>
     </header>
 
     <nav class="dashboard-nav-list">
+        <a href="#" class="dashboard-nav-item active"><i class="fas fa-tachometer-alt"></i> Baggage & Currency Module
+        </a>
         <a href="#" class="dashboard-nav-item active"><i class="fas fa-tachometer-alt"></i> dashboard
         </a>
 
-        <div class='dashboard-nav-dropdown'><a href="/currencystart/showunapprovedcurrency" class="dashboard-nav-item dashboard-nav-dropdown-toggle"><i
+        <div class='dashboard-nav-dropdown'><a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle"><i
                     class="fas fa-photo-video"></i> ToTal Unapproved Currency</a>
             <div class='dashboard-nav-dropdown-menu'>
-                <a href="/baggage" class="dashboard-nav-dropdown-item">Baggage From</a>
+                <a href="/currencystart/showunapprovedcurrency" class="dashboard-nav-dropdown-item">ToTal Unapproved Currency</a>
                 <a href="#" class="dashboard-nav-dropdown-item">Baggage All</a>
                     <a href="#" class="dashboard-nav-dropdown-item">Images</a>
                     <a href="#" class="dashboard-nav-dropdown-item">Video</a>

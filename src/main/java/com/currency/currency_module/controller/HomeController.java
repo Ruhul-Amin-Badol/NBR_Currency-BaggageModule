@@ -20,10 +20,7 @@ public class HomeController {
     public String login() {
         return "login";
     }
-    @GetMapping("/hh")
-    public String loading() {
-        return "dashboardmapper";
-    }
+
     @GetMapping("/dashboard")
     public String dashboard() {
         return "dashboard";
@@ -35,7 +32,6 @@ public class HomeController {
     @GetMapping("/finduser/{username}")
     @ResponseBody
     public UserActivityManagement findUserWithUserName(@PathVariable String username) {
-         System.out.println("ghgkjkk");
         return userActivityManagementService.findUserWithUserName(username) ;
     }
     
