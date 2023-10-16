@@ -2,8 +2,8 @@
 <div th:replace="~{layout/support}"></div>
                 <div class='container-fluid' th:object="${baggageDetails}">
                     <div class="d-flex justify-content-end gap-2 py-3 fw-bold"> <p>Select Language</p>
-                        <button type="button" class="btn btn-danger" onclick="toggleLanguage('bangla')">BN</button>
-                        <button type="button" class="btn btn-success" onclick="toggleLanguage('english')">EN</button>
+                        <button type="button" class="btn btn-danger" onclick="toggleLanguage1('bangla')">BN</button>
+                        <button type="button" class="btn btn-success" onclick="toggleLanguage1('english')">EN</button>
                     </div>
                     <div class='card'>
                         <div class='card-body'>
@@ -14,9 +14,9 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="mb-3">
-                                            <label for="entryPoint" class="form-label" id="entryPointLabel">Select Entry Point</label>
+                                            <label for="entryPoint" class="form-label" id="entryPointLabel">Select Entry Point</label><span class="astrick">*</span>
                                             <select class="form-select" name="entryPoint" aria-label="Default select example" required>
-                                                <option selected>--Please Select--</option>
+                                                <option value="">--Please Select--</option>
                                                 <option value="Hazrat Shahjalal International Airport">Hazrat Shahjalal International Airport</option>
                                                 <option value="Shah Amanat International Airport">Shah Amanat International Airport</option>
                                                 <option value="Osmani International Airport">Osmani International Airport</option>
@@ -28,17 +28,17 @@
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="passengerName" class="form-label" id="passengerNameLabel">Name of the Passenger(Same As Passport)</label>
+                                            <label for="passengerName" class="form-label" id="passengerNameLabel">Name of the Passenger(Same As Passport) </label><span class="astrick">*</span>
                                             <input type="text" class="form-control" id="example1" name="passengerName" placeholder="Enter Passenger Name" required>
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="passportNumber" class="form-label" id="passportNumberLabel">Passport Number</label>
+                                            <label for="passportNumber" class="form-label" id="passportNumberLabel">Passport Number</label><span class="astrick">*</span>
                                             <input type="text" class="form-control" id="example1" name="passportNumber" placeholder="Enter passport number" required>
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="passportValidityDate" class="form-label" id="passportValidityDateLabel">Passport Validity Date</label>
+                                            <label for="passportValidityDate" class="form-label" id="passportValidityDateLabel">Passport Validity Date</label><span class="astrick">*</span>
                                             <input type="date" class="form-control" id="example1" name="passportValidityDate" required>
                                         </div>
 
@@ -53,13 +53,120 @@
                                           <!-- Additional input box for "Other" nationality -->
                                           <div class="mb-3" id="otherNationality" style="display: none;">
                                             <label for="otherNationalityInput" class="form-label" id="otherNationalityLabel">Other Nationality</label>
-                                            <input type="text" class="form-control" name="otherNationalityInput" id="otherNationalityInput" placeholder="Enter your nationality">
+                                            <!-- <input type="text" class="form-control" name="otherNationalityInput" id="otherNationalityInput" placeholder="Enter your nationality"> -->
+                                            <select class="form-control" name="otherNationalityInput" id="otherNationalityInput">
+                                                <option value="">---Select Other Nationality----</option>
+                                                <option value="India">India</option>
+                                                <option value="USA">USA</option>
+                                                <option value="Canada">Canada</option>
+                                                <option value="United Kingdom">United Kingdom</option>
+                                                <option value="Australia">Australia</option>
+                                                <option value="Germany">Germany</option>
+                                                <option value="France">France</option>
+                                                <option value="Spain">Spain</option>
+                                                <option value="Italy">Italy</option>
+                                                <option value="Japan">Japan</option>
+                                                <option value="China">China</option>
+                                                <option value="Brazil">Brazil</option>
+                                                <option value="Mexico">Mexico</option>
+                                                <option value="Argentina">Argentina</option>
+                                                <option value="South Africa">South Africa</option>
+                                                <option value="Nigeria">Nigeria</option>
+                                                <option value="Kenya">Kenya</option>
+                                                <option value="New Zealand">New Zealand</option>
+                                                <option value="Singapore">Singapore</option>
+                                                <option value="Malaysia">Malaysia</option>
+                                                <option value="Switzerland">Switzerland</option>
+                                                <option value="Austria">Austria</option>
+                                                <option value="Netherlands">Netherlands</option>
+                                                <option value="Sweden">Sweden</option>
+                                                <option value="Denmark">Denmark</option>
+                                                <option value="Norway">Norway</option>
+                                                <option value="Finland">Finland</option>
+                                                <option value="Poland">Poland</option>
+                                                <option value="Portugal">Portugal</option>
+                                                <option value="Greece">Greece</option>
+                                                <option value="Russia">Russia</option>
+                                                <option value="Ukraine">Ukraine</option>
+                                                <option value="Hungary">Hungary</option>
+                                                <option value="Czech Republic">Czech Republic</option>
+                                                <option value="Chile">Chile</option>
+                                                <option value="Ecuador">Ecuador</option>
+                                                <option value="Peru">Peru</option>
+                                                <option value="Colombia">Colombia</option>
+                                                <option value="Venezuela">Venezuela</option>
+                                                <option value="Panama">Panama</option>
+                                                <option value="Belize">Belize</option>
+                                                <option value="Guatemala">Guatemala</option>
+                                                <option value="El Salvador">El Salvador</option>
+                                                <option value="Honduras">Honduras</option>
+                                                <option value="Nicaragua">Nicaragua</option>
+                                                <option value="Costa Rica">Costa Rica</option>
+                                                <option value="Saint Pierre and Miquelon">Saint Pierre and Miquelon</option>
+                                                <option value="Haiti">Haiti</option>
+                                                <option value="Bolivia">Bolivia</option>
+                                                <option value="Guyana">Guyana</option>
+                                                <option value="French Guiana">French Guiana</option>
+                                                <option value="Paraguay">Paraguay</option>
+                                                <option value="Martinique">Martinique</option>
+                                                <option value="Suriname">Suriname</option>
+                                                <option value="Uruguay">Uruguay</option>
+                                                <option value="Netherlands Antilles">Netherlands Antilles</option>
+                                                <option value="East Timor">East Timor</option>
+                                                <option value="Guam">Guam</option>
+                                                <option value="Norfolk Island">Norfolk Island</option>
+                                                <option value="Brunei">Brunei</option>
+                                                <option value="Nauru">Nauru</option>
+                                                <option value="Papua New Guinea">Papua New Guinea</option>
+                                                <option value="Tonga">Tonga</option>
+                                                <option value="Solomon Islands">Solomon Islands</option>
+                                                <option value="Vanuatu">Vanuatu</option>
+                                                <option value="Fiji">Fiji</option>
+                                                <option value="Palau">Palau</option>
+                                                <option value="Wallis and Futuna">Wallis and Futuna</option>
+                                                <option value="Cook Islands">Cook Islands</option>
+                                                <option value="Niue">Niue</option>
+                                                <option value="Samoa">Samoa</option>
+                                                <option value="Kiribati">Kiribati</option>
+                                                <option value="New Caledonia">New Caledonia</option>
+                                                <option value="Tuvalu">Tuvalu</option>
+                                                <option value="French Polynesia">French Polynesia</option>
+                                                <option value="Tokelau">Tokelau</option>
+                                                <option value="Micronesia">Micronesia</option>
+                                                <option value="Marshall Islands">Marshall Islands</option>
+                                                <option value="North Korea">North Korea</option>
+                                                <option value="Hong Kong">Hong Kong</option>
+                                                <option value="Macau">Macau</option>
+                                                <option value="Cambodia">Cambodia</option>
+                                                <option value="Laos">Laos</option>
+                                                <option value="Maldives">Maldives</option>
+                                                <option value="Lebanon">Lebanon</option>
+                                                <option value="Jordan">Jordan</option>
+                                                <option value="Syria">Syria</option>
+                                                <option value="Iraq">Iraq</option>
+                                                <option value="Kuwait">Kuwait</option>
+                                                <option value="Saudi Arabia">Saudi Arabia</option>
+                                                <option value="Yemen">Yemen</option>
+                                                <option value="Oman">Oman</option>
+                                                <option value="United Arab Emirates">United Arab Emirates</option>
+                                                <option value="Israel">Israel</option>
+                                                <option value="Bahrain">Bahrain</option>
+                                                <option value="Qatar">Qatar</option>
+                                                <option value="Bhutan">Bhutan</option>
+                                                <option value="Mongolia">Mongolia</option>
+                                                <option value="Tajikistan">Tajikistan</option>
+                                                <option value="Turkmenistan">Turkmenistan</option>
+                                                <option value="Azerbaijan">Azerbaijan</option>
+                                                <option value="Georgia">Georgia</option>
+                                                <option value="Kyrgyzstan">Kyrgyzstan</option>
+                                                <option value="Uzbekistan">Uzbekistan</option>
+                                            </select>
                                           </div>
                                     </div>
 
                                     <div class="col-sm-6">
                                         <div class="mb-3">
-                                            <label for="countryFrom" class="form-label" id="countryFromLabel">Country from where coming</label>
+                                            <label for="countryFrom" class="form-label" id="countryFromLabel">Country from where coming</label><span class="astrick">*</span>
                                             <select class="form-select" name="countryFrom" id="previous_country" required>
                                                 <option value="">---Select Country----</option>
                                                 <option value="Bangladesh">Bangladesh</option>
@@ -173,12 +280,12 @@
                                         
 
                                         <div class="mb-3">
-                                            <label for="dateOfArrival" class="form-label" id="dateOfArrivalLabel">Date Of Arrival</label>
+                                            <label for="dateOfArrival" class="form-label" id="dateOfArrivalLabel">Date Of Arrival</label><span class="astrick">*</span>
                                             <input type="date" class="form-control" id="example1" name="dateOfArrival" required>
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="flightNo" class="form-label" id="flightNoLabel">Flight No</label>
+                                            <label for="flightNo" class="form-label" id="flightNoLabel">Flight No</label><span class="astrick">*</span>
                                             <input type="text" class="form-control" id="example1" name="flightNo" placeholder="Enter Flight  No Ex:BG 805" required>
                                         </div>
 
@@ -186,7 +293,7 @@
                                             <label for="mobileNo" class="form-label" id="mobileNoLabel">Mobile No</label>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
-                                                    <select class="form-select" name="countryCode" id="countryCode" required>
+                                                    <select class="form-select" name="countryCode" id="countryCode" >
                                                         <option value="Bangladesh +880">Bangladesh +880</option>
                                                         <option value="USA +1">USA +1</option>
                                                         <option value="UK +44">UK +44</option>
@@ -300,13 +407,13 @@
                                                     
                                                     
                                                 </div>
-                                                <input type="text" class="form-control" id="mobileNo" name="mobileNo" placeholder="Enter Mobile No" required>
+                                                <input type="text" class="form-control" id="mobileNo" name="mobileNo" placeholder="Enter Mobile No" >
                                             </div>
                                         </div>
 
                                         <div class="mb-3">
                                             <label for="email" class="form-label" id="emailLabel">Email</label>
-                                            <input type="email" class="form-control" id="example1" name="email" placeholder="Enter Your Email" required>
+                                            <input type="email" class="form-control" id="example1" name="email" placeholder="Enter Your Email" >
                                         </div>
 
                                         <div class="form-check">
@@ -379,7 +486,7 @@
                                 <input type="hidden" id="baggageID" name="id" th:value="${ID}" />
                                 <input  type="hidden" id="idMeat" name="idMeat" th:value="${''}" />
                                 <input type="hidden" id="idCurrency" name="idCurrency" th:value="${''}" />
-                                <label for="entryPoint" class="form-label" id="entryPointLabel">Select Entry Point</label>
+                                <label for="entryPoint" class="form-label" id="entryPointLabel">Select Entry Point</label><span class="astrick">*</span>
                                 <select class="form-select" name="entryPoint" th:value="${baggageDetails['entry_point']}" required>
                                     <option value="Hazrat Shahjalal International Airport" th:selected="${baggageDetails['entry_point'] == 'Hazrat Shahjalal International Airport'}">Hazrat Shahjalal International Airport</option>
                                     <option value="Shah Amanat International Airport" th:selected="${baggageDetails['entry_point'] == 'Shah Amanat International Airport'}">Shah Amanat International Airport</option>
@@ -392,23 +499,23 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="passengerName" class="form-label" id="passengerNameLabel">Name of the Passenger(Same As Passport)</label>
+                                <label for="passengerName" class="form-label" id="passengerNameLabel">Name of the Passenger(Same As Passport)</label><span class="astrick">*</span>
                                 <input type="text" class="form-control" name="passengerName" th:value="${baggageDetails['passenger_name']}" placeholder="Enter Passenger Name" required>
                             </div>
 
                             <div class="mb-3">
-                                <label for="passportNumber" class="form-label" id="passportNumberLabel">Passport Number</label>
+                                <label for="passportNumber" class="form-label" id="passportNumberLabel">Passport Number</label><span class="astrick">*</span>
                                 <input type="text" class="form-control" name="passportNumber" th:value="${baggageDetails['passport_number']}" placeholder="Enter Passport Number" required>
                             </div>
 
                             <div class="mb-3">
-                                <label for="passportValidityDate" class="form-label" id="passportValidityDateLabel">Passport Validity Date</label>
+                                <label for="passportValidityDate" class="form-label" id="passportValidityDateLabel">Passport Validity Date</label><span class="astrick">*</span>
                                 <input type="date" class="form-control" name="passportValidityDate" th:value="${baggageDetails['passport_validity_date']}" required>
                             </div>
 
                             <div class="mb-3">
                                 <label for="nationality" class="form-label" id="nationalityLabel">Nationality</label>
-                                <select class="form-select" name="nationality" id="nationality" required>
+                                <select class="form-select" name="nationality" id="nationality" >
                                     <option th:if="${baggageDetails['nationality'] == 'Other'}" value="Other" th:selected="selected">Other</option>
                                     <option th:unless="${baggageDetails['nationality'] == 'Other'}" th:value="${baggageDetails['nationality']}"
                                         th:selected="selected">[[${baggageDetails['nationality']}]]</option>
@@ -419,14 +526,121 @@
                               <!-- Additional input box for "Other" nationality -->
                               <div class="mb-3" id="otherNationality" style="display: none;">
                                 <label for="otherNationalityInput" class="form-label" id="otherNationalityLabel">Other Nationality</label>
-                                <input type="text" class="form-control" name="otherNationalityInput" id="otherNationalityInput"  placeholder="Enter your nationality">
+                                <!-- <input type="text" class="form-control" name="otherNationalityInput" id="otherNationalityInput"  placeholder="Enter your nationality"> -->
+                                <select class="form-control" name="otherNationalityInput" id="otherNationalityInput">
+                                    <option value="">---Select Other Nationality----</option>
+                                    <option value="India">India</option>
+                                    <option value="USA">USA</option>
+                                    <option value="Canada">Canada</option>
+                                    <option value="United Kingdom">United Kingdom</option>
+                                    <option value="Australia">Australia</option>
+                                    <option value="Germany">Germany</option>
+                                    <option value="France">France</option>
+                                    <option value="Spain">Spain</option>
+                                    <option value="Italy">Italy</option>
+                                    <option value="Japan">Japan</option>
+                                    <option value="China">China</option>
+                                    <option value="Brazil">Brazil</option>
+                                    <option value="Mexico">Mexico</option>
+                                    <option value="Argentina">Argentina</option>
+                                    <option value="South Africa">South Africa</option>
+                                    <option value="Nigeria">Nigeria</option>
+                                    <option value="Kenya">Kenya</option>
+                                    <option value="New Zealand">New Zealand</option>
+                                    <option value="Singapore">Singapore</option>
+                                    <option value="Malaysia">Malaysia</option>
+                                    <option value="Switzerland">Switzerland</option>
+                                    <option value="Austria">Austria</option>
+                                    <option value="Netherlands">Netherlands</option>
+                                    <option value="Sweden">Sweden</option>
+                                    <option value="Denmark">Denmark</option>
+                                    <option value="Norway">Norway</option>
+                                    <option value="Finland">Finland</option>
+                                    <option value="Poland">Poland</option>
+                                    <option value="Portugal">Portugal</option>
+                                    <option value="Greece">Greece</option>
+                                    <option value="Russia">Russia</option>
+                                    <option value="Ukraine">Ukraine</option>
+                                    <option value="Hungary">Hungary</option>
+                                    <option value="Czech Republic">Czech Republic</option>
+                                    <option value="Chile">Chile</option>
+                                    <option value="Ecuador">Ecuador</option>
+                                    <option value="Peru">Peru</option>
+                                    <option value="Colombia">Colombia</option>
+                                    <option value="Venezuela">Venezuela</option>
+                                    <option value="Panama">Panama</option>
+                                    <option value="Belize">Belize</option>
+                                    <option value="Guatemala">Guatemala</option>
+                                    <option value="El Salvador">El Salvador</option>
+                                    <option value="Honduras">Honduras</option>
+                                    <option value="Nicaragua">Nicaragua</option>
+                                    <option value="Costa Rica">Costa Rica</option>
+                                    <option value="Saint Pierre and Miquelon">Saint Pierre and Miquelon</option>
+                                    <option value="Haiti">Haiti</option>
+                                    <option value="Bolivia">Bolivia</option>
+                                    <option value="Guyana">Guyana</option>
+                                    <option value="French Guiana">French Guiana</option>
+                                    <option value="Paraguay">Paraguay</option>
+                                    <option value="Martinique">Martinique</option>
+                                    <option value="Suriname">Suriname</option>
+                                    <option value="Uruguay">Uruguay</option>
+                                    <option value="Netherlands Antilles">Netherlands Antilles</option>
+                                    <option value="East Timor">East Timor</option>
+                                    <option value="Guam">Guam</option>
+                                    <option value="Norfolk Island">Norfolk Island</option>
+                                    <option value="Brunei">Brunei</option>
+                                    <option value="Nauru">Nauru</option>
+                                    <option value="Papua New Guinea">Papua New Guinea</option>
+                                    <option value="Tonga">Tonga</option>
+                                    <option value="Solomon Islands">Solomon Islands</option>
+                                    <option value="Vanuatu">Vanuatu</option>
+                                    <option value="Fiji">Fiji</option>
+                                    <option value="Palau">Palau</option>
+                                    <option value="Wallis and Futuna">Wallis and Futuna</option>
+                                    <option value="Cook Islands">Cook Islands</option>
+                                    <option value="Niue">Niue</option>
+                                    <option value="Samoa">Samoa</option>
+                                    <option value="Kiribati">Kiribati</option>
+                                    <option value="New Caledonia">New Caledonia</option>
+                                    <option value="Tuvalu">Tuvalu</option>
+                                    <option value="French Polynesia">French Polynesia</option>
+                                    <option value="Tokelau">Tokelau</option>
+                                    <option value="Micronesia">Micronesia</option>
+                                    <option value="Marshall Islands">Marshall Islands</option>
+                                    <option value="North Korea">North Korea</option>
+                                    <option value="Hong Kong">Hong Kong</option>
+                                    <option value="Macau">Macau</option>
+                                    <option value="Cambodia">Cambodia</option>
+                                    <option value="Laos">Laos</option>
+                                    <option value="Maldives">Maldives</option>
+                                    <option value="Lebanon">Lebanon</option>
+                                    <option value="Jordan">Jordan</option>
+                                    <option value="Syria">Syria</option>
+                                    <option value="Iraq">Iraq</option>
+                                    <option value="Kuwait">Kuwait</option>
+                                    <option value="Saudi Arabia">Saudi Arabia</option>
+                                    <option value="Yemen">Yemen</option>
+                                    <option value="Oman">Oman</option>
+                                    <option value="United Arab Emirates">United Arab Emirates</option>
+                                    <option value="Israel">Israel</option>
+                                    <option value="Bahrain">Bahrain</option>
+                                    <option value="Qatar">Qatar</option>
+                                    <option value="Bhutan">Bhutan</option>
+                                    <option value="Mongolia">Mongolia</option>
+                                    <option value="Tajikistan">Tajikistan</option>
+                                    <option value="Turkmenistan">Turkmenistan</option>
+                                    <option value="Azerbaijan">Azerbaijan</option>
+                                    <option value="Georgia">Georgia</option>
+                                    <option value="Kyrgyzstan">Kyrgyzstan</option>
+                                    <option value="Uzbekistan">Uzbekistan</option>
+                                </select>
                               </div>
                         </div>
                         
 
                         <div class="col-sm-6">
                             <div class="mb-3">
-                                <label for="countryFrom" class="form-label" id="countryFromLabel">Country from where coming</label>
+                                <label for="countryFrom" class="form-label" id="countryFromLabel">Country from where coming</label><span class="astrick">*</span>
                                 <select class="form-select" name="countryFrom" id="previous_country" th:value="${baggageDetails['previous_country']}" required>
                                     <option value="">---Select Country----</option>
                                     <option value="Bangladesh" th:selected="${baggageDetails['previous_country'] == 'Bangladesh'}">Bangladesh</option>
@@ -488,12 +702,12 @@
                             
 
                             <div class="mb-3">
-                                <label for="dateOfArrival" class="form-label" id="dateOfArrivalLabel">Date Of Arrival</label>
+                                <label for="dateOfArrival" class="form-label" id="dateOfArrivalLabel">Date Of Arrival</label><span class="astrick">*</span>
                                 <input type="date" class="form-control" name="dateOfArrival" th:value="${baggageDetails['dateofarrival']}" required>
                             </div>
 
                             <div class="mb-3">
-                                <label for="flightNo" class="form-label" id="flightNoLabel">Flight No</label>
+                                <label for="flightNo" class="form-label" id="flightNoLabel">Flight No</label><span class="astrick">*</span>
                                 <input type="text" class="form-control" name="flightNo" th:value="${baggageDetails['flight_no']}" placeholder="Enter Flight No (Ex: BG 805)" required>
                             </div>
 
@@ -502,7 +716,7 @@
                                 <!-- <input type="text" class="form-control" name="mobileNo" th:value="${baggageDetails['mobile_no']}" placeholder="Enter Mobile No" required> -->
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <select class="form-select" name="countryCode" id="countryCode" required>
+                                        <select class="form-select" name="countryCode" id="countryCode" >
                                             <option>--select country code--</option>
                                             <option value="USA +1" th:selected="${baggageDetails['country_code'] == 'USA +1'}">USA +1</option>
                                             <option value="UK +44" th:selected="${baggageDetails['country_code'] == 'UK +44'}">UK +44</option>
@@ -618,13 +832,13 @@
                                         
                                         
                                     </div>
-                                    <input type="text" class="form-control" id="mobileNo" name="mobileNo" th:value="${baggageDetails['mobile_no']}" placeholder="Enter Mobile No" required>
+                                    <input type="text" class="form-control" id="mobileNo" name="mobileNo" th:value="${baggageDetails['mobile_no']}" placeholder="Enter Mobile No" >
                                 </div>
                             </div>
 
                             <div class="mb-3">
                                 <label for="email" class="form-label" id="emailLabel">Email</label>
-                                <input type="email" class="form-control" name="email" th:value="${baggageDetails['email']}" placeholder="Enter Your Email" required>
+                                <input type="email" class="form-control" name="email" th:value="${baggageDetails['email']}" placeholder="Enter Your Email" >
                             </div>
 
                             <div class="form-check">
@@ -678,11 +892,11 @@
                 <form action="" method="">
 
                             <div class="container p-3 mt-3 bg-light">
-                                <p class="fw-bold">More than one of any goods (More than two for cellular phone) which are duty free including Gold <button type="button" class="btn btn-success" id="openFileButton">View Goods List on Baggage Rule</button></p>
+                                <p class="fw-bold">More than one of any goods (More than two for cellular phone) which are duty free including Gold<span class="astrick">*</span> <button type="button" class="btn btn-success" id="openFileButton">View Goods List on Baggage Rule</button></p>
                                 <div class="d-flex justify-content-start mb-3">
                                     <div class="col-sm-6">
-                                            <select class="form-select" aria-label="Default select example"  id="dropdownSelect" >
-                                                <option value="--Please Select--"> --Please Select-- </option>
+                                            <select class="form-select" aria-label="Default select example"  id="dropdownSelect" required>
+                                                <option value=""> --Please Select-- </option>
                                                 <option value="YES" >YES</option>
                                                 <option value="NO" >NO</option>
                                             </select>
@@ -702,6 +916,7 @@
                                                 <th scope="col">Tax(%)</th>
                                                 <th scope="col">Tax Amount</th>
                                                 <th scope="col">Action</th>
+                                
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -721,6 +936,7 @@
                                                 <td><input type="text" class="form-control" id="totalValue" name="totalValue" onKeyUp="tax_calc()"></td>
                                                 <td><input type="text" class="form-control" id="tax" name="tax"></td>
                                                 <td><input type="text" class="form-control" id="taxAmount" name="taxAmount"></td>
+                                                <td class="d-none"><input type="hidden" class="form-control" id="deleteidhidden" name="taxAmount"></td>
                                                 <td><button type="button" class="btn btn-success" id="addButton">Add</button></td>
                                             </tr>
                                         </tbody>
@@ -738,8 +954,9 @@
                                             <th scope="col" class="d-none">Value</th>
                                             <th scope="col">Total Value</th>
                                             <th scope="col">Tax(%)</th>
-                                            <th scope="col">Tax Amount</th>
-                                            <th scope="col">Action</th>
+                                            <th scope="col">Tax Amount</th>    
+                                            <th scope="col">Edit</th>
+                                            <th scope="col">Delete</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -789,7 +1006,7 @@
 
                             </div>
                             
-                        </form>
+                        
                     </div>
                         
 
@@ -797,6 +1014,7 @@
 
                         </div>
                     </div>
+                </form>
                 </div>
 
 

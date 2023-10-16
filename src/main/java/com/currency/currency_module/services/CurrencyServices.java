@@ -25,6 +25,9 @@ public class CurrencyServices {
    public CurrencyDeclaration  currencyInsert(CurrencyDeclaration currencyDeclcuaration
     ){
     // currencyDeclcuaration.setContactNo(" ");
+    if(currencyDeclcuaration.getNationality().equals("Other")){
+        currencyDeclcuaration.setNationality(currencyDeclcuaration.getOtherNationality());
+    }
     currencyDeclcuaration.setStatus("manual");
     return currencyDeclarationRepository.save(currencyDeclcuaration);
 
@@ -37,6 +40,9 @@ public class CurrencyServices {
                 .orElseThrow(() -> new EntityNotFoundException("Currency Declaration not found"));
     
         // Update the properties of the existing entity with the updated data
+         if(updatedCurrencyDeclaration.getNationality().equals("Other")){
+        updatedCurrencyDeclaration.setNationality(updatedCurrencyDeclaration.getOtherNationality());
+           }
         existingCurrencyDeclaration.setPassengerName(updatedCurrencyDeclaration.getPassengerName());
         existingCurrencyDeclaration.setPassportNumber(updatedCurrencyDeclaration.getPassportNumber());
         existingCurrencyDeclaration.setPassportIssueDate(updatedCurrencyDeclaration.getPassportIssueDate());
@@ -102,27 +108,27 @@ public class CurrencyServices {
 public CurrencyDeclaration findcurrency(Long id) {
   return currencyDeclarationRepository.findById(id).orElseThrow(()->new ResourceNotFound("User not found"));
 }
-@Transactional
-public void updateStatusToProcessing(Long id) {
-  // Fetch the entity by its ID
-  CurrencyDeclaration currency = currencyDeclarationRepository.findById(id).orElse(null);
+// @Transactional
+// public void updateStatusToProcessing(Long id) {
+//   // Fetch the entity by its ID
+//   CurrencyDeclaration currency = currencyDeclarationRepository.findById(id).orElse(null);
 
-  if (currency != null) {
-    // Update the "status" column value to "processing"
-    currency.setStatus("processing");
-    currencyDeclarationRepository.save(currency);
-  }
-}
+//   if (currency != null) {
+//     // Update the "status" column value to "processing"
+//     currency.setStatus("processing");
+//     currencyDeclarationRepository.save(currency);
+//   }
+// }
 
-@Transactional
-public void updateCurrencyStatusToUnchecked(Long id) {
-    CurrencyDeclaration currency = currencyDeclarationRepository.findById(id).orElse(null);
+// @Transactional
+// public void updateCurrencyStatusToUnchecked(Long id) {
+//     CurrencyDeclaration currency = currencyDeclarationRepository.findById(id).orElse(null);
 
-    if (currency != null) {
-        // Update the "status" column value to "unchecked"
-        currency.setStatus("unchecked");
-        currencyDeclarationRepository.save(currency);
-}
-}
+//     if (currency != null) {
+//         // Update the "status" column value to "unchecked"
+//         currency.setStatus("unchecked");
+//         currencyDeclarationRepository.save(currency);
+// }
+// }
 
 }

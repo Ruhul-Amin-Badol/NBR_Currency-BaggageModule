@@ -17,29 +17,33 @@
                                   
 
                                         <div class="mb-3">
-                                            <label for="passengerName" class="form-label" id="passengerName">Full Name</label>
+                                            <label for="passengerName" class="form-label" id="passengerName">Full Name</label><span class="astrick">*</span>
                                             <input type="text" class="form-control"   id="passengerName" name="passengerName" th:value="${currencyDeclaration.passengerName}" placeholder="Enter Full Name" required>
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="passportNumber" class="form-label" id="passportNumberLabel">Passport Number</label>
+                                            <label for="passportNumber" class="form-label" id="passportNumberLabel">Passport Number</label><span class="astrick">*</span>
                                             <input type="text" class="form-control" id="example1"  name="passportNumber" th:value="${currencyDeclaration.passportNumber}" placeholder="Enter passport number" required>
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="passportIssueDate" class="form-label" id="passportissuedate">Passport Issue Date</label>
+                                            <label for="passportIssueDate" class="form-label" id="passportissuedate">Passport Issue Date</label><span class="astrick">*</span>
                                             <input type="date" class="form-control" id="example1" name="passportIssueDate" th:value="${currencyDeclaration.passportIssueDate}" required>
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="passportIssuePlace" class="form-label" id="passportNumberLabel">Issue Place</label>
+                                            <label for="passportIssuePlace" class="form-label" id="passportNumberLabel">Issue Place</label><span class="astrick">*</span>
                                             <input type="text" class="form-control" id="example1" name="passportIssuePlace" th:value="${currencyDeclaration.passportIssuePlace}" placeholder="Enter Issue Place" required>
                                         </div>
 
                                         <div class="mb-3">
                                             <label for="nationality" class="form-label" id="nationalityLabel">Nationality</label>
                                             <select class="form-select" name="nationality"  id="nationality" th:value="${currencyDeclaration.nationality}" required>
-                                              <option value="Bangladesh" >Bangladesh</option>
+                                              <!-- <option value="Bangladesh"  th:value="${currencyDeclaration.nationality}" >Bangladesh</option> -->
+                                    <option th:if="${currencyDeclaration.nationality == 'Other'}" value="Other" th:selected="selected">Other</option>
+                                    <option th:unless="${currencyDeclaration.nationality == 'Other'}" th:value="${currencyDeclaration.nationality}"
+                                    th:selected="selected">[[${currencyDeclaration.nationality}]]</option>
+
                                               <option value="Other" >Other</option>
                                             </select>
                                           </div>
@@ -52,13 +56,13 @@
 
                                           <div class="mb-3">
                                             <label for="profession" class="form-label" id="passportNumberLabel">Profession</label>
-                                            <input type="text" class="form-control"  id="example1" name="profession" th:value="${currencyDeclaration.profession}"placeholder="Enter Profession" required>
+                                            <input type="text" class="form-control"  id="example1" name="profession" th:value="${currencyDeclaration.profession}"placeholder="Enter Profession" >
                                         </div>
                                     </div>
 
                                     <div class="col-sm-6">
                                         <div class="mb-3">
-                                            <label for="previousCountry" class="form-label" id="countryFromLabel">Country from where coming</label>
+                                            <label for="previousCountry" class="form-label" id="countryFromLabel">Country from where coming</label><span class="astrick">*</span>
                                             <select class="form-select" name="previousCountry" th:if="${currencyDeclaration != null}" id="previousCountry" th:value="${currencyDeclaration.previousCountry}" required>
                                                 <option value="Bangladesh" th:selected="${currencyDeclaration.previousCountry == 'Bangladesh'}">Bangladesh</option>
                                                 <option value="India" th:selected="${currencyDeclaration.previousCountry == 'India'}">India</option>
@@ -171,17 +175,17 @@
                                         
 
                                         <div class="mb-3">
-                                            <label for="dateOfArrival" class="form-label" id="dateOfArrivalLabel">Date Of Arrival</label>
+                                            <label for="dateOfArrival" class="form-label" id="dateOfArrivalLabel">Date Of Arrival</label><span class="astrick">*</span>
                                             <input type="datetime-local" class="form-control"  id="dateOfArrival" name="dateOfArrival"th:value="${currencyDeclaration.dateOfArrival}" required>
                                         </div>
 
                                         <div class="mb-3">
                                             <label for="flightNo" class="form-label" id="flightNoLabel">Flight No</label>
-                                            <input type="text" class="form-control"  id="flightNo" name="flightNo" th:value="${currencyDeclaration.flightNo}"placeholder="Enter Flight  No Ex:BG 805" required>
+                                            <input type="text" class="form-control"  id="flightNo" name="flightNo" th:value="${currencyDeclaration.flightNo}"placeholder="Enter Flight  No Ex:BG 805" >
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="addressInBangladesh" class="form-label" id="address">Address in Bangladesh</label>
+                                            <label for="addressInBangladesh" class="form-label" id="address">Address in Bangladesh</label><span class="astrick">*</span>
                                             <input type="text" class="form-control"  id="addressInBangladesh" name="addressInBangladesh" th:value="${currencyDeclaration.addressInBangladesh}"placeholder="Enter Address" required>
                                         </div>
 
@@ -314,7 +318,7 @@
 
                                         <div class="mb-3">
                                             <label for="email" class="form-label" id="emailLabel">Email</label>
-                                            <input type="email" class="form-control"  id="example1" name="email" th:value="${currencyDeclaration.email}"placeholder="Enter Your Email" required>
+                                            <input type="email" class="form-control"  id="example1" name="email" th:value="${currencyDeclaration.email}"placeholder="Enter Your Email" >
                                         </div>
 
                                     </div>

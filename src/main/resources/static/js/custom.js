@@ -113,7 +113,7 @@ document.getElementById('openFileButton').addEventListener('click', function () 
 });
 
 //----->langguage model<-----//
-function toggleLanguage(language) {
+function toggleLanguage1(language) {
     var labels = {
         'bangla': {
             'entryPointLabel': 'এন্ট্রি পয়েন্ট নির্বাচন করুন / আগমনের স্থান',
@@ -125,17 +125,20 @@ function toggleLanguage(language) {
             'otherOption': 'অন্যান্য জাতীয়তা',
             'otherNationalityLabel': 'অন্যান্য জাতীয়তা',
             'countryFromLabel': 'কোন দেশ হইতে আগমন',
-            'dateOfArrivalLabel': 'আগমনের তারিখ',
+            'dateOfArrivalLabel': 'আগমনের সময়',
             'flightNoLabel': 'ফ্লাইট নম্বর',
             'mobileNoLabel': 'মোবাইল নম্বর',
             'emailLabel': 'ইমেইল',
             'accompaniedLabel': 'নিজ ব্যাগেজ ',
             'unaccompaniedLabel':'অন্যের ব্যাগেজ' ,
-            
-            'fullnameLabel':'পুরো নাম' ,
+            'passengerNamelabell':'পুর্ন নাম' ,
             'previouscountryLabel':'যে দেশ থেকে আসছে' ,
             'bangladeshaddreessLabel':'বাংলাদেশে ঠিকানা' ,
             'profssionLabel':'পেশা' ,
+            'passportIssueDate':'পাসপোর্ট ইস্যুর তারিখ' ,
+            'passportIssuePlaceLabel':'পাসপোর্ট ইস্যুর স্থান',
+            'previousCountry':'কোন দেশ হইতে আগমন',
+            'address':'বাংলাদেশে ঠিকানা',
         },
         'english': {
             'entryPointLabel': 'Select Entry Point',
@@ -268,41 +271,48 @@ document.getElementById('openFileButton').addEventListener('click', function () 
 });
 
 //----->langguage model<-----//
-function toggleLanguage(language) {
+function toggleLanguage2(language) {
     var labels = {
         'bangla': {
-            'entryPointLabel': 'এন্ট্রি পয়েন্ট নির্বাচন করুন / আগমনের স্থান',
-            'passengerNameLabel': 'যাত্রীর নাম (পাসপোর্টের সাথে সমান)',
             'passportNumberLabel': 'পাসপোর্ট নম্বর',
-            'passportValidityDateLabel': 'পাসপোর্টের মেয়াদ সমাপ্তির তারিখ',
             'nationalityLabel': 'জাতীয়তা',
             'bangladeshOption': 'বাংলাদেশ',
             'otherOption': 'অন্যান্য জাতীয়তা',
             'otherNationalityLabel': 'অন্যান্য জাতীয়তা',
             'countryFromLabel': 'কোন দেশ হইতে আগমন',
-            'dateOfArrivalLabel': 'আগমনের তারিখ',
+            'dateOfArrivalLabel': 'আগমনের সময়',
             'flightNoLabel': 'ফ্লাইট নম্বর',
             'mobileNoLabel': 'মোবাইল নম্বর',
             'emailLabel': 'ইমেইল',
             'accompaniedLabel': 'নিজ ব্যাগেজ ',
-            'unaccompaniedLabel':'অন্যের ব্যাগেজ' 
+            'unaccompaniedLabel':'অন্যের ব্যাগেজ' ,
+            'passengerNamelabell':'পুর্ন নাম' ,
+            'previouscountryLabel':'যে দেশ থেকে আসছে' ,
+            'bangladeshaddreessLabel':'বাংলাদেশে ঠিকানা' ,
+            'professionLabel':'পেশা' ,
+            'passportIssueDate':'পাসপোর্ট ইস্যুর তারিখ' ,
+            'passportIssuePlaceLabel':'পাসপোর্ট ইস্যুর স্থান',
+            'previousCountry':'কোন দেশ হইতে আগমন',
+            'address':'বাংলাদেশে ঠিকানা',
+            'stayTimeAbroad':'বিদেশে অবস্থানের মেয়াদ',
         },
         'english': {
-            'entryPointLabel': 'Select Entry Point',
-            'passengerNameLabel': 'Name of the Passenger(Same As Passport)',
             'passportNumberLabel': 'Passport Number',
-            'passportValidityDateLabel': 'Passport Validity Date',
             'nationalityLabel': 'Nationality',
             'bangladeshOption': 'Bangladesh',
-            'otherOption': 'Other',
+            'otherOption': 'Other Nationality',
             'otherNationalityLabel': 'Other Nationality',
-            'countryFromLabel': 'Country from where coming',
             'dateOfArrivalLabel': 'Date Of Arrival',
             'flightNoLabel': 'Flight No',
             'mobileNoLabel': 'Mobile No',
             'emailLabel': 'Email',
-            'accompaniedLabel': 'Accompanied',
-            'unaccompaniedLabel': 'Un-Accompanied'
+            'passengerNamelabell':'Full Name' ,
+            'professionLabel':'Profession' ,
+            'passportIssueDate':'Passport Issue Date' ,
+            'passportIssuePlaceLabel':'Issue Place',
+            'previousCountry':'Country from where coming',
+            'address':'Address in Bangladesh',
+            'stayTimeAbroad':'Duration Of Stay In Abroad',
         }
     };
 

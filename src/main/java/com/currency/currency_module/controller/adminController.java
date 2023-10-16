@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
@@ -47,6 +48,23 @@ public class adminController {
     
         return "baggageTotalShowReport"; // Replace with the actual template name
     }
+    
+    //Application Edit Controller 
+
+        @GetMapping("/baggageApplicationEdit")
+        @ResponseBody
+        public List<Map<String, Object>> baggageApplicationEdit(){
+            String sql1 = "SELECT * FROM baggage";
+            List<Map<String, Object>> baggageappshow = jdbcTemplate.queryForList(sql1);
+        
+            return baggageappshow;
+        }
+
+        @GetMapping("/baggageApplicationShow")
+     
+        public String baggageApplicationShow(){ 
+            return "baggageApplicationEdit";
+        }
 
 
 }
