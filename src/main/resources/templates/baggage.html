@@ -16,7 +16,7 @@
                                         <div class="mb-3">
                                             <label for="entryPoint" class="form-label" id="entryPointLabel">Select Entry Point</label><span class="astrick">*</span>
                                             <select class="form-select" name="entryPoint" aria-label="Default select example" required>
-                                                <option selected>--Please Select--</option>
+                                                <option value="">--Please Select--</option>
                                                 <option value="Hazrat Shahjalal International Airport">Hazrat Shahjalal International Airport</option>
                                                 <option value="Shah Amanat International Airport">Shah Amanat International Airport</option>
                                                 <option value="Osmani International Airport">Osmani International Airport</option>
@@ -179,7 +179,7 @@
 
                                         <div class="mb-3">
                                             <label for="flightNo" class="form-label" id="flightNoLabel">Flight No</label><span class="astrick">*</span>
-                                            <input type="text" class="form-control" id="example1" name="flightNo" placeholder="Enter Flight  No Ex:BG 805">
+                                            <input type="text" class="form-control" id="example1" name="flightNo" placeholder="Enter Flight  No Ex:BG 805" required>
                                         </div>
 
                                         <div class="mb-3">
@@ -494,7 +494,7 @@
 
                             <div class="mb-3">
                                 <label for="flightNo" class="form-label" id="flightNoLabel">Flight No</label><span class="astrick">*</span>
-                                <input type="text" class="form-control" name="flightNo" th:value="${baggageDetails['flight_no']}" placeholder="Enter Flight No (Ex: BG 805)" >
+                                <input type="text" class="form-control" name="flightNo" th:value="${baggageDetails['flight_no']}" placeholder="Enter Flight No (Ex: BG 805)" required>
                             </div>
 
                             <div class="mb-3">
@@ -681,7 +681,7 @@
                                 <p class="fw-bold">More than one of any goods (More than two for cellular phone) which are duty free including Gold<span class="astrick">*</span> <button type="button" class="btn btn-success" id="openFileButton">View Goods List on Baggage Rule</button></p>
                                 <div class="d-flex justify-content-start mb-3">
                                     <div class="col-sm-6">
-                                            <select class="form-select" aria-label="Default select example"  id="dropdownSelect" >
+                                            <select class="form-select" aria-label="Default select example"  id="dropdownSelect" required>
                                                 <option value="--Please Select--"> --Please Select-- </option>
                                                 <option value="YES" >YES</option>
                                                 <option value="NO" >NO</option>
