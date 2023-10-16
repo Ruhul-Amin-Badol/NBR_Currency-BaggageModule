@@ -55,6 +55,28 @@ public class baggageController {
         return "baggage";
     }
 
+     //rejected baggage list by nitol
+    @GetMapping("/rejected-baggage-list")
+    public String rejectBaggage(Model model) {
+        String sql1 = "SELECT * FROM baggage where status=?";
+        List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,"rejected");
+        model.addAttribute("baggageshow", productshow);
+
+        return "baggage_reject";
+    }
+
+    //approve baggage list by nitol
+
+    @GetMapping("/approve-baggage-list")
+    public String approveBaggage( Model model) {
+        String sql1 = "SELECT * FROM baggage where status=?";
+        List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,"approved");
+        model.addAttribute("baggageshow", productshow);
+
+        return "baggage_approve";
+    }
+
+
     // -----> baggage insert <-----//
     @PostMapping("/baggageInsert")
     public String insertBaggage(
@@ -420,8 +442,6 @@ public class baggageController {
           model.addAttribute("showProduct", productshow);
            
         return "confirmPage";
-
-
      
     }
 
