@@ -287,8 +287,8 @@
         <!-- <td style="text-align:center;">
         <img alt="testing" style="width: 200px; margin-top: 20px;height:80px;" src="sr-bar_code/barcode/barcode.php?codetype=Code39&amp;size=40&amp;text=1234567890&amp;print=true">
         </td> -->
-        <div class="d-flex justify-content-center mt-2" >
-            <svg id="barcode"></svg>
+        <div class="d-flex justify-content-center mt-2" id="qrcode">
+           
         </div>
         <div class="d-flex justify-content-center">
             <div id="barcode-value" class="fw-bold"></div>
@@ -306,6 +306,18 @@
     <button type="button" class="btn btn-primary btn-lg my-2" onclick="redirectToConfirmPage()">Confirm</button>
 </div>
 <script>
+
+function qrcode() {
+          console.log("fahim");
+            // Get the current page's URL
+            var currentURL = window.location.href;
+
+            // Generate the QR code using an online service (qr.js)
+            var qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?data=" + encodeURIComponent(currentURL) + "&size=128x128";
+            
+            // Display the QR code image
+            $("#qrcode").html('<img src="' + qrCodeUrl + '" alt="QR Code" />');
+        };
 	
     function custom_print(){
     document.getElementById('print_id').style.display='none';
@@ -320,6 +332,8 @@
     }
 
     function redirectToHomePage() {
+
+        
             
             // Get the id value from the hidden input field
             var id = document.getElementById("go_back").value;
@@ -343,7 +357,7 @@
     var barcodeValueElement = document.getElementById("barcode-value");
     barcodeValueElement.textContent = idValue;
 }
-window.onload = generateBarcode;
+window.onload = qrcode;
 </script> 
 
 <div th:replace="~{layout/footer}"></div>

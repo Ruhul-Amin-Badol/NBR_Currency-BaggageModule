@@ -20,8 +20,14 @@ function populateTable() {
     newRow.append(`<td>${item.totalValue}</td>`);
     newRow.append(`<td>${item.tax}</td>`);
     newRow.append(`<td>${item.taxAmount}</td>`);
+    // newRow.append(
+    //   `<td  class="text-center text-danger"><i class="fa-solid fa-xmark delete-button"></i></td>`
+    // );
     newRow.append(
-      `<td onClick="DeleteProduct(${item.id})" class="text-center text-danger"><i class="fa-solid fa-xmark delete-button"></i></td>`
+      `<td  class="text-center text-danger"><button onClick="EditProduct(${item.id})" type="button" class="btn btn-primary" id="addButton">Edit</button></td>`
+    );
+    newRow.append(
+      `<td  class="text-center text-danger"><button onClick="DeleteProduct(${item.id})" type="button" class="btn btn-danger" id="addButton">Delete</button></td>`
     );
     let toatal=item.taxAmount
     totalTax += parseFloat(toatal);
@@ -36,7 +42,16 @@ function populateTable() {
 
 //-----> Product add button pass value for post request and show second table<----//
 $("#addButton").click(function () {
-  event.preventDefault();
+  
+  var deleteId = parseInt(document.getElementById('deleteidhidden').value);
+  
+   if( document.getElementById('addButton').innerText=="Update"){
+    DeleteAfterEdit(deleteId)
+    addData = addData.filter((obj) => obj.id !== deleteId);
+ 
+
+   }
+  document.getElementById('addButton').innerText = "Add";
 
   // Get input field values
   const baggageID = $("#baggageID").val();
@@ -74,7 +89,7 @@ $("#addButton").click(function () {
     success: function (response) {
       console.log(response);
       data.id = response;
-      console.log(data);
+      
       populateTable();
       $("#inchi").val("");
       $("#quantity").val("");
@@ -92,7 +107,9 @@ $("#addButton").click(function () {
 
 //-------> for delete product row ajax function<-----//
 function DeleteProduct(idToDelete) {
+  
   addData = addData.filter((obj) => obj.id !== idToDelete);
+  console.log(idToDelete)
   const delete1 = {
     idToDelete,
   };
@@ -102,13 +119,54 @@ function DeleteProduct(idToDelete) {
     contentType: "application/json",
     data: JSON.stringify(delete1),
     success: function (response) {
-      console.log(response);
+      
     },
     error: function (error) {
       console.error(error);
     },
   });
   populateTable();
+}
+function DeleteAfterEdit(idToDelete) {
+
+  const delete1 = {
+    idToDelete,
+  };
+  $.ajax({
+    url: "http://localhost:8080/baggagestart/productDelete",
+    type: "POST",
+    contentType: "application/json",
+    data: JSON.stringify(delete1),
+    success: function (response) {
+      console.log("hi i am deleted",idToDelete);
+    },
+    error: function (error) {
+      console.error(error);
+    },
+  });
+  
+}
+function EditProduct(idToDelete) {
+  for (let i = 0; i < addData.length; i++) {
+    if (addData[i].id === idToDelete) {
+      document.getElementById('productName').value = addData[i].productName;
+      document.getElementById('unit').value = addData[i].unit;
+      document.getElementById('inchi').value = addData[i].inchi;
+      document.getElementById('quantity').value = addData[i].quantity;
+      document.getElementById('perUnitValue').value = addData[i].perUnitValue;
+      document.getElementById('totalValue').value = addData[i].totalValue;
+      document.getElementById('tax').value = addData[i].tax;
+      document.getElementById('taxAmount').value = addData[i].taxAmount;
+      document.getElementById('deleteidhidden').value = idToDelete;
+      document.getElementById('addButton').innerText = "Update";
+      // DeleteAfterEdit(idToDelete);
+    
+    
+      
+      return; // If found, exit the loop
+    }
+  }
+
 }
 
 //--------> product Field fatch and auto show in field value<-----------//
@@ -121,7 +179,7 @@ function fetchProductData() {
   var selectedProductName = $("#productName").val();
 
   if (selectedProductName !== "--Please Select--") {
-    console.log("Hi i am here");
+   
     // Make an AJAX request to fetch product data based on the selected product name
     $.ajax({
       url: "http://localhost:8080/baggagestart/getProductData",
@@ -179,7 +237,7 @@ document.addEventListener("DOMContentLoaded", function () {
   //---> valueStay controller id pass <--//
   // Get the value of the 'generatedId' parameter
   const baggageId = document.getElementById("baggageID").value;
-  console.log(baggageId);
+
   $.ajax({
     url: "http://localhost:8080/baggagestart/valueStay", // Your AJAX endpoint
     type: "POST",
@@ -187,8 +245,11 @@ document.addEventListener("DOMContentLoaded", function () {
     success: function (data) {
       // Handle the AJAX response here
       console.log(data);
-      if (data) {
+  
+      if (!(data.length === 0)) {
         $("#table2").show();
+        $("#table1").show();
+        document.getElementById('dropdownSelect').value='YES';
       }
       data.forEach(function (item) {
         // Extract data from each item and add it to the addData array
