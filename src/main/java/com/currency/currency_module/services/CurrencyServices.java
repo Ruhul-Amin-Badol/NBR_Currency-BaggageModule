@@ -56,6 +56,35 @@ public class CurrencyServices {
         currencyDeclarationRepository.save(existingCurrencyDeclaration);
     }
 
+    public void approveCurrencyUpdate(CurrencyDeclaration updatedapproveCurrencyDeclaration,String usernameSession) {
+      System.out.println("===================================="+updatedapproveCurrencyDeclaration.getId());
+        // Retrieve the existing currency declaration by its ID or any unique identifier
+        CurrencyDeclaration existingCurrencyDeclaration = currencyDeclarationRepository.findById(updatedapproveCurrencyDeclaration.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Currency Declaration not found"));
+    
+        // Update the properties of the existing entity with the updated data
+        existingCurrencyDeclaration.setEntryBy(usernameSession);
+        existingCurrencyDeclaration.setConfNote(updatedapproveCurrencyDeclaration.getConfNote());
+        existingCurrencyDeclaration.setStatus("checked");
+    
+        // Save the updated entity back to the database
+        currencyDeclarationRepository.save(existingCurrencyDeclaration);
+    }//
+
+    public void unapproveCurrencyUpdate(CurrencyDeclaration updatedUnapproveCurrencyDeclaration,String usernameSession) {
+      System.out.println("===================================="+updatedUnapproveCurrencyDeclaration.getId());
+        // Retrieve the existing currency declaration by its ID or any unique identifier
+        CurrencyDeclaration existingCurrencyDeclaration = currencyDeclarationRepository.findById(updatedUnapproveCurrencyDeclaration.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Currency Declaration not found"));
+    
+        // Update the properties of the existing entity with the updated data
+        existingCurrencyDeclaration.setConfNote(updatedUnapproveCurrencyDeclaration.getConfNote());
+        existingCurrencyDeclaration.setEntryBy(usernameSession);
+        existingCurrencyDeclaration.setStatus("rejected");
+    
+        // Save the updated entity back to the database
+        currencyDeclarationRepository.save(existingCurrencyDeclaration);
+    }
 
     public BaggageCurrencyAdd addCurrency(BaggageCurrencyAdd addCurrency) {
       return currencyAddRepository.save(addCurrency);
