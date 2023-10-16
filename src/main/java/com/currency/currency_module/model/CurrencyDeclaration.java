@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Transient;
 import jakarta.persistence.Table;
 
 import java.sql.Timestamp;
@@ -83,8 +84,11 @@ public class CurrencyDeclaration {
 
     @Column(name = "entry_by")
     private Long entryBy;
-
+    
+    @Transient
     private String otherNationality;
+
+
 
     public Long getId() {
         return this.id;
@@ -268,6 +272,14 @@ public class CurrencyDeclaration {
 
     public void setEntryBy(Long entryBy) {
         this.entryBy = entryBy;
+    }
+
+    public String getOtherNationality() {
+        return this.otherNationality;
+    }
+
+    public void setOtherNationality(String otherNationality) {
+        this.otherNationality = otherNationality;
     }
 
 
