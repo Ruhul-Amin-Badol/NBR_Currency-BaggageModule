@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.currency.currency_module.model.BaggageCurrencyAdd;
 import com.currency.currency_module.model.CurrencyDeclaration;
 import com.currency.currency_module.repository.CurrencyAddRepository;
+import com.currency.currency_module.repository.CurrencyDeclarationRepository;
 import com.currency.currency_module.services.CurrencyServices;
 
 
@@ -32,6 +33,8 @@ public class currencyController {
     CurrencyServices currencyServices;
     @Autowired
     CurrencyAddRepository currencyAddRepository;
+    @Autowired 
+   CurrencyDeclarationRepository currencyDeclarationRepository;
 
     @GetMapping("/show")
     public String index() {
@@ -84,6 +87,12 @@ public class currencyController {
     @GetMapping("/currencyview")
     public String currencyview(){
         return "currencyView";
+    }
+    @PostMapping("/currencyformStay")
+    @ResponseBody
+    public List<BaggageCurrencyAdd> currencyformStaty(@RequestParam Long currencyId){
+      
+        return currencyAddRepository.findAllByCurrencyId(currencyId);
     }
 
     @PostMapping("/finalsubmit")
@@ -165,6 +174,56 @@ public class currencyController {
         // model.addAttribute("Baggagecurrency",listcurrency);
         return "generalform";
     }
+
+
+
+
+
+
+    
+//This code is Implemented By Fahim
+    ///unchecked Status Count
+    @GetMapping("/uncheckedstatuscount")
+    @ResponseBody
+    public long uncheckedstatuscount(){
+        //  CurrencyDeclaration currencydata=currencyServices.findcurrency(id);
+        //  List<BaggageCurrencyAdd> listcurrency= currencyServices.baggagecurrecylist(id);
+        //  model.addAttribute("Currency",currencydata);
+        // model.addAttribute("Baggagecurrency",listcurrency);
+        return currencyDeclarationRepository.countByStatus("unchecked");
+
+    }
+    @GetMapping("/checkedstatuscount")
+    @ResponseBody
+    public long checkedstatuscount(){
+        //  CurrencyDeclaration currencydata=currencyServices.findcurrency(id);
+        //  List<BaggageCurrencyAdd> listcurrency= currencyServices.baggagecurrecylist(id);
+        //  model.addAttribute("Currency",currencydata);
+        // model.addAttribute("Baggagecurrency",listcurrency);
+        return currencyDeclarationRepository.countByStatus("unchecked");
+
+    }
+    @GetMapping("/rejectedstatuscount")
+    @ResponseBody
+    public long rejectedstatuscount(){
+        //  CurrencyDeclaration currencydata=currencyServices.findcurrency(id);
+        //  List<BaggageCurrencyAdd> listcurrency= currencyServices.baggagecurrecylist(id);
+        //  model.addAttribute("Currency",currencydata);
+        // model.addAttribute("Baggagecurrency",listcurrency);
+        return currencyDeclarationRepository.countByStatus("rejected");
+
+    }
+    @GetMapping("/allstatuscount")
+    @ResponseBody
+    public long allstatuscount(){
+        //  CurrencyDeclaration currencydata=currencyServices.findcurrency(id);
+        //  List<BaggageCurrencyAdd> listcurrency= currencyServices.baggagecurrecylist(id);
+        //  model.addAttribute("Currency",currencydata);
+        // model.addAttribute("Baggagecurrency",listcurrency);
+        return currencyDeclarationRepository.count();
+
+    }
+
 
 
 }

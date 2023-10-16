@@ -58,8 +58,10 @@ public class SecurityConfig {
 
                     .requestMatchers(HttpMethod.GET, "/currencystart/*").permitAll()
                     .requestMatchers(HttpMethod.POST, "/currencystart/currencyUpdate").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/currencystart/currencyformStay").permitAll()
                     .requestMatchers(HttpMethod.GET, "/currencystart/finalsubmiform").permitAll()
                     .requestMatchers(HttpMethod.GET, "/").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/profile").permitAll()
                     .requestMatchers(HttpMethod.GET, "/currencystart/finalsubmit").permitAll()
                     .requestMatchers(HttpMethod.GET, "/currencystart/showapprovedcurrencyform").permitAll()
                     .requestMatchers(HttpMethod.POST, "/currencystart/showapprovedcurrencyform").permitAll()

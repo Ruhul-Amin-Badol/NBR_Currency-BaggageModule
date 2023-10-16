@@ -1,5 +1,7 @@
 
 <div th:replace="~{layout/support}"></div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
                 <div class='container-fluid' >
                     <div class="d-flex justify-content-end gap-2 py-3 fw-bold"> <p>Select Language</p>
                         <button type="button" class="btn btn-danger" onclick="toggleLanguage('bangla')">BN</button>
@@ -10,7 +12,7 @@
                             <h1 class="fw-bold text-center text-success">Currency Declaration Form</h1>
                  <div>
                         <form th:action="@{/currencystart/currencyUpdate}"  method="post" th:object="${currencyDeclaration}" id="myForm">
-                            <input type="hidden" id="id" name="id" th:value="${currencyDeclaration.id}"/>
+                            <input type="hidden" id="currencyId" name="id" th:value="${currencyDeclaration.id}"/>
                             <div class="container p-3 bg-light">
                                 <div class="row">
                                     <div class="col-sm-6">
@@ -347,8 +349,11 @@
                                         <thead class="bg-danger">
                                             <tr>
                                                 <th scope="col">Description Of Currency</th>                                    
+                                                <th scope="col">Note Type</th>                                    
+                                                <th scope="col">Number of Note</th>                                    
                                                 <th scope="col"> Amount</th>
                                                 <th scope="col">Action</th>
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -523,8 +528,12 @@
                                                         <option value="ZWB" label="Zimbabwean bonds">ZWB</option>
                                                     </select>
                                                 </td>
-                                                <td><input type="text" class="form-control" id="currencyAmount" name="currencyAmount"></td>
-                                                <td><button type="button" class="btn btn-success" id="addButton">Add</button></td>
+                                                <td><input type="text" class="form-control" id="currencyNoteType" name="currencyNoteType" onKeyUp="Note_calc()"></td>
+                                                <td><input type="text" class="form-control" id="numberOfNote" name="numberOfNote" onKeyUp="Note_calc()"></td>
+                                                <td><input type="number" class="form-control" id="currencyAmount" name="currencyAmount"></td>
+                                                <td class="d-none" ><input type="number" class="form-control" id="currencyeditId" name="currencyeditId"></td>
+
+                                                <td><button type="button" class="btn btn-success" id="addCurrencyButton">Add</button></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -535,8 +544,11 @@
                                     <thead class="bg-danger">
                                         <tr>
                                             <th scope="col">Description Of Currency</th>
+                                            <th scope="col">Note Type</th>                                    
+                                            <th scope="col">Number of Note</th>  
                                             <th scope="col">Amount</th>
-                                            <th scope="col">Action</th>
+                                            <th scope="col">Edit</th>
+                                            <th scope="col">Delete</th>
                                         </tr>
                                     </thead>
                                     <tbody>

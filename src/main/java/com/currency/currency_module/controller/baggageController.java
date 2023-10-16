@@ -333,7 +333,7 @@ public class baggageController {
             @RequestParam String idCurrency,
 
             Model model) {
-        String sql = "UPDATE baggage SET entry_point=?, passenger_name=?, passport_number=?, passport_validity_date=?, nationality=?, previous_country=?, dateofarrival=?, flight_no=?, mobile_no=?, email=?, accom_no=?, unaccom_no=?,meat_products=?,foreign_currency=? WHERE id=?";
+        String sql = "UPDATE baggage SET entry_point=?, passenger_name=?, passport_number=?, passport_validity_date=?, nationality=?, previous_country=?, dateofarrival=?, flight_no=?, mobile_no=?, email=?, accom_no=?, unaccom_no=?,meat_products=?,foreign_currency=?,status='unapproved' WHERE id=?";
            
         String otherNationality ="";
          if ("Other".equalsIgnoreCase(nationality)) {
@@ -502,6 +502,41 @@ public class baggageController {
 //         }
       
 //     }
+
+
+
+
+//Count for Baggage with 
+//This code is implemented by fahim
+@GetMapping("/countApprovedBaggage")
+@ResponseBody
+public int countApprovedBaggage() {
+    String sql = "SELECT COUNT(*) FROM baggage WHERE status = 'approved'";
+    return jdbcTemplate.queryForObject(sql, Integer.class);
+}
+@GetMapping("/countunApprovedBaggage")
+@ResponseBody
+public int countunApprovedBaggage() {
+    String sql = "SELECT COUNT(*) FROM baggage WHERE status = 'unapproved'";
+    return jdbcTemplate.queryForObject(sql, Integer.class);
+}
+@GetMapping("/countrejectedBaggage")
+@ResponseBody
+public int countrejectedBaggage() {
+    String sql = "SELECT COUNT(*) FROM baggage WHERE status = 'rejected'";
+    return jdbcTemplate.queryForObject(sql, Integer.class);
+}
+
+@GetMapping("/countAllBaggage")
+@ResponseBody
+public int countAllBaggage() {
+    String sql = "SELECT COUNT(*) FROM baggage";
+//    int yyy= 
+//    System.out.println(yyy);
+    return jdbcTemplate.queryForObject(sql, Integer.class);
+}
+
+
 
 
 

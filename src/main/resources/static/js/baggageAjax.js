@@ -245,6 +245,7 @@ document.addEventListener("DOMContentLoaded", function () {
     success: function (data) {
       // Handle the AJAX response here
       console.log(data);
+      console.log("sdjsdk");
   
       if (!(data.length === 0)) {
         $("#table2").show();
