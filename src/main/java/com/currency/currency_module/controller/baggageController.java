@@ -305,7 +305,7 @@ public class baggageController {
         String sql="SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
         List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql, baggageId);
         
-
+        
        return productshow;
     }
 

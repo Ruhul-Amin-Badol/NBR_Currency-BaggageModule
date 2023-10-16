@@ -40,31 +40,35 @@ public class currencyController {
 
     
     @GetMapping("/currencyEdit")
-    public String editCurrency(Model model) {
+    public String editCurrency(@RequestParam Long id, Model model) {
         // Retrieve the currencyDeclaration object from flash attributes
-        CurrencyDeclaration currencyDeclaration = (CurrencyDeclaration) model.asMap().get("currencyDeclaration");
+        System.out.println(id);
         
         // Add the currencyDeclaration to the model for your edit view
-        model.addAttribute("currencyDeclaration", currencyDeclaration);
+        model.addAttribute("currencyDeclaration", currencyServices.findcurrency(id));
         return "currencyEdit"; // The name of your edit view
     }
     
 
     @PostMapping("/currencyinsert")
-    public String insert(CurrencyDeclaration currencyDeclcuaration , RedirectAttributes redirectAttributes) {
-        
-        redirectAttributes.addFlashAttribute("currencyDeclaration", currencyServices.currencyInsert(currencyDeclcuaration));
-        return "redirect:/currencystart/currencyEdit";
+    public String insert(CurrencyDeclaration currencyDeclcuaration) {
+          
+    Long id=currencyServices.currencyInsert(currencyDeclcuaration).getId();
+    
+      
+        return "redirect:/currencystart/currencyEdit?id="+id;
     }
 
     @PostMapping("/currencyUpdate")
     public String updateCurrency( CurrencyDeclaration updatedCurrencyDeclaration, RedirectAttributes redirectAttributes) {
     // Perform the update operation using currencyServices
     currencyServices.currencyUpdate(updatedCurrencyDeclaration);
-
+    Long id=updatedCurrencyDeclaration.getId();
+ 
+      
     // Redirect to the edit page with a success message
-    redirectAttributes.addFlashAttribute("currencyDeclaration", updatedCurrencyDeclaration);
-    return "redirect:/currencystart/currencyEdit";
+
+    return "redirect:/currencystart/currencyEdit?id="+id;
 }
 
     @ResponseBody
@@ -91,6 +95,16 @@ public class currencyController {
        List<BaggageCurrencyAdd> listcurrency= currencyServices.baggagecurrecylist(id);
        System.out.println(listcurrency);
         model.addAttribute("Currency",updatedCurrencyDeclaration);
+        model.addAttribute("Baggagecurrency",listcurrency);
+        return "redirect:/currencystart/finalsubmiform?id="+id;
+    }
+    @GetMapping("/finalsubmiform")
+    public String currencyFinalSubmitform( @RequestParam Long id,Model model){
+     
+       
+       List<BaggageCurrencyAdd> listcurrency= currencyServices.baggagecurrecylist(id);
+       System.out.println(listcurrency);
+        model.addAttribute("Currency",currencyServices.findcurrency(id));
         model.addAttribute("Baggagecurrency",listcurrency);
         return "currencyView";
     }

@@ -91,8 +91,8 @@
                    
             </tbody>
         </table>
-     <div class="d-flex justify-content-center">
-        <svg id="barcode"></svg>
+     <div class="d-flex justify-content-center" id="qrcode">
+        
     </div>
     <div class="d-flex justify-content-center">
         <div id="barcode-value" class="fw-bold"></div>
@@ -102,7 +102,17 @@
 
     </div>
     <script>
+     function qrcode() {
+          console.log("fahim");
+            // Get the current page's URL
+            var currentURL = window.location.href;
 
+            // Generate the QR code using an online service (qr.js)
+            var qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?data=" + encodeURIComponent(currentURL) + "&size=128x128";
+            
+            // Display the QR code image
+            $("#qrcode").html('<img src="' + qrCodeUrl + '" alt="QR Code" />');
+        };
 function generateBarcode() {
     console.log("Fahim");
     // Get the value from the hidden input field
@@ -175,6 +185,8 @@ function generateBarcode() {
         
      
     }
+
+    window.onload = qrcode;
 
     
  

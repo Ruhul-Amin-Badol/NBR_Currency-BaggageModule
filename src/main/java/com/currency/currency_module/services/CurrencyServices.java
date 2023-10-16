@@ -25,6 +25,9 @@ public class CurrencyServices {
    public CurrencyDeclaration  currencyInsert(CurrencyDeclaration currencyDeclcuaration
     ){
     // currencyDeclcuaration.setContactNo(" ");
+    if(currencyDeclcuaration.getNationality().equals("Other")){
+        currencyDeclcuaration.setNationality(currencyDeclcuaration.getOtherNationality());
+    }
     currencyDeclcuaration.setStatus("manual");
     return currencyDeclarationRepository.save(currencyDeclcuaration);
 
@@ -37,6 +40,9 @@ public class CurrencyServices {
                 .orElseThrow(() -> new EntityNotFoundException("Currency Declaration not found"));
     
         // Update the properties of the existing entity with the updated data
+         if(updatedCurrencyDeclaration.getNationality().equals("Other")){
+        updatedCurrencyDeclaration.setNationality(updatedCurrencyDeclaration.getOtherNationality());
+           }
         existingCurrencyDeclaration.setPassengerName(updatedCurrencyDeclaration.getPassengerName());
         existingCurrencyDeclaration.setPassportNumber(updatedCurrencyDeclaration.getPassportNumber());
         existingCurrencyDeclaration.setPassportIssueDate(updatedCurrencyDeclaration.getPassportIssueDate());
