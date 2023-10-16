@@ -39,7 +39,11 @@
                                         <div class="mb-3">
                                             <label for="nationality" class="form-label" id="nationalityLabel">Nationality</label>
                                             <select class="form-select" name="nationality"  id="nationality" th:value="${currencyDeclaration.nationality}" required>
-                                              <option value="Bangladesh" >Bangladesh</option>
+                                              <!-- <option value="Bangladesh"  th:value="${currencyDeclaration.nationality}" >Bangladesh</option> -->
+                                    <option th:if="${currencyDeclaration.nationality == 'Other'}" value="Other" th:selected="selected">Other</option>
+                                    <option th:unless="${currencyDeclaration.nationality == 'Other'}" th:value="${currencyDeclaration.nationality}"
+                                    th:selected="selected">[[${currencyDeclaration.nationality}]]</option>
+
                                               <option value="Other" >Other</option>
                                             </select>
                                           </div>

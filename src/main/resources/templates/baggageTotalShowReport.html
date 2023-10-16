@@ -90,8 +90,23 @@
                 
          </tbody>
      </table>
+     <div class="d-flex justify-content-center mt-2" id="qrcode">
+        
+     </div>
+      
 
      <script>
+
+$(document).ready(function () {
+            // Get the current page's URL
+            var currentURL = window.location.href;
+
+            // Generate the QR code using an online service (qr.js)
+            var qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?data=" + encodeURIComponent(currentURL) + "&size=128x128";
+            
+            // Display the QR code image
+            $("#qrcode").html('<img src="' + qrCodeUrl + '" alt="QR Code" />');
+        });
         // function redirectToHomePage() {
             
         //     // Get the id value from the hidden input field
