@@ -3,15 +3,17 @@ package com.currency.currency_module.controller;
 
 
 
+import java.security.Principal;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,6 +37,9 @@ public class currencyController {
     CurrencyAddRepository currencyAddRepository;
     @Autowired 
    CurrencyDeclarationRepository currencyDeclarationRepository;
+
+    @Autowired
+    CurrencyDeclarationRepository currencyDeclarationRepository;
 
     @GetMapping("/show")
     public String index() {
@@ -78,8 +83,8 @@ public class currencyController {
     @PostMapping("/addCurrency")
     public BaggageCurrencyAdd addCurrency(@RequestBody BaggageCurrencyAdd addCurrency){
        
-        System.out.println(addCurrency.getCurrencyName());
-        System.out.println(currencyServices.addCurrency(addCurrency).getId());
+        // System.out.println(addCurrency.getCurrencyName());
+        // System.out.println(currencyServices.addCurrency(addCurrency).getId());
         
         return currencyServices.addCurrency(addCurrency);
     }
@@ -98,11 +103,11 @@ public class currencyController {
     @PostMapping("/finalsubmit")
     public String currencyFinalSubmit( CurrencyDeclaration updatedCurrencyDeclaration,Model model){
        currencyServices.currencyUpdate(updatedCurrencyDeclaration);
-       System.out.println(updatedCurrencyDeclaration.getPassportIssueDate());
+       //System.out.println(updatedCurrencyDeclaration.getPassportIssueDate());
         Long id=updatedCurrencyDeclaration.getId();
-        System.out.println(id);
+       // System.out.println(id);
        List<BaggageCurrencyAdd> listcurrency= currencyServices.baggagecurrecylist(id);
-       System.out.println(listcurrency);
+      // System.out.println(listcurrency);
         model.addAttribute("Currency",updatedCurrencyDeclaration);
         model.addAttribute("Baggagecurrency",listcurrency);
         return "redirect:/currencystart/finalsubmiform?id="+id;
@@ -120,44 +125,114 @@ public class currencyController {
     @PostMapping("/delete")
     @ResponseBody
     public void deleTecurrency(@RequestBody BaggageCurrencyAdd baggageCurrencyAdd){
-        System.out.println();
+       // System.out.println();
         currencyAddRepository.deleteById(baggageCurrencyAdd.getId());
-        System.out.println("Success");
+       // System.out.println("Success");
     }
+
     @GetMapping("/unapprovedcurrency")
     @ResponseBody
     public List<CurrencyDeclaration> unapprovedcurrency(){
-        System.out.println();
+       // System.out.println();
        
       return currencyServices.unapprovedcurrency();
 
     }
+
+
+
+
+
     @GetMapping("/showunapprovedcurrency")
     public String showunapprovedcurrency(){
-        System.out.println();
-       
+        //System.out.println();
       return "dashboarddatatable";
 
     }
+
+
+    @GetMapping("/unapprove-currency")
+    public String unapproveCurrency(Model model){
+        List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatus("unchecked");
+         model.addAttribute("unapproveCurrency",listCurrencyDeclaration);
+        return "currency_unapprove";
+    }
+
+    @GetMapping("/approve-currency")
+    public String approveCurrency(Model model){
+        List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatus("checked");
+         model.addAttribute("approveCurrency",listCurrencyDeclaration);
+        return "currency_approve";
+    }
+    @GetMapping("/reject-currency")
+    public String rejectCurrency(Model model){
+        List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatus("rejected");
+         model.addAttribute("unapproveCurrency",listCurrencyDeclaration);
+        return "currency_reject";
+    }
+
+    @GetMapping("/total-currency-application")
+    public String totalCurrency(Model model){
+        List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findAll();
+         model.addAttribute("unapproveCurrency",listCurrencyDeclaration);
+        return "currency_total";
+    }
+    
+
     @GetMapping("/showapprovedcurrencyform")
     public String showapprovedcurrencyform( @RequestParam Long id,Model model){
         CurrencyDeclaration currencydata=currencyServices.findcurrency(id);
          List<BaggageCurrencyAdd> listcurrency= currencyServices.baggagecurrecylist(id);
          model.addAttribute("Currency",currencydata);
         model.addAttribute("Baggagecurrency",listcurrency);
-
        
       return "currencyConfirmPage";
 
     }
 
 
+        @GetMapping("/show-currency-details")
+    public String showCurrencyDetails( @RequestParam Long id,Model model){
+        CurrencyDeclaration currencydata=currencyServices.findcurrency(id);
+         List<BaggageCurrencyAdd> listcurrency= currencyServices.baggagecurrecylist(id);
+         model.addAttribute("Currency",currencydata);
+        model.addAttribute("Baggagecurrency",listcurrency);
+       
+      return "currency_reject_approve_page";
+
+    }
+   
+    @PostMapping("/currenc_approve_update")
+    public String currencApproveUpdate( CurrencyDeclaration updatedApproveCurrencyDeclaration, Principal principal) {
+    // Perform the update operation using currencyServices
+    //System.out.println("===============================================currenc_approve_reject_update");
+        String usernameSession=principal.getName();
+    currencyServices.approveCurrencyUpdate(updatedApproveCurrencyDeclaration,usernameSession);
+
+
+    // Redirect to the edit page with a success message
+    //redirectAttributes.addFlashAttribute("currencyDeclaration", updatedCurrencyDeclaration);
+    return "redirect:/currencystart/unapprove-currency";
+}
+
+    @PostMapping("/currency_unapprove_update")
+    public String currencyUnapproveUpdate( CurrencyDeclaration updatedUnapproveCurrencyDeclaration,Principal principal) {
+        // Perform the update operation using currencyServices
+         String usernameSession=principal.getName();
+        currencyServices.unapproveCurrencyUpdate(updatedUnapproveCurrencyDeclaration,usernameSession);
+
+        // Redirect to the edit page with a success message
+        //redirectAttributes.addFlashAttribute("currencyDeclaration", updatedCurrencyDeclaration);
+        return "redirect:/currencystart/unapprove-currency";
+    }
+
+
     @GetMapping("/confirmgenaral")
     public String showconfirmgenaral( @RequestParam Long id,Model model){
-        // CurrencyDeclaration currencydata=currencyServices.findcurrency(id);
+        //  CurrencyDeclaration currencydata=currencyServices.findcurrency(id);
         //  List<BaggageCurrencyAdd> listcurrency= currencyServices.baggagecurrecylist(id);
         //  model.addAttribute("Currency",currencydata);
-        // model.addAttribute("Baggagecurrency",listcurrency);
+        //  model.addAttribute("Baggagecurrency",listcurrency);
 
        
       return "fahim";
