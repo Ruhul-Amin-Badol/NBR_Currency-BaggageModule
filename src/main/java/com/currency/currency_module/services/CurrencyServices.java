@@ -1,7 +1,7 @@
 package com.currency.currency_module.services;
 
 import java.util.List;
-import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import com.currency.currency_module.repository.CurrencyAddRepository;
 import com.currency.currency_module.repository.CurrencyDeclarationRepository;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
+
 
 @Service
 public class CurrencyServices {

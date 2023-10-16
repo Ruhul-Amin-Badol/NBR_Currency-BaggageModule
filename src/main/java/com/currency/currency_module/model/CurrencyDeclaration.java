@@ -87,7 +87,6 @@ public class CurrencyDeclaration {
     private String entryBy;
 
 
-    private Long entryBy;
     
     @Transient
 
