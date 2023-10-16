@@ -83,9 +83,13 @@ public class CurrencyDeclaration {
     private String rejectedAt;
 
     @Column(name = "entry_by")
-    private Long entryBy;
+
+    private String entryBy;
+
+
     
     @Transient
+
     private String otherNationality;
 
 
@@ -266,11 +270,11 @@ public class CurrencyDeclaration {
         this.rejectedAt = rejectedAt;
     }
 
-    public Long getEntryBy() {
+    public String getEntryBy() {
         return this.entryBy;
     }
 
-    public void setEntryBy(Long entryBy) {
+    public void setEntryBy(String entryBy) {
         this.entryBy = entryBy;
     }
 

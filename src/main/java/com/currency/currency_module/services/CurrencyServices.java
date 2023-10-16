@@ -1,7 +1,7 @@
 package com.currency.currency_module.services;
 
 import java.util.List;
-import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import com.currency.currency_module.repository.CurrencyAddRepository;
 import com.currency.currency_module.repository.CurrencyDeclarationRepository;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
+
 
 @Service
 public class CurrencyServices {
@@ -62,6 +62,35 @@ public class CurrencyServices {
         currencyDeclarationRepository.save(existingCurrencyDeclaration);
     }
 
+    public void approveCurrencyUpdate(CurrencyDeclaration updatedapproveCurrencyDeclaration,String usernameSession) {
+      System.out.println("===================================="+updatedapproveCurrencyDeclaration.getId());
+        // Retrieve the existing currency declaration by its ID or any unique identifier
+        CurrencyDeclaration existingCurrencyDeclaration = currencyDeclarationRepository.findById(updatedapproveCurrencyDeclaration.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Currency Declaration not found"));
+    
+        // Update the properties of the existing entity with the updated data
+        existingCurrencyDeclaration.setEntryBy(usernameSession);
+        existingCurrencyDeclaration.setConfNote(updatedapproveCurrencyDeclaration.getConfNote());
+        existingCurrencyDeclaration.setStatus("checked");
+    
+        // Save the updated entity back to the database
+        currencyDeclarationRepository.save(existingCurrencyDeclaration);
+    }//
+
+    public void unapproveCurrencyUpdate(CurrencyDeclaration updatedUnapproveCurrencyDeclaration,String usernameSession) {
+      System.out.println("===================================="+updatedUnapproveCurrencyDeclaration.getId());
+        // Retrieve the existing currency declaration by its ID or any unique identifier
+        CurrencyDeclaration existingCurrencyDeclaration = currencyDeclarationRepository.findById(updatedUnapproveCurrencyDeclaration.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Currency Declaration not found"));
+    
+        // Update the properties of the existing entity with the updated data
+        existingCurrencyDeclaration.setConfNote(updatedUnapproveCurrencyDeclaration.getConfNote());
+        existingCurrencyDeclaration.setEntryBy(usernameSession);
+        existingCurrencyDeclaration.setStatus("rejected");
+    
+        // Save the updated entity back to the database
+        currencyDeclarationRepository.save(existingCurrencyDeclaration);
+    }
 
     public BaggageCurrencyAdd addCurrency(BaggageCurrencyAdd addCurrency) {
       return currencyAddRepository.save(addCurrency);
@@ -79,27 +108,27 @@ public class CurrencyServices {
 public CurrencyDeclaration findcurrency(Long id) {
   return currencyDeclarationRepository.findById(id).orElseThrow(()->new ResourceNotFound("User not found"));
 }
-@Transactional
-public void updateStatusToProcessing(Long id) {
-  // Fetch the entity by its ID
-  CurrencyDeclaration currency = currencyDeclarationRepository.findById(id).orElse(null);
+// @Transactional
+// public void updateStatusToProcessing(Long id) {
+//   // Fetch the entity by its ID
+//   CurrencyDeclaration currency = currencyDeclarationRepository.findById(id).orElse(null);
 
-  if (currency != null) {
-    // Update the "status" column value to "processing"
-    currency.setStatus("processing");
-    currencyDeclarationRepository.save(currency);
-  }
-}
+//   if (currency != null) {
+//     // Update the "status" column value to "processing"
+//     currency.setStatus("processing");
+//     currencyDeclarationRepository.save(currency);
+//   }
+// }
 
-@Transactional
-public void updateCurrencyStatusToUnchecked(Long id) {
-    CurrencyDeclaration currency = currencyDeclarationRepository.findById(id).orElse(null);
+// @Transactional
+// public void updateCurrencyStatusToUnchecked(Long id) {
+//     CurrencyDeclaration currency = currencyDeclarationRepository.findById(id).orElse(null);
 
-    if (currency != null) {
-        // Update the "status" column value to "unchecked"
-        currency.setStatus("unchecked");
-        currencyDeclarationRepository.save(currency);
-}
-}
+//     if (currency != null) {
+//         // Update the "status" column value to "unchecked"
+//         currency.setStatus("unchecked");
+//         currencyDeclarationRepository.save(currency);
+// }
+// }
 
 }
