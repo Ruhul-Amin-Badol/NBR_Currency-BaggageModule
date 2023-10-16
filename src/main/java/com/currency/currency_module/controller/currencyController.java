@@ -101,6 +101,7 @@ public class currencyController {
         currencyAddRepository.deleteById(baggageCurrencyAdd.getId());
         System.out.println("Success");
     }
+
     @GetMapping("/unapprovedcurrency")
     @ResponseBody
     public List<CurrencyDeclaration> unapprovedcurrency(){
@@ -109,6 +110,7 @@ public class currencyController {
       return currencyServices.unapprovedcurrency();
 
     }
+
     @GetMapping("/showunapprovedcurrency")
     public String showunapprovedcurrency(){
         System.out.println();
@@ -116,6 +118,7 @@ public class currencyController {
       return "dashboarddatatable";
 
     }
+    
     @GetMapping("/showapprovedcurrencyform")
     public String showapprovedcurrencyform( @RequestParam Long id,Model model){
         CurrencyDeclaration currencydata=currencyServices.findcurrency(id);
@@ -131,10 +134,10 @@ public class currencyController {
 
     @GetMapping("/confirmgenaral")
     public String showconfirmgenaral( @RequestParam Long id,Model model){
-        // CurrencyDeclaration currencydata=currencyServices.findcurrency(id);
+        //  CurrencyDeclaration currencydata=currencyServices.findcurrency(id);
         //  List<BaggageCurrencyAdd> listcurrency= currencyServices.baggagecurrecylist(id);
         //  model.addAttribute("Currency",currencydata);
-        // model.addAttribute("Baggagecurrency",listcurrency);
+        //  model.addAttribute("Baggagecurrency",listcurrency);
 
        
       return "fahim";
