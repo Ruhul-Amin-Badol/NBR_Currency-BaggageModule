@@ -35,9 +35,8 @@ public class currencyController {
     CurrencyServices currencyServices;
     @Autowired
     CurrencyAddRepository currencyAddRepository;
-
-    @Autowired
-    CurrencyDeclarationRepository currencyDeclarationRepository;
+    @Autowired 
+   CurrencyDeclarationRepository currencyDeclarationRepository;
 
     @GetMapping("/show")
     public String index() {
@@ -90,6 +89,12 @@ public class currencyController {
     @GetMapping("/currencyview")
     public String currencyview(){
         return "currencyView";
+    }
+    @PostMapping("/currencyformStay")
+    @ResponseBody
+    public List<BaggageCurrencyAdd> currencyformStaty(@RequestParam Long currencyId){
+      
+        return currencyAddRepository.findAllByCurrencyId(currencyId);
     }
 
     @PostMapping("/finalsubmit")
@@ -241,6 +246,44 @@ public class currencyController {
         // model.addAttribute("Baggagecurrency",listcurrency);
         return "generalform";
     }
+
+
+
+
+
+
+
+//This code is Implemented By Fahim
+    ///unchecked Status Count
+    @GetMapping("/uncheckedstatuscount")
+    @ResponseBody
+    public long uncheckedstatuscount(){
+       
+        return currencyDeclarationRepository.countByStatus("unchecked");
+
+    }
+    @GetMapping("/checkedstatuscount")
+    @ResponseBody
+    public long checkedstatuscount(){
+
+        return currencyDeclarationRepository.countByStatus("unchecked");
+
+    }
+    @GetMapping("/rejectedstatuscount")
+    @ResponseBody
+    public long rejectedstatuscount(){
+       
+        return currencyDeclarationRepository.countByStatus("rejected");
+
+    }
+    @GetMapping("/allstatuscount")
+    @ResponseBody
+    public long allstatuscount(){
+       
+        return currencyDeclarationRepository.count();
+
+    }
+
 
 
 }
