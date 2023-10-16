@@ -133,7 +133,7 @@ public class currencyController {
 
 
 
-//nitol
+
 
     @GetMapping("/showunapprovedcurrency")
     public String showunapprovedcurrency(){
@@ -142,7 +142,7 @@ public class currencyController {
 
     }
 
-//nitol
+
     @GetMapping("/unapprove-currency")
     public String unapproveCurrency(Model model){
         List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatus("unchecked");
@@ -156,9 +156,19 @@ public class currencyController {
          model.addAttribute("approveCurrency",listCurrencyDeclaration);
         return "currency_approve";
     }
+    @GetMapping("/reject-currency")
+    public String rejectCurrency(Model model){
+        List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatus("rejected");
+         model.addAttribute("unapproveCurrency",listCurrencyDeclaration);
+        return "currency_reject";
+    }
 
-
-
+    @GetMapping("/total-currency-application")
+    public String totalCurrency(Model model){
+        List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findAll();
+         model.addAttribute("unapproveCurrency",listCurrencyDeclaration);
+        return "currency_total";
+    }
     
 
     @GetMapping("/showapprovedcurrencyform")
