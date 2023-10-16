@@ -38,9 +38,6 @@ public class currencyController {
     @Autowired 
    CurrencyDeclarationRepository currencyDeclarationRepository;
 
-    @Autowired
-    CurrencyDeclarationRepository currencyDeclarationRepository;
-
     @GetMapping("/show")
     public String index() {
         return "currency";
@@ -255,7 +252,7 @@ public class currencyController {
 
 
 
-    
+
 //This code is Implemented By Fahim
     ///unchecked Status Count
     @GetMapping("/uncheckedstatuscount")
