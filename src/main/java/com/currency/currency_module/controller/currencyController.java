@@ -141,8 +141,10 @@ public class currencyController {
 
 
     @GetMapping("/showunapprovedcurrency")
-    public String showunapprovedcurrency(){
+    public String showunapprovedcurrency(Model model){
         //System.out.println();
+        List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatus("unchecked");
+         model.addAttribute("unapproveCurrency",listCurrencyDeclaration);
       return "dashboarddatatable";
 
     }
