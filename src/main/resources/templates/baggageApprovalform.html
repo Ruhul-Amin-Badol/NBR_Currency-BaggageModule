@@ -1,0 +1,267 @@
+<div th:replace="~{layout/support}"></div>
+<div class="container-fluid" style="background: white;">
+    <div class="logo d-flex justify-content-center">
+        <img src="/img/logo/nbr.png" alt="nbr_logo">
+
+    </div>
+
+    <div class="container">
+        <div class="d-flex gap-2 py-3">
+            <button type="button" class="btn btn-primary print-button" onclick="printPage()">Print</button>
+        <a href="/baggagestart/show"><button type="button" class="btn btn-primary print-button" >Go Back</button></a>
+        </div>
+        <table>
+            <tbody th:object="${baggageView}">
+                <input type="hidden" id="baggageView" name="id" th:value="${baggageView['ID']}" />
+                <tr>
+                   <td><span><span class="fw-bold">Entry Point: </span><span th:text="${baggageView['entry_point']}"></span></span></td>
+                </tr>
+                <tr>
+                    <td><span class="fw-bold">Name of the Passenger: </span><span th:text="${baggageView['passenger_name']}"></span></td>
+                </tr>
+                <tr>
+                    <td><span class="fw-bold">Passport Number: </span><span th:text="${baggageView['passport_number']}"></span></td>
+                </tr>
+                <tr>
+                    <td><span class="fw-bold">Passport Validity Date: </span><span th:text="${baggageView['passport_validity_date']}"></span></td>
+                </tr>
+                <tr>
+                    <td><span class="fw-bold">Nationality: </span><span th:text="${baggageView['nationality']}"></span></td>
+                </tr>
+                <tr>
+                    <td><span class="fw-bold">Country from where comming: </span><span th:text="${baggageView['previous_country']}"></span></td>
+                </tr>
+                <tr>
+                    <td><span class="fw-bold">Date Of Arrival: </span><span th:text="${baggageView['dateofarrival']}"></span></td>
+                </tr>
+                <tr>
+                    <td><span class="fw-bold">Flight No: </span><span th:text="${baggageView['flight_no']}"></span></td>
+                </tr>
+                <tr>
+                    <td><span class="fw-bold">Mobile No: </span><span th:text="${baggageView['mobile_no']}"></span></td>
+                </tr>
+                <tr>
+                    <td><span class="fw-bold">Email: </span><span th:text="${baggageView['email']}"></span></td>
+                </tr>
+                <tr> 
+                    <td><span class="fw-bold">Accompanied: </span><span th:text="${baggageView['accom_no']}"></span></td>
+                </tr>
+                <tr>
+                    <td><span class="fw-bold">Un-Accompanied: </span><span th:text="${baggageView['unaccom_no']}"></span></td>
+                </tr>
+                
+            </tbody>
+        </table>
+         <!-- table 2nd start -->
+         <table id="ajaxtable"
+         class="table table-bordered mt-5">
+         <thead class="bg-danger">
+             <tr>
+                
+                 <th scope="col">Product Name</th>
+                 <th scope="col">Unit</th>
+                 <th scope="col">Inchi(For Telivision)</th>
+                 <th scope="col">Quantity</th>
+                 <th scope="col">Value</th>
+                 <th scope="col">Tax(%)</th>
+                 <th scope="col">Tax Amount</th>
+             </tr>
+         </thead>
+         <tbody >
+
+           <tr th:each="reportShow : ${showProduct}">
+                 
+                 <td th:text="${reportShow['item_name']}"></td>
+                 <td th:text="${reportShow['unit_name']}"></td>
+                 <td th:text="${reportShow['inchi']}"></td>
+                 <td th:text="${reportShow['qty']}"></td>
+                 <td th:text="${reportShow['value']}"></td>
+                 <td th:text="${reportShow['tax_percentage']}"></td>
+                 <td class="tax-amount" th:text="${reportShow['tax_amount']}"></td>
+             </tr> 
+
+             <tr>
+                     <th colspan="6" class="text-end"> Total Tax Amount</th>
+                     <td>
+                         <span id="totalTaxAmount"></span>
+                     </td>
+                 </td>
+                 </tr>
+                
+         </tbody>
+     </table>
+
+     <div class="d-flex justify-content-center" id="qrcode">
+        
+     </div>
+     <div class="row" style="margin-top: 10px;"> 
+        <div class="col-6 mx-auto">
+          <div class="d-flex align-items-center justify-content-evenly" >
+
+                
+                <button id="toggleButton1" onclick="showDiv1()" class="btn btn-danger">Rejected</button>
+           
+          </div>
+        </div>
+
+        <div class="col-6 mx-auto">
+            <div class="d-flex align-items-center justify-content-evenly">
+                
+                <button id="toggleButton" onclick="showDiv()" class="btn btn-success">Approved</button>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+    <div class="d-flex row col-md-12" style="margin-top: 10px;" th:object="${baggageView}">
+        <div class="d-inline-block col-md-6"> 
+            <div class="container" id="welcomeDiv1"  style="display:none;">
+                <form th:action="@{/baggagestart/baggage_reject_update}"  method="post" id="myForm">
+                    <div class="input-group">
+                        <div class="col-md-6">
+                            <input th:value="${baggageView['id']}" type="hidden" name="id">
+                            <input th:value="rejected" type="hidden" name="status">
+                            <textarea name="confNote" class="form-control" id="exampleFormControlTextarea1" placeholder="Write your comment" rows="2" style="width:100%;"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <button type="submit" class="btn btn-danger">Rejected</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="d-inline-block col-md-6"  > 
+            <div class="container" id="welcomeDiv"  style="display:none;">
+                <form th:action="@{/baggagestart/baggage_approve_update}"  method="post" id="myForm">
+                    <div class="input-group">
+                        <div class="col-md-6">
+                            <input th:value="${baggageView['id']}" type="hidden" name="id">
+                            <input th:value="approved" type="hidden" name="status">
+                            <textarea name="confNote" class="form-control" id="exampleFormControlTextarea1" placeholder="Write your comment" rows="2" style="width:100%;"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <button type="submit" class="btn btn-success">Approved</button>
+                        </div>
+                    </div>
+                </form>
+
+              </div>
+        </div>
+    </div>
+  
+</div>
+
+
+
+
+
+        
+     </div>
+      
+
+     <script>
+
+function qrcode() {
+          console.log("fahim");
+            // Get the current page's URL
+            var currentURL = window.location.href;
+
+            // Generate the QR code using an online service (qr.js)
+            var qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?data=" + encodeURIComponent(currentURL) + "&size=128x128";
+            
+            // Display the QR code image
+            $("#qrcode").html('<img src="' + qrCodeUrl + '" alt="QR Code" />');
+        };
+
+
+function showDiv1() {
+        document.getElementById('welcomeDiv1').style.display = "block";
+        var button = document.getElementById("toggleButton1");
+        button.style.display = "none";
+    }
+
+	function showDiv() {
+        document.getElementById('welcomeDiv').style.display = "block";
+
+        var button = document.getElementById("toggleButton");
+        button.style.display = "none";
+    }
+
+
+
+function qrcode() {
+            // Get the current page's URL
+            var currentURL = window.location.href;
+
+            // Generate the QR code using an online service (qr.js)
+            var qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?data=" + encodeURIComponent(currentURL) + "&size=128x128";
+            
+            // Display the QR code image
+            $("#qrcode").html('<img src="' + qrCodeUrl + '" alt="QR Code" />');
+        };
+        // function redirectToHomePage() {
+            
+        //     // Get the id value from the hidden input field
+        //     var id = document.getElementById("reportShow").value;
+        //     var url = "http://localhost:8080/baggagestart/show" + id;
+        //     window.location.href = url;
+        // }
+
+        function calculateTotalTaxAmount() {
+            // Get all the tax amount elements using a class selector
+            var taxAmountElements = document.querySelectorAll(".tax-amount");
+    
+            // Initialize a variable to store the total tax amount
+            var totalTaxAmount = 0;
+    
+            // Iterate through each tax amount element
+            taxAmountElements.forEach(function (element) {
+                // Parse the text content of the element to a floating-point number
+                var taxAmount = parseFloat(element.textContent);
+    
+                totalTaxAmount += taxAmount;
+            });
+    
+            // Set the calculated total tax amount in the totalTaxAmount span
+            document.getElementById("totalTaxAmount").textContent = totalTaxAmount.toFixed(2);
+        }
+    
+        // Call the function when the page loads
+        window.addEventListener("load", calculateTotalTaxAmount);
+
+
+        function printPage() {
+        // Hide the print buttons
+        var printButtons = document.querySelectorAll(".print-button");
+        for (var i = 0; i < printButtons.length; i++) {
+            printButtons[i].style.display = "none";
+        }
+
+          // Add an event listener for the afterprint event
+          window.addEventListener('afterprint', function () {
+            // Show the print buttons when the print dialog is closed
+            for (var i = 0; i < printButtons.length; i++) {
+                printButtons[i].style.display = "block";
+            }
+        });
+
+        // Print the content of the page
+        window.print();
+        
+     
+    }
+    window.onload = qrcode;
+    </script>
+     
+
+
+</div>
+
+<div th:replace="~{layout/footer}"></div>
