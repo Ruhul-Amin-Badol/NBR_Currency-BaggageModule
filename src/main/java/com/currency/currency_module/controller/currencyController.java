@@ -259,13 +259,14 @@ public class currencyController {
     @ResponseBody
     public long uncheckedstatuscount(){
        
+       
         return currencyDeclarationRepository.countByStatus("unchecked");
 
     }
     @GetMapping("/checkedstatuscount")
     @ResponseBody
     public long checkedstatuscount(){
-
+     
         return currencyDeclarationRepository.countByStatus("unchecked");
 
     }
@@ -273,13 +274,14 @@ public class currencyController {
     @ResponseBody
     public long rejectedstatuscount(){
        
+       
         return currencyDeclarationRepository.countByStatus("rejected");
 
     }
     @GetMapping("/allstatuscount")
     @ResponseBody
     public long allstatuscount(){
-       
+     
         return currencyDeclarationRepository.count();
 
     }
