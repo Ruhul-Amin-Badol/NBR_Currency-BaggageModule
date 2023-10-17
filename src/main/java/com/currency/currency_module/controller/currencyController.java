@@ -259,6 +259,7 @@ public class currencyController {
     @ResponseBody
     public long uncheckedstatuscount(){
        
+       
         return currencyDeclarationRepository.countByStatus("unchecked");
 
     }
@@ -272,6 +273,7 @@ public class currencyController {
     @GetMapping("/rejectedstatuscount")
     @ResponseBody
     public long rejectedstatuscount(){
+       
        
         return currencyDeclarationRepository.countByStatus("rejected");
 
