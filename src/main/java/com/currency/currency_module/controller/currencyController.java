@@ -155,8 +155,10 @@ public class currencyController {
 
 
     @GetMapping("/showunapprovedcurrency")
-    public String showunapprovedcurrency(){
+    public String showunapprovedcurrency(Model model){
         //System.out.println();
+        List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatus("unchecked");
+         model.addAttribute("unapproveCurrency",listCurrencyDeclaration);
       return "dashboarddatatable";
 
     }
@@ -278,16 +280,16 @@ public class currencyController {
     @GetMapping("/uncheckedstatuscount")
     @ResponseBody
     public long uncheckedstatuscount(){
-       
-       
+              
         return currencyDeclarationRepository.countByStatus("unchecked");
 
     }
+
     @GetMapping("/checkedstatuscount")
     @ResponseBody
     public long checkedstatuscount(){
      
-        return currencyDeclarationRepository.countByStatus("unchecked");
+        return currencyDeclarationRepository.countByStatus("checked");
 
     }
     @GetMapping("/rejectedstatuscount")
