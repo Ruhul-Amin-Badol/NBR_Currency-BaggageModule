@@ -1,14 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"/>
-    <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.7.0.js"></script>
-    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-  </head>
+<div th:replace="~{layout/support}"></div>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" >
+<link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" >
+<link href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css" rel="stylesheet" >
   <style>
     .sr-main-content {
       background-color: #ededf4;
@@ -99,47 +92,94 @@
             </tbody>
           </table>
         </form>
-        <table id="example" class="display" width="100%"></table>
       </div>
-    </div>
-      <script>
-      // Function to fetch data from the API and populate the table
-      function fetchDataAndPopulateTable() {
-  $.ajax({
-    url: 'http://localhost:8080/currencystart/unapprovedcurrency',
-    type: 'GET',
-    dataType: 'json',
-    success: function (apiResponse) {
-      // Map the API response to the DataTable columns
-      const dataSet = apiResponse.map((record) => [
-        record.passportIssueDate,
-        record.passengerName,
-        record.nationality,
-        record.passportNumber,
-        `<a href="/currencystart/showapprovedcurrencyform?id=${record.id}" class="btn btn-primary">View</a>`,
-      ]);
-
-      const table = new DataTable('#example', {
-        columns: [
-          { title: 'Apply Date' },
-          { title: 'Passenger Name' },
-          { title: 'Nationality' },
-          { title: 'Passport No' },
-          { title: 'Action' },
-        ],
-        data: dataSet,
-      });
-    },
-    error: function (error) {
-      console.error('Error fetching data:', error);
-    },
-  });
-}
-
-$(document).ready(fetchDataAndPopulateTable);
-
-      // Call the fetchDataAndPopulateTable function when the page loads
-      $(document).ready(fetchDataAndPopulateTable);
+    <table id="example" class="table table-striped " style="zoom: 70%;">
+        <thead>
+            <tr>
+                <th>sl</th>
+                <th>Name</th>
+                <th>Passport Issue Date</th>
+                <th>Passport Issue Place</th>
+                <th>Nationality</th>
+                <th>Date Of Arrival</th>
+                <th>Profession</th>
+                <th>Flight No</th>
+                <th>Address In Bangladesh</th>
+                <th>Stay Time Abroad</th>
+                <th>Email</th>
+    
+                <td>Action</td>
+    
+            </tr>
+        </thead>
+        <tbody >
+    
+            <tr th:each="show,sl : ${unapproveCurrency}" th:object="${'unapproveCurrency'}">
+                
+                <td th:text="${sl.count}"></td>
+                <td th:text="${show.passengerName}"></td>
+                <td th:text="${show.passportNumber}"></td>
+                <td th:text="${show.passportIssueDate}"></td>
+                <td th:text="${show.nationality}"></td>
+                <td th:text="${show.dateOfArrival}"></td>
+                <td th:text="${show.profession}"></td>
+    
+    
+    
+                <td th:text="${show.flightNo}"></td>
+                <td th:text="${show.addressInBangladesh}"></td>
+                <td th:text="${show.stayTimeAbroad}"></td>
+                <td th:text="${show.email}"></td>
+    
+                <td >
+                    <a th:href="@{/currencystart/show-currency-details(id=${show.id})}">View Application</a>
+    
+                </td>
+            </tr>
+    
+    
+    
+     
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>sl</th>
+                <th>Name</th>
+                <th>Passport Issue Date</th>
+                <th>Passport Issue Place</th>
+                <th>Nationality</th>
+                <th>Date Of Arrival</th>
+                <th>Profession</th>
+                <th>Flight No</th>
+                <th>Address In Bangladesh</th>
+                <th>Stay Time Abroad</th>
+                <th>Email</th>
+                <td>Action</td>
+            </tr>
+        </tfoot>
+    </table>
+    <script src='https://code.jquery.com/jquery-3.7.0.js'></script>
+    <script src='https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js'></script>
+    <script src='https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js'></script>
+    <script src='https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js'></script>
+    <script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap5.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js'></script>
+    <script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js'></script>
+    <script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js'></script>
+    <script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js'></script>
+    
+    
+    <script>
+        $(document).ready(function() {
+        var table = $('#example').DataTable( {
+            lengthChange: false,
+            // buttons: [ 'copy', 'excel', 'pdf', 'colvis' ]
+        } );
+     
+        table.buttons().container()
+            .appendTo( '#example_wrapper .col-md-6:eq(0)' );
+    } );
+    
     </script>
-  </body>
-</html>
