@@ -62,7 +62,7 @@ public class CurrencyServices {
         currencyDeclarationRepository.save(existingCurrencyDeclaration);
     }
 
-    public void approveCurrencyUpdate(CurrencyDeclaration updatedapproveCurrencyDeclaration,String usernameSession) {
+    public void  approveCurrencyUpdate(CurrencyDeclaration updatedapproveCurrencyDeclaration,String usernameSession) {
       System.out.println("===================================="+updatedapproveCurrencyDeclaration.getId());
         // Retrieve the existing currency declaration by its ID or any unique identifier
         CurrencyDeclaration existingCurrencyDeclaration = currencyDeclarationRepository.findById(updatedapproveCurrencyDeclaration.getId())
