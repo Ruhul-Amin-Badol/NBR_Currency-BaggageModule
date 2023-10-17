@@ -9,9 +9,11 @@ import com.currency.currency_module.model.BaggageCurrencyAdd;
 
 public interface CurrencyAddRepository extends JpaRepository<BaggageCurrencyAdd ,Long> {
 
-    BaggageCurrencyAdd findByCurrencyId(Long id);
+  
 
     List<BaggageCurrencyAdd> findAllByCurrencyId(Long id);
+
+ 
 
     
 }
