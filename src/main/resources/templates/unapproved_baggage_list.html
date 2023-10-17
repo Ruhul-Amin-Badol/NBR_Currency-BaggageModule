@@ -15,40 +15,58 @@
     }
 </style>
 
-<span id="print_id" >
-    <a href="/dashboard"><input type="button" class="btn btn-success btn-sm" value="Go Back" id="go_back" style="margin: 20px !important;"></a>
-</span>
+
 <div class="sr-main-content-heading">
     <i class="fa fa-server" style="padding-right: 10px"></i>Unapproved
-    Currency Application
+    Baggage Application
   </div>
 <table id="example" class="table table-striped " style="zoom: 70%;">
     <thead>
         <tr>
             <th>sl</th>
-            <th>Apply Date</th>
-            <th>Passenger name</th>
+            <th>Entry Point</th>
+            <th>Passenger Name</th>
+            <th>Passport Number</th>
+            <th>Passport Validity Date</th>
             <th>Nationality</th>
-            <th>Passport No</th>
-            <td>Action</td>
+            <th>Country From</th>
+            <th>Date of Arrival</th>
+            <th>Flight Number</th>
+            <th>Mobile Number</th>
+            <th>Email</th>
+            <th>Accompanied Baggage Count</th>
+            <th>Unaccompanied Baggage Count</th>
+            <th>Meat</th>
+            <th>Currency</th>
+            <th>Action</th>
 
         </tr>
     </thead>
     <tbody >
-
-        <tr th:each="show,sl : ${unapproveCurrency}" th:object="${'unapproveCurrency'}">
-            
-            <td th:text="${sl.count}"></td>
-            <td th:text="${show.entryAt}"></td>
-            <td th:text="${show.passengerName}"></td>
-            <td th:text="${show.nationality}"></td>
-            <td th:text="${show.passportNumber}"></td>
-            <td >
-                <a th:href="@{/currencystart/show-unapprove-currency-details(id=${show.id})}">View Application</a>
-
-            </td>
+        <tr th:each="show,sl: ${baggageshow}" th:object="${'baggageshow'}">
+              <input type="hidden" th:value="${show['id']}">
+           
+                <td th:text="${sl.count}"></td>
+                <td th:text="${show['entry_point']}"></td>
+                <td th:text="${show['passenger_name']}"></td>
+                <td th:text="${show['passport_number']}"></td>
+                <td th:text="${show['passport_validity_date']}"></td>
+                <td th:text="${show['nationality']}"></td>
+                <td th:text="${show['previous_country']}"></td>
+                <td th:text="${show['dateofarrival']}"></td>
+                <td th:text="${show['flight_no']}"></td>
+                <td th:text="${show['mobile_no']}"></td>
+                <td th:text="${show['email']}"></td>
+                <td th:text="${show['accom_no']}"></td>
+                <td th:text="${show['unaccom_no']}"></td>
+                <td th:text="${show['meat_products']}"></td>
+                <td th:text="${show['foreign_currency']}"></td>
+                <!-- <td><a th:href="@{'/baggageshow/baggagetotalid/'+ ${show['id']}}">show</a></td> -->
+                <td>
+                    <a th:href="@{/baggageshow/baggagetotalid(id=${show.id})}">View Application</a>
+                </td>
+              
         </tr>
-
 
 
  
@@ -56,11 +74,22 @@
     <tfoot>
         <tr>
             <th>sl</th>
-            <th>Apply Date</th>
-            <th>Passenger name</th>
+            <th>Entry Point</th>
+            <th>Passenger Name</th>
+            <th>Passport Number</th>
+            <th>Passport Validity Date</th>
             <th>Nationality</th>
-            <th>Passport No</th>
+            <th>Country From</th>
+            <th>Date of Arrival</th>
+            <th>Flight Number</th>
+            <th>Mobile Number</th>
+            <th>Email</th>
+            <td>Accompanied Baggage Count</td>
+            <td>Unaccompanied Baggage Count</td>
+            <td>Meat</td>
+            <td>Currency</td>
             <td>Action</td>
+
         </tr>
     </tfoot>
 </table>

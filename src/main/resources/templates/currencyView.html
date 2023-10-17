@@ -114,7 +114,7 @@
         </tr>
         </thead>
         <tbody th:object="${Currency}">
-            <input type="hidden" id="Currency" name="id" th:value="${Currency['id']}" />
+            <input type="hidden" id="CurrencyIdGeneral" name="CurrencyIdGeneral" th:value="${Currency['id']}" />
             <tr>
                 <td colspan="12"> &nbsp</td>
             </tr>
@@ -234,11 +234,13 @@
                         </tr>
                     </thead>
                     <tbody th:each="customer : ${Baggagecurrency}">
-                        <tr>
-                            <td th:text="${customer.currencyName}"> </td>
-                            <td th:text="${customer.currencyAmount}"></td>
-                            <td> </td>
-                        </tr>
+                       
+                            <tr>
+                                <td th:text="${customer.currencyName}"> USD </td>
+                                <td th:text="${customer.currencyAmount}" class="currency-amount"> USD </td>
+                                <td class="currency-words"> One thousand dollars</td>
+                            </tr>
+                     
                     </tbody>
                 </table>
 
@@ -290,9 +292,9 @@
         <div class="d-flex justify-content-center mt-2" id="qrcode">
            
         </div>
-        <div class="d-flex justify-content-center">
+        <!-- <div class="d-flex justify-content-center">
             <div id="barcode-value" class="fw-bold"></div>
-        </div>
+        </div> -->
      </tr>
 
      </table>
@@ -303,7 +305,7 @@
 </div>
 <div class="d-flex justify-content-center">
     <button type="button" class="btn btn-danger btn-lg my-2 mx-3" onclick="redirectToBaggagePage()">Edit</button>
-    <button type="button" class="btn btn-primary btn-lg my-2" onclick="redirectToConfirmPage()">Confirm</button>
+    <button type="button" class="btn btn-primary btn-lg my-2" onclick="confirm()">Confirm</button>
 </div>
 <script>
 
@@ -311,6 +313,8 @@ function qrcode() {
           console.log("fahim");
             // Get the current page's URL
             var currentURL = window.location.href;
+             convertCurrencyToWords() 
+
 
             // Generate the QR code using an online service (qr.js)
             var qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?data=" + encodeURIComponent(currentURL) + "&size=128x128";
@@ -318,6 +322,33 @@ function qrcode() {
             // Display the QR code image
             $("#qrcode").html('<img src="' + qrCodeUrl + '" alt="QR Code" />');
         };
+
+        var a = ['','one ','two ','three ','four ', 'five ','six ','seven ','eight ','nine ','ten ','eleven ','twelve ','thirteen ','fourteen ','fifteen ','sixteen ','seventeen ','eighteen ','nineteen '];
+var b = ['', '', 'twenty','thirty','forty','fifty', 'sixty','seventy','eighty','ninety'];
+
+function inWords (num) {
+
+    if ((num = num.toString()).length > 9) return 'overflow';
+    n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+    if (!n) return; var str = '';
+    str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'crore ' : '';
+    str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'lakh ' : '';
+    str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'thousand ' : '';
+    str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'hundred ' : '';
+    str += (n[5] != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) + 'only ' : '';
+    
+    return str;
+}
+function convertCurrencyToWords() {
+    const currencyAmounts = document.querySelectorAll(".currency-amount");
+    const currencyWords = document.querySelectorAll(".currency-words");
+
+    currencyAmounts.forEach((amount, index) => {
+        const amountValue = parseInt(amount.textContent);
+        const words = inWords(amountValue);
+        currencyWords[index].textContent = words;
+    });
+}
 	
     function custom_print(){
     document.getElementById('print_id').style.display='none';
@@ -326,8 +357,13 @@ function qrcode() {
          
     }
     function confirm(){
-    var id=document.getElementById('Currency').value;
-       window.location.href="/currencystart/showconfirmgenaral?id"+id;
+        event.preventDefault();
+    var id=document.getElementById('CurrencyIdGeneral').value;
+    console.log(id);
+  
+    
+
+       window.location.href="/currencystart/confirmgenaral?id="+id
          
     }
 

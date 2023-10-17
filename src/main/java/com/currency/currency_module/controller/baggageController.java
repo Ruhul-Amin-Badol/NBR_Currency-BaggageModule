@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.security.Principal;
 import java.sql.Connection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.currency.currency_module.model.CurrencyDeclaration;
 
 @Controller
 @RequestMapping("/baggagestart")
@@ -554,6 +557,41 @@ public int countAllBaggage() {
 //    int yyy= 
 //    System.out.println(yyy);
     return jdbcTemplate.queryForObject(sql, Integer.class);
+}
+
+
+
+
+
+    @PostMapping("/baggage_approve_update")
+    public String currencApproveUpdate( @RequestParam int id,@RequestParam String status,@RequestParam String confNote, Principal principal) {
+
+        String username=principal.getName();
+        String sql = "UPDATE baggage SET status=?,entry_by=? WHERE id=?";
+        jdbcTemplate.update(sql,status,username,id);
+    // Perform the update operation using currencyServices
+    //System.out.println("===============================================currenc_approve_reject_update");
+        String usernameSession=principal.getName();
+    
+
+
+    // Redirect to the edit page with a success message
+    //redirectAttributes.addFlashAttribute("currencyDeclaration", updatedCurrencyDeclaration);
+    return "redirect:/baggageshow/unapprovedbaggagetotal";
+}
+    @PostMapping("/baggage_reject_update")
+    public String currencRejectUpdate( @RequestParam int id,@RequestParam String status,@RequestParam String confNote, Principal principal) {
+
+        String username=principal.getName();
+        String sql = "UPDATE baggage SET status=?,entry_by=? WHERE id=?";
+        jdbcTemplate.update(sql,status,username,id);
+
+        String usernameSession=principal.getName();
+    
+
+
+  
+    return "redirect:/baggageshow/unapprovedbaggagetotal";
 }
 
 

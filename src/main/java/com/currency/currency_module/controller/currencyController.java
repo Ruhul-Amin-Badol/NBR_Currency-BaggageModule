@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.currency.currency_module.NumberToWords;
 import com.currency.currency_module.model.BaggageCurrencyAdd;
 import com.currency.currency_module.model.CurrencyDeclaration;
 import com.currency.currency_module.repository.CurrencyAddRepository;
@@ -37,6 +38,7 @@ public class currencyController {
     CurrencyAddRepository currencyAddRepository;
     @Autowired 
    CurrencyDeclarationRepository currencyDeclarationRepository;
+    NumberToWords numberToWords=new NumberToWords();
 
     @GetMapping("/show")
     public String index() {
@@ -127,6 +129,18 @@ public class currencyController {
        // System.out.println("Success");
     }
 
+    @GetMapping("/confirmgenaral")
+   
+    public String updatestatuscurrency(@RequestParam Long id){
+        CurrencyDeclaration currencyDeclaration= currencyServices.findcurrency(id);
+        currencyDeclaration.setStatus("unchecked");
+        currencyDeclarationRepository.save(currencyDeclaration);
+       // System.out.println();
+
+       // System.out.println("Success");
+       return "redirect:/currencystart/show";
+    }
+
     @GetMapping("/unapprovedcurrency")
     @ResponseBody
     public List<CurrencyDeclaration> unapprovedcurrency(){
@@ -153,6 +167,7 @@ public class currencyController {
     @GetMapping("/unapprove-currency")
     public String unapproveCurrency(Model model){
         List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatus("unchecked");
+               
          model.addAttribute("unapproveCurrency",listCurrencyDeclaration);
         return "currency_unapprove";
     }
@@ -192,6 +207,10 @@ public class currencyController {
 
         @GetMapping("/show-currency-details")
     public String showCurrencyDetails( @RequestParam Long id,Model model){
+       
+        String fahim=numberToWords.inWords(25);
+        System.out.println(fahim);
+
         CurrencyDeclaration currencydata=currencyServices.findcurrency(id);
          List<BaggageCurrencyAdd> listcurrency= currencyServices.baggagecurrecylist(id);
          model.addAttribute("Currency",currencydata);
@@ -199,8 +218,19 @@ public class currencyController {
        
       return "currency_reject_approve_page";
 
+
     }
-   
+
+ @GetMapping("/show-unapprove-currency-details")
+    public String showUnApproveCurrencyDetails( @RequestParam Long id,Model model){
+        CurrencyDeclaration currencydata=currencyServices.findcurrency(id);
+         List<BaggageCurrencyAdd> listcurrency= currencyServices.baggagecurrecylist(id);
+         model.addAttribute("Currency",currencydata);
+        model.addAttribute("Baggagecurrency",listcurrency);
+       
+      return "currencyApprovalPage";
+    }
+
     @PostMapping("/currenc_approve_update")
     public String currencApproveUpdate( CurrencyDeclaration updatedApproveCurrencyDeclaration, Principal principal) {
     // Perform the update operation using currencyServices
@@ -226,17 +256,7 @@ public class currencyController {
     }
 
 
-    @GetMapping("/confirmgenaral")
-    public String showconfirmgenaral( @RequestParam Long id,Model model){
-        //  CurrencyDeclaration currencydata=currencyServices.findcurrency(id);
-        //  List<BaggageCurrencyAdd> listcurrency= currencyServices.baggagecurrecylist(id);
-        //  model.addAttribute("Currency",currencydata);
-        //  model.addAttribute("Baggagecurrency",listcurrency);
 
-       
-      return "fahim";
-
-    }
 
     
 
