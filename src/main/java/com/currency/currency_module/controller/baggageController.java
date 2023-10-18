@@ -562,7 +562,7 @@ public int countAllBaggage() {
 
 
 
-
+//for  baggage approve update 
     @PostMapping("/baggage_approve_update")
     public String currencApproveUpdate( @RequestParam int id,@RequestParam String status,@RequestParam String confNote, Principal principal) {
 
@@ -577,8 +577,10 @@ public int countAllBaggage() {
 
     // Redirect to the edit page with a success message
     //redirectAttributes.addFlashAttribute("currencyDeclaration", updatedCurrencyDeclaration);
-    return "redirect:/baggageshow/unapprovedbaggagetotal";
+    return "redirect:/baggagestart/approve-baggage-list";
 }
+
+//for baggage reject list 
     @PostMapping("/baggage_reject_update")
     public String currencRejectUpdate( @RequestParam int id,@RequestParam String status,@RequestParam String confNote, Principal principal) {
 
@@ -591,7 +593,7 @@ public int countAllBaggage() {
 
 
   
-    return "redirect:/baggageshow/unapprovedbaggagetotal";
+    return "redirect:/baggagestart/rejected-baggage-list";
 }
 
 
