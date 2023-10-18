@@ -177,7 +177,7 @@
             <tr>
                 <td colspan="6" class="pt">
                     <p class="p b" align="left">পেশাঃ</p>
-                    <p class="p" align="left">(Profession): <span th:text="${Currency.nationality}"></span></p>
+                    <p class="p" align="left">(Profession): <span th:text="${Currency.profession}"></span></p>
                 </td>
                 <td colspan="6" class="pt">
                     <p class="p b" align="left">যোগাযোগ নম্বরঃ</p>
@@ -210,22 +210,22 @@
             <tr>
                 <td colspan="12"> 
 
-                <table width="100%" border="1" cellspacing="0" cellpadding="0" align="center" >
+                <table style="text-align: center; border: 1px solid black;" width="100%" border="1" cellspacing="0" cellpadding="0" >
                     <thead>
                         <tr>
-                            <th>
+                            <th style="border: 1px solid black;">
                             <p class="p b" align="center" >
                             বৈদেশিক মুদ্রার বর্ণনা 
                             </p>
                             <p class="p1 b" align="center" >(Description of Currency)</p>
                             </th>
-                            <th>
+                            <th style="border: 1px solid black;">
                             <p class="p1 b" align="center" >
                             পরিমাণ
                             </p>
                             <p class="p1 b" align="center" >(Amount) </p>
                             </th>
-                            <th>
+                            <th style="border: 1px solid black;">
                             <p class="p1 b" align="center" >
                             কথায়
                             </p>
@@ -236,9 +236,9 @@
                     <tbody th:each="customer : ${Baggagecurrency}">
                        
                             <tr>
-                                <td th:text="${customer.currencyName}"> USD </td>
-                                <td th:text="${customer.currencyAmount}" class="currency-amount"> USD </td>
-                                <td class="currency-words"> One thousand dollars</td>
+                                <td style="border: 1px solid black;" th:text="${customer.currencyName}"> USD </td>
+                                <td style="border: 1px solid black;" th:text="${customer.currencyAmount}" class="currency-amount"> USD </td>
+                                <td style="border: 1px solid black;" class="currency-words" > One Hundred </td>
                             </tr>
                      
                     </tbody>
@@ -323,18 +323,18 @@ function qrcode() {
             $("#qrcode").html('<img src="' + qrCodeUrl + '" alt="QR Code" />');
         };
 
-        var a = ['','one ','two ','three ','four ', 'five ','six ','seven ','eight ','nine ','ten ','eleven ','twelve ','thirteen ','fourteen ','fifteen ','sixteen ','seventeen ','eighteen ','nineteen '];
-var b = ['', '', 'twenty','thirty','forty','fifty', 'sixty','seventy','eighty','ninety'];
+        var a = ['','One ','Two ','Three ','Four ', 'Five ','Six ','Seven ','Eight ','Nine ','Ten ','Eleven ','Twelve ','Thirteen ','Fourteen ','Fifteen ','Sixteen ','Seventeen ','Eighteen ','Nineteen '];
+var b = ['', '', 'Twenty','Thirty','Forty','Fifty', 'Sixty','Seventy','Eighty','Ninety'];
 
 function inWords (num) {
 
     if ((num = num.toString()).length > 9) return 'overflow';
     n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
     if (!n) return; var str = '';
-    str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'crore ' : '';
-    str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'lakh ' : '';
-    str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'thousand ' : '';
-    str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'hundred ' : '';
+    str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'Crore ' : '';
+    str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'Lakh ' : '';
+    str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'Thousand ' : '';
+    str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'Hundred ' : '';
     str += (n[5] != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) + 'only ' : '';
     
     return str;
