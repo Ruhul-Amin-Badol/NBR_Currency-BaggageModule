@@ -274,6 +274,7 @@ document.getElementById('openFileButton').addEventListener('click', function () 
 function toggleLanguage2(language) {
     var labels = {
         'bangla': {
+            'passengerNamelabell':'পুর্ন নাম' ,
             'passportNumberLabel': 'পাসপোর্ট নম্বর',
             'nationalityLabel': 'জাতীয়তা',
             'bangladeshOption': 'বাংলাদেশ',
@@ -297,6 +298,7 @@ function toggleLanguage2(language) {
             'stayTimeAbroad':'বিদেশে অবস্থানের মেয়াদ',
         },
         'english': {
+            'passengerNamelabell':'Full Name' ,
             'passportNumberLabel': 'Passport Number',
             'nationalityLabel': 'Nationality',
             'bangladeshOption': 'Bangladesh',
