@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.currency.currency_module.NumberToWords;
+import com.currency.currency_module.AirportInformation;
 import com.currency.currency_module.model.BaggageCurrencyAdd;
 import com.currency.currency_module.model.CurrencyDeclaration;
 import com.currency.currency_module.repository.CurrencyAddRepository;
@@ -38,7 +38,7 @@ public class currencyController {
     CurrencyAddRepository currencyAddRepository;
     @Autowired 
    CurrencyDeclarationRepository currencyDeclarationRepository;
-    NumberToWords numberToWords=new NumberToWords();
+    AirportInformation numberToWords=new AirportInformation();
 
     @GetMapping("/show")
     public String index() {
@@ -208,8 +208,7 @@ public class currencyController {
         @GetMapping("/show-currency-details")
     public String showCurrencyDetails( @RequestParam Long id,Model model){
        
-        String fahim=numberToWords.inWords(25);
-        System.out.println(fahim);
+
 
         CurrencyDeclaration currencydata=currencyServices.findcurrency(id);
          List<BaggageCurrencyAdd> listcurrency= currencyServices.baggagecurrecylist(id);

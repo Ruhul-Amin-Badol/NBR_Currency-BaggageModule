@@ -7,10 +7,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.currency.currency_module.AirportInformation;
 import com.currency.currency_module.model.UserActivityManagement;
 import com.currency.currency_module.services.UserActivityManagementService;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/")
@@ -18,13 +22,26 @@ public class HomeController {
     @Autowired
    UserActivityManagementService userActivityManagementService;
 
+   AirportInformation airport=new AirportInformation();
+   
+   @Autowired
+   HttpSession httpSession;
+
     @GetMapping("/signin") 
     public String login() {
         return "login";
     }
+    @GetMapping("/home") 
+    public String home(@RequestParam String airport,HttpSession session) {
+        session.setAttribute("Fahim", airport);
+        System.out.println(airport);
+        return "index";
+    }
 
     @GetMapping("/dashboard")
     public String dashboard() {
+        System.out.println(airport.getAirport(httpSession));
+
         return "dashboard";
     }
     @GetMapping("/logout")
