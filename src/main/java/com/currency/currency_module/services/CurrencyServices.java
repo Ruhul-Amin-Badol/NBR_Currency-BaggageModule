@@ -70,6 +70,7 @@ public class CurrencyServices {
     
         // Update the properties of the existing entity with the updated data
         existingCurrencyDeclaration.setEntryBy(usernameSession);
+
         existingCurrencyDeclaration.setConfNote(updatedapproveCurrencyDeclaration.getConfNote());
         existingCurrencyDeclaration.setStatus("checked");
     
@@ -84,6 +85,7 @@ public class CurrencyServices {
                 .orElseThrow(() -> new EntityNotFoundException("Currency Declaration not found"));
     
         // Update the properties of the existing entity with the updated data
+        
         existingCurrencyDeclaration.setConfNote(updatedUnapproveCurrencyDeclaration.getConfNote());
         existingCurrencyDeclaration.setEntryBy(usernameSession);
         existingCurrencyDeclaration.setStatus("rejected");
