@@ -92,6 +92,7 @@ public class currencyController {
     public String currencyview(){
         return "currencyView";
     }
+
     @PostMapping("/currencyformStay")
     @ResponseBody
     public List<BaggageCurrencyAdd> currencyformStaty(@RequestParam Long currencyId){
@@ -102,6 +103,8 @@ public class currencyController {
     @PostMapping("/finalsubmit")
     public String currencyFinalSubmit( CurrencyDeclaration updatedCurrencyDeclaration,Model model){
        currencyServices.currencyUpdate(updatedCurrencyDeclaration);
+        
+
        //System.out.println(updatedCurrencyDeclaration.getPassportIssueDate());
         Long id=updatedCurrencyDeclaration.getId();
        // System.out.println(id);
@@ -111,6 +114,7 @@ public class currencyController {
         model.addAttribute("Baggagecurrency",listcurrency);
         return "redirect:/currencystart/finalsubmiform?id="+id;
     }
+
     @GetMapping("/finalsubmiform")
     public String currencyFinalSubmitform( @RequestParam Long id,Model model){
      
@@ -120,6 +124,7 @@ public class currencyController {
         model.addAttribute("Currency",currencyServices.findcurrency(id));
         model.addAttribute("Baggagecurrency",listcurrency);
         return "currencyView";
+
     }
     @PostMapping("/delete")
     @ResponseBody
@@ -216,7 +221,7 @@ public class currencyController {
          model.addAttribute("Currency",currencydata);
         model.addAttribute("Baggagecurrency",listcurrency);
        
-      return "currency_reject_approve_page";
+      return "currencyApprovalPage";
 
 
     }
@@ -224,8 +229,8 @@ public class currencyController {
  @GetMapping("/show-unapprove-currency-details")
     public String showUnApproveCurrencyDetails( @RequestParam Long id,Model model){
         CurrencyDeclaration currencydata=currencyServices.findcurrency(id);
-         List<BaggageCurrencyAdd> listcurrency= currencyServices.baggagecurrecylist(id);
-         model.addAttribute("Currency",currencydata);
+        List<BaggageCurrencyAdd> listcurrency= currencyServices.baggagecurrecylist(id);
+        model.addAttribute("Currency",currencydata);
         model.addAttribute("Baggagecurrency",listcurrency);
        
       return "currencyApprovalPage";
