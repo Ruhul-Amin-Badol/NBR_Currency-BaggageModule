@@ -32,6 +32,19 @@ public class adminController {
 
     }
 
+
+    @GetMapping("/unapprovedbaggagetotal")
+    public String unapprovedbaggagetotal( Model model) {
+        String sql = "SELECT * FROM baggage WHERE status = 'unapproved'";
+        List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql);
+        model.addAttribute("baggageshow", baggageshow);
+       
+        
+        return "unapproved_baggage_list";
+       
+
+    }
+
     @GetMapping("/baggagetotalid")
     public String baggageById(Model model, @RequestParam("id") Integer id) {
 
@@ -46,7 +59,7 @@ public class adminController {
         model.addAttribute("showProduct", productshow);
         
     
-        return "baggageTotalShowReport"; // Replace with the actual template name
+        return "baggageApprovalform"; // Replace with the actual template name
     }
     
     //Application Edit Controller 
@@ -65,6 +78,8 @@ public class adminController {
         public String baggageApplicationShow(){ 
             return "baggageApplicationEdit";
         }
+
+        
 
 
 }

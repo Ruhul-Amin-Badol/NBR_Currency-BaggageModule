@@ -59,8 +59,10 @@ public class SecurityConfig {
 
                     .requestMatchers(HttpMethod.GET, "/currencystart/*").permitAll()
                     .requestMatchers(HttpMethod.POST, "/currencystart/currencyUpdate").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/currencystart/currencyformStay").permitAll()
                     .requestMatchers(HttpMethod.GET, "/currencystart/finalsubmiform").permitAll()
                     .requestMatchers(HttpMethod.GET, "/").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/profile").permitAll()
                     .requestMatchers(HttpMethod.GET, "/currencystart/finalsubmit").permitAll()
                     .requestMatchers(HttpMethod.GET, "/currencystart/showapprovedcurrencyform").permitAll()
                     .requestMatchers(HttpMethod.POST, "/currencystart/showapprovedcurrencyform").permitAll()
@@ -70,6 +72,7 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.POST, "/currencystart/currencyinsert").permitAll()
                     .requestMatchers(HttpMethod.POST, "/currencystart/delete").permitAll()
                     .requestMatchers(HttpMethod.GET, "/currencystart/showconfirmgenaral").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/currencystart/confirmgenaral").permitAll()
                     .requestMatchers(HttpMethod.GET, "/baggageshow/baggagetotalid").permitAll()
                     .requestMatchers(HttpMethod.GET, "/baggageshow/baggageApplicationEdit").permitAll()
                     .requestMatchers(HttpMethod.GET, "/baggageshow/baggageApplicationShow").permitAll()

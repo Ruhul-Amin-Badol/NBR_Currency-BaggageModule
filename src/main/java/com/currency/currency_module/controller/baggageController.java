@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.security.Principal;
 import java.sql.Connection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.currency.currency_module.model.CurrencyDeclaration;
 
 @Controller
 @RequestMapping("/baggagestart")
@@ -355,7 +358,7 @@ public class baggageController {
             @RequestParam String idCurrency,
 
             Model model) {
-        String sql = "UPDATE baggage SET entry_point=?, passenger_name=?, passport_number=?, passport_validity_date=?, nationality=?, previous_country=?, dateofarrival=?, flight_no=?, mobile_no=?, email=?, accom_no=?, unaccom_no=?,meat_products=?,foreign_currency=? WHERE id=?";
+        String sql = "UPDATE baggage SET entry_point=?, passenger_name=?, passport_number=?, passport_validity_date=?, nationality=?, previous_country=?, dateofarrival=?, flight_no=?, mobile_no=?, email=?, accom_no=?, unaccom_no=?,meat_products=?,foreign_currency=?,status='unapproved' WHERE id=?";
            
         String otherNationality ="";
          if ("Other".equalsIgnoreCase(nationality)) {
@@ -522,6 +525,76 @@ public class baggageController {
 //         }
       
 //     }
+
+
+
+
+//Count for Baggage with 
+//This code is implemented by fahim
+@GetMapping("/countApprovedBaggage")
+@ResponseBody
+public int countApprovedBaggage() {
+    String sql = "SELECT COUNT(*) FROM baggage WHERE status = 'approved'";
+    return jdbcTemplate.queryForObject(sql, Integer.class);
+}
+@GetMapping("/countunApprovedBaggage")
+@ResponseBody
+public int countunApprovedBaggage() {
+    String sql = "SELECT COUNT(*) FROM baggage WHERE status = 'unapproved'";
+    return jdbcTemplate.queryForObject(sql, Integer.class);
+}
+@GetMapping("/countrejectedBaggage")
+@ResponseBody
+public int countrejectedBaggage() {
+    String sql = "SELECT COUNT(*) FROM baggage WHERE status = 'rejected'";
+    return jdbcTemplate.queryForObject(sql, Integer.class);
+}
+
+@GetMapping("/countAllBaggage")
+@ResponseBody
+public int countAllBaggage() {
+    String sql = "SELECT COUNT(*) FROM baggage";
+//    int yyy= 
+//    System.out.println(yyy);
+    return jdbcTemplate.queryForObject(sql, Integer.class);
+}
+
+
+
+
+
+    @PostMapping("/baggage_approve_update")
+    public String currencApproveUpdate( @RequestParam int id,@RequestParam String status,@RequestParam String confNote, Principal principal) {
+
+        String username=principal.getName();
+        String sql = "UPDATE baggage SET status=?,entry_by=? WHERE id=?";
+        jdbcTemplate.update(sql,status,username,id);
+    // Perform the update operation using currencyServices
+    //System.out.println("===============================================currenc_approve_reject_update");
+        String usernameSession=principal.getName();
+    
+
+
+    // Redirect to the edit page with a success message
+    //redirectAttributes.addFlashAttribute("currencyDeclaration", updatedCurrencyDeclaration);
+    return "redirect:/baggageshow/unapprovedbaggagetotal";
+}
+    @PostMapping("/baggage_reject_update")
+    public String currencRejectUpdate( @RequestParam int id,@RequestParam String status,@RequestParam String confNote, Principal principal) {
+
+        String username=principal.getName();
+        String sql = "UPDATE baggage SET status=?,entry_by=? WHERE id=?";
+        jdbcTemplate.update(sql,status,username,id);
+
+        String usernameSession=principal.getName();
+    
+
+
+  
+    return "redirect:/baggageshow/unapprovedbaggagetotal";
+}
+
+
 
 
 

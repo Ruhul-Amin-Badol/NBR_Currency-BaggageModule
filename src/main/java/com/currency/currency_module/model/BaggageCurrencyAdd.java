@@ -26,6 +26,13 @@ public class BaggageCurrencyAdd {
     @Column(name = "currency_name")
     private String currencyName;
 
+    @Column(name = "currency_note_type")
+    private String currencyNoteType;
+
+    @Column(name = "Number_of_Note")
+    private String numberOfNote;
+
+
     @Column(name = "currency_amount")
     private String currencyAmount;
 
@@ -34,6 +41,7 @@ public class BaggageCurrencyAdd {
 
     @Column(name = "entry_at")
     private Timestamp entryAt;
+
 
 
     public Long getId() {
@@ -68,6 +76,22 @@ public class BaggageCurrencyAdd {
         this.currencyName = currencyName;
     }
 
+    public String getCurrencyNoteType() {
+        return this.currencyNoteType;
+    }
+
+    public void setCurrencyNoteType(String currencyNoteType) {
+        this.currencyNoteType = currencyNoteType;
+    }
+
+    public String getNumberOfNote() {
+        return this.numberOfNote;
+    }
+
+    public void setNumberOfNote(String numberOfNote) {
+        this.numberOfNote = numberOfNote;
+    }
+
     public String getCurrencyAmount() {
         return this.currencyAmount;
     }
@@ -91,6 +115,7 @@ public class BaggageCurrencyAdd {
     public void setEntryAt(Timestamp entryAt) {
         this.entryAt = entryAt;
     }
+  
 
 
 }

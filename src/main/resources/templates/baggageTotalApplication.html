@@ -1,16 +1,36 @@
 <div th:replace="~{layout/support}"></div>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" >
+<link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" >
+<link href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css" rel="stylesheet" >
 
-<div class="" style="zoom: 70%;">
-    <h2>Baggage Application</h2>
-    <table class="table" >
-        <thead>
-            <tr>
+<style>
+    .sr-main-content-heading {
+      margin: 0;
+      padding: 0;
+      font-size: 18px;
+      font-weight: 500;
+      color: #48465b;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+</style>
+
+<span id="print_id" >
+    <a href="/dashboard"><input type="button" class="btn btn-success btn-sm" value="Go Back" id="go_back" style="margin: 20px !important;"></a>
+</span>
+<div class="sr-main-content-heading">
+    <i class="fa fa-server" style="padding-right: 10px"></i>Total
+    Baggage Application
+  </div>
+<table id="example" class="table table-striped " style="zoom: 70%;">
+    <thead>
+        <tr>
                 <th>SN</th>
                 <th>Entry Point</th>
                 <th>Passenger Name</th>
                 <th>Passport Number</th>
                 <th>Passport Validity Date</th>
-                <th>Other Nationality</th>
+                <th>Nationality</th>
                 <th>Country From</th>
                 <th>Date of Arrival</th>
                 <th>Flight Number</th>
@@ -18,16 +38,19 @@
                 <th>Email</th>
                 <th>Accompanied Baggage Count</th>
                 <th>Unaccompanied Baggage Count</th>
-                <th>ID Meat</th>
-                <th>ID Currency</th>
+                <th>Meat</th>
+                <th>Currency</th>
                 <th>Action</th>
-            </tr>
-        </thead>
-       <tbody th:each="show : ${baggageshow}" th:object="${'baggageshow'}">
-        <tr >
+
+        </tr>
+    </thead>
+    <tbody >
+
+        <tr th:each="show,sl : ${baggageshow}" th:object="${'baggageshow'}">
+            
             <input type="hidden" th:value="${show['id']}">
            
-            <td th:text="${show['sn']}"></td>
+                <td th:text="${show['sn']}"></td>
                 <td th:text="${show['entry_point']}"></td>
                 <td th:text="${show['passenger_name']}"></td>
                 <td th:text="${show['passport_number']}"></td>
@@ -46,12 +69,55 @@
                 <td>
                     <a th:href="@{/baggageshow/baggagetotalid(id=${show.id})}">View Application</a>
                 </td>
-              
         </tr>
 
-       </tbody>
-           
-    </table>
-</div>
 
-<div th:replace="~{layout/footer}"></div>
+
+ 
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>SN</th>
+                <th>Entry Point</th>
+                <th>Passenger Name</th>
+                <th>Passport Number</th>
+                <th>Passport Validity Date</th>
+                <th>Nationality</th>
+                <th>Country From</th>
+                <th>Date of Arrival</th>
+                <th>Flight Number</th>
+                <th>Mobile Number</th>
+                <th>Email</th>
+                <th>Accompanied Baggage Count</th>
+                <th>Unaccompanied Baggage Count</th>
+                <th>Meat</th>
+                <th>Currency</th>
+                <th>Action</th>
+        </tr>
+    </tfoot>
+</table>
+<script src='https://code.jquery.com/jquery-3.7.0.js'></script>
+<script src='https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js'></script>
+<script src='https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js'></script>
+<script src='https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js'></script>
+<script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap5.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js'></script>
+<script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js'></script>
+<script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js'></script>
+<script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js'></script>
+
+
+<script>
+    $(document).ready(function() {
+    var table = $('#example').DataTable( {
+        lengthChange: false,
+        buttons: [ 'copy', 'excel', 'pdf', 'colvis' ]
+    } );
+ 
+    table.buttons().container()
+        .appendTo( '#example_wrapper .col-md-6:eq(0)' );
+} );
+
+</script>

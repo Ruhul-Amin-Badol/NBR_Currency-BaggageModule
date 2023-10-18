@@ -1,5 +1,7 @@
 package com.currency.currency_module.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,5 +36,18 @@ public class HomeController {
     public UserActivityManagement findUserWithUserName(@PathVariable String username) {
         return userActivityManagementService.findUserWithUserName(username) ;
     }
+
+//     @GetMapping("/profile")
+//    public String userProfile(Principal principal) {
+//     if (principal != null) {
+//         String username = principal.getName(); 
+//         System.out.println(username);// Get the username
+//         // Fetch additional user data from your user repository or database
+//         // ...
+//     }
+//     // Handle the case where no user is authenticated
+//     return "redirect:/login";
+// }
+
     
 }
