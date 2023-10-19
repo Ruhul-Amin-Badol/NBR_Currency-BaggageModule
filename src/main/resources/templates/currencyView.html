@@ -81,10 +81,11 @@
 
 <div class="page_brack" >
 
-    <span id="print_id">
-        <input type="button" class="btn btn-success btn-sm" value="print" id="print_btn" onClick="custom_print()">
-        <a href="/currencystart/show"><input type="button" class="btn btn-success btn-sm" value="Go Back" id="go_back" ></a>
-    </span>
+    <div class="d-flex gap-2 py-3">
+        <button type="button" class="btn btn-primary print-button" onclick="printPage()">Print</button>
+    <a href="/currencystart/show"><button type="button" class="btn btn-primary print-button" >Go Back</button></a>
+    </div>
+
 
     <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center" >
        
@@ -303,9 +304,9 @@
         <button class="btn btn-primary" type="button" onclick="confirm()">Confirm</button>
      </div> -->
 </div>
-<div class="d-flex justify-content-center">
-    <button type="button" class="btn btn-danger btn-lg my-2 mx-3" th:onclick="'redirectToCurrencyEditPage(' + ${Currency.id} + ')'">Edit</button>
-    <button type="button" class="btn btn-primary btn-lg my-2" onclick="confirm()">Confirm</button>
+<div class="d-flex justify-content-center" >
+    <button type="button" class="btn btn-danger btn-lg my-2 mx-3 print-button" th:onclick="'redirectToCurrencyEditPage(' + ${Currency.id} + ')'">Edit</button>
+    <button type="button" id="toggleButton1" class="btn btn-primary btn-lg my-2 print-button" onclick="confirm()">Confirm</button>
 </div>
 <script>
 
@@ -350,25 +351,39 @@ function convertCurrencyToWords() {
     });
 }
 	
-    function custom_print(){
-    document.getElementById('print_id').style.display='none';
-        window.print();
-        document.getElementById('print_id').style.display='';
-         
+    function printPage() {
+
+        var printButtons = document.querySelectorAll(".print-button");
+
+        for (var i = 0; i < printButtons.length; i++) {
+            printButtons[i].style.display = "none";
     }
+
+    // Add an event listener for the afterprint event
+    window.addEventListener('afterprint', function () {
+        // Show the print buttons when the print dialog is closed
+        for (var i = 0; i < printButtons.length; i++) {
+            printButtons[i].style.display = "block";
+
+        }});
+
+        // Print the content of the page
+        window.print();
+    }
+
     function confirm(){
-        //alert("000000000000000")
+       
         event.preventDefault();
     var id=document.getElementById('CurrencyIdGeneral').value;
     console.log(id);
-  
-    
-
-
- 
        
        window.location.href='/currencystart/confirmgenaral?id='+ id
 
+       const button = document.getElementById("toggleButton1");
+        button.style.display = "none";
+        
+        console.log("============")
+       // alert("000000000000000")
          
     }
 
