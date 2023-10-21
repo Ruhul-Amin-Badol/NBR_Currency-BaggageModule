@@ -23,7 +23,7 @@ public class UserActivityManagement {
     private Long userId;
 
 
-    @Column(name = "username",unique = true)
+    @Column(name = "username", unique = true)
     private String username;
 
     @Column(name = "password")
@@ -82,6 +82,11 @@ public class UserActivityManagement {
 
     @Column(name = "india_user")
     private int indiaUser;
+
+    @ManyToOne
+    @JoinColumn(name ="airport_list_id")
+    private AirportList airportList;
+
 
 
 
@@ -254,8 +259,17 @@ public class UserActivityManagement {
         this.indiaUser = indiaUser;
     }
 
+    public AirportList getAirportList() {
+        return this.airportList;
+    }
 
-        @JsonIgnore
+    public void setAirportList(AirportList airportList) {
+        this.airportList = airportList;
+    }
+   
+
+
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities=new HashSet<>();
  
