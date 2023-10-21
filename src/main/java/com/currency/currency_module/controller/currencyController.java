@@ -169,6 +169,13 @@ public class currencyController {
       return "dashboarddatatable";
 
     }
+    @GetMapping("/currencyadminedit")
+    public String currencyadminedit(Model model){
+        //System.out.println();
+        List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findAll();
+         model.addAttribute("unapproveCurrency",listCurrencyDeclaration);
+      return "currencyadminedit";
+    }
 
 
     @GetMapping("/unapprove-currency")
