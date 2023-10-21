@@ -2,6 +2,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" >
 <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" >
 <link href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css" rel="stylesheet" >
+<script src="https://cdn.datatables.net/plug-ins/1.10.24/filtering/date-range.js"></script>
   <style>
     .sr-main-content {
       background-color: #ededf4;
@@ -34,68 +35,13 @@
         <i class="fa fa-server" style="padding-right: 10px"></i>Unapproved
         Currency Application
       </div>
-      <div class="form-container_large">
-        <form action="" method="post" name="codz" id="codz">
-          <table width="80%" border="0" align="center">
-            <tbody>
-              <tr>
-                <td>&nbsp;</td>
-                <td colspan="3">&nbsp;</td>
-                <td>&nbsp;</td>
-              </tr>
-              <tr>
-                <td align="right" bgcolor="#FF9966">
-                  <strong>Date Interval :</strong>
-                </td>
-                <td width="1" bgcolor="#FF9966">
-                  <strong>
-                    <input
-                      type="text"
-                      name="fdate"
-                      id="fdate"
-                      style="width: 110px"
-                      value="2023-9-26"
-                      class="hasDatepicker"
-                    />
-                  </strong>
-                </td>
-                <td align="center" bgcolor="#FF9966">
-                  <strong> -to- </strong>
-                </td>
-                <td width="1" bgcolor="#FF9966">
-                  <strong>
-                    <input
-                      type="text"
-                      name="tdate"
-                      id="tdate"
-                      style="width: 110px"
-                      value="2023-10-11"
-                      class="hasDatepicker"
-                    />
-                  </strong>
-                </td>
-                <td bgcolor="#FF9966">
-                  <strong>
-                    <input
-                      type="submit"
-                      name="submitit"
-                      id="submitit"
-                      value="VIEW DETAIL"
-                      style="
-                        width: 120px;
-                        font-weight: bold;
-                        font-size: 12px;
-                        height: 30px;
-                        color: #090;
-                      "
-                    />
-                  </strong>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </form>
-      </div>
+      <div class="date-filter d-flex my-5">
+        <label for="fromDate">From:</label>
+        <input type="date" id="start-date" name="start-date" class="form-control" placeholder="Start Date">
+        <label for="fromDate">To:</label>
+        <input type="date" id="end-date" name="end-date" class="form-control" placeholder="End Date">
+        <button class="btn btn-warning mx-2" id="filter-button">Filter</button>
+    </div>
     <table id="example" class="table table-striped " style="zoom: 70%;">
         <thead>
             <tr>
@@ -164,25 +110,55 @@
     <script src='https://code.jquery.com/jquery-3.7.0.js'></script>
     <script src='https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js'></script>
     <script src='https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js'></script>
-    <script src='https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js'></script>
+    <!-- <script src='https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js'></script>
     <script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap5.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js'></script>
     <script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js'></script>
     <script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js'></script>
-    <script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js'></script>
+    <script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js'></script> -->
     
     
     <script>
-        $(document).ready(function() {
-        var table = $('#example').DataTable( {
-            lengthChange: false,
-            // buttons: [ 'copy', 'excel', 'pdf', 'colvis' ]
-        } );
+    //     $(document).ready(function() {
+    //     var table = $('#example').DataTable( {
+    //         lengthChange: false,
+    //         // buttons: [ 'copy', 'excel', 'pdf', 'colvis' ]
+    //     } );
      
-        table.buttons().container()
-            .appendTo( '#example_wrapper .col-md-6:eq(0)' );
-    } );
+    //     table.buttons().container()
+    //         .appendTo( '#example_wrapper .col-md-6:eq(0)' );
+    // } );
+
+
+    $(document).ready(function () {
+    var table = $('#example').DataTable({
+        lengthChange: false,
+    });
+
+    // Initialize the Date Range Filter
+    $.fn.dataTable.ext.search.push(
+        function (settings, data, dataIndex) {
+            var min = $('#start-date').val();
+            var max = $('#end-date').val();
+            var date = data[5]; // Change this index to match your date column
+
+            if ((min === '' && max === '') || (min <= date && max >= date)) {
+                return true;
+            }
+
+            return false;
+        }
+    );
+
+    // Add the event listener to the filter button
+    $('#filter-button').on('click', function () {
+        table.draw();
+    });
+
+    table.buttons().container().appendTo('#example_wrapper .col-md-6:eq(0)');
+});
+
     
     </script>

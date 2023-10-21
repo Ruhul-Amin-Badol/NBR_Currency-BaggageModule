@@ -41,6 +41,7 @@ public class SecurityConfig {
                     httpSecurity.csrf().disable()
                     .authorizeHttpRequests()
                     .requestMatchers(HttpMethod.GET, "/baggagestart/*").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/index1").permitAll()
                     // .requestMatchers(HttpMethod.POST, "/baggagestart/*").permitAll()
                     .requestMatchers(HttpMethod.POST, "/baggagestart/valueStay").permitAll()
                     .requestMatchers(HttpMethod.POST, "/currencystart/delete").permitAll()

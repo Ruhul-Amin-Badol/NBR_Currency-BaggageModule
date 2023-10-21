@@ -1,6 +1,6 @@
 package com.currency.currency_module.controller;
 
-import java.security.Principal;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +21,10 @@ public class HomeController {
     @GetMapping("/signin") 
     public String login() {
         return "login";
+    }
+      @GetMapping("/index1") 
+    public String index1() {
+        return "index1";
     }
 
     @GetMapping("/dashboard")
