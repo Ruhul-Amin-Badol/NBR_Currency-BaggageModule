@@ -502,8 +502,7 @@
                                 <label for="entryPoint" class="form-label" id="entryPointLabel">Select Entry Point</label><span class="astrick">*</span>
                                 <select class="form-select" name="entryPoint" aria-label="Default select example" required>
                                     <option value="">--Please Select--</option>
-                                    <!-- ${baggageDetails['entry_point'] == ${allAirport.id}} -->
-                                    <option   th:each="allAirport : ${allAirportList}" th:value="${allAirport.air_port_names}" th:text="${allAirport.air_port_names}" th:selected="${baggageDetails['entry_point'] == allAirport.id}"></option>
+                                    <option   th:each="allAirport : ${allAirportList}" th:value="${allAirport.air_port_names}" th:text="${allAirport.air_port_names}" th:selected="${baggageDetails['entry_point'] == allAirport.air_port_names}"></option>
 
                                 </select>
                             </div>
