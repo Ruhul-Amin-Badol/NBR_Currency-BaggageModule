@@ -26,7 +26,7 @@ import com.currency.currency_module.model.CurrencyDeclaration;
 import com.currency.currency_module.repository.CurrencyAddRepository;
 import com.currency.currency_module.repository.CurrencyDeclarationRepository;
 import com.currency.currency_module.services.CurrencyServices;
-
+import com.currency.currency_module.services.AirportService;
 
 @Controller
 
@@ -38,10 +38,15 @@ public class currencyController {
     CurrencyAddRepository currencyAddRepository;
     @Autowired 
    CurrencyDeclarationRepository currencyDeclarationRepository;
+    @Autowired 
+   AirportService airportService;
     NumberToWords numberToWords=new NumberToWords();
 
     @GetMapping("/show")
-    public String index() {
+    public String index( Model model) {
+
+
+        model.addAttribute("allAirportList", airportService.getAllAirports());
         return "currency";
     }
 
@@ -50,7 +55,9 @@ public class currencyController {
     public String editCurrency(@RequestParam Long id, Model model) {
         // Retrieve the currencyDeclaration object from flash attributes
         System.out.println(id);
-        
+
+
+        model.addAttribute("allAirportList", airportService.getAllAirports());
         // Add the currencyDeclaration to the model for your edit view
         model.addAttribute("currencyDeclaration", currencyServices.findcurrency(id));
         return "currencyEdit"; // The name of your edit view
@@ -59,7 +66,7 @@ public class currencyController {
 
     @PostMapping("/currencyinsert")
     public String insert(CurrencyDeclaration currencyDeclcuaration) {
-          
+    System.out.println("currencyDeclcuaration======================"+currencyDeclcuaration);
     Long id=currencyServices.currencyInsert(currencyDeclcuaration).getId();
     
       
@@ -82,8 +89,6 @@ public class currencyController {
     @PostMapping("/addCurrency")
     public BaggageCurrencyAdd addCurrency(@RequestBody BaggageCurrencyAdd addCurrency){
        
-        // System.out.println(addCurrency.getCurrencyName());
-        // System.out.println(currencyServices.addCurrency(addCurrency).getId());
         
         return currencyServices.addCurrency(addCurrency);
     }
