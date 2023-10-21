@@ -17,7 +17,14 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                   
+                                        <div class="mb-3">
+                                            <label for="entryPoint" class="form-label" id="nationalityLabel">Select Entry Point</label>
+                                            <select class="form-select" name="entryPoint" id="entryPoint"  required>
+                                            <option value="">--Please Select--</option>
+                                              <option th:each="airport : ${allAirportList}" th:value="${airport.id}" th:text="${airport.airPortNames}"></option>
 
+                                            </select> 
+                                          </div>
                                         <div class="mb-3">
                                             <label for="passengerName" class="form-label" id="passengerNamelabell">Full Name</label><span class="astrick">*</span>
                                             <input type="text" class="form-control"   id="passengerName" name="passengerName" th:value="${currencyDeclaration.passengerName}" placeholder="Enter Full Name" required>
