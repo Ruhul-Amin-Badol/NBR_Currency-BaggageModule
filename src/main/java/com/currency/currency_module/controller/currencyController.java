@@ -136,17 +136,17 @@ public class currencyController {
 
     @GetMapping("/confirmgenaral")
    
-    public String updatestatuscurrency(@RequestParam Long id){
+    public String updatestatuscurrency(@RequestParam Long id, Model model){
         CurrencyDeclaration currencyDeclaration= currencyServices.findcurrency(id);
         currencyDeclaration.setStatus("unchecked");
         currencyDeclarationRepository.save(currencyDeclaration);
-       // System.out.println();
+         model.addAttribute("Currency",currencyServices.findcurrency(id));
+        
 
-       // System.out.println("Success");
-       
-       //return "redirect:/currencystart/finalsubmiform?id="+id;
-       return "redirect:/currencystart/show";
+       return "currencyViewconfirm";
     }
+
+
 
     @GetMapping("/unapprovedcurrency")
     @ResponseBody
