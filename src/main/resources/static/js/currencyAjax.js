@@ -83,9 +83,9 @@ $("#addCurrencyButton").click(function () {
       console.log(data);
       populateCurrencyTable();
       $("#currencyAmount").val("");
-      // $("#quantity").val("");
-      // $("#perUnitValue").val("");
-      // $("#totalValue").val("");
+      $("#currencyNoteType").val("");
+      $("#numberOfNote").val("");
+      $("#currencyAmount").val("");
       // $("#tax").val("");
     },
 

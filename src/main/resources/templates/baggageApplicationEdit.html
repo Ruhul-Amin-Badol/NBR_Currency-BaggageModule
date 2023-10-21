@@ -1,143 +1,102 @@
 <div th:replace="~{layout/header}"></div>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" >
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"/>
-    <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.7.0.js"></script>
-    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-  </head>
-  <style>
-    .sr-main-content {
-      background-color: #ededf4;
-      font-family: Roboto, Helvetica, sans-serif !important;
-    }
-    .sr-main-content-padding {
-      background: white;
-      padding: 10px 20px;
-      border: 1px solid #e6e9ed;
-      border-radius: 5px;
-    }
-    .sr-main-content-heading {
-      margin: 0;
-      padding: 0;
-      font-size: 18px;
-      font-weight: 500;
-      color: #555369;
-    }
-    .fa,
-    .fas {
-      font-weight: 900;
-    }
-    #example thead {
-    background-color: #49be78;
-    color: white; 
-  }
-  </style>
-  <body>
-    <div class="sr-main-content-padding">
-      <div class="sr-main-content-heading">
+    <title>Baggage Info Edit</title>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <style>
+        .sr-main-content {
+            background-color: #ededf4;
+            font-family: Roboto, Helvetica, sans-serif !important;
+        }
+        .sr-main-content-padding {
+            background: white;
+            padding: 10px 20px;
+            border: 1px solid #e6e9ed;
+            border-radius: 5px;
+        }
+        .sr-main-content-heading {
+            margin: 0;
+            padding: 0;
+            font-size: 18px;
+            font-weight: 500;
+            color: #555369;
+        }
+        .fa, .fas {
+            font-weight: 900;
+        }
+        #example thead {
+            background-color: #49be78;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<div class="sr-main-content-padding">
+    <div class="sr-main-content-heading">
         <i class="fa fa-server" style="padding-right: 10px"></i>Baggage Info Edit
-      </div>
-      <div class="form-container_large">
-        <form action="" method="post" name="codz" id="codz">
-          <table width="80%" border="0" align="center">
-            <tbody>
-              <tr>
-                <td>&nbsp;</td>
-                <td colspan="3">&nbsp;</td>
-                <td>&nbsp;</td>
-              </tr>
-              <tr>
-                <td align="right" bgcolor="#FF9966">
-                  <strong>Date Interval :</strong>
-                </td>
-                <td width="1" bgcolor="#FF9966">
-                  <strong>
-                    <input
-                      type="text"
-                      name="fdate"
-                      id="fdate"
-                      style="width: 110px"
-                      value="2023-9-26"
-                      class="hasDatepicker"
-                    />
-                  </strong>
-                </td>
-                <td align="center" bgcolor="#FF9966">
-                  <strong> -to- </strong>
-                </td>
-                <td width="1" bgcolor="#FF9966">
-                  <strong>
-                    <input
-                      type="text"
-                      name="tdate"
-                      id="tdate"
-                      style="width: 110px"
-                      value="2023-10-11"
-                      class="hasDatepicker"
-                    />
-                  </strong>
-                </td>
-                <td bgcolor="#FF9966">
-                  <strong>
-                    <input
-                      type="submit"
-                      name="submitit"
-                      id="submitit"
-                      value="VIEW DETAIL"
-                      style="
-                        width: 120px;
-                        font-weight: bold;
-                        font-size: 12px;
-                        height: 30px;
-                        color: rgb(3, 139, 3);
-                      "
-                    />
-                  </strong>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </form>
-        <table id="example" class="display " width="100%" ></table>
-      </div>
     </div>
-      <script>
-      // Function to fetch data from the API and populate the table
-      function fetchDataAndPopulateTable() {
-  $.ajax({
-    url: 'http://localhost:8080/baggageshow/baggageApplicationEdit',
-    type: 'GET',
-    dataType: 'json',
-    success: function (apiResponse) {
-      // Map the API response to the DataTable columns
-      const dataSet = apiResponse.map((record) => [
-        record.dateofarrival,
-        record.passenger_name,
-        record.nationality,
-        record.passport_number,
-        `<a href="/baggagestart/show?generatedId=${record.id}" class="btn btn-primary">Edit</a>`,
-      ]);
+    <div>
+        <div class="d-flex my-5">
+            <label for="fromDate">From:</label>
+            <input class="form-control" type="date" id="fromDate" name="fromDate" >
+            <label for="toDate" >To:</label>
+            <input class="form-control" type="date" id="toDate" name="toDate" >
+            <button type="button" class="btn btn-warning ml-2" id="filterButton">Apply Filter</button>
+        </div>
+        <table id="example" class="display" width="100%"></table>
+    </div>
+</div>
+<script>
+    let dataTable;
 
-      const table = new DataTable('#example', {
-        columns: [
-          { title: 'Apply Date' },
-          { title: 'Passenger Name' },
-          { title: 'Nationality' },
-          { title: 'Passport No' },
-          { title: 'Action' },
-        ],
-        data: dataSet,
-      });
-    },
-    error: function (error) {
-      console.error('Error fetching data:', error);
-    },
-  });
-}
+    // Function to fetch data from the API and populate the table
+    function fetchDataAndPopulateTable() {
+        // Fetch data from the API
+        $.ajax({
+            url: 'http://localhost:8080/baggageshow/baggageApplicationEdit',
+            type: 'GET',
+            dataType: 'json',
+            success: function (apiResponse) {
+                // Map the API response to the DataTable columns
+                const dataSet = apiResponse.map((record) => [
+                    record.dateofarrival,
+                    record.passenger_name,
+                    record.nationality,
+                    record.passport_number,
+                    `<a href="/baggagestart/show?generatedId=${record.id}" class="btn btn-primary">Edit</a>`,
+                ]);
 
-$(document).ready(fetchDataAndPopulateTable);
+                if (dataTable) {
+                    // Destroy the existing DataTable to reinitialize it with updated data
+                    dataTable.destroy();
+                }
 
-      // Call the fetchDataAndPopulateTable function when the page loads
-      $(document).ready(fetchDataAndPopulateTable);
+                dataTable = $('#example').DataTable({
+                    columns: [
+                        { title: 'Apply Date' },
+                        { title: 'Passenger Name' },
+                        { title: 'Nationality' },
+                        { title: 'Passport No' },
+                        { title: 'Action' },
+                    ],
+                    data: dataSet,
+                });
+            },
+            error: function (error) {
+                console.error('Error fetching data:', error);
+            },
+        });
+    }
 
-    </script>
-<div th:replace="~{layout/footer}"></div>
+    $(document).ready(function () {
+        fetchDataAndPopulateTable();
+
+        $('#filterButton').on('click', function () {
+            const fromDate = $('#fromDate').val();
+            const toDate = $('#toDate').val();
+            dataTable.columns(0).search(fromDate + '|' + toDate, true, false).draw();
+        });
+    });
+</script>
+
