@@ -22,6 +22,9 @@ public class CurrencyDeclaration {
     @Column(name = "passenger_name")
     private String passengerName;
 
+    @Column(name = "entry_point")
+    private String entryPoint;
+
     @Column(name = "passport_number")
     private String passportNumber;
 
@@ -109,6 +112,16 @@ public class CurrencyDeclaration {
     public void setPassengerName(String passengerName) {
         this.passengerName = passengerName;
     }
+
+    public String getEntryPoint() {
+        return this.entryPoint;
+    }
+    
+    public void setEntryPoint(String entryPoint) {
+        this.entryPoint = entryPoint;
+    }
+
+
 
     public String getPassportNumber() {
         return this.passportNumber;
