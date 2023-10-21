@@ -31,9 +31,8 @@
       <a href="/dashboard"><input type="button" class="btn btn-success btn-sm" value="Go Back" id="go_back" style="margin: 20px !important;"></a>
   </span>
     <div class="sr-main-content-padding">
-      <div class="sr-main-content-heading">
-        <i class="fa fa-server" style="padding-right: 10px"></i>Unapproved
-        Currency Application
+      <div class="sr-main-content-heading" style="text-align: center;">
+        <i class="fa fa-server" style="padding-right: 10px"></i>Currency Information Edit
       </div>
       <div class="date-filter d-flex my-5" >
         <label for="fromDate">From: </label>
@@ -46,19 +45,12 @@
         <thead>
             <tr>
                 <th>sl</th>
+                <th>Apply Time</th>
                 <th>Name</th>
-                <th>Passport Issue Date</th>
-                <th>Passport Issue Place</th>
                 <th>Nationality</th>
-                <th>Date Of Arrival</th>
                 <th>Profession</th>
                 <th>Flight No</th>
-                <th>Address In Bangladesh</th>
-                <th>Stay Time Abroad</th>
-                <th>Email</th>
-    
-                <td>Action</td>
-    
+                <th>Action</th>
             </tr>
         </thead>
         <tbody >
@@ -66,70 +58,37 @@
             <tr th:each="show,sl : ${unapproveCurrency}" th:object="${'unapproveCurrency'}">
                 
                 <td th:text="${sl.count}"></td>
+                <td th:text="${show.entryAt}"></td>
                 <td th:text="${show.passengerName}"></td>
-                <td th:text="${show.passportNumber}"></td>
-                <td th:text="${show.passportIssueDate}"></td>
                 <td th:text="${show.nationality}"></td>
-                <td th:text="${show.dateOfArrival}"></td>
                 <td th:text="${show.profession}"></td>
-    
-    
-    
                 <td th:text="${show.flightNo}"></td>
-                <td th:text="${show.addressInBangladesh}"></td>
-                <td th:text="${show.stayTimeAbroad}"></td>
-                <td th:text="${show.email}"></td>
-    
                 <td >
-                    <a th:href="@{/currencystart/show-currency-details(id=${show.id})}">View Application</a>
+                    <button type="button" class="btn btn-primary" style="color: white;"><a style="text-decoration: none; color: white;" th:href="@{/currencystart/currencyEdit(id=${show.id})}">Edit</a></button>
     
                 </td>
             </tr>
-    
-    
-    
-     
         </tbody>
         <tfoot>
             <tr>
                 <th>sl</th>
+                <th>Apply Time</th>
                 <th>Name</th>
-                <th>Passport Issue Date</th>
-                <th>Passport Issue Place</th>
                 <th>Nationality</th>
-                <th>Date Of Arrival</th>
                 <th>Profession</th>
                 <th>Flight No</th>
-                <th>Address In Bangladesh</th>
-                <th>Stay Time Abroad</th>
-                <th>Email</th>
-                <td>Action</td>
+                <th>Action</th>
             </tr>
         </tfoot>
     </table>
     <script src='https://code.jquery.com/jquery-3.7.0.js'></script>
     <script src='https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js'></script>
     <script src='https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js'></script>
-    <!-- <script src='https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js'></script>
-    <script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap5.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js'></script>
-    <script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js'></script>
-    <script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js'></script>
-    <script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js'></script> -->
+
     
     
     <script>
-    //     $(document).ready(function() {
-    //     var table = $('#example').DataTable( {
-    //         lengthChange: false,
-    //         // buttons: [ 'copy', 'excel', 'pdf', 'colvis' ]
-    //     } );
-     
-    //     table.buttons().container()
-    //         .appendTo( '#example_wrapper .col-md-6:eq(0)' );
-    // } );
+ 
 
 
     $(document).ready(function () {
