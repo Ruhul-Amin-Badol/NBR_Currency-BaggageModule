@@ -20,7 +20,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.currency.currency_module.NumberToWords;
+
+
+
+import com.currency.currency_module.AirportInformation;
 import com.currency.currency_module.model.BaggageCurrencyAdd;
 import com.currency.currency_module.model.CurrencyDeclaration;
 import com.currency.currency_module.repository.CurrencyAddRepository;
@@ -38,9 +41,11 @@ public class currencyController {
     CurrencyAddRepository currencyAddRepository;
     @Autowired 
    CurrencyDeclarationRepository currencyDeclarationRepository;
+
     @Autowired 
    AirportService airportService;
-    NumberToWords numberToWords=new NumberToWords();
+   @Autowired
+   AirportInformation airportInformation;
 
     @GetMapping("/show")
     public String index( Model model) {
@@ -184,30 +189,55 @@ public class currencyController {
 
 
     @GetMapping("/unapprove-currency")
-    public String unapproveCurrency(Model model){
-        List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatus("unchecked");
-               
-         model.addAttribute("unapproveCurrency",listCurrencyDeclaration);
+    public String unapproveCurrency(Model model,Principal principal){
+        String totolunapprove= airportInformation.getAirport(principal);
+        if(totolunapprove.equalsIgnoreCase("all")){
+        List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatus("unchecked");      
+        model.addAttribute("unapproveCurrency",listCurrencyDeclaration);
+        }else{
+        List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatusAndEntryPoint("unchecked",totolunapprove);      
+        model.addAttribute("unapproveCurrency",listCurrencyDeclaration);
+        }
         return "currency_unapprove";
     }
 
     @GetMapping("/approve-currency")
-    public String approveCurrency(Model model){
-        List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatus("checked");
-         model.addAttribute("approveCurrency",listCurrencyDeclaration);
+    public String approveCurrency(Model model, Principal principal){
+        String totalapprove= airportInformation.getAirport(principal);
+        if(totalapprove.equalsIgnoreCase("all")){
+            List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatus("checked");
+            model.addAttribute("approveCurrency",listCurrencyDeclaration);
+        }else{
+            List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatusAndEntryPoint("checked",totalapprove);
+            model.addAttribute("approveCurrency",listCurrencyDeclaration);
+        }
+        
         return "currency_approve";
     }
     @GetMapping("/reject-currency")
-    public String rejectCurrency(Model model){
+    public String rejectCurrency(Model model,Principal principal){
+        String totalreject= airportInformation.getAirport(principal);
+        if(totalreject.equalsIgnoreCase("all")){
         List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatus("rejected");
-         model.addAttribute("unapproveCurrency",listCurrencyDeclaration);
+        model.addAttribute("unapproveCurrency",listCurrencyDeclaration);
+        }else{
+        List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatusAndEntryPoint("rejected",totalreject);
+        model.addAttribute("unapproveCurrency",listCurrencyDeclaration);
+        }
         return "currency_reject";
     }
 
     @GetMapping("/total-currency-application")
-    public String totalCurrency(Model model){
-        List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findAll();
-         model.addAttribute("unapproveCurrency",listCurrencyDeclaration);
+    public String totalCurrency(Model model, Principal principal){
+        String totalairport=airportInformation.getAirport(principal);
+        System.out.println(totalairport);
+        if(totalairport.equalsIgnoreCase("all")){
+            List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findAll();
+             model.addAttribute("unapproveCurrency",listCurrencyDeclaration);
+        }else{
+             List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findAllByEntryPoint(totalairport);
+              model.addAttribute("unapproveCurrency",listCurrencyDeclaration); 
+        }
         return "currency_total";
     }
     
@@ -227,8 +257,7 @@ public class currencyController {
         @GetMapping("/show-currency-details")
     public String showCurrencyDetails( @RequestParam Long id,Model model){
        
-        String fahim=numberToWords.inWords(25);
-        System.out.println(fahim);
+
 
         CurrencyDeclaration currencydata=currencyServices.findcurrency(id);
          List<BaggageCurrencyAdd> listcurrency= currencyServices.baggagecurrecylist(id);
@@ -252,8 +281,6 @@ public class currencyController {
 
     @PostMapping("/currenc_approve_update")
     public String currencApproveUpdate( CurrencyDeclaration updatedApproveCurrencyDeclaration, Principal principal) {
-    // Perform the update operation using currencyServices
-    //System.out.println("===============================================currenc_approve_reject_update");
         String usernameSession=principal.getName();
     currencyServices.approveCurrencyUpdate(updatedApproveCurrencyDeclaration,usernameSession);
 
@@ -269,8 +296,6 @@ public class currencyController {
          String usernameSession=principal.getName();
         currencyServices.unapproveCurrencyUpdate(updatedUnapproveCurrencyDeclaration,usernameSession);
 
-        // Redirect to the edit page with a success message
-        //redirectAttributes.addFlashAttribute("currencyDeclaration", updatedCurrencyDeclaration);
         return "redirect:/currencystart/unapprove-currency";
     }
 
@@ -289,41 +314,59 @@ public class currencyController {
     }
 
 
-
-
-
-
-
-//This code is Implemented By Fahim
     ///unchecked Status Count
     @GetMapping("/uncheckedstatuscount")
     @ResponseBody
-    public long uncheckedstatuscount(){
-              
-        return currencyDeclarationRepository.countByStatus("unchecked");
+    public long uncheckedstatuscount(Principal principal){
+         
+        String airportname=airportInformation.getAirport(principal);
+        if(airportname.equalsIgnoreCase("all")){
+             return currencyDeclarationRepository.countByStatus("unchecked");
+        }else{
+            return currencyDeclarationRepository.countByStatusAndEntryPoint("unchecked",airportname);
+        }
+
+       
+
 
     }
 
     @GetMapping("/checkedstatuscount")
     @ResponseBody
-    public long checkedstatuscount(){
-     
-        return currencyDeclarationRepository.countByStatus("checked");
+    public long checkedstatuscount(Principal principal){
+
+        String airportname=airportInformation.getAirport(principal);
+        if(airportname.equalsIgnoreCase("all")){
+            return currencyDeclarationRepository.countByStatus("checked");
+        }else{
+            return currencyDeclarationRepository.countByStatusAndEntryPoint("checked",airportname);
+        }
 
     }
+
     @GetMapping("/rejectedstatuscount")
     @ResponseBody
-    public long rejectedstatuscount(){
-       
-       
+    public long rejectedstatuscount(Principal principal){
+       String airportreject=airportInformation.getAirport(principal);
+       if(airportreject.equalsIgnoreCase("all")){
         return currencyDeclarationRepository.countByStatus("rejected");
+       }else{
+        return currencyDeclarationRepository.countByStatusAndEntryPoint("rejected",airportreject);
+       }
+       
+        
 
     }
     @GetMapping("/allstatuscount")
     @ResponseBody
-    public long allstatuscount(){
-     
-        return currencyDeclarationRepository.count();
+    public long allstatuscount(Principal principal){
+        String totalairport=airportInformation.getAirport(principal);
+        if(totalairport.equalsIgnoreCase("all")){
+            return currencyDeclarationRepository.count();
+        }else{
+            return currencyDeclarationRepository.countByEntryPoint(totalairport);
+        }
+        
 
     }
 
