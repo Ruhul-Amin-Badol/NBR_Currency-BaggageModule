@@ -59,6 +59,7 @@ public class SecurityConfig {
                      
 
                     .requestMatchers(HttpMethod.GET, "/currencystart/*").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/home").permitAll()
                     .requestMatchers(HttpMethod.POST, "/currencystart/currencyUpdate").permitAll()
                     .requestMatchers(HttpMethod.POST, "/currencystart/currencyformStay").permitAll()
                     .requestMatchers(HttpMethod.GET, "/currencystart/finalsubmiform").permitAll()

@@ -90,6 +90,10 @@ public class UserActivityManagement {
 
 
 
+    @ManyToOne
+    @JoinColumn(name = "airport_list_id")
+    private AirportList airportList;
+
 
     public Long getUserId() {
         return this.userId;
@@ -266,7 +270,7 @@ public class UserActivityManagement {
     public void setAirportList(AirportList airportList) {
         this.airportList = airportList;
     }
-   
+
 
 
     @JsonIgnore

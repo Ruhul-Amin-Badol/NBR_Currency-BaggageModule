@@ -25,12 +25,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
+import com.currency.currency_module.AirportInformation;
+import com.currency.currency_module.model.CurrencyDeclaration;
+
 
 @Controller
 @RequestMapping("/baggagestart")
 public class baggageController {
     @Autowired
     JdbcTemplate jdbcTemplate;
+     @Autowired
+   AirportInformation airportInformation;
 
     //------> From show and hide mode<------//
     @GetMapping("/show")
@@ -65,10 +70,24 @@ public class baggageController {
 
      //rejected baggage list by nitol
     @GetMapping("/rejected-baggage-list")
-    public String rejectBaggage(Model model) {
-        String sql1 = "SELECT * FROM baggage where status=?";
-        List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,"rejected");
-        model.addAttribute("baggageshow", productshow);
+    public String rejectBaggage(Model model,Principal principal) {
+        String airportname=airportInformation.getAirport(principal);
+
+        // List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,"approved");
+        // model.addAttribute("baggageshow", productshow)
+
+        // List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,"approved");
+        // model.addAttribute("baggageshow", productshow);
+        if(airportname.equalsIgnoreCase("all")){
+             String sql1 = "SELECT * FROM baggage where status=?";
+        List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql1,"approved");
+        model.addAttribute("baggageshow", baggageshow);
+        }
+        else{
+        String sql1 = "SELECT * FROM baggage where status=? AND entry_point=?";
+        List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql1,"approved",airportname);
+        model.addAttribute("baggageshow", baggageshow);
+        }
 
         return "baggage_reject";
     }
@@ -76,10 +95,21 @@ public class baggageController {
     //approve baggage list by nitol
 
     @GetMapping("/approve-baggage-list")
-    public String approveBaggage( Model model) {
-        String sql1 = "SELECT * FROM baggage where status=?";
-        List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,"approved");
-        model.addAttribute("baggageshow", productshow);
+    public String approveBaggage( Model model,Principal principal) {
+        String airportname=airportInformation.getAirport(principal);
+
+        // List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,"approved");
+        // model.addAttribute("baggageshow", productshow);
+        if(airportname.equalsIgnoreCase("all")){
+             String sql1 = "SELECT * FROM baggage where status=?";
+        List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql1,"approved");
+        model.addAttribute("baggageshow", baggageshow);
+        }
+        else{
+        String sql1 = "SELECT * FROM baggage where status=? AND entry_point=?";
+        List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql1,"approved",airportname);
+        model.addAttribute("baggageshow", baggageshow);
+        }
 
         return "baggage_approve";
     }
@@ -538,30 +568,60 @@ public class baggageController {
 //This code is implemented by fahim
 @GetMapping("/countApprovedBaggage")
 @ResponseBody
-public int countApprovedBaggage() {
-    String sql = "SELECT COUNT(*) FROM baggage WHERE status = 'approved'";
+public int countApprovedBaggage(Principal principal) {
+    String airportname=airportInformation.getAirport(principal);
+   if(airportname.equalsIgnoreCase("all")){
+       String sql = "SELECT COUNT(*) FROM baggage WHERE status = 'approved'";
     return jdbcTemplate.queryForObject(sql, Integer.class);
+   }else{
+     String sql = "SELECT COUNT(*) FROM baggage WHERE status = 'approved' AND entry_point=?";
+    return jdbcTemplate.queryForObject(sql, Integer.class,airportname);
+   }
+   
 }
 @GetMapping("/countunApprovedBaggage")
 @ResponseBody
-public int countunApprovedBaggage() {
-    String sql = "SELECT COUNT(*) FROM baggage WHERE status = 'unapproved'";
+public int countunApprovedBaggage(Principal principal) {
+   
+       String airportname=airportInformation.getAirport(principal);
+   if(airportname.equalsIgnoreCase("all")){
+       String sql = "SELECT COUNT(*) FROM baggage WHERE status = 'unapproved'";
     return jdbcTemplate.queryForObject(sql, Integer.class);
+   }else{
+     String sql = "SELECT COUNT(*) FROM baggage WHERE status = 'unapproved' AND entry_point=?";
+    return jdbcTemplate.queryForObject(sql, Integer.class,airportname);
+   }
 }
 @GetMapping("/countrejectedBaggage")
 @ResponseBody
-public int countrejectedBaggage() {
-    String sql = "SELECT COUNT(*) FROM baggage WHERE status = 'rejected'";
+public int countrejectedBaggage(Principal principal) {
+    
+
+  String airportname=airportInformation.getAirport(principal);
+   if(airportname.equalsIgnoreCase("all")){
+       String sql = "SELECT COUNT(*) FROM baggage WHERE status = 'rejected'";
     return jdbcTemplate.queryForObject(sql, Integer.class);
+   }else{
+     String sql = "SELECT COUNT(*) FROM baggage WHERE status = 'rejected' AND entry_point=?";
+    return jdbcTemplate.queryForObject(sql, Integer.class,airportname);
+   }
 }
 
 @GetMapping("/countAllBaggage")
 @ResponseBody
-public int countAllBaggage() {
-    String sql = "SELECT COUNT(*) FROM baggage";
+public int countAllBaggage(Principal principal) {
+    
 //    int yyy= 
 //    System.out.println(yyy);
-    return jdbcTemplate.queryForObject(sql, Integer.class);
+String airportname=airportInformation.getAirport(principal);
+if(airportname.equalsIgnoreCase("all")){
+    String sql = "SELECT COUNT(*) FROM baggage";
+ return jdbcTemplate.queryForObject(sql, Integer.class);
+}else{
+  String sql = "SELECT COUNT(*) FROM baggage WHERE  entry_point=?";
+ return jdbcTemplate.queryForObject(sql, Integer.class,airportname);
+}
+    
 }
 
 

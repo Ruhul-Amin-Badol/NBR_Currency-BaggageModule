@@ -1,5 +1,6 @@
 package com.currency.currency_module.model;
 
+
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -14,12 +15,13 @@ import jakarta.persistence.OneToMany;
 
 @Entity
 public class AirportList {
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-private Long id;
 
-@Column(name = "airPortNames")
-private String airPortNames;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+   
+    private String airPortNames;
 
 
     public Long getId() {
@@ -38,12 +40,19 @@ private String airPortNames;
         this.airPortNames = airPortNames;
     }
 
+
+    // public List<UserActivityManagement> getUserActivityManagementList() {
+    //     return this.userActivityManagementList;
+    // }
+
+    // public void setUserActivityManagementList(List<UserActivityManagement> userActivityManagementList) {
+    //     this.userActivityManagementList = userActivityManagementList;
+    // }
+   
+
     @JsonIgnore
     @OneToMany(mappedBy = "airportList", cascade = CascadeType.ALL)
     private List<UserActivityManagement> userActivityManagementList;
 
-
-
-    
 
 }
