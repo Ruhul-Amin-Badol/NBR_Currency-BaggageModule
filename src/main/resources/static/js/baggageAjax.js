@@ -19,6 +19,20 @@ function populateTable() {
     newRow.append(`<td class="d-none" >${item.perUnitValue}</td>`);
     newRow.append(`<td>${item.totalValue}</td>`);
     newRow.append(`<td>${item.tax}</td>`);
+
+
+    newRow.append(`<td>${item.cd}</td>`);
+    newRow.append(`<td>${item.rd}</td>`);
+    newRow.append(`<td>${item.sd}</td>`);
+    newRow.append(`<td>${item.vat}</td>`);
+    newRow.append(`<td>${item.ait}</td>`);
+    newRow.append(`<td>${item.at}</td>`);
+
+
+
+
+
+
     newRow.append(`<td>${item.taxAmount}</td>`);
     // newRow.append(
     //   `<td  class="text-center text-danger"><i class="fa-solid fa-xmark delete-button"></i></td>`
@@ -43,14 +57,13 @@ function populateTable() {
 //-----> Product add button pass value for post request and show second table<----//
 $("#addButton").click(function () {
   
+  
   var deleteId = parseInt(document.getElementById('deleteidhidden').value);
   
    if( document.getElementById('addButton').innerText=="Update"){
-    DeleteAfterEdit(deleteId)
-    addData = addData.filter((obj) => obj.id !== deleteId);
- 
-
-   }
+      DeleteAfterEdit(deleteId)
+      addData = addData.filter((obj) => obj.id !== deleteId);
+      }
   document.getElementById('addButton').innerText = "Add";
 
   // Get input field values
@@ -62,7 +75,14 @@ $("#addButton").click(function () {
   const perUnitValue = $("#perUnitValue").val();
   const totalValue = $("#totalValue").val();
   const tax = $("#tax").val();
+  const cd = $("#cd").val();
+  const rd = $("#rd").val();
+  const sd = $("#sd").val();
+  const vat = $("#vat").val();
+  const ait = $("#ait").val();
+  const at = $("#at").val();
   const taxAmount = $("#taxAmount").val();
+
 
   // Create a data object to send to the API
   const data = {
@@ -74,11 +94,25 @@ $("#addButton").click(function () {
     perUnitValue,
     totalValue,
     tax,
+    cd,
+    rd,
+    sd,
+    vat,
+    ait,
+    at,
+
     taxAmount,
   };
-  addData.push(data);
 
-  $("#table2").show();
+
+  //  alert(data.taxAmount);
+  if(data.taxAmount != "" & totalValue != ""){
+
+    addData.push(data);
+  }
+
+
+
 
   // Send a POST request to your Spring Boot API using jQuery's AJAX
   $.ajax({
@@ -96,6 +130,17 @@ $("#addButton").click(function () {
       $("#perUnitValue").val("");
       $("#totalValue").val("");
       $("#tax").val("");
+
+      $("#cd").val("");
+      $("#rd").val("");
+      $("#sd").val("");
+      $("#vat").val("");
+      $("#ait").val("");
+      $("#at").val("");
+
+      
+
+
     },
 
     error: function (error) {
@@ -156,6 +201,19 @@ function EditProduct(idToDelete) {
       document.getElementById('perUnitValue').value = addData[i].perUnitValue;
       document.getElementById('totalValue').value = addData[i].totalValue;
       document.getElementById('tax').value = addData[i].tax;
+
+
+      document.getElementById('cd').value = addData[i].cd;
+      document.getElementById('rd').value = addData[i].rd;
+      document.getElementById('sd').value = addData[i].sd;
+      document.getElementById('vat').value = addData[i].vat;
+      document.getElementById('ait').value = addData[i].ait;
+      document.getElementById('at').value = addData[i].at;
+
+
+
+
+
       document.getElementById('taxAmount').value = addData[i].taxAmount;
       document.getElementById('deleteidhidden').value = idToDelete;
       document.getElementById('addButton').innerText = "Update";
@@ -175,6 +233,7 @@ function fetchProductData() {
   document.getElementById("perUnitValue").value = "";
   document.getElementById("totalValue").value = "";
   document.getElementById("taxAmount").value = "";
+
   // Get the selected product name'
   var selectedProductName = $("#productName").val();
 
@@ -189,6 +248,15 @@ function fetchProductData() {
       success: function (data) {
         $("#unit").val(data.unit); // Update unit field
         $("#tax").val(data.taxPercentage);
+
+        $("#cd").val(data.cd);
+        $("#rd").val(data.rd);
+        $("#sd").val(data.sd);
+        $("#vat").val(data.vat);
+        $("#ait").val(data.ait);
+        $("#at").val(data.at);
+
+
         
       },
       error: function () {
@@ -200,6 +268,16 @@ function fetchProductData() {
   } else {
     $("#unit").val("");
     $("#tax").val("");
+
+    $("#cd").val("");
+    $("#rd").val("");
+    $("#sd").val("");
+    $("#vat").val("");
+    $("#ait").val("");
+    $("#at").val("");
+
+
+
   }
 }
 
@@ -217,12 +295,34 @@ function calculateTotalValue() {
     // Update the totalValue field with the calculated result
     document.getElementById("totalValue").value = totalValue;
     let tax = document.getElementById("tax").value / 100;
+
+    let cd = document.getElementById("cd").value / 100;
+    let rd = document.getElementById("rd").value / 100;
+    let sd = document.getElementById("sd").value / 100;
+    let vat = document.getElementById("vat").value / 100;
+    let ait = document.getElementById("ait").value / 100;
+    let at = document.getElementById("at").value / 100;
+
+    
+
     let totalTax = tax * totalValue.toFixed(2);
-    document.getElementById("taxAmount").value = totalTax.toFixed(2);
+    let totalCd = cd * totalValue.toFixed(2);
+    let totalRd= rd * totalValue.toFixed(2);
+    let totalSd = sd * totalValue.toFixed(2);
+    let totalvat = vat * totalValue.toFixed(2);
+    let totalAit = ait * totalValue.toFixed(2);
+    let totalAt = at * totalValue.toFixed(2);
+
+    let additionTaxAmount = totalTax+totalCd+totalRd+totalSd+totalvat+totalAit+totalAt;
+
+
+
+    document.getElementById("taxAmount").value = additionTaxAmount.toFixed(2);
   } else {
     // Handle the case where either quantity or perUnitValue is not a valid number
     document.getElementById("totalValue").value = "";
   }
+  
 }
 // Attach the calculateTotalValue function to the 'input' event of quantity and perUnitValue fields
 document
@@ -264,9 +364,31 @@ document.addEventListener("DOMContentLoaded", function () {
           perUnitValue: item.value,
           totalValue: item.tax_amount,
           tax: item.tax_percentage,
+
+          cd: item.cd,
+          rd: item.rd,
+          sd: item.sd,
+          tasdx: item.sd,
+          vat: item.vat,
+          ait: item.ait,
+          at: item.at,
+
+
+
+
+
+
+
+
           taxAmount: item.tax_amount,
         };
+
+
+        console.log("extractedData==========="+extractedData)
         addData.push(extractedData);
+
+
+
       });
 
       populateTable()

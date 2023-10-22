@@ -1109,6 +1109,12 @@
                                                 <th scope="col">Per Unit Value</th>
                                                 <th scope="col">Total Value</th>
                                                 <th scope="col">Tax(%)</th>
+                                                <th scope="col">CD(%)</th>
+                                                <th scope="col">RD(%)</th>
+                                                <th scope="col">SD(%)</th>
+                                                <th scope="col">VAT(%)</th>
+                                                <th scope="col">AIT(%)</th>
+                                                <th scope="col">AT(%)</th>
                                                 <th scope="col">Tax Amount</th>
                                                 <th scope="col">Action</th>
                                 
@@ -1129,7 +1135,19 @@
                                                 <td><input type="text" class="form-control" id="quantity" name="quantity" onKeyUp="tax_calc()"></td>
                                                 <td><input type="text" class="form-control" id="perUnitValue" name="perUnitValue" onKeyUp="tax_calc()"></td>
                                                 <td><input type="text" class="form-control" id="totalValue" name="totalValue" onKeyUp="tax_calc()"></td>
+                                                
                                                 <td><input type="text" class="form-control" id="tax" name="tax"></td>
+                                                <td><input type="text" class="form-control" id="cd" name="cd"></td>
+                                                <td><input type="text" class="form-control" id="rd" name="rd"></td>
+                                                <td><input type="text" class="form-control" id="sd" name="sd"></td>
+                                                <td><input type="text" class="form-control" id="vat" name="vat"></td>
+                                                <td><input type="text" class="form-control" id="ait" name="AIT"></td>
+                                                <td><input type="text" class="form-control" id="at" name="AT"></td>
+
+
+
+
+
                                                 <td><input type="text" class="form-control" id="taxAmount" name="taxAmount"></td>
                                                 <td class="d-none"><input type="hidden" class="form-control" id="deleteidhidden" name="taxAmount"></td>
                                                 <td><button type="button" class="btn btn-success" id="addButton">Add</button></td>
@@ -1149,6 +1167,18 @@
                                             <th scope="col" class="d-none">Value</th>
                                             <th scope="col">Total Value</th>
                                             <th scope="col">Tax(%)</th>
+
+                                            <th scope="col">CD(%)</th>
+                                            <th scope="col">RD(%)</th>
+                                            <th scope="col">SD(%)</th>
+                                            <th scope="col">VAT(%)</th>
+                                            <th scope="col">AIT(%)</th>
+                                            <th scope="col">AT(%)</th>
+
+
+
+
+
                                             <th scope="col">Tax Amount</th>    
                                             <th scope="col">Edit</th>
                                             <th scope="col">Delete</th>
@@ -1158,11 +1188,7 @@
                                         
                                         
 
-                                        <!-- <tr>
-                                            <th colspan="7" class="text-end"> Total Tax Amount</th>
-                                            <td></td>
-                                            <td></td>
-                                        </tr> -->
+
                                     </tbody>
                                 </table>
                                 </div>

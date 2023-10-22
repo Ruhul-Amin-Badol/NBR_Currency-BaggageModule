@@ -336,12 +336,24 @@ public class baggageController {
 
         // Execute the SQL query to fetch unit_name and tax_percentage based on
         // item_name
-        String itemSql = "SELECT unit_name, tax_percentage FROM baggage_item_info WHERE item_name = ?";
+        String itemSql = "SELECT * FROM baggage_item_info WHERE item_name = ?";
         try {
             Map<String, Object> result = jdbcTemplate.queryForMap(itemSql, productName);
             // Store the fetched data in the map
             productData.put("unit", result.get("unit_name"));
             productData.put("taxPercentage", result.get("tax_percentage"));
+
+            productData.put("cd", result.get("cd"));
+            productData.put("rd", result.get("rd"));
+            productData.put("sd", result.get("sd"));
+            productData.put("vat", result.get("vat"));
+            productData.put("ait", result.get("ait"));
+            productData.put("at", result.get("at"));
+
+
+
+
+
         } catch (EmptyResultDataAccessException e) {
             // Handle the case where no matching product is found
             productData.put("error", "Product not found");
@@ -468,15 +480,16 @@ public class baggageController {
         @GetMapping("/confrimPage")
          public String confrimPage(
             @RequestParam Long id, // Add a parameter for the unique identifier (id)
-            Model model) {
-       
+            Model model,Principal principal) {
+       String  usernameSession=principal.getName();
        String sql= "SELECT * FROM baggage WHERE id =?";
           Map<String, Object>requestParameters= jdbcTemplate.queryForMap(sql, id);
             model.addAttribute("reportShow", requestParameters);
 
           String sql1="SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
           List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,id);
-
+            
+          model.addAttribute("usernameSession", usernameSession);
           model.addAttribute("showProduct", productshow);
            
         return "confirmPage";
