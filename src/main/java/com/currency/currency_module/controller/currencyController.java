@@ -24,7 +24,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import com.currency.currency_module.AirportInformation;
-import com.currency.currency_module.NumberToWords;
 import com.currency.currency_module.model.BaggageCurrencyAdd;
 import com.currency.currency_module.model.CurrencyDeclaration;
 import com.currency.currency_module.repository.CurrencyAddRepository;
@@ -47,7 +46,6 @@ public class currencyController {
    AirportService airportService;
    @Autowired
    AirportInformation airportInformation;
-    NumberToWords numberToWords=new NumberToWords();
 
     @GetMapping("/show")
     public String index( Model model) {

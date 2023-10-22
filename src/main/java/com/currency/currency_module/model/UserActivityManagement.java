@@ -82,13 +82,7 @@ public class UserActivityManagement {
 
     @Column(name = "india_user")
     private int indiaUser;
-
-    @ManyToOne
-    @JoinColumn(name ="airport_list_id")
-    private AirportList airportList;
-
-
-
+    
 
     @ManyToOne
     @JoinColumn(name = "airport_list_id")
