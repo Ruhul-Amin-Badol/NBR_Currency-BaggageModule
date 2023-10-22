@@ -15,12 +15,14 @@ import jakarta.persistence.OneToMany;
 
 @Entity
 public class AirportList {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
    
     private String airPortNames;
+
 
     public Long getId() {
         return this.id;
@@ -38,6 +40,7 @@ public class AirportList {
         this.airPortNames = airPortNames;
     }
 
+
     // public List<UserActivityManagement> getUserActivityManagementList() {
     //     return this.userActivityManagementList;
     // }
@@ -46,12 +49,10 @@ public class AirportList {
     //     this.userActivityManagementList = userActivityManagementList;
     // }
    
+
     @JsonIgnore
     @OneToMany(mappedBy = "airportList", cascade = CascadeType.ALL)
     private List<UserActivityManagement> userActivityManagementList;
-
-
-    
 
 
 }

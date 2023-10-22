@@ -22,20 +22,22 @@ public class adminController {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-  @Autowired
-   AirportInformation airportInformation;
+
+    @Autowired
+    AirportInformation airportInformation;
 
     
     @GetMapping("/baggagetotal")
-    public String baggagetotal( Model model,Principal principal) {
+    public String baggagetotal( Model model ,Principal principal) {
         String airportname=airportInformation.getAirport(principal);
         if(airportname.equalsIgnoreCase("all")){
-            String sql1 = "SELECT * FROM baggage";
+        String sql1 = "SELECT * FROM baggage";
         List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql1);
         model.addAttribute("baggageshow", baggageshow);
         }
         else{
-        String sql1 = "SELECT * FROM baggage WHERE entry_point=? ";
+
+        String sql1 = "SELECT * FROM baggage WHERE entry_point = ?";
         List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql1,airportname);
         model.addAttribute("baggageshow", baggageshow);
         }

@@ -24,8 +24,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
 import com.currency.currency_module.AirportInformation;
 import com.currency.currency_module.model.CurrencyDeclaration;
+
 
 @Controller
 @RequestMapping("/baggagestart")
@@ -42,17 +44,22 @@ public class baggageController {
         List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1);
         model.addAttribute("productshow", productshow);
 
-
+        String allAirport_sql = "SELECT * FROM airport_list";
+        List<Map<String, Object>> allAirportList = jdbcTemplate.queryForList(allAirport_sql);
+        
+        model.addAttribute("allAirportList", allAirportList);
         if (!generatedId.isEmpty()) {
             String sql = "SELECT * FROM baggage WHERE id = ?";
             Map<String, Object> baggageDetails = jdbcTemplate.queryForMap(sql, generatedId);
             
+
 
             model.addAttribute("InsertMode", false);
             model.addAttribute("editMode", true);
             model.addAttribute("ID", generatedId);
 
             model.addAttribute("baggageDetails", baggageDetails);
+             
         } else {
             model.addAttribute("editMode", false);
             model.addAttribute("InsertMode", true);
@@ -647,6 +654,8 @@ if(airportname.equalsIgnoreCase("all")){
         jdbcTemplate.update(sql,status,username,id);
 
         String usernameSession=principal.getName();
+
+        
     
 
 
