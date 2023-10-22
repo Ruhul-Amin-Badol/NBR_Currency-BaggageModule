@@ -22,6 +22,7 @@ public class adminController {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
+
     @Autowired
     AirportInformation airportInformation;
 
@@ -35,10 +36,12 @@ public class adminController {
         model.addAttribute("baggageshow", baggageshow);
         }
         else{
+
         String sql1 = "SELECT * FROM baggage WHERE entry_point = ?";
         List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql1,airportname);
         model.addAttribute("baggageshow", baggageshow);
         }
+
        
         
         return "baggageTotalApplication";
@@ -48,10 +51,20 @@ public class adminController {
 
 
     @GetMapping("/unapprovedbaggagetotal")
-    public String unapprovedbaggagetotal( Model model) {
-        String sql = "SELECT * FROM baggage WHERE status = 'unapproved'";
+    public String unapprovedbaggagetotal( Model model,Principal principal) {
+        String airportname=airportInformation.getAirport(principal);
+      
+        
+          if(airportname.equalsIgnoreCase("all")){
+              String sql = "SELECT * FROM baggage WHERE status = 'unapproved'";
         List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql);
         model.addAttribute("baggageshow", baggageshow);
+          }
+          else{
+             String sql = "SELECT * FROM baggage WHERE status = 'unapproved' AND entry_point=?";
+             List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql,airportname);
+        model.addAttribute("baggageshow", baggageshow);
+          }
        
         
         return "unapproved_baggage_list";

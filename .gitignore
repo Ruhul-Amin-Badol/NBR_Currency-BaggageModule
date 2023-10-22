@@ -28,6 +28,8 @@ target/
 build/
 !**/src/main/**/build/
 !**/src/test/**/build/
+/src/main/java/com/currency/currency_module/AirportInformation.java
+
 
 ### VS Code ###
 .vscode/
