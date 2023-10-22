@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-
+import com.currency.currency_module.AirportInformation;
 import com.currency.currency_module.model.UserActivityManagement;
 import com.currency.currency_module.services.UserActivityManagementService;
 
@@ -21,6 +21,8 @@ import jakarta.servlet.http.HttpSession;
 public class HomeController {
     @Autowired
    UserActivityManagementService userActivityManagementService;
+   @Autowired
+   AirportInformation airportInformation;
 
  
    
@@ -40,8 +42,7 @@ public class HomeController {
 
     @GetMapping("/dashboard")
     public String dashboard() {
-
-
+  
         return "dashboard";
     }
     @GetMapping("/logout")

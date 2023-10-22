@@ -1,5 +1,6 @@
 package com.currency.currency_module.controller;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.currency.currency_module.AirportInformation;
+
 
 @Controller
 @RequestMapping("/baggageshow")
@@ -19,12 +22,24 @@ public class adminController {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
+  @Autowired
+   AirportInformation airportInformation;
+
     
     @GetMapping("/baggagetotal")
-    public String baggagetotal( Model model) {
-        String sql1 = "SELECT * FROM baggage";
+    public String baggagetotal( Model model,Principal principal) {
+        String airportname=airportInformation.getAirport(principal);
+        if(airportname.equalsIgnoreCase("all")){
+            String sql1 = "SELECT * FROM baggage";
         List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql1);
         model.addAttribute("baggageshow", baggageshow);
+        }
+        else{
+        String sql1 = "SELECT * FROM baggage WHERE entry_point=? ";
+        List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql1,airportname);
+        model.addAttribute("baggageshow", baggageshow);
+        }
+
        
         
         return "baggageTotalApplication";
@@ -34,10 +49,20 @@ public class adminController {
 
 
     @GetMapping("/unapprovedbaggagetotal")
-    public String unapprovedbaggagetotal( Model model) {
-        String sql = "SELECT * FROM baggage WHERE status = 'unapproved'";
+    public String unapprovedbaggagetotal( Model model,Principal principal) {
+        String airportname=airportInformation.getAirport(principal);
+      
+        
+          if(airportname.equalsIgnoreCase("all")){
+              String sql = "SELECT * FROM baggage WHERE status = 'unapproved'";
         List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql);
         model.addAttribute("baggageshow", baggageshow);
+          }
+          else{
+             String sql = "SELECT * FROM baggage WHERE status = 'unapproved' AND entry_point=?";
+             List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql,airportname);
+        model.addAttribute("baggageshow", baggageshow);
+          }
        
         
         return "unapproved_baggage_list";
