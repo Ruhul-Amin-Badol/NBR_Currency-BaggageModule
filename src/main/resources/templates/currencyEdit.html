@@ -21,7 +21,8 @@
                                             <label for="entryPoint" class="form-label" id="nationalityLabel">Select Entry Point</label>
                                             <select class="form-select" name="entryPoint" id="entryPoint"  required>
                                             <option value="">--Please Select--</option>
-                                              <option th:each="airport : ${allAirportList}" th:value="${airport.id}" th:text="${airport.airPortNames}"></option>
+                                            <option th:each="airport : ${allAirportList}"
+                                            th:value="${airport.airPortNames}" th:text="${airport.airPortNames}" th:unless="${airport.airPortNames == 'all'}" th:selected="${currencyDeclaration.entryPoint == airport.airPortNames}"></option>
 
                                             </select> 
                                           </div>

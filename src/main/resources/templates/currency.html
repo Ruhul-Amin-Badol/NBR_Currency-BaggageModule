@@ -23,7 +23,7 @@
                     required>
                     <option value>--Please Select--</option>
                     <option th:each="airport : ${allAirportList}"
-                      th:value="${airport.id}" th:text="${airport.airPortNames}"></option>
+                      th:value="${airport.airPortNames}" th:text="${airport.airPortNames}" th:unless="${airport.airPortNames == 'all'}"></option>
 
                   </select>
                 </div>

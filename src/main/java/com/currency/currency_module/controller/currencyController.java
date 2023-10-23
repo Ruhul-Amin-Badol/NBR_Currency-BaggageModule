@@ -287,7 +287,7 @@ public class currencyController {
 
     // Redirect to the edit page with a success message
     //redirectAttributes.addFlashAttribute("currencyDeclaration", updatedCurrencyDeclaration);
-    return "redirect:/currencystart/unapprove-currency";
+    return "redirect:/currencystart/total-currency-application";
 }
 
     @PostMapping("/currency_unapprove_update")
@@ -296,7 +296,7 @@ public class currencyController {
          String usernameSession=principal.getName();
         currencyServices.unapproveCurrencyUpdate(updatedUnapproveCurrencyDeclaration,usernameSession);
 
-        return "redirect:/currencystart/unapprove-currency";
+        return "redirect:/currencystart/total-currency-application";
     }
 
 
