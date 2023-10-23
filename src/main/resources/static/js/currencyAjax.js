@@ -71,29 +71,44 @@ $("#addCurrencyButton").click(function () {
 
   $("#table2currency").show();
 
-  // Send a POST request to your Spring Boot API using jQuery's AJAX
-  $.ajax({
-    url: "/currencystart/addCurrency",
-    type: "POST",
-    contentType: "application/json",
-    data: JSON.stringify(data),
-    success: function (response) {
-      console.log(response);
-      addcurrencyData.push(response);
-      console.log(data);
-      populateCurrencyTable();
-      $("#currencyAmount").val("");
-      $("#currencyNoteType").val("");
-      $("#numberOfNote").val("");
-      $("#currencyAmount").val("");
-      // $("#tax").val("");
-    },
+  if(currencyAmount != "" & numberOfNote != ""){
+    $.ajax({
+      url: "/currencystart/addCurrency",
+      type: "POST",
+      contentType: "application/json",
+      data: JSON.stringify(data),
+      success: function (response) {
+        //alert(response.currencyAmount);
+  
+        if(response.currencyAmount != "" & response.numberOfNote != ""){
+        addcurrencyData.push(response);
+        }else{
+          alert("Note Type , Number of Note, Amount is required")
+        }
+  
+        console.log(data);
+        populateCurrencyTable();
+        $("#currencyAmount").val("");
+        $("#currencyNoteType").val("");
+        $("#numberOfNote").val("");
+        $("#currencyAmount").val("");
+        // $("#tax").val("");
+      },
+  
+      error: function (error) {
+        // Handle errors here
+        console.error(error);
+      },
+    });
 
-    error: function (error) {
-      // Handle errors here
-      console.error(error);
-    },
-  });
+  }
+  else{
+    alert("Note Type , Number of Note, Amount is required")
+  }
+
+  // Send a POST request to your Spring Boot API using jQuery's AJAX
+
+
 });
 
 

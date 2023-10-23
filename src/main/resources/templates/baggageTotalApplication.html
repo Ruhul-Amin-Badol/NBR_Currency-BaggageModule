@@ -36,8 +36,11 @@
                 <th>Flight Number</th>
                 <th>Mobile Number</th>
                 <th>Email</th>
-                <th>Accompanied Baggage Count</th>
-                <th>Unaccompanied Baggage Count</th>
+                <th>Status</th>
+
+                <!-- <th>Accompanied Baggage Count</th>
+                <th>Unaccompanied Baggage Count</th> -->
+
                 <th>Meat</th>
                 <th>Currency</th>
                 <th>Action</th>
@@ -61,8 +64,12 @@
                 <td th:text="${show['flight_no']}"></td>
                 <td th:text="${show['mobile_no']}"></td>
                 <td th:text="${show['email']}"></td>
-                <td th:text="${show['accom_no']}"></td>
-                <td th:text="${show['unaccom_no']}"></td>
+
+                <td th:text="${show['status']}"></td>
+
+                <!-- <td th:text="${show['accom_no']}"></td>
+                <td th:text="${show['unaccom_no']}"></td> -->
+
                 <td th:text="${show['meat_products']}"></td>
                 <td th:text="${show['foreign_currency']}"></td>
                 <!-- <td><a th:href="@{'/baggageshow/baggagetotalid/'+ ${show['id']}}">show</a></td> -->
@@ -88,8 +95,10 @@
                 <th>Flight Number</th>
                 <th>Mobile Number</th>
                 <th>Email</th>
-                <th>Accompanied Baggage Count</th>
-                <th>Unaccompanied Baggage Count</th>
+
+                <th>Status</th>
+                <!-- <th>Accompanied Baggage Count</th>
+                <th>Unaccompanied Baggage Count</th> -->
                 <th>Meat</th>
                 <th>Currency</th>
                 <th>Action</th>

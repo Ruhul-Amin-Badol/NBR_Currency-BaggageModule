@@ -78,6 +78,7 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.GET, "/baggageshow/baggagetotalid").permitAll()
                     .requestMatchers(HttpMethod.GET, "/baggageshow/baggageApplicationEdit").permitAll()
                     .requestMatchers(HttpMethod.GET, "/baggageshow/baggageApplicationShow").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/baggagestart/confrimPage").permitAll()
 
 
                   
