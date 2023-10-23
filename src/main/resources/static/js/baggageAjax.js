@@ -109,6 +109,8 @@ $("#addButton").click(function () {
   if(data.taxAmount != "" & totalValue != ""){
 
     addData.push(data);
+  }else{
+    alert("Required al fields")
   }
 
 
