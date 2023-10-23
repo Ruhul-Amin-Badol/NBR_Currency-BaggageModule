@@ -481,16 +481,14 @@ public class baggageController {
          public String confrimPage(
             @RequestParam Long id, // Add a parameter for the unique identifier (id)
             Model model,Principal principal) {
-       String  usernameSession=principal.getName();
-       String sql= "SELECT * FROM baggage WHERE id =?";
-          Map<String, Object>requestParameters= jdbcTemplate.queryForMap(sql, id);
+            String sql= "SELECT * FROM baggage WHERE id =?";
+            Map<String, Object>requestParameters= jdbcTemplate.queryForMap(sql, id);
             model.addAttribute("reportShow", requestParameters);
 
-          String sql1="SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
-          List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,id);
-            
-          model.addAttribute("usernameSession", usernameSession);
-          model.addAttribute("showProduct", productshow);
+            String sql1="SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
+            List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,id);
+                
+            model.addAttribute("showProduct", productshow);
            
         return "confirmPage";
      
@@ -655,7 +653,7 @@ if(airportname.equalsIgnoreCase("all")){
 
     // Redirect to the edit page with a success message
     //redirectAttributes.addFlashAttribute("currencyDeclaration", updatedCurrencyDeclaration);
-    return "redirect:/baggagestart/approve-baggage-list";
+    return "redirect:/baggageshow/baggagetotal";
 }
 
 //for baggage reject list 
@@ -671,9 +669,8 @@ if(airportname.equalsIgnoreCase("all")){
         
     
 
-
   
-    return "redirect:/baggagestart/rejected-baggage-list";
+    return "redirect:/baggageshow/baggagetotal";
 }
 
 
