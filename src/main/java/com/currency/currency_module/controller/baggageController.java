@@ -4,6 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,10 +25,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-
 import com.currency.currency_module.AirportInformation;
-import com.currency.currency_module.model.CurrencyDeclaration;
+
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
+
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 
 @Controller
@@ -36,7 +43,12 @@ public class baggageController {
     JdbcTemplate jdbcTemplate;
      @Autowired
    AirportInformation airportInformation;
+   @Autowired
+   private JavaMailSender mailSender;
 
+
+   @Autowired
+private TemplateEngine templateEngine;
     //------> From show and hide mode<------//
     @GetMapping("/show")
     public String baggageFrom(@RequestParam(required = false, defaultValue = "") String generatedId, Model model) {
@@ -68,6 +80,44 @@ public class baggageController {
         return "baggage";
     }
 
+
+
+
+    
+
+    @GetMapping("/edit-baggage")
+    public String adminBaggageUpdate(@RequestParam(required = false, defaultValue = "") String generatedId, Model model){
+
+        String sql1 = "SELECT item_name FROM baggage_item_info";
+        List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1);
+        model.addAttribute("productshow", productshow);
+
+        String allAirport_sql = "SELECT * FROM airport_list";
+        List<Map<String, Object>> allAirportList = jdbcTemplate.queryForList(allAirport_sql);
+        
+        model.addAttribute("allAirportList", allAirportList);
+        if (!generatedId.isEmpty()) {
+            String sql = "SELECT * FROM baggage WHERE id = ?";
+            Map<String, Object> baggageDetails = jdbcTemplate.queryForMap(sql, generatedId);
+            
+
+
+            model.addAttribute("InsertMode", false);
+            model.addAttribute("editMode", true);
+            model.addAttribute("ID", generatedId);
+
+            model.addAttribute("baggageDetails", baggageDetails);
+             
+        } else {
+            model.addAttribute("editMode", false);
+            model.addAttribute("InsertMode", true);
+        }
+
+
+
+
+        return "baggage_admin";
+    }
      //rejected baggage list by nitol
     @GetMapping("/rejected-baggage-list")
     public String rejectBaggage(Model model,Principal principal) {
@@ -136,8 +186,9 @@ public class baggageController {
             
             Model model) {
 
-            
 
+ 
+// paymentId,
         String sql = "INSERT INTO baggage (entry_point, passenger_name, passport_number, passport_validity_date,nationality, previous_country, dateofarrival, flight_no, mobile_no, email, accom_no, unaccom_no,meat_products,foreign_currency) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)";
         long generatedId = -1;
         // Use a try-with-resources block to ensure the resources are properly closed
@@ -172,11 +223,34 @@ public class baggageController {
 
             // Retrieve the generated ID
             ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            //System.out.println("generatedKeys================================================"+generatedKeys);
             if (generatedKeys.next()) {
                 generatedId = generatedKeys.getLong(1);
                 // You can use the generatedId as needed
-                // System.out.println("Generated ID: " + generatedId);
+                System.out.println("Generated ID: " + generatedId);
             }
+
+
+
+
+            //find latest baggage id
+            String sql_baggage = "SELECT * FROM baggage WHERE id = ?";
+            Map<String, Object> mostRecentBaggageList = jdbcTemplate.queryForMap(sql_baggage, generatedId);
+            Integer autoincrementId = (Integer) mostRecentBaggageList.get("id");
+            String airportName = (String)mostRecentBaggageList.get("entry_point");
+
+            String sql_airport = "SELECT * FROM airport_list WHERE air_port_names = ?";
+            Map<String, Object> airportDetails = jdbcTemplate.queryForMap(sql_airport, airportName);
+            String officeCode = (String) airportDetails.get("office_code");
+            int incrementId = autoincrementId.intValue();
+            String autoincrementIdAsString = String.format("%07d", incrementId);
+            SimpleDateFormat yearFormat = new SimpleDateFormat("yy");
+            String currentYear = yearFormat.format(new Date());
+            String paymentId = officeCode + currentYear + autoincrementIdAsString;
+            System.out.println("=========================="+paymentId);
+            String sqlBaggage = "UPDATE baggage SET payment_id=? WHERE id=?";
+            jdbcTemplate.update(sqlBaggage,paymentId,generatedId);
+            
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -256,24 +330,42 @@ public class baggageController {
     //------> product insert <------//
     @PostMapping("/productInfo")
     @ResponseBody
+
     public int ProductInfo(@RequestBody Map<String, Object> productInfo) {
+        String additiona_pay = ((String) productInfo.get("additional_payment"));
 
         String productName = (String) productInfo.get("productName");
         // String baggageID = (String) productInfo.get("baggageID");
         String unit = (String) productInfo.get("unit");
         String inchi = (String) productInfo.get("inchi");
+
+
         Integer quantity = Integer.parseInt((String) productInfo.get("quantity"));
         double perUnitValue = Double.parseDouble((String) productInfo.get("perUnitValue"));
         // double totalValue = Double.parseDouble((String) productInfo.get("totalValue"));
         double tax = Double.parseDouble((String) productInfo.get("tax"));
         double taxAmount = Double.parseDouble((String) productInfo.get("taxAmount"));
+        double add_pay = 0;
+        if (!additiona_pay.isEmpty()){
+            add_pay=Double.parseDouble((String) productInfo.get("additional_payment"));
+        }
+          double additional_payment = add_pay;
+       
+
 
         String itemSql = "SELECT id FROM baggage_item_info WHERE item_name = ?";
         Integer itemId = jdbcTemplate.queryForObject(itemSql, Integer.class, productName);
+
+
+        String baggageSql = "SELECT id, payment_id FROM baggage WHERE id = ?";
+        Map<String, Object> baggageInfo = jdbcTemplate.queryForMap(baggageSql, productInfo.get("baggageID"));
+        String paymentId = (String) baggageInfo.get("payment_id");
+
+        System.out.println("paymentId==========================="+paymentId);
         // Check if itemId is not null (i.e., productName exists in baggage_item_info)
         if (itemId != null) {
             // Define the SQL query to insert data into the baggage_product_add table
-            String insertSql = "INSERT INTO baggage_product_add (baggage_id, item_id, other_item, unit_name, inchi, qty, value, tax_percentage, tax_amount, entry_by, entry_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,  NOW())";
+            String insertSql = "INSERT INTO baggage_product_add (baggage_id, item_id, other_item, unit_name, inchi, qty, value, tax_percentage, tax_amount,additional_payment, payment_id, entry_by, entry_at) VALUES (?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?,  NOW())";
 
             // Create a KeyHolder to retrieve the generated key (the ID)
             KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -281,6 +373,7 @@ public class baggageController {
             // Execute the SQL query with the extracted values and the KeyHolder
             jdbcTemplate.update(connection -> {
                 PreparedStatement ps = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
+
                 ps.setObject(1, productInfo.get("baggageID"));
                 ps.setObject(2, itemId);
                 ps.setString(3, " ");
@@ -290,7 +383,10 @@ public class baggageController {
                 ps.setDouble(7, perUnitValue);
                 ps.setDouble(8, tax);
                 ps.setDouble(9, taxAmount);
-                ps.setInt(10, 1); // Replace with the actual entry_by value
+                ps.setDouble(10, additional_payment);
+                ps.setString(11, paymentId);
+
+                ps.setInt(12, 1); // Replace with the actual entry_by value
                 return ps;
             }, keyHolder);
 
@@ -309,7 +405,6 @@ public class baggageController {
         }
 
     }
-
     // Delete product in ajax table
     @PostMapping("/productDelete")
     @ResponseBody
@@ -349,6 +444,7 @@ public class baggageController {
             productData.put("vat", result.get("vat"));
             productData.put("ait", result.get("ait"));
             productData.put("at", result.get("at"));
+            productData.put("additional_payment", result.get("additional_payment"));
 
 
 
@@ -387,6 +483,7 @@ public class baggageController {
         // --->Final submit  update value set <----//
     @PostMapping("/finalsubmit")
     public String finalsubmitBaggage(
+        
             @RequestParam Long id, // Add a parameter for the unique identifier (id)
             @RequestParam String entryPoint,
             @RequestParam String passengerName,
@@ -418,6 +515,7 @@ public class baggageController {
         try {
             jdbcTemplate.update(
                     sql,
+                    
                     entryPoint,
                     passengerName,
                     passportNumber,
@@ -439,6 +537,102 @@ public class baggageController {
           //report show object pass    
         Map<String, Object> requestParameters = new HashMap<>();
         requestParameters.put("ID", id);
+
+        requestParameters.put("entry_point", entryPoint);
+        requestParameters.put("passenger_name", passengerName);
+        requestParameters.put("passport_number", passportNumber);
+        requestParameters.put("passport_validity_date", passportValidityDate);
+        requestParameters.put("nationality", otherNationality);
+        requestParameters.put("previous_country", countryFrom);
+        requestParameters.put("dateofarrival", dateOfArrival);
+        requestParameters.put("flight_no", flightNo);
+        requestParameters.put("mobile_no", mobileNo);
+        requestParameters.put("email", email);
+        requestParameters.put("accom_no", accompaniedBaggageCount);
+        requestParameters.put("unaccom_no", unaccompaniedBaggageCount);
+        requestParameters.put("meat_products", idMeat);
+        requestParameters.put("foreign_currency", idCurrency); 
+// 
+        model.addAttribute("reportShow", requestParameters);
+
+        String sql1="SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
+        List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,id);
+
+        String sql_baggage = "SELECT * FROM baggage WHERE id = ?";
+        Map<String, Object> mostRecentBaggageList = jdbcTemplate.queryForMap(sql_baggage, id);
+
+
+         model.addAttribute("mostRecentBaggageList", mostRecentBaggageList);
+
+        model.addAttribute("showProduct", productshow);
+
+          return "baggage_view_user_edit";
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error"; // You can customize this based on your error handling logic.
+        }
+      
+    }
+
+        // --->Final submit  update value set <----//
+    @PostMapping("/finalsubmitAdmin")
+    public String finalsubmitBaggageForAdmin(
+        
+            @RequestParam Long id, // Add a parameter for the unique identifier (id)
+            @RequestParam String entryPoint,
+            @RequestParam String passengerName,
+            @RequestParam String passportNumber,
+            @RequestParam String passportValidityDate,
+            @RequestParam String nationality,
+            @RequestParam String otherNationalityInput,
+            @RequestParam String countryFrom,
+            @RequestParam String dateOfArrival,
+            @RequestParam String flightNo,
+            @RequestParam String mobileNo,
+            @RequestParam String email,
+            @RequestParam int accompaniedBaggageCount,
+            @RequestParam int unaccompaniedBaggageCount,
+            @RequestParam String idMeat,
+            @RequestParam String idCurrency,
+
+            Model model) {
+        String sql = "UPDATE baggage SET entry_point=?, passenger_name=?, passport_number=?, passport_validity_date=?, nationality=?, previous_country=?, dateofarrival=?, flight_no=?, mobile_no=?, email=?, accom_no=?, unaccom_no=?,meat_products=?,foreign_currency=?,status='unapproved' WHERE id=?";
+           
+        String otherNationality ="";
+         if ("Other".equalsIgnoreCase(nationality)) {
+                 otherNationality =  otherNationalityInput;
+            } else {
+                 otherNationality = nationality;
+            }
+
+
+        try {
+            jdbcTemplate.update(
+                    sql,
+
+                    entryPoint,
+                    passengerName,
+                    passportNumber,
+                    passportValidityDate,
+                    otherNationality,
+                    countryFrom,
+                    dateOfArrival,
+                    flightNo,
+                    mobileNo,
+                    email,
+                    accompaniedBaggageCount,
+                    unaccompaniedBaggageCount,
+                    idMeat,
+                    idCurrency,
+                    id // Set the id parameter for the WHERE clause
+            );
+         
+                  
+          //report show object pass    
+        Map<String, Object> requestParameters = new HashMap<>();
+        requestParameters.put("ID", id);
+
         requestParameters.put("entry_point", entryPoint);
         requestParameters.put("passenger_name", passengerName);
         requestParameters.put("passport_number", passportNumber);
@@ -460,13 +654,8 @@ public class baggageController {
         List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,id);
 
         model.addAttribute("showProduct", productshow);
-        
-          return "baggage_view_user_edit";
-            // If the update is successful, you can perform any necessary actions here.
-            // For example, you can retrieve the updated record and pass it to the view.
-             // Redirect to the updated record
 
-            // return "redirect:/reportEdit?generatedId="+id;
+          return "baggage_view_user_edit_admin";
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -475,104 +664,182 @@ public class baggageController {
       
     }
 
-
-
         @GetMapping("/confrimPage")
          public String confrimPage(
+            @RequestParam Long id, // Add a parameter for the unique identifier (id)
+            Model model,Principal principal) {
+            String baggageSql= "SELECT * FROM baggage WHERE id =?";
+            Map<String, Object>requestParameters= jdbcTemplate.queryForMap(baggageSql, id);
+            model.addAttribute("reportShow", requestParameters);
+
+            String paymentStatus = "Processing";
+            String sqlBaggage = "UPDATE baggage SET payment_status=? WHERE id=?";
+            jdbcTemplate.update(sqlBaggage,paymentStatus,id);
+
+
+
+            
+            
+            String sql1="SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
+            List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,id);
+            int totalTaxAmount = 0;
+            for (Map<String, Object> row : productshow) {
+                String taxAmount = (String) row.get("tax_amount");
+                System.out.println("=========================================================="+taxAmount);
+                if (taxAmount != null) {
+                    totalTaxAmount += Double.parseDouble(taxAmount);
+                }
+                 System.out.println("====totalTaxAmount======================================================"+totalTaxAmount);
+            }
+            String payment_id= (String)requestParameters.get("payment_id");
+
+            try (Connection connection = jdbcTemplate.getDataSource().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "INSERT INTO payment_history (paid_amount, payment_id) VALUES (?, ?)"
+            )) {
+           preparedStatement.setDouble(1, totalTaxAmount);
+           preparedStatement.setString(2, payment_id);
+
+           preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            String link="http://localhost:8080/baggagestart/confrimPage?id="+id;
+            String gmail = (String) requestParameters.get("email");
+
+
+            Context context = new Context();
+            context.setVariable("passengerName", requestParameters.get("passenger_name"));
+            context.setVariable("totalTaxAmount", totalTaxAmount);
+            context.setVariable("link", link);
+
+            String emailContent = templateEngine.process("email-template", context);
+
+
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setFrom("nbroffice71@gmail.com");
+            message.setTo(gmail);
+           // message.setText(emailContent);
+            message.setText(
+                "Hello Mr/Mrs,"+ requestParameters.get("passenger_name")+
+                ", You are successfully submitted your baggage information."
+                +" You paid "+totalTaxAmount+" only"+
+                "Click <a href='" + link + "'>here</a> to get Details."
+                
+                );
+
+            message.setSubject("NBR Baggage Declaration");
+            mailSender.send(message);     
+            model.addAttribute("showProduct", productshow);
+            
+            return "confirmPage";
+     
+    }
+
+
+        @GetMapping("/confrimPageAdmin")
+         public String confrimPageAdmin(
+            @RequestParam Long id, // Add a parameter for the unique identifier (id)
+            Model model,Principal principal) {
+            String baggageSql= "SELECT * FROM baggage WHERE id =?";
+            Map<String, Object>requestParameters= jdbcTemplate.queryForMap(baggageSql, id);
+
+           // System.out.println("=========reportShow================================================="+requestParameters);
+            model.addAttribute("reportShow", requestParameters);
+
+            String paymentStatus = "Paid";
+            String sqlBaggage = "UPDATE baggage SET payment_status=? WHERE id=?";
+            jdbcTemplate.update(sqlBaggage,paymentStatus,id);
+
+            String sql1="SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
+            List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,id);
+            int totalTaxAmount = 0;
+            for (Map<String, Object> row : productshow) {
+                String taxAmount = (String) row.get("tax_amount");
+
+                if (taxAmount != null) {
+                    totalTaxAmount += Double.parseDouble(taxAmount);
+                }
+            }
+            String payment_id= (String)requestParameters.get("payment_id");
+            try (Connection connection = jdbcTemplate.getDataSource().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "INSERT INTO payment_history (paid_amount, payment_id) VALUES (?, ?)"
+            )) {
+           preparedStatement.setDouble(1, totalTaxAmount);
+           preparedStatement.setString(2, payment_id);
+
+           preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+
+
+            String link="http://localhost:8080/baggagestart/confrimPage?id="+id;
+            String gmail = (String) requestParameters.get("email");
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setFrom("nbroffice71@gmail.com");
+            message.setTo(gmail);
+            message.setText(
+                "Hello Mr/Mrs,"+ requestParameters.get("passenger_name")+
+                ", You are successfully submitted your baggage information."
+                +" You paid "+totalTaxAmount+" only"+"Click <a href='" + link + "'>here</a> to get Details." 
+                
+                );
+
+            message.setSubject("NBR Baggage Declaration");
+            mailSender.send(message);     
+            model.addAttribute("showProduct", productshow);
+            
+            return "confirmPage";
+     
+    }
+
+
+
+
+        @GetMapping("/payment-not-at-this-time")
+         public String paymentNotAtThisTime(
             @RequestParam Long id, // Add a parameter for the unique identifier (id)
             Model model,Principal principal) {
             String sql= "SELECT * FROM baggage WHERE id =?";
             Map<String, Object>requestParameters= jdbcTemplate.queryForMap(sql, id);
             model.addAttribute("reportShow", requestParameters);
 
+            String status = "Unpaid";
+            String sqlBaggage = "UPDATE baggage SET payment_status=? WHERE id=?";
+            jdbcTemplate.update(sqlBaggage,status,id);
+
+
             String sql1="SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
             List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,id);
+            int totalTaxAmount = 0;
+            for (Map<String, Object> row : productshow) {
+                String taxAmount = (String) row.get("tax_amount");
+                System.out.println("=========================================================="+taxAmount);
+                if (taxAmount != null) {
+                    totalTaxAmount += Double.parseDouble(taxAmount);
+                }
+            }
+            String gmail = (String) requestParameters.get("email");
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setFrom("nbroffice71@gmail.com");
+            message.setTo(gmail);
+            message.setText(
+                "Hello Mr/Mrs,"+ requestParameters.get("passenger_name")+
+                ", Your Total Due Amount is."
+                +totalTaxAmount+" only"
                 
+                );
+            message.setSubject("NBR Baggage Declaration");
+            mailSender.send(message);     
             model.addAttribute("showProduct", productshow);
-           
-        return "confirmPage";
+            
+            return "confirmPage";
      
     }
-
-
-//     @PostMapping("/finalsubmitadmin")
-//     public String finalsubmitBaggageAdmin(
-//            @RequestBody Map<String, Object> baggagedataadmin, 
-//             Model model) {
-//        System.out.println(baggagedataadmin);
-
-
-//         String sql = "UPDATE baggage SET entry_point=?, passenger_name=?, passport_number=?, passport_validity_date=?, nationality=?, previous_country=?, dateofarrival=?, flight_no=?, mobile_no=?, email=?, accom_no=?, unaccom_no=?,meat_products=?,foreign_currency=? WHERE id=?";
-           
-//         String otherNationality ="";
-//          if ("Other".equalsIgnoreCase(nationality)) {
-//                  otherNationality =  otherNationalityInput;
-//             } else {
-//                  otherNationality = nationality;
-//             }
-
-
-//         try {
-//             jdbcTemplate.update(
-//                     sql,
-//                     entryPoint,
-//                     passengerName,
-//                     passportNumber,
-//                     passportValidityDate,
-//                     otherNationality,
-//                     countryFrom,
-//                     dateOfArrival,
-//                     flightNo,
-//                     mobileNo,
-//                     email,
-//                     accompaniedBaggageCount,
-//                     unaccompaniedBaggageCount,
-//                     idMeat,
-//                     idCurrency,
-//                     id // Set the id parameter for the WHERE clause
-//             );
-         
-                  
-//           //report show object pass    
-//         Map<String, Object> requestParameters = new HashMap<>();
-//         requestParameters.put("ID", id);
-//         requestParameters.put("entry_point", entryPoint);
-//         requestParameters.put("passenger_name", passengerName);
-//         requestParameters.put("passport_number", passportNumber);
-//         requestParameters.put("passport_validity_date", passportValidityDate);
-//         requestParameters.put("nationality", otherNationality);
-//         requestParameters.put("previous_country", countryFrom);
-//         requestParameters.put("dateofarrival", dateOfArrival);
-//         requestParameters.put("flight_no", flightNo);
-//         requestParameters.put("mobile_no", mobileNo);
-//         requestParameters.put("email", email);
-//         requestParameters.put("accom_no", accompaniedBaggageCount);
-//         requestParameters.put("unaccom_no", unaccompaniedBaggageCount);
-//         requestParameters.put("meat_products", idMeat);
-//         requestParameters.put("foreign_currency", idCurrency); 
-// // 
-//         model.addAttribute("reportShow", requestParameters);
-
-//         String sql1="SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
-//         List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,id);
-
-//         model.addAttribute("showProduct", productshow);
-        
-//           return "baggage_view_user_edit";
-//             // If the update is successful, you can perform any necessary actions here.
-//             // For example, you can retrieve the updated record and pass it to the view.
-//              // Redirect to the updated record
-
-//             // return "redirect:/reportEdit?generatedId="+id;
-            
-//         } catch (Exception e) {
-//             e.printStackTrace();
-//             return "error"; // You can customize this based on your error handling logic.
-//         }
-      
-//     }
-
-
 
 
 //Count for Baggage with 
@@ -639,21 +906,14 @@ if(airportname.equalsIgnoreCase("all")){
 
 
 //for  baggage approve update 
-    @PostMapping("/baggage_approve_update")
-    public String currencApproveUpdate( @RequestParam int id,@RequestParam String status,@RequestParam String confNote, Principal principal) {
-
-        String username=principal.getName();
-        String sql = "UPDATE baggage SET status=?,entry_by=? WHERE id=?";
-        jdbcTemplate.update(sql,status,username,id);
-    // Perform the update operation using currencyServices
-    //System.out.println("===============================================currenc_approve_reject_update");
-        String usernameSession=principal.getName();
-    
-
-
-    // Redirect to the edit page with a success message
-    //redirectAttributes.addFlashAttribute("currencyDeclaration", updatedCurrencyDeclaration);
-    return "redirect:/baggageshow/baggagetotal";
+@PostMapping("/baggage_approve_update")
+public String currencApproveUpdate(@RequestParam int id, @RequestParam String status, @RequestParam String confNote, Principal principal) {
+    String paymentStatus = "Paid";
+    String username = principal.getName();
+    String sql = "UPDATE baggage SET status=?, payment_status=?, entry_by=? WHERE id=?";
+    jdbcTemplate.update(sql, status, paymentStatus, username, id);
+   // String usernameSession = principal.getName();
+    return "redirect:/baggageshow/unapprovedbaggagetotal";
 }
 
 //for baggage reject list 
@@ -661,16 +921,23 @@ if(airportname.equalsIgnoreCase("all")){
     public String currencRejectUpdate( @RequestParam int id,@RequestParam String status,@RequestParam String confNote, Principal principal) {
 
         String username=principal.getName();
-        String sql = "UPDATE baggage SET status=?,entry_by=? WHERE id=?";
-        jdbcTemplate.update(sql,status,username,id);
-
+        String sql = "UPDATE baggage SET status=?,entry_by=?, confNote=? WHERE id=?";
+        jdbcTemplate.update(sql,status,username,confNote,id);
         String usernameSession=principal.getName();
 
-        
-    
+    return "redirect:/baggageshow/unapprovedbaggagetotal";
+}
 
-  
-    return "redirect:/baggageshow/baggagetotal";
+//for baggage on examination
+    @PostMapping("/baggage_on_examination_update")
+    public String baggageOnExaminationUpdate( @RequestParam int id,@RequestParam String status,@RequestParam String confNote, Principal principal) {
+
+        String username=principal.getName();
+        String sql = "UPDATE baggage SET status=?,entry_by=?, confNote=? WHERE id=?";
+        jdbcTemplate.update(sql,status,username,confNote,id);
+        String usernameSession=principal.getName();
+
+    return "redirect:/baggageshow/unapprovedbaggagetotal";
 }
 
 

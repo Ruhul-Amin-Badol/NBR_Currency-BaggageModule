@@ -82,11 +82,20 @@ public class adminController {
 
         String sql1="SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
         List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,id);
-
         model.addAttribute("showProduct", productshow);
-        
-    
+
         return "baggageApprovalform"; // Replace with the actual template name
+    }
+
+
+    @GetMapping("/payment-review")
+    public String paymentReview(@RequestParam Long id) {
+       String status = "Review";
+       String sqlBaggage = "UPDATE baggage SET payment_status=? WHERE id=?";
+       jdbcTemplate.update(sqlBaggage,status,id);
+
+       
+       return "redirect:/baggageshow/baggagetotalid?id="+id;
     }
     
     //Application Edit Controller 

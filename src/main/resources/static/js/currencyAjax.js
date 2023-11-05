@@ -1,7 +1,8 @@
 let addcurrencyData = [];
 
 function populateCurrencyTable() {
-  console.log(addData)
+
+  //console.log("add data ====================================")
   const newRow1 = $("<tr>");
   // Get a reference to the table body
   const tbody = $("#currencyajaxtable tbody");
@@ -43,6 +44,7 @@ $("#addCurrencyButton").click(function () {
   var deleteId = parseInt(document.getElementById('currencyeditId').value);
   
   if( document.getElementById('addCurrencyButton').innerText=="Update"){
+
     DeleteCurrencyProductAfter(deleteId)
     addcurrencyData = addcurrencyData.filter((obj) => obj.id !== deleteId);
    
@@ -52,6 +54,7 @@ $("#addCurrencyButton").click(function () {
  document.getElementById('addCurrencyButton').innerText = "Add";
 
   // Get input field values
+
   const currencyName = $("#currencyName").val();
   const currencyNoteType = $("#currencyNoteType").val();
   const numberOfNote = $("#numberOfNote").val();
@@ -60,6 +63,7 @@ $("#addCurrencyButton").click(function () {
   // Create a data object to send to the API
 
   console.log(currencyName,currencyNoteType,numberOfNote,currencyAmount,currencyId)
+
   const data = {
     currencyName,
     currencyNoteType,
@@ -78,7 +82,7 @@ $("#addCurrencyButton").click(function () {
       contentType: "application/json",
       data: JSON.stringify(data),
       success: function (response) {
-        //alert(response.currencyAmount);
+       // alert(response.currencyAmount);
   
         if(response.currencyAmount != "" & response.numberOfNote != ""){
         addcurrencyData.push(response);
@@ -86,7 +90,7 @@ $("#addCurrencyButton").click(function () {
           alert("Note Type , Number of Note, Amount is required")
         }
   
-        console.log(data);
+        
         populateCurrencyTable();
         $("#currencyAmount").val("");
         $("#currencyNoteType").val("");

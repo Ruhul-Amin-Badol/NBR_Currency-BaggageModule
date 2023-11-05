@@ -13,12 +13,20 @@
         <table>
             <tbody th:object="${reportShow}">
                 <input type="hidden" id="reportShow" name="id" th:value="${reportShow['ID']}" />
-                <tr>
-                   <td><span><span class="fw-bold">Entry Point: </span><span th:text="${reportShow['entry_point']}"></span></span></td>
-                </tr>
+
                 <tr>
                     <td><span class="fw-bold">Name of the Passenger: </span><span th:text="${reportShow['passenger_name']}"></span></td>
                 </tr>
+
+
+                <tr>
+                    <td><span class="fw-bold">Payment Id: </span><span th:text="${reportShow['payment_id']}"></span></td>
+                </tr>
+
+                <tr>
+                   <td><span><span class="fw-bold">Entry Point: </span><span th:text="${reportShow['entry_point']}"></span></span></td>
+                </tr>
+
                 <tr>
                     <td><span class="fw-bold">Passport Number: </span><span th:text="${reportShow['passport_number']}"></span></td>
                 </tr>
@@ -43,12 +51,12 @@
                 <tr>
                     <td><span class="fw-bold">Email: </span><span th:text="${reportShow['email']}"></span></td>
                 </tr>
-                <tr> 
+                <!-- <tr> 
                     <td><span class="fw-bold">Accompanied: </span><span th:text="${reportShow['accom_no']}"></span></td>
                 </tr>
                 <tr>
                     <td><span class="fw-bold">Un-Accompanied: </span><span th:text="${reportShow['unaccom_no']}"></span></td>
-                </tr>
+                </tr> -->
                 
             </tbody>
         </table>

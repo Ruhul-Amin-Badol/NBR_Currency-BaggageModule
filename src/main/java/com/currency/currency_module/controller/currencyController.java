@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
-
+ 
 
 import com.currency.currency_module.AirportInformation;
 import com.currency.currency_module.model.BaggageCurrencyAdd;
@@ -93,8 +93,6 @@ public class currencyController {
     @ResponseBody
     @PostMapping("/addCurrency")
     public BaggageCurrencyAdd addCurrency(@RequestBody BaggageCurrencyAdd addCurrency){
-       
-        
         return currencyServices.addCurrency(addCurrency);
     }
 
@@ -287,7 +285,7 @@ public class currencyController {
 
     // Redirect to the edit page with a success message
     //redirectAttributes.addFlashAttribute("currencyDeclaration", updatedCurrencyDeclaration);
-    return "redirect:/currencystart/total-currency-application";
+    return "redirect:/currencystart/unapprove-currency";
 }
 
     @PostMapping("/currency_unapprove_update")
@@ -296,7 +294,7 @@ public class currencyController {
          String usernameSession=principal.getName();
         currencyServices.unapproveCurrencyUpdate(updatedUnapproveCurrencyDeclaration,usernameSession);
 
-        return "redirect:/currencystart/total-currency-application";
+        return "redirect:/currencystart/unapprove-currency";
     }
 
 
