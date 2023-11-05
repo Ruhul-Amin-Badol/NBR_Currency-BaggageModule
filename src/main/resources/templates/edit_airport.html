@@ -1,0 +1,72 @@
+
+<div th:replace="~{layout/header}"></div>
+    <title>Port Create</title>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <style>
+        .sr-main-content {
+            background-color: #ededf4;
+            font-family: Roboto, Helvetica, sans-serif !important;
+        }
+        .sr-main-content-padding {
+            background: white;
+            padding: 10px 20px;
+            border: 1px solid #e6e9ed;
+            border-radius: 5px;
+        }
+        .sr-main-content-heading {
+            margin: 0;
+            padding: 0;
+            font-size: 18px;
+            font-weight: 500;
+            color: #555369;
+        }
+        .fa, .fas {
+            font-weight: 900;
+        }
+        #example thead {
+            background-color: #49be78;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<div class="sr-main-content-padding">
+    <div class="sr-main-content-heading">
+        <i class="fa fa-plane" style="padding-right: 10px"></i>Port Update
+    </div>
+    <div class="container">
+        <form th:action="@{/update-port}" method="post">
+            <div class="row my-5">
+                <div class="col ">
+                    <input class="form-control" type="hidden" id="id" name="id" th:value="${airport.id}">
+                    <input class="form-control" type="text" id="airPortNames" name="airPortNames" th:value="${airport.airPortNames}">
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-warning ml-2" id="filterButton">Update Airport</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+

@@ -8,7 +8,10 @@
                     <div class='card'>
                         <div class='card-body'>
                             <h1 class="fw-bold text-center text-success">Baggage Declaration Form</h1>
-                 <div th:if="${InsertMode}" >
+                          
+                                <p th:if="${baggageDetails['status'] == 'OnExamination'}" class="fw-bold text-center text-danger">Status : <span th:text="${baggageDetails['status']}"></span>, Reson: <span th:text="${baggageDetails['confNote']}"></span></p>
+                                
+                            <div th:if="${InsertMode}" >
                         <form th:action="@{/baggagestart/baggageInsert}" method="post">
                             <div class="container p-3 bg-light">
                                 <div class="row">
@@ -504,11 +507,9 @@
                                         <div class="mb-3">
                                             <label for="email" class="form-label" id="emailLabel">Email</label>
                                             <input type="email" class="form-control" id="example1" name="email" placeholder="Enter Your Email" >
-                                            <label for="email"  class="form-label text-danger" id="emailLabel">This email id will be used for sending confarmation</label>
-                                            
                                         </div>
 
-                                        <!-- <div class="form-check">
+                                        <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" onclick="toggleDiv('accompaniedDiv')">
                                             <label class="form-check-label" for="flexCheckDefault" >
                                                 <div class="d-flex justify-content-between">
@@ -549,10 +550,10 @@
                                                         </div>
                                                     </div>
                                             </label>                                          
-                                        </div> -->
 
-                                    <input type="hidden" value="0" name="accompaniedBaggageCount">
-                                    <input type="hidden" value="0" name="unaccompaniedBaggageCount">
+                                        </div>
+
+
 
                                     </div>
                                     <div class="d-flex justify-content-center" id="unaccompaniedDiv">
@@ -1025,13 +1026,43 @@
                             <div class="mb-3">
                                 <label for="email" class="form-label" id="emailLabel">Email</label>
                                 <input type="email" class="form-control" name="email" th:value="${baggageDetails['email']}" placeholder="Enter Your Email" >
-                                <label for="email"  class="form-label text-danger" id="emailLabel">This email id will be used for sending confarmation</label>
                             </div>
 
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="flexCheckCheckedAccompanied" >
+                                <label class="form-check-label" for="flexCheckChecked" id="accompaniedLabel">Accompanied</label>
+                            </div>
 
+                            <div class="form-check mb-3" >
+                                <label for="accompaniedBaggageCount" class="form-label">Number of Accompanied Baggage</label>
+                                <select class="form-select" name="accompaniedBaggageCount" th:value="${baggageDetails['accom_no']}">
+                                    <option value="0" th:selected="${baggageDetails['accom_no'] == 0}">0</option>
+                                    <option value="1" th:selected="${baggageDetails['accom_no'] == 1}">1</option>
+                                    <option value="2" th:selected="${baggageDetails['accom_no'] == 2}">2</option>
+                                    <option value="3" th:selected="${baggageDetails['accom_no'] == 3}">3</option>
+                                    <option value="4" th:selected="${baggageDetails['accom_no'] == 4}">4</option>
+                                    <option value="5" th:selected="${baggageDetails['accom_no'] == 5}">5</option>
+                                    <option value="6" th:selected="${baggageDetails['accom_no'] == 6}">6</option>
+                                </select>
+                            </div>
 
-                            <input type="hidden" value="0" name="accompaniedBaggageCount">
-                            <input type="hidden" value="0" name="unaccompaniedBaggageCount">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="flexCheckCheckedUnaccompanied" >
+                                <label class="form-check-label" for="flexCheckChecked" id="unaccompaniedLabel">Un-Accompanied</label>
+                            </div>
+
+                            <div class="form-check mb-3">
+                                <label for="unaccompaniedBaggageCount" class="form-label">Number of Un-Accompanied Baggage</label>
+                                <select class="form-select" name="unaccompaniedBaggageCount" th:value="${baggageDetails['unaccom_no']}">
+                                    <option value="0" th:selected="${baggageDetails['unaccom_no'] == 0}">0</option>
+                                    <option value="1" th:selected="${baggageDetails['unaccom_no'] == 1}">1</option>
+                                    <option value="2" th:selected="${baggageDetails['unaccom_no'] == 2}">2</option>
+                                    <option value="3" th:selected="${baggageDetails['unaccom_no'] == 3}">3</option>
+                                    <option value="4" th:selected="${baggageDetails['unaccom_no'] == 4}">4</option>
+                                    <option value="5" th:selected="${baggageDetails['unaccom_no'] == 5}">5</option>
+                                    <option value="6" th:selected="${baggageDetails['unaccom_no'] == 6}">6</option>
+                                </select>
+                            </div>
                         </div>
 
                         <div class="d-flex justify-content-center">
@@ -1046,7 +1077,6 @@
     <!-- AJax form -->
     <div th:if="${editMode}">
                 <form action="" method="">
-
                             <div class="container p-3 mt-3 bg-light">
                                 <p class="fw-bold">More than one of any goods (More than two for cellular phone) which are duty free including Gold<span class="astrick">*</span> <button type="button" class="btn btn-success" id="openFileButton">View Goods List on Baggage Rule</button></p>
                                 <div class="d-flex justify-content-start mb-3">
@@ -1077,6 +1107,7 @@
                                                 <th scope="col">AIT(%)</th>
                                                 <th scope="col">AT(%)</th>
                                                 <th scope="col">Tax Amount</th>
+                                                <th scope="col">Additional Payment</th>
                                                 <th scope="col">Action</th>
                                 
                                             </tr>
@@ -1084,7 +1115,7 @@
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <select class="form-select" id="productName" name="productName" aria-label="Default select example" onchange="fetchProductData()">
+                                                    <select class="form-select" id="productName" name="productName" aria-label="Default select example" onchange="fetchProductDataAdmin()">
                                                         <option selected> --Please Select-- </option>
                                                         <th:block th:each="productName : ${productshow}">
                                                             <option th:text="${productName['item_name']}" th:value="${productName['item_name']}"></option>
@@ -1093,10 +1124,9 @@
                                                 </td>
                                                 <td><input type="text" class="form-control" id="unit" name="unit"></td>
                                                 <td><input type="text" class="form-control" id="inchi" name="inchi"></td>
-                                                <td><input type="text" class="form-control" id="quantity" name="quantity" onKeyUp="tax_calc()"></td>
-                                                <td><input type="text" class="form-control" id="perUnitValue" name="perUnitValue" onKeyUp="tax_calc()"></td>
-                                                <td><input type="text" class="form-control" id="totalValue" name="totalValue" onKeyUp="tax_calc()"></td>
-                                                
+                                                <td><input type="text" class="form-control" id="quantity" name="quantity" onKeyUp="tax_calcAdmin()"></td>
+                                                <td><input type="text" class="form-control" id="perUnitValue" name="perUnitValue" onKeyUp="tax_calcAdmin()"></td>
+                                                <td><input type="text" class="form-control" id="totalValue" name="totalValue" onKeyUp="tax_calcAdmin()"></td>
                                                 <td><input type="text" class="form-control" id="tax" name="tax"></td>
                                                 <td><input type="text" class="form-control" id="cd" name="cd"></td>
                                                 <td><input type="text" class="form-control" id="rd" name="rd"></td>
@@ -1104,15 +1134,14 @@
                                                 <td><input type="text" class="form-control" id="vat" name="vat"></td>
                                                 <td><input type="text" class="form-control" id="ait" name="AIT"></td>
                                                 <td><input type="text" class="form-control" id="at" name="AT"></td>
-                                                <input type="text" class="form-control" id="additional_payment" value="" name="additional_payment">
-
-
-
-
-
                                                 <td><input type="text" class="form-control" id="taxAmount" name="taxAmount"></td>
+                                                <td><input type="text" class="form-control" id="additional_payment" value="" name="additional_payment"></td>
+                                                
+                                                
                                                 <td class="d-none"><input type="hidden" class="form-control" id="deleteidhidden" name="taxAmount"></td>
-                                                <td><button type="button" class="btn btn-success" id="addButton" onclick="addProduct()">Add</button></td>
+                                                
+                                                
+                                                <td><button type="button" class="btn btn-success" onclick="adminadd()" id="addButtonAdmin">Add</button></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1136,26 +1165,16 @@
                                             <th scope="col">VAT(%)</th>
                                             <th scope="col">AIT(%)</th>
                                             <th scope="col">AT(%)</th>
-
-
-
-
-
                                             <th scope="col">Tax Amount</th>    
+                                            <th scope="col">Additional Payment</th> 
                                             <th scope="col">Edit</th>
                                             <th scope="col">Delete</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        
-                                        
-
-
                                     </tbody>
                                 </table>
                                 </div>
-
-
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="mb-3">
@@ -1182,7 +1201,7 @@
 
 
                                     <div class="d-flex justify-content-center">
-                                    <button id="lastSubmitButtonUser" type="button" class="btn btn-success" onclick="finalSubmitUser()">SUBMIT</button>
+                                    <button id="lastSubmitButton" type="button" class="btn btn-success">Next</button>
                                     </div>
                                     
                                 </div>
@@ -1202,5 +1221,5 @@
 
 
 
-<script th:src="@{/js/baggageAjax.js}"></script>
+<script th:src="@{/js/BaggageAdmin.js}"></script>
  <div th:replace="~{layout/footer}"></div>

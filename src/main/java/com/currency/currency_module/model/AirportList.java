@@ -19,9 +19,9 @@ public class AirportList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-   
     private String airPortNames;
+    private String officeCode;
+
 
 
     public Long getId() {
@@ -36,19 +36,19 @@ public class AirportList {
         return this.airPortNames;
     }
 
+
     public void setAirPortNames(String airPortNames) {
         this.airPortNames = airPortNames;
     }
 
+    public void setOfficeCode(String officeCode) {
+        this.officeCode = officeCode;
+    }
 
-    // public List<UserActivityManagement> getUserActivityManagementList() {
-    //     return this.userActivityManagementList;
-    // }
+    public String getOfficeCode() {
+        return this.officeCode;
+    }
 
-    // public void setUserActivityManagementList(List<UserActivityManagement> userActivityManagementList) {
-    //     this.userActivityManagementList = userActivityManagementList;
-    // }
-   
 
     @JsonIgnore
     @OneToMany(mappedBy = "airportList", cascade = CascadeType.ALL)

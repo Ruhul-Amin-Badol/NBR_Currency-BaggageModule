@@ -1,14 +1,15 @@
-let addData = [];
+let addDataAdmin = [];
 
-//----->populateTable data add every click new row<-------//
-function populateTable() {
+//----->populateTableAdmin data add every click new row<-------//
+function populateTableAdmin() {
   const newRow1 = $("<tr>");
   // Get a reference to the table body
   const tbody = $("#ajaxtable tbody");
   // Clear the table body before populating it again
   tbody.empty();
   let totalTax = 0.0;
-  addData.forEach(function (item) {
+  let  totalAdditionalPayment=0.0
+  addDataAdmin.forEach(function (item) {
     // Create a new table row for each item
     const newRow = $("<tr>");
     // Populate the table cells in the new row with data from the item
@@ -27,141 +28,63 @@ function populateTable() {
     newRow.append(`<td>${item.vat}</td>`);
     newRow.append(`<td>${item.ait}</td>`);
     newRow.append(`<td>${item.at}</td>`);
-
-
-
-
-
-
+  
     newRow.append(`<td>${item.taxAmount}</td>`);
-    // newRow.append(
-    //   `<td  class="text-center text-danger"><i class="fa-solid fa-xmark delete-button"></i></td>`
-    // );
+  
+    if(item.additional_payment==null){
+      item.additional_payment=0;
+      
+    }
+    newRow.append(`<td>${item.additional_payment}</td>`);
+ 
     newRow.append(
-      `<td  class="text-center text-danger"><button onClick="EditProduct(${item.id})" type="button" class="btn btn-primary" id="addButton">Edit</button></td>`
+      `<td  class="text-center text-danger"><button onClick="EditProductAdmin(${item.id})" type="button" class="btn btn-primary" id="addButtonAdmin">Edit</button></td>`
     );
     newRow.append(
-      `<td  class="text-center text-danger"><button onClick="DeleteProduct(${item.id})" type="button" class="btn btn-danger" id="addButton">Delete</button></td>`
+      `<td  class="text-center text-danger"><button onClick="DeleteProductAdmin(${item.id})" type="button" class="btn btn-danger" id="addButtonAdmin">Delete</button></td>`
     );
     let toatal=item.taxAmount
     totalTax += parseFloat(toatal);
+    
+
+    let additionalPayment = item.additional_payment;
+    if(additionalPayment == ""){
+      additionalPayment = 0;
+    }
+    totalAdditionalPayment +=  parseFloat(additionalPayment);
+
     // Append the new row to the table body
     tbody.append(newRow);
   });
-  newRow1.append(`<th colspan="6" class="text-end"> Total Tax Amount:</th>`);
+  let totalPayableAmount = totalTax + totalAdditionalPayment;
+  newRow1.append(`<th colspan="3" class="text-end"> Total Tax Amount:</th>`);
   newRow1.append(`<td>${totalTax.toFixed(2)}</td>`);
-  newRow1.append(`<td></td>`);
+
+
+  newRow1.append(`<th colspan="3" class="text-end"> Additional Payment:</th>`);
+  newRow1.append(`<td>${totalAdditionalPayment.toFixed(2)}</td>`);
+
+  newRow1.append(`<th colspan="3" class="text-end"> Total Payable Amount:</th>`);
+  newRow1.append(`<td>${totalPayableAmount.toFixed(2)}</td>`);
+
+
+  // newRow1.append(`<th colspan="6" class="text-end"> Pdditional Payment:</th>`);
+  // newRow1.append(`<td>${parseFloat.totalAdditionalPayment(2)}</td>`);
   tbody.append(newRow1);
 }
 
 //-----> Product add button pass value for post request and show second table<----//
 function adminadd() {
-  
-
+ 
+ 
   var deleteId = parseInt(document.getElementById('deleteidhidden').value);
-  
-   if( document.getElementById('addButton').innerText=="Update"){
-      DeleteAfterEdit(deleteId)
-      addData = addData.filter((obj) => obj.id !== deleteId);
-      }
-  document.getElementById('addButton').innerText = "Add";
 
-  // Get input field values
-  const baggageID = $("#baggageID").val();
-  const productName = $("#productName").val();
-  const unit = $("#unit").val();
-  const inchi = $("#inchi").val();
-  const quantity = $("#quantity").val();
-  const perUnitValue = $("#perUnitValue").val();
-  const totalValue = $("#totalValue").val();
-  const tax = $("#tax").val();
-  const cd = $("#cd").val();
-  const rd = $("#rd").val();
-  const sd = $("#sd").val();
-  const vat = $("#vat").val();
-  const ait = $("#ait").val();
-  const at = $("#at").val();
-  const taxAmount = $("#taxAmount").val();
-
-
-  // Create a data object to send to the API
-  const data = {
-    baggageID,
-    productName,
-    unit,
-    inchi,
-    quantity,
-    perUnitValue,
-    totalValue,
-    tax,
-    cd,
-    rd,
-    sd,
-    vat,
-    ait,
-    at,
-
-    taxAmount,
-  };
-
-
-  //  alert(data.taxAmount);
-  if(data.taxAmount != "" & totalValue != ""){
-
-    addData.push(data);
-  }else{
-    alert("Required all fields")
-  }
-
-
-
-
-  // Send a POST request to your Spring Boot API using jQuery's AJAX
-  $.ajax({
-    url: "http://localhost:8080/baggagestart/productInfo",
-    type: "POST",
-    contentType: "application/json",
-    data: JSON.stringify(data),
-    success: function (response) {
-      console.log(response);
-      data.id = response;
+   if( document.getElementById('addButtonAdmin').innerText=="Update"){
+      DeleteProductAdmin(deleteId)
+      addDataAdmin = addDataAdmin.filter((obj) => obj.id !== deleteId);
       
-      populateTable();
-      $("#inchi").val("");
-      $("#quantity").val("");
-      $("#perUnitValue").val("");
-      $("#totalValue").val("");
-      $("#tax").val("");
-
-      $("#cd").val("");
-      $("#rd").val("");
-      $("#sd").val("");
-      $("#vat").val("");
-      $("#ait").val("");
-      $("#at").val("");
-
-      
-
-
-    },
-
-    error: function (error) {
-      // Handle errors here
-      console.error(error);
-    },
-  });
-};
-
-
-function addProduct(){
-
-  var deleteId = parseInt(document.getElementById('deleteidhidden').value);
-  
-   if( document.getElementById('addButton').innerText=="Update"){
-      DeleteAfterEdit(deleteId)
-      addData = addData.filter((obj) => obj.id !== deleteId);
       }
-  document.getElementById('addButton').innerText = "Add";
+  document.getElementById('addButtonAdmin').innerText = "Add";
 
   // Get input field values
   const baggageID = $("#baggageID").val();
@@ -180,6 +103,8 @@ function addProduct(){
   const at = $("#at").val();
   const additional_payment = $("#additional_payment").val();
   const taxAmount = $("#taxAmount").val();
+
+  
 
 
   // Create a data object to send to the API
@@ -202,19 +127,12 @@ function addProduct(){
 
     taxAmount,
   };
-
-
-
   if(data.taxAmount != "" & totalValue != ""){
 
-    addData.push(data);
+    addDataAdmin.push(data);
   }else{
-    alert("Required al fields")
+    alert("Required all fields")
   }
-
-
-
-
   // Send a POST request to your Spring Boot API using jQuery's AJAX
   $.ajax({
     url: "http://localhost:8080/baggagestart/productInfo",
@@ -225,7 +143,7 @@ function addProduct(){
       console.log(response);
       data.id = response;
       
-      populateTable();
+      populateTableAdmin();
       $("#inchi").val("");
       $("#quantity").val("");
       $("#perUnitValue").val("");
@@ -238,44 +156,24 @@ function addProduct(){
       $("#vat").val("");
       $("#ait").val("");
       $("#at").val("");
-
+      $("#additional_payment").val("");
       
-
-
     },
+
 
     error: function (error) {
       // Handle errors here
       console.error(error);
     },
+    
   });
-}
-
+};
 
 //-------> for delete product row ajax function<-----//
-function DeleteProduct(idToDelete) {
-  
-  addData = addData.filter((obj) => obj.id !== idToDelete);
-  console.log(idToDelete)
-  const delete1 = {
-    idToDelete,
-  };
-  $.ajax({
-    url: "http://localhost:8080/baggagestart/productDelete",
-    type: "POST",
-    contentType: "application/json",
-    data: JSON.stringify(delete1),
-    success: function (response) {
-      
-    },
-    error: function (error) {
-      console.error(error);
-    },
-  });
-  populateTable();
-}
-function DeleteAfterEdit(idToDelete) {
 
+function DeleteProductAdmin(idToDelete) {
+
+    addDataAdmin = addDataAdmin.filter((obj) => obj.id !== idToDelete);
   const delete1 = {
     idToDelete,
   };
@@ -286,42 +184,40 @@ function DeleteAfterEdit(idToDelete) {
     data: JSON.stringify(delete1),
     success: function (response) {
       console.log("hi i am deleted",idToDelete);
+      populateTableAdmin();
     },
     error: function (error) {
       console.error(error);
     },
   });
-  
+
 }
-function EditProduct(idToDelete) {
-  for (let i = 0; i < addData.length; i++) {
-    if (addData[i].id === idToDelete) {
-      document.getElementById('productName').value = addData[i].productName;
-      document.getElementById('unit').value = addData[i].unit;
-      document.getElementById('inchi').value = addData[i].inchi;
-      document.getElementById('quantity').value = addData[i].quantity;
-      document.getElementById('perUnitValue').value = addData[i].perUnitValue;
-      document.getElementById('totalValue').value = addData[i].totalValue;
-      document.getElementById('tax').value = addData[i].tax;
+function EditProductAdmin(idToDelete) {
+  for (let i = 0; i < addDataAdmin.length; i++) {
+    if (addDataAdmin[i].id === idToDelete) {
+      document.getElementById('productName').value = addDataAdmin[i].productName;
+      document.getElementById('unit').value = addDataAdmin[i].unit;
+      document.getElementById('inchi').value = addDataAdmin[i].inchi;
+      document.getElementById('quantity').value = addDataAdmin[i].quantity;
+      document.getElementById('perUnitValue').value = addDataAdmin[i].perUnitValue;
+      document.getElementById('totalValue').value = addDataAdmin[i].totalValue;
+      document.getElementById('tax').value = addDataAdmin[i].tax;
 
 
-      document.getElementById('cd').value = addData[i].cd;
-      document.getElementById('rd').value = addData[i].rd;
-      document.getElementById('sd').value = addData[i].sd;
-      document.getElementById('vat').value = addData[i].vat;
-      document.getElementById('ait').value = addData[i].ait;
-      document.getElementById('at').value = addData[i].at;
+      document.getElementById('cd').value = addDataAdmin[i].cd;
+      document.getElementById('rd').value = addDataAdmin[i].rd;
+      document.getElementById('sd').value = addDataAdmin[i].sd;
+      document.getElementById('vat').value = addDataAdmin[i].vat;
+      document.getElementById('ait').value = addDataAdmin[i].ait;
+      document.getElementById('at').value = addDataAdmin[i].at;
 
 
-
-
-
-      document.getElementById('taxAmount').value = addData[i].taxAmount;
+      document.getElementById('additional_payment').value = addDataAdmin[i].additional_payment;
+      
+      document.getElementById('taxAmount').value = addDataAdmin[i].taxAmount;
       document.getElementById('deleteidhidden').value = idToDelete;
-      document.getElementById('addButton').innerText = "Update";
-      // DeleteAfterEdit(idToDelete);
-    
-    
+      document.getElementById('addButtonAdmin').innerText = "Update";
+      // DeleteProductAdmin(idToDelete)
       
       return; // If found, exit the loop
     }
@@ -330,7 +226,8 @@ function EditProduct(idToDelete) {
 }
 
 //--------> product Field fatch and auto show in field value<-----------//
-function fetchProductData() {
+function fetchProductDataAdmin() {
+   
   document.getElementById("quantity").value = "";
   document.getElementById("perUnitValue").value = "";
   document.getElementById("totalValue").value = "";
@@ -358,7 +255,7 @@ function fetchProductData() {
         $("#ait").val(data.ait);
         $("#at").val(data.at);
 
-
+        $("#additional_payment").val(data.additional_payment);
         
       },
       error: function () {
@@ -378,13 +275,16 @@ function fetchProductData() {
     $("#ait").val("");
     $("#at").val("");
 
+    $("#additional_payment").val("");
+    
+
 
 
   }
 }
 
 // -------->Function to calculate and update the totalValue field<------//
-function calculateTotalValue() {
+function calculateTotalValueAdmin() {
   // Get the values of quantity and perUnitValue fields
   var quantity = parseFloat(document.getElementById("quantity").value);
   var perUnitValue = parseFloat(document.getElementById("perUnitValue").value);
@@ -426,13 +326,13 @@ function calculateTotalValue() {
   }
   
 }
-// Attach the calculateTotalValue function to the 'input' event of quantity and perUnitValue fields
+// Attach the calculateTotalValueAdmin function to the 'input' event of quantity and perUnitValue fields
 document
   .getElementById("quantity")
-  .addEventListener("input", calculateTotalValue);
+  .addEventListener("input", calculateTotalValueAdmin);
 document
   .getElementById("perUnitValue")
-  .addEventListener("input", calculateTotalValue);
+  .addEventListener("input", calculateTotalValueAdmin);
 
 //----->submit bottom button updete top from and bottom select option value <-------//
 document.addEventListener("DOMContentLoaded", function () {
@@ -455,7 +355,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('dropdownSelect').value='YES';
       }
       data.forEach(function (item) {
-        // Extract data from each item and add it to the addData array
+        // Extract data from each item and add it to the addDataAdmin array
         var extractedData = {
           id: item.id,
           baggageID: item.baggage_id,
@@ -474,26 +374,19 @@ document.addEventListener("DOMContentLoaded", function () {
           vat: item.vat,
           ait: item.ait,
           at: item.at,
-
-
-
-
-
-
-
-
+          additional_payment: item.additional_payment,
           taxAmount: item.tax_amount,
         };
 
 
         console.log("extractedData==========="+extractedData)
-        addData.push(extractedData);
+        addDataAdmin.push(extractedData);
 
 
 
       });
 
-      populateTable()
+      populateTableAdmin()
       ;
     },
     error: function (error) {
@@ -537,23 +430,21 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
   //----> for last submit button <-----//
-  var lastSubmitButtonUser = document.getElementById("lastSubmitButtonUser");
+  var lastSubmitButton = document.getElementById("lastSubmitButton");
   // Add a click event listener to the last submit button
- 
+  lastSubmitButton.addEventListener("click", function () {
+    // Manually trigger the form's submit event
+    var form = document.getElementById("myForm");
+    form.action = "/baggagestart/finalsubmitAdmin";
+    form.submit();
+  });
 });
-function finalSubmitUser () {
 
-  // Manually trigger the form's submit event
-  var form = document.getElementById("myForm");
-  form.action = "/baggagestart/finalsubmit";
-  form.submit();
-};
-
-function checkBox() {
+function checkBoxAdmin() {
   var accompaniedSelect = document.querySelector('select[name="accompaniedBaggageCount"]');
   var unaccompaniedSelect = document.querySelector('select[name="unaccompaniedBaggageCount"]');
 
-  // Get the checkbox elements
+  // Get the checkBoxAdmin elements
   var accompaniedCheckbox = document.getElementById('flexCheckCheckedAccompanied');
   var unaccompaniedCheckbox = document.getElementById('flexCheckCheckedUnaccompanied');
 
@@ -566,12 +457,13 @@ function checkBox() {
   unaccompaniedCheckbox.checked = shouldCheckUnaccompanied;
 }
 
-window.addEventListener("load", checkBox);
+window.addEventListener("load", checkBoxAdmin);
+
 
 
 //TV Inchi Calculate
-function tax_calc(){
-  console.log(tax_calc)
+function tax_calcAdmin(){
+  console.log(tax_calcAdmin)
   var inchi=document.getElementById("inchi").value;
    var qty=document.getElementById("quantity").value;
    var per_unit_rate=document.getElementById("perUnitValue").value;

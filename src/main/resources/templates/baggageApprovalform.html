@@ -1,4 +1,14 @@
 <div th:replace="~{layout/support}"></div>
+
+<style>
+    .button-container {
+    display: inline-block; /* Display the containers inline to place the buttons side by side */
+    margin-right: 10px; /* Add some spacing between the buttons */
+    text-align: right;
+}
+
+</style>
+
 <div class="container-fluid" style="background: white;">
     <div class="logo d-flex justify-content-center">
         <img src="/img/logo/nbr.png" alt="nbr_logo">
@@ -12,13 +22,19 @@
         </div>
         <table>
             <tbody th:object="${baggageView}">
-                <input type="hidden" id="baggageView" name="id" th:value="${baggageView['ID']}" />
-                <tr>
-                   <td><span><span class="fw-bold">Entry Point: </span><span th:text="${baggageView['entry_point']}"></span></span></td>
-                </tr>
+                <input type="hidden" id="baggageid" name="id" th:value="${baggageView['ID']}" />
                 <tr>
                     <td><span class="fw-bold">Name of the Passenger: </span><span th:text="${baggageView['passenger_name']}"></span></td>
                 </tr>
+
+                <tr>
+                    <td><span class="fw-bold">Payment Id: </span><span th:text="${baggageView['payment_id']}"></span></td>
+                </tr>
+
+                <tr>
+                   <td><span><span class="fw-bold">Entry Point: </span><span th:text="${baggageView['entry_point']}"></span></span></td>
+                </tr>
+
                 <tr>
                     <td><span class="fw-bold">Passport Number: </span><span th:text="${baggageView['passport_number']}"></span></td>
                 </tr>
@@ -49,6 +65,11 @@
                 <tr>
                     <td><span class="fw-bold">Un-Accompanied: </span><span th:text="${baggageView['unaccom_no']}"></span></td>
                 </tr>
+
+
+                <tr>
+                    <td><span class="fw-bold">Payment Status: </span><span th:text="${baggageView['payment_status']}"></span></td>
+                </tr> 
                 
             </tbody>
         </table>
@@ -91,89 +112,162 @@
          </tbody>
      </table>
 
-     <div class="d-flex justify-content-center" id="qrcode">
-        
-     </div>
+     <div class="d-flex justify-content-center" id="qrcode"></div>
 
-     
-
-
-     <div class="row print-button" style="margin-top: 10px;"> 
-        <div class="col-6 mx-auto">
-          <div class="d-flex align-items-center justify-content-evenly" >
-            <div th:if="${baggageView['status'] != 'rejected'}">
+        <div style="text-align: right; margin-right: 30px;">
+            <!-- <div class="form-check" style=" font-weight: bold; margin: 12px 58px;">
+                <div th:if="${baggageView['payment_status'] == 'Processing' || baggageView['payment_status'] == 'Unpaid'}"> -->
+                    <!-- <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" onclick="paymentReview()">
+                    <label> Payment review</label> -->
+                    <!-- <form action="">
+                        <input type="checkbox" value="" id="flexCheckChecked" onclick="paymentReview()">
+                        <label for="paymentReview">Payment Review</label><br>
+                    </form>
+                </div>
+                <div th:if="${baggageView['payment_status'] == 'Review'}">
+                    <label style=" margin-right: -30px; font-weight: bolder; color:chocolate;"> Payment on review</label>
+                </div>
+                <div th:if="${baggageView['payment_status'] == 'Paid'}">
+                    <label style="font-weight: bolder; color: chartreuse;"> Payment Done</label>
+                </div>
+            </div> -->
+            <div class="button-container">
+                <div>
+                    <button id="toggleButton3" onclick="showDiv3()" class="btn btn-warning">On Examination</button>
+                </div>
+            </div>
             
-                <button id="toggleButton1" onclick="showDiv1()" class="btn btn-danger">Rejected</button>
-            <div th:else>
-
-          </div>
-        </div>
-
-        <div class="col-6 mx-auto">
-            <div class="d-flex align-items-center justify-content-evenly">
-                 <div th:if="${baggageView['status'] != 'approved'}">
-                <button id="toggleButton" onclick="showDiv()" class="btn btn-success">Approved</button>
-                <div th:else>
+            <div class="button-container">
+                <div th:if="${baggageView['status'] != 'rejected'}">
+                    <button id="toggleButton1" onclick="showDiv1()" class="btn btn-danger">Rejected</button>
+                </div>
+            </div>
+            <div class="button-container">
+                <div th:if="${baggageView['status'] != 'approved'}">
+                    <button id="toggleButton" onclick="showDiv()" class="btn btn-success">Approved</button>
+                </div>
             </div>
         </div>
+        <br><br><br>
+
+
 
     </div>
 
-
-
-
-
     <div class="d-flex row col-md-12" style="margin-top: 10px;" th:object="${baggageView}">
-        <div class="d-inline-block col-md-6"> 
-            <div class="container" id="welcomeDiv1"  style="display:none;">
-                <form th:action="@{/baggagestart/baggage_reject_update}"  method="post" id="myForm">
+
+
+        <!-- <div id="welcomeDiv3" style="display:none;">
+            <div style="display:flex; justify-content: right; margin-right: 165px; margin-top: -95px;">
+            <form th:action="@{/baggagestart/baggage_on_examination_update}"  method="post" id="myForm">
+                <div class="input-group">
+                    <div class="">
+                        <input th:value="${baggageView['id']}" type="hidden" name="id">
+                        <input th:value="On Examination" type="hidden" name="status">
+                        <label style="font-weight: bold;" for="confNote" class="form-label" >Give the Reason of Rejection</label>
+                        <select name="confNote" class="form-control" id="confNote">
+                            <option value="">---Couse of on Examination----</option>
+                            <option value="Misdeclaration">Found Mobile </option>
+                            <option value="Restricted item">Found Gold</option>
+                            <option value="Restricted item">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
                     <div class="input-group">
-                        <div class="col-md-6" style="width: auto";>
+                        <button style="margin-top: 15px;" type="submit" class="btn btn-danger">Rejected</button>
+                    </div>
+                </div>
+                <br><br><br>
+            </form>
+            </div>
+        </div> -->
+
+        <div id="welcomeDiv3" style="display:none;">
+
+            <div style="display:flex; justify-content: right; margin-right: 165px; margin-top: -95px;">
+                <form th:action="@{/baggagestart/baggage_on_examination_update}"  method="post" id="myForm">
+                    <div class="input-group">
+                        <div class="">
                             <input th:value="${baggageView['id']}" type="hidden" name="id">
-                            <input th:value="rejected" type="hidden" name="status">
-                            <textarea name="confNote" class="form-control" id="exampleFormControlTextarea1" placeholder="Write your comment" rows="2" style="width:100%;"></textarea>
+                            <input th:value="OnExamination" type="hidden" name="status">
+                            <label style="font-weight: bold;" for="confNote" class="form-label" >Give the Reason of On Examination</label>
+                            <select name="confNote" class="form-control" id="confNote">
+                                <option value="">---Couse of on Examination----</option>
+                                <option value="Found Mobile">Found Mobile </option>
+                                <option value="Found Gold">Found Gold</option>
+                                <option value="Other">Other</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="input-group">
-                            <button type="submit" class="btn btn-danger">Rejected</button>
+                            <button style="margin-top: 15px;" type="submit" class="btn btn-warning">On Examination</button>
                         </div>
                     </div>
                 </form>
+
+            </div>
+
+        </div>
+
+
+        <div id="welcomeDiv1" style="display:none;">
+            <div style="display:flex; justify-content: right; margin-right: 165px; margin-top: -95px;">
+            <form th:action="@{/baggagestart/baggage_reject_update}"  method="post" id="myForm">
+                <div class="input-group">
+                    <div class="">
+                        <input th:value="${baggageView['id']}" type="hidden" name="id">
+                        <input th:value="rejected" type="hidden" name="status">
+                        <label style="font-weight: bold;" for="confNote" class="form-label" >Give the Reason of Rejection</label>
+                        <select name="confNote" class="form-control" id="confNote">
+                            <option value="">---Reason of the Rejection----</option>
+                            <option value="Misdeclaration">Misdeclaration </option>
+                            <option value="Restricted item">Restricted item</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <button style="margin-top: 15px;" type="submit" class="btn btn-danger">Rejected</button>
+                    </div>
+                </div>
+                <br><br><br>
+            </form>
             </div>
         </div>
-        <div class="d-inline-block col-md-6"  > 
-            <div class="container" id="welcomeDiv"  style="display:none;">
+        
+            <div  id="welcomeDiv"  style="display:none;">
+                <div style="display:flex; justify-content: right; margin-right: 165px; margin-top: -95px;">
                 <form th:action="@{/baggagestart/baggage_approve_update}"  method="post" id="myForm">
                     <div class="input-group">
-                        <div class="col-md-6" style="width: auto";>
-                            <input th:value="${baggageView['id']}" type="hidden" name="id">
-                            <input th:value="approved" type="hidden" name="status">
-                            <textarea name="confNote" class="form-control" id="exampleFormControlTextarea1" placeholder="Write your comment" rows="2" style="width:100%;"></textarea>
-                        </div>
+                        <input th:value="${baggageView['id']}" type="hidden" name="id">
+                        <input th:value="approved" type="hidden" name="status">
+                        <textarea name="confNote" class="form-control" id="exampleFormControlTextarea1" placeholder="Write your comment" rows="2" style="width:100%; display: none;"></textarea>
+                        <p style="font-weight: bold;">Are you confirm ??</p>
                     </div>
                     <div class="col-md-4">
                         <div class="input-group">
                             <button type="submit" class="btn btn-success">Approved</button>
                         </div>
                     </div>
+                    <br><br><br>
                 </form>
-
-              </div>
-        </div>
-    </div>
-  
-</div>
-
-
-
-
-
+                </div>
+            </div>
         
-     </div>
+    </div>
+</div>
+  
+
       
 
      <script>
+function paymentReview(){
+    var id = document.getElementById("baggageid").value;
+    var url = "http://localhost:8080/baggageshow/payment-review?id=" + id;
+    window.location.href = url;
+}
 
 function qrcode() {
           console.log("fahim");
@@ -188,20 +282,46 @@ function qrcode() {
         };
 
 
-function showDiv1() {
+        function showDiv1() {
         document.getElementById('welcomeDiv1').style.display = "block";
-        var button = document.getElementById("toggleButton1");
-        button.style.display = "none";
+        var reject_button = document.getElementById("toggleButton1");
+        var examination_button = document.getElementById("toggleButton3");
+        var approved_button = document.getElementById("toggleButton");
+        var examination_div = document.getElementById("welcomeDiv3");
+
+        reject_button.style.display = "none";
+        approved_button.style.display = "none";
+        examination_button.style.display = "none";
+        examination_div.style.display = "none";
     }
 
 	function showDiv() {
         document.getElementById('welcomeDiv').style.display = "block";
 
-        var button = document.getElementById("toggleButton");
-        button.style.display = "none";
+        // var button = document.getElementById("toggleButton");
+        // button.style.display = "none";
+        var reject_button = document.getElementById("toggleButton1");
+        var examination_button = document.getElementById("toggleButton3");
+        
+        var approved_button = document.getElementById("toggleButton");
+        var examination_div = document.getElementById("welcomeDiv3");
+        reject_button.style.display = "none";
+        approved_button.style.display = "none";
+        examination_button.style.display = "none";
+        examination_div.style.display = "none";
     }
 
+    function showDiv3() {
+        document.getElementById('welcomeDiv3').style.display = "block";
+        var reject_button = document.getElementById("toggleButton1");
+        var examination_button = document.getElementById("toggleButton3");
 
+        var approved_button = document.getElementById("toggleButton");
+        reject_button.style.display = "none";
+        approved_button.style.display = "none";
+        examination_button.style.display = "none";
+
+    }
 
 function qrcode() {
             // Get the current page's URL

@@ -9,17 +9,12 @@
             
             <tbody th:object="${reportShow}">
                 <input type="hidden" id="reportShow" name="id" th:value="${reportShow['ID']}" />
-                <input type="hidden" id="reportShow" name="id" th:value="${mostRecentBaggageList['payment_id']}" />
                 <tr>
                     <td><span class="fw-bold">Name of the Passenger: </span><span th:text="${reportShow['passenger_name']}"></span></td>
                 </tr>
-
                 <tr>
-                    <td><span class="fw-bold">Payment Id: </span><span th:text="${mostRecentBaggageList['payment_id']}"></span></td>
+                    <td><span class="fw-bold">Payment Id </span><span th:text="${reportShow['payment_id']}"></span></td>
                 </tr>
-                <!-- <tr>
-                    <td><span class="fw-bold">Date of Issue: </span><span>.........</span></td>
-                </tr> -->
                 <tr>
                    <td><span><span class="fw-bold">Entry Point: </span><span th:text="${reportShow['entry_point']}"></span></span></td>
                 </tr>
@@ -48,12 +43,16 @@
                 <tr>
                     <td><span class="fw-bold">Email: </span><span th:text="${reportShow['email']}"></span></td>
                 </tr>
-                <!-- <tr> 
+                <tr> 
                     <td><span class="fw-bold">Accompanied: </span><span th:text="${reportShow['accom_no']}"></span></td>
                 </tr>
                 <tr>
                     <td><span class="fw-bold">Un-Accompanied: </span><span th:text="${reportShow['unaccom_no']}"></span></td>
-                </tr> -->
+                </tr>
+
+                <tr>
+                    <td><span class="fw-bold">Payment Status: </span><span th:text="${reportShow['payment_status']}"></span></td>
+                </tr>
                 
             </tbody>
         </table>
@@ -62,14 +61,22 @@
         <table id="ajaxtable"
             class="table table-bordered  mt-3">
             <thead class="bg-danger">
-                <tr>
+                <tr style="background-color: rgb(126, 142, 238);">
                     <th scope="col">Product Name</th>
                     <th scope="col">Unit</th>
                     <th scope="col">Inchi(For Telivision)</th>
                     <th scope="col">Quantity</th>
                     <th scope="col">Value</th>
                     <th scope="col">Tax(%)</th>
-                    <th scope="col">Tax Amount</th>
+
+                    <th scope="col">CD(%)</th>
+                    <th scope="col">RD(%)</th>
+                    <th scope="col">SD(%)</th>
+                    <th scope="col">VAT(%)</th>
+                    <th scope="col">AIT(%)</th>
+                    <th scope="col">AT(%)</th>
+                    <th scope="col">Tax Amount(%)</th>
+                    <th scope="col">Additional Payment</th>
                 </tr>
             </thead>
             <tbody >
@@ -82,27 +89,34 @@
                     <td th:text="${reportShow['qty']}"></td>
                     <td th:text="${reportShow['value']}"></td>
                     <td th:text="${reportShow['tax_percentage']}"></td>
-                    <td class="tax-amount" th:text="${reportShow['tax_amount']}"></td>
-                </tr> 
 
+                    <td th:text="${reportShow['cd']}"></td>
+                    <td th:text="${reportShow['rd']}"></td>
+                    <td th:text="${reportShow['sd']}"></td>
+                    <td th:text="${reportShow['vat']}"></td>
+                    <td th:text="${reportShow['ait']}"></td>
+                    <td th:text="${reportShow['at']}"></td>
+                    <td class="tax-amount" th:text="${reportShow['tax_amount']}"></td>
+                    <td class="additional-payment" th:text="${reportShow['additional_payment']}"></td>
+                </tr> 
                 <tr>
-                        <th colspan="6" class="text-end"> Total Tax Amount</th>
-                       <td><span id="totalTaxAmount"></span></td>
-                    </tr>
+                    <th colspan="3" class="text-end"> Total Tax Amount :</th>
+                    <td><span id="totalTaxAmount"></span></td>
+
+
+                    <th colspan="3" class="text-end"> Total Additional Payment :</th>
+                    <td><span id="totaladditionPayment"></span></td>
+
+
+                    <th colspan="3" class="text-end"> Total Payable Amount:</th>
+                    <td><span id="totalPayableAmount"></span></td>
+
+                </tr>
             </tbody>
         </table>
-
-
-
-
-
-
         <div class="d-flex justify-content-center">
             <button type="button" class="btn btn-warning btn-lg my-2 mx-3" onclick="redirectToBaggagePage()">Edit</button>
-            <button type="button" class="btn btn-success btn-lg my-2 mx-5" onclick="redirectToConfirmPage()">Submit And Payment</button>
-
-            <button type="button" class="btn btn-danger btn-lg my-2" onclick="paymentNotAtThisTime()">Submit Without Payment</button>
-          
+            <button type="button" class="btn btn-success btn-lg my-2 mx-5" onclick="redirectToConfirmPage()">Pay</button>
         </div>
 
     </div>
@@ -120,7 +134,7 @@ function redirectToConfirmPage() {
        
        // Get the id value from the hidden input field
        var id = document.getElementById("reportShow").value;
-       var url = "http://localhost:8080/baggagestart/confrimPage?id=" + id;
+       var url = "http://localhost:8080/baggagestart/confrimPageAdmin?id=" + id;
        window.location.href = url;
    }
 
@@ -135,14 +149,27 @@ function paymentNotAtThisTime(){
    function calculateTotalTaxAmount() {
             // Get all the tax amount elements using a class selector
             var taxAmountElements = document.querySelectorAll(".tax-amount");
+            var  additionalAmountElement= document.querySelectorAll(".additional-payment");
+            //alert(additionalAmountElement)
             var totalTaxAmount = 0;
+            var additionalAmount = 0;
             taxAmountElements.forEach(function (element) {
                 // Parse the text content of the element to a floating-point number
                 var taxAmount = parseFloat(element.textContent);
                 totalTaxAmount += taxAmount;
+
+
             });
+            additionalAmountElement.forEach(function(element){
+                var additionAmount = parseFloat(element.textContent);
+                additionalAmount += additionAmount;
+            });
+            totalPayable=totalTaxAmount+additionalAmount
             // Set the calculated total tax amount in the totalTaxAmount span
             document.getElementById("totalTaxAmount").textContent = totalTaxAmount.toFixed(2);
+            document.getElementById("totaladditionPayment").textContent = additionalAmount.toFixed(2);
+            document.getElementById("totalPayableAmount").textContent = totalPayable.toFixed(2);
+            
         }
         window.addEventListener("load", calculateTotalTaxAmount);
     </script>

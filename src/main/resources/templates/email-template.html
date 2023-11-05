@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Email Template</title>
+</head>
+<body>
+    <p>Hello Mr/Mrs, <span th:text="${passengerName}"></span>,</p>
+    <p>You are successfully submitted your baggage information. You paid <span th:text="${totalTaxAmount}"></span> only.</p>
+    <p>Click <a th:href="@{${link}}">here</a> to get Details.</p>
+</body>
+</html>

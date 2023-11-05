@@ -1,6 +1,6 @@
 
 <div th:replace="~{layout/header}"></div>
-    <title>Baggage Info Edit</title>
+    <title>Payment Record</title>
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
@@ -27,27 +27,22 @@
             font-weight: 900;
         }
         #example thead {
-            background-color: #49be78;
+            background-color: #FF5733;
             color: white;
         }
+
     </style>
 </head>
 <body>
 <div class="sr-main-content-padding">
     <div class="sr-main-content-heading">
-        <i class="fa fa-server" style="padding-right: 10px"></i>Baggage Info Edit
+        <i class="fa fa-server" style="padding-right: 10px"></i>Passenger Payment Record
     </div>
     <div>
-        <div class="d-flex my-5">
-            <label for="fromDate">From:</label>
-            <input class="form-control" type="date" id="fromDate" name="fromDate" >
-            <label for="toDate" >To:</label>
-            <input class="form-control" type="date" id="toDate" name="toDate" >
-            <button type="button" class="btn btn-warning ml-2" id="filterButton">Apply Filter</button>
-        </div>
         <table id="example" class="display" width="100%"></table>
     </div>
 </div>
+
 <script>
     let dataTable;
 
@@ -61,14 +56,14 @@
             success: function (apiResponse) {
                 // Map the API response to the DataTable columns
                 const dataSet = apiResponse.map((record) => [
-                    record.payment_id,
                     record.passenger_name,
-                    record.payment_status,     
+                    record.payment_id,
+                    record.payment_status,
+                    record.passport_number,
                     record.dateofarrival,
                     record.nationality,
-                    record.passport_number,
-                    record.status,
-                    `<a href="/baggagestart/edit-baggage?generatedId=${record.id}" class="btn btn-primary">Edit</a>`,
+                    
+                    `<a href="/payment-history?id=${record.id}" class="btn btn-primary">View Details</a>`,
                 ]);
 
                 if (dataTable) {
@@ -78,14 +73,13 @@
 
                 dataTable = $('#example').DataTable({
                     columns: [
-                        { title: 'Payment Id' },
+                        
                         { title: 'Passenger Name' },
+                        { title: 'Payment Id' },
                         { title: 'Payment Status' },
-                        { title: 'Apply Date' },
-                       
-                        { title: 'Nationality' },
                         { title: 'Passport No' },
-                        { title: 'Baggage Status' },
+                        { title: 'Apply Date' },
+                        { title: 'Nationality' },
                         { title: 'Action' },
                     ],
                     data: dataSet,
