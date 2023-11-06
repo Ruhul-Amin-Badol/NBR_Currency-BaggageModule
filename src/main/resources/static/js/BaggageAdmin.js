@@ -2,6 +2,9 @@ let addDataAdmin = [];
 
 //----->populateTableAdmin data add every click new row<-------//
 function populateTableAdmin() {
+
+
+  
   const newRow1 = $("<tr>");
   // Get a reference to the table body
   const tbody = $("#ajaxtable tbody");
@@ -52,11 +55,17 @@ function populateTableAdmin() {
       additionalPayment = 0;
     }
     totalAdditionalPayment +=  parseFloat(additionalPayment);
+  
 
     // Append the new row to the table body
     tbody.append(newRow);
   });
+  previousPaidAmount=document.getElementById("totalPaidAmountId").value
+  var parsedPreviousPaidAmount = parseFloat(previousPaidAmount);
+
   let totalPayableAmount = totalTax + totalAdditionalPayment;
+  totalPayableAmount = totalPayableAmount-parsedPreviousPaidAmount
+
   newRow1.append(`<th colspan="3" class="text-end"> Total Tax Amount:</th>`);
   newRow1.append(`<td>${totalTax.toFixed(2)}</td>`);
 
@@ -64,7 +73,7 @@ function populateTableAdmin() {
   newRow1.append(`<th colspan="3" class="text-end"> Additional Payment:</th>`);
   newRow1.append(`<td>${totalAdditionalPayment.toFixed(2)}</td>`);
 
-  newRow1.append(`<th colspan="3" class="text-end"> Total Payable Amount:</th>`);
+  newRow1.append(`<th colspan="3" class="text-end"> Payable Amount:</th>`);
   newRow1.append(`<td>${totalPayableAmount.toFixed(2)}</td>`);
 
 
@@ -135,7 +144,7 @@ function adminadd() {
   }
   // Send a POST request to your Spring Boot API using jQuery's AJAX
   $.ajax({
-    url: "http://localhost:8080/baggagestart/productInfo",
+    url: "/baggagestart/productInfo",
     type: "POST",
     contentType: "application/json",
     data: JSON.stringify(data),

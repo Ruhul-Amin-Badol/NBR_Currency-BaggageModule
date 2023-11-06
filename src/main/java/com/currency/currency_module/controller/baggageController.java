@@ -4,7 +4,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -94,6 +96,40 @@ private TemplateEngine templateEngine;
 
         String allAirport_sql = "SELECT * FROM airport_list";
         List<Map<String, Object>> allAirportList = jdbcTemplate.queryForList(allAirport_sql);
+
+
+        String paymentSql = "SELECT * FROM payment_history WHERE baggage_id = ?";
+        List<Map<String, Object>> paymentHistoryInfo = jdbcTemplate.queryForList(paymentSql, generatedId);
+        System.out.println("paymentHistoryInfo======================================="+paymentHistoryInfo+generatedId);
+
+        if (!paymentHistoryInfo.isEmpty()) {
+            Map<String, Object> firstRow = paymentHistoryInfo.get(0);
+            //Double paidAmount = (Double) firstRow.get("paid_amount");
+
+            Double totalPaidAmount = 0.0;
+            for (Map<String,Object> paymentHistory : paymentHistoryInfo) {
+               Double paidAmount = (Double) paymentHistory.get("paid_amount");
+               System.out.println("paidAmount======================================="+paidAmount);
+            totalPaidAmount= totalPaidAmount+paidAmount;
+
+
+            }
+            model.addAttribute("totalPaidAmount", totalPaidAmount);
+            System.out.println("paymentHistoryInfo======================================="+totalPaidAmount);
+
+
+            // Now, you can use the paidAmount value
+        } else {
+            Double totalPaidAmount=0.0;
+            model.addAttribute("totalPaidAmount", totalPaidAmount);
+
+            // Handle the case where no rows were found for the given id
+        }
+       
+
+
+
+
         
         model.addAttribute("allAirportList", allAirportList);
         if (!generatedId.isEmpty()) {
@@ -360,6 +396,13 @@ private TemplateEngine templateEngine;
         String baggageSql = "SELECT id, payment_id FROM baggage WHERE id = ?";
         Map<String, Object> baggageInfo = jdbcTemplate.queryForMap(baggageSql, productInfo.get("baggageID"));
         String paymentId = (String) baggageInfo.get("payment_id");
+
+
+
+
+
+
+
 
         System.out.println("paymentId==========================="+paymentId);
         // Check if itemId is not null (i.e., productName exists in baggage_item_info)
@@ -632,7 +675,6 @@ private TemplateEngine templateEngine;
           //report show object pass    
         Map<String, Object> requestParameters = new HashMap<>();
         requestParameters.put("ID", id);
-
         requestParameters.put("entry_point", entryPoint);
         requestParameters.put("passenger_name", passengerName);
         requestParameters.put("passport_number", passportNumber);
@@ -647,11 +689,39 @@ private TemplateEngine templateEngine;
         requestParameters.put("unaccom_no", unaccompaniedBaggageCount);
         requestParameters.put("meat_products", idMeat);
         requestParameters.put("foreign_currency", idCurrency); 
-// 
         model.addAttribute("reportShow", requestParameters);
 
         String sql1="SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
         List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,id);
+
+
+
+
+        String paymentSql = "SELECT * FROM payment_history WHERE baggage_id = ?";
+        List<Map<String, Object>> paymentHistoryInfo = jdbcTemplate.queryForList(paymentSql, id);
+
+        if (!paymentHistoryInfo.isEmpty()) {
+           
+            Double totalPaidAmount = 0.0;
+            for (Map<String,Object> paymentHistory : paymentHistoryInfo) {
+               Double paidAmount = (Double) paymentHistory.get("paid_amount");
+               
+            totalPaidAmount= totalPaidAmount+paidAmount;
+
+
+            }
+            model.addAttribute("totalPaidAmount", totalPaidAmount);
+            System.out.println("paymentHistoryInfo======================================="+totalPaidAmount);
+
+
+            // Now, you can use the paidAmount value
+        } else {
+            Double totalPaidAmount=0.0;
+            model.addAttribute("totalPaidAmount", totalPaidAmount);
+
+            // Handle the case where no rows were found for the given id
+        }
+
 
         model.addAttribute("showProduct", productshow);
 
@@ -677,12 +747,9 @@ private TemplateEngine templateEngine;
             jdbcTemplate.update(sqlBaggage,paymentStatus,id);
 
 
-
-            
-            
             String sql1="SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
             List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,id);
-            int totalTaxAmount = 0;
+            Double totalTaxAmount = 0.0;
             for (Map<String, Object> row : productshow) {
                 String taxAmount = (String) row.get("tax_amount");
                 System.out.println("=========================================================="+taxAmount);
@@ -692,20 +759,26 @@ private TemplateEngine templateEngine;
                  System.out.println("====totalTaxAmount======================================================"+totalTaxAmount);
             }
             String payment_id= (String)requestParameters.get("payment_id");
+            Integer baggage_id= (Integer)requestParameters.get("id");
+            LocalDateTime currentDateTime = LocalDateTime.now();
 
+            System.out.println("currentDateTime=============================="+currentDateTime);
             try (Connection connection = jdbcTemplate.getDataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO payment_history (paid_amount, payment_id) VALUES (?, ?)"
+                    "INSERT INTO payment_history (baggage_id,paid_amount, payment_id,payment_date) VALUES (?,?,?,?)"
             )) {
-           preparedStatement.setDouble(1, totalTaxAmount);
-           preparedStatement.setString(2, payment_id);
+            System.out.println("totalTaxAmount=============================================="+totalTaxAmount);
+           preparedStatement.setInt(1, baggage_id);
+           preparedStatement.setDouble(2, totalTaxAmount);
+           preparedStatement.setString(3, payment_id);
+           preparedStatement.setTimestamp(4, Timestamp.valueOf(currentDateTime));
 
            preparedStatement.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
 
-            String link="http://localhost:8080/baggagestart/confrimPage?id="+id;
+            String link="/baggagestart/confrimPage?id="+id;
             String gmail = (String) requestParameters.get("email");
 
 
@@ -714,13 +787,13 @@ private TemplateEngine templateEngine;
             context.setVariable("totalTaxAmount", totalTaxAmount);
             context.setVariable("link", link);
 
-            String emailContent = templateEngine.process("email-template", context);
+           // String emailContent = templateEngine.process("email-template", context);
 
 
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom("nbroffice71@gmail.com");
             message.setTo(gmail);
-           // message.setText(emailContent);
+            //message.setText(emailContent);
             message.setText(
                 "Hello Mr/Mrs,"+ requestParameters.get("passenger_name")+
                 ", You are successfully submitted your baggage information."
@@ -741,17 +814,24 @@ private TemplateEngine templateEngine;
         @GetMapping("/confrimPageAdmin")
          public String confrimPageAdmin(
             @RequestParam Long id, // Add a parameter for the unique identifier (id)
+            @RequestParam Double payableAmount,
             Model model,Principal principal) {
             String baggageSql= "SELECT * FROM baggage WHERE id =?";
             Map<String, Object>requestParameters= jdbcTemplate.queryForMap(baggageSql, id);
 
-           // System.out.println("=========reportShow================================================="+requestParameters);
+
+            String formattedAmount = String.format("%.2f", payableAmount);
+            double paidAmount = Double.parseDouble(formattedAmount);
+           //System.out.println("=========convertedAmount================================================="+convertedAmount);
             model.addAttribute("reportShow", requestParameters);
 
             String paymentStatus = "Paid";
             String sqlBaggage = "UPDATE baggage SET payment_status=? WHERE id=?";
             jdbcTemplate.update(sqlBaggage,paymentStatus,id);
 
+
+            LocalDateTime currentDateTime = LocalDateTime.now();
+            
             String sql1="SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
             List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,id);
             int totalTaxAmount = 0;
@@ -765,10 +845,12 @@ private TemplateEngine templateEngine;
             String payment_id= (String)requestParameters.get("payment_id");
             try (Connection connection = jdbcTemplate.getDataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO payment_history (paid_amount, payment_id) VALUES (?, ?)"
+                    "INSERT INTO payment_history (baggage_id,paid_amount, payment_id,payment_date) VALUES (?,?,?,?)"
             )) {
-           preparedStatement.setDouble(1, totalTaxAmount);
-           preparedStatement.setString(2, payment_id);
+                preparedStatement.setLong(1, id);
+                preparedStatement.setDouble(2, paidAmount);
+                preparedStatement.setString(3, payment_id);
+                preparedStatement.setTimestamp(4, Timestamp.valueOf(currentDateTime));
 
            preparedStatement.executeUpdate();
             } catch (SQLException e) {
