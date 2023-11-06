@@ -1114,7 +1114,7 @@
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>
+                                                <td><input id="totalPaidAmountId" type="hidden" th:value="${totalPaidAmount}" readonly="readonly" />
                                                     <select class="form-select" id="productName" name="productName" aria-label="Default select example" onchange="fetchProductDataAdmin()">
                                                         <option selected> --Please Select-- </option>
                                                         <th:block th:each="productName : ${productshow}">
@@ -1122,7 +1122,7 @@
                                                         </th:block>
                                                     </select>
                                                 </td>
-                                                <td><input type="text" class="form-control" id="unit" name="unit"></td>
+                                                <td><input type="text" class="form-control"  id="unit" name="unit"></td>
                                                 <td><input type="text" class="form-control" id="inchi" name="inchi"></td>
                                                 <td><input type="text" class="form-control" id="quantity" name="quantity" onKeyUp="tax_calcAdmin()"></td>
                                                 <td><input type="text" class="form-control" id="perUnitValue" name="perUnitValue" onKeyUp="tax_calcAdmin()"></td>

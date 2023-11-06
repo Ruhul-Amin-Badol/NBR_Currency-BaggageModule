@@ -12,9 +12,7 @@
                 <tr>
                     <td><span class="fw-bold">Name of the Passenger: </span><span th:text="${reportShow['passenger_name']}"></span></td>
                 </tr>
-                <tr>
-                    <td><span class="fw-bold">Payment Id </span><span th:text="${reportShow['payment_id']}"></span></td>
-                </tr>
+
                 <tr>
                    <td><span><span class="fw-bold">Entry Point: </span><span th:text="${reportShow['entry_point']}"></span></span></td>
                 </tr>
@@ -50,9 +48,7 @@
                     <td><span class="fw-bold">Un-Accompanied: </span><span th:text="${reportShow['unaccom_no']}"></span></td>
                 </tr>
 
-                <tr>
-                    <td><span class="fw-bold">Payment Status: </span><span th:text="${reportShow['payment_status']}"></span></td>
-                </tr>
+
                 
             </tbody>
         </table>
@@ -107,8 +103,8 @@
                     <th colspan="3" class="text-end"> Total Additional Payment :</th>
                     <td><span id="totaladditionPayment"></span></td>
 
-
-                    <th colspan="3" class="text-end"> Total Payable Amount:</th>
+                    <input type="text" id="previousPaidAmountId" th:value="${totalPaidAmount}" readonly="readonly" />
+                    <th colspan="3" class="text-end"> Payable Amount:</th>
                     <td><span id="totalPayableAmount"></span></td>
 
                 </tr>
@@ -125,7 +121,7 @@
     // Get the id value from the hidden input field
     var id = document.getElementById("reportShow").value;
     console.log(id);
-    var url = "http://localhost:8080/baggagestart/show?generatedId=" + id;
+    var url = "/baggagestart/show?generatedId=" + id;
     window.location.href = url;
 
 }
@@ -134,13 +130,14 @@ function redirectToConfirmPage() {
        
        // Get the id value from the hidden input field
        var id = document.getElementById("reportShow").value;
-       var url = "http://localhost:8080/baggagestart/confrimPageAdmin?id=" + id;
+       var url = "/baggagestart/confrimPageAdmin?id=" + id + "&payableAmount=" + totalPayable;
        window.location.href = url;
+
    }
 
 function paymentNotAtThisTime(){
     var id = document.getElementById("reportShow").value;
-       var url = "http://localhost:8080/baggagestart/payment-not-at-this-time?id=" + id;
+       var url = "/baggagestart/payment-not-at-this-time?id=" + id;
        window.location.href = url;
 
 }
@@ -150,6 +147,9 @@ function paymentNotAtThisTime(){
             // Get all the tax amount elements using a class selector
             var taxAmountElements = document.querySelectorAll(".tax-amount");
             var  additionalAmountElement= document.querySelectorAll(".additional-payment");
+            var  previousPaidAmountElement= document.getElementById("previousPaidAmountId").value;
+            var parsedPreviousPaidAmount = parseFloat(previousPaidAmountElement);
+
             //alert(additionalAmountElement)
             var totalTaxAmount = 0;
             var additionalAmount = 0;
@@ -164,7 +164,10 @@ function paymentNotAtThisTime(){
                 var additionAmount = parseFloat(element.textContent);
                 additionalAmount += additionAmount;
             });
-            totalPayable=totalTaxAmount+additionalAmount
+            totalPayable=totalTaxAmount+additionalAmount;
+            totalPayable = totalPayable-parsedPreviousPaidAmount;
+
+
             // Set the calculated total tax amount in the totalTaxAmount span
             document.getElementById("totalTaxAmount").textContent = totalTaxAmount.toFixed(2);
             document.getElementById("totaladditionPayment").textContent = additionalAmount.toFixed(2);
