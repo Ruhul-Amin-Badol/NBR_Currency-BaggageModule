@@ -367,6 +367,10 @@ function fetchProductData() {
 
    
     });
+    document.getElementById("quantity").value="0";
+    document.getElementById("perUnitValue").value="0";
+    document.getElementById("totalValue").value="0";
+    document.getElementById("tax").value="0";
   } else {
     $("#unit").val("");
     $("#tax").val("");
