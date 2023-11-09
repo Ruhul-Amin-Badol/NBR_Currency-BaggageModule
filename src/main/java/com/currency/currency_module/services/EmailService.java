@@ -31,5 +31,5 @@ public class EmailService {
             throw new EmailServiceException("Failed to send email with attachment", e);
         }
     }
-    
+
 }

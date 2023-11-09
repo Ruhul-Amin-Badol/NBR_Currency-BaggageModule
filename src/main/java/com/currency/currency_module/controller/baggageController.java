@@ -11,11 +11,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.io.IOException;
 import java.security.Principal;
 import java.sql.Connection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -28,40 +31,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.currency.currency_module.AirportInformation;
+
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
+
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+
 import com.currency.currency_module.CustomResponseWrapper;
 import com.currency.currency_module.services.EmailService;
 import com.currency.currency_module.services.EmailServiceException;
 import com.currency.currency_module.services.PdfGenerationService;
-import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
 
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-
-import org.xhtmlrenderer.pdf.ITextRenderer;
-
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
-
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
 import org.springframework.http.MediaType;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.mail.MessagingException;
-import java.io.IOException;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletResponseWrapper;
-
-
-
-
 
 
 @Controller
@@ -776,8 +762,7 @@ private TemplateEngine templateEngine;
         @GetMapping("/confrimPage")
          public String confrimPage(
             @RequestParam Long id, // Add a parameter for the unique identifier (id)
-            Model model,Principal principal
-            , OutputStream out) {
+            Model model,Principal principal) {
             String baggageSql= "SELECT * FROM baggage WHERE id =?";
             Map<String, Object>requestParameters= jdbcTemplate.queryForMap(baggageSql, id);
             model.addAttribute("reportShow", requestParameters);
@@ -817,18 +802,33 @@ private TemplateEngine templateEngine;
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            String text = "dkfnldskfjlaskjdfn";
 
             String link="/baggagestart/confrimPage?id="+id;
             String gmail = (String) requestParameters.get("email");
-
-
 
 
             Context context = new Context();
             context.setVariable("passengerName", requestParameters.get("passenger_name"));
             context.setVariable("totalTaxAmount", totalTaxAmount);
             context.setVariable("link", link);
+
+           // String emailContent = templateEngine.process("email-template", context);
+
+
+
+
+            // String text = "dkfnldskfjlaskjdfn";
+
+            // String link="/baggagestart/confrimPage?id="+id;
+            // String gmail = (String) requestParameters.get("email");
+
+
+
+
+           // Context context = new Context();
+           // context.setVariable("passengerName", requestParameters.get("passenger_name"));
+          //  context.setVariable("totalTaxAmount", totalTaxAmount);
+          //  context.setVariable("link", link);
 
            // String emailContent = templateEngine.process("email-template", context);
 
@@ -857,11 +857,43 @@ private TemplateEngine templateEngine;
             
             emailService.sendEmailWithAttachment("mdaaanitol@gmail.com", "NBR Baggage Declaration", "Body", pdfData, "nbr_baggage_application.pdf");
            // return ResponseEntity.ok("Email sent successfully!");
-          // return new ResponseEntity<>(pdfData, headers, HttpStatus.OK);
+         // return new ResponseEntity<>(pdfData, headers, HttpStatus.OK);
         } catch (IOException e) {
             e.printStackTrace();
            // return ResponseEntity.status(500).body("Failed to send email: " + e.getMessage());
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            // SimpleMailMessage message = new SimpleMailMessage();
+            // message.setFrom("nbroffice71@gmail.com");
+            // message.setTo(gmail);
+            // //message.setText(emailContent);
+            // message.setText(
+            //     "Hello Mr/Mrs,"+ requestParameters.get("passenger_name")+
+            //     ", You are successfully submitted your baggage information."
+            //     +" You paid "+totalTaxAmount+" only"+
+            //     "Click <a href='" + link + "'>here</a> to get Details."
+                
+            //     );
+
+            // message.setSubject("NBR Baggage Declaration");
+            // mailSender.send(message);     
             model.addAttribute("showProduct", productshow);
             
             return "confirmPage";
@@ -869,29 +901,9 @@ private TemplateEngine templateEngine;
     }
 
 
-    public ResponseEntity<String> sendEmailWithAttachment() {
-          /// CustomResponseWrapper customResponseWrapper = new CustomResponseWrapper(response);
-        try {
-            byte[] pdfData = pdfGenerationService.generatePdf();
-
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_PDF);
-            headers.setContentDispositionFormData("inline", "NBR_baggage_declaration.pdf");
-
-            
-            emailService.sendEmailWithAttachment("mdaaanitol@gmail.com", "NBR Baggage Declaration", "Body", pdfData, "nbr_baggage_application.pdf");
-            return ResponseEntity.ok("Email sent successfully!");
-          // return new ResponseEntity<>(pdfData, headers, HttpStatus.OK);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return ResponseEntity.status(500).body("Failed to send email: " + e.getMessage());
-        }
-    }
     
-
-
-
-
+    
+    
     @PostMapping("/confirm-pay-by-admin")
         public String confrimPayByAdmin(@RequestParam int id, @RequestParam Double payableAmount,Model model){
 
@@ -935,14 +947,13 @@ private TemplateEngine templateEngine;
                     e.printStackTrace();
                     }
 
-                mailBody ="Hello Mr/Mrs,"+ requestParameters.get("passenger_name")+
+                   mailBody ="Hello Mr/Mrs,"+ requestParameters.get("passenger_name")+
                 ", You are successfully submitted your baggage information."
                 +" You paid "+paidAmount+" only"+"Click <a href='" + link + "'>here</a> to get Details." ;
 
             }else{
                  mailBody ="Thank you for you baggage payment" ;
             }
-            
             
             String paymentStatus = "Paid";
             String sqlBaggage = "UPDATE baggage SET payment_status=? WHERE id=?";
