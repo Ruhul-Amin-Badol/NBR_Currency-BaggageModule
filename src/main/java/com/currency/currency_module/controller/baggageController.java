@@ -28,14 +28,40 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.currency.currency_module.AirportInformation;
+import com.currency.currency_module.CustomResponseWrapper;
+import com.currency.currency_module.services.EmailService;
+import com.currency.currency_module.services.EmailServiceException;
+import com.currency.currency_module.services.PdfGenerationService;
+import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Service;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+
+import org.xhtmlrenderer.pdf.ITextRenderer;
+
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+import org.springframework.http.MediaType;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.mail.MessagingException;
+import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
+
+
+
+
 
 
 @Controller
@@ -47,7 +73,11 @@ public class baggageController {
    AirportInformation airportInformation;
    @Autowired
    private JavaMailSender mailSender;
+    @Autowired
+    private PdfGenerationService pdfGenerationService;
 
+    @Autowired
+    private EmailService emailService;
 
    @Autowired
 private TemplateEngine templateEngine;
@@ -57,6 +87,8 @@ private TemplateEngine templateEngine;
         String sql1 = "SELECT item_name FROM baggage_item_info";
         List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1);
         model.addAttribute("productshow", productshow);
+
+
 
         String allAirport_sql = "SELECT * FROM airport_list";
         List<Map<String, Object>> allAirportList = jdbcTemplate.queryForList(allAirport_sql);
@@ -149,9 +181,6 @@ private TemplateEngine templateEngine;
             model.addAttribute("InsertMode", true);
         }
 
-
-
-
         return "baggage_admin";
     }
      //rejected baggage list by nitol
@@ -159,11 +188,6 @@ private TemplateEngine templateEngine;
     public String rejectBaggage(Model model,Principal principal) {
         String airportname=airportInformation.getAirport(principal);
 
-        // List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,"approved");
-        // model.addAttribute("baggageshow", productshow)
-
-        // List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,"approved");
-        // model.addAttribute("baggageshow", productshow);
         if(airportname.equalsIgnoreCase("all")){
              String sql1 = "SELECT * FROM baggage where status=?";
         List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql1,"approved");
@@ -604,10 +628,25 @@ private TemplateEngine templateEngine;
         String sql_baggage = "SELECT * FROM baggage WHERE id = ?";
         Map<String, Object> mostRecentBaggageList = jdbcTemplate.queryForMap(sql_baggage, id);
 
+        String sqlPayHistory = "SELECT * FROM payment_history WHERE baggage_id = ?";
+        try {
+            List<Map<String, Object>> paymentHistoryById = jdbcTemplate.queryForList(sqlPayHistory, id);
+            // Query returned data, handle it here
+            model.addAttribute("paymentHistoryById", paymentHistoryById);
 
-         model.addAttribute("mostRecentBaggageList", mostRecentBaggageList);
 
+            System.out.println("paymentHistoryById =================================="+ paymentHistoryById);
+        } catch (EmptyResultDataAccessException ex) {
+            // Query didn't return any data, handle it here
+            model.addAttribute("emptyPaymentHistory", true);
+             System.out.println("emptyPaymentHistory ================================  return not data==");
+        }
+
+
+        model.addAttribute("mostRecentBaggageList", mostRecentBaggageList);
         model.addAttribute("showProduct", productshow);
+        
+
 
           return "baggage_view_user_edit";
             
@@ -730,14 +769,15 @@ private TemplateEngine templateEngine;
         } catch (Exception e) {
             e.printStackTrace();
             return "error"; // You can customize this based on your error handling logic.
-        }
+        } 
       
     }
 
         @GetMapping("/confrimPage")
          public String confrimPage(
             @RequestParam Long id, // Add a parameter for the unique identifier (id)
-            Model model,Principal principal) {
+            Model model,Principal principal
+            , OutputStream out) {
             String baggageSql= "SELECT * FROM baggage WHERE id =?";
             Map<String, Object>requestParameters= jdbcTemplate.queryForMap(baggageSql, id);
             model.addAttribute("reportShow", requestParameters);
@@ -762,12 +802,12 @@ private TemplateEngine templateEngine;
             Integer baggage_id= (Integer)requestParameters.get("id");
             LocalDateTime currentDateTime = LocalDateTime.now();
 
-            System.out.println("currentDateTime=============================="+currentDateTime);
+            //System.out.println("currentDateTime=============================="+currentDateTime);
             try (Connection connection = jdbcTemplate.getDataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO payment_history (baggage_id,paid_amount, payment_id,payment_date) VALUES (?,?,?,?)"
             )) {
-            System.out.println("totalTaxAmount=============================================="+totalTaxAmount);
+            //System.out.println("totalTaxAmount=============================================="+totalTaxAmount);
            preparedStatement.setInt(1, baggage_id);
            preparedStatement.setDouble(2, totalTaxAmount);
            preparedStatement.setString(3, payment_id);
@@ -777,9 +817,12 @@ private TemplateEngine templateEngine;
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+            String text = "dkfnldskfjlaskjdfn";
 
             String link="/baggagestart/confrimPage?id="+id;
             String gmail = (String) requestParameters.get("email");
+
+
 
 
             Context context = new Context();
@@ -790,20 +833,35 @@ private TemplateEngine templateEngine;
            // String emailContent = templateEngine.process("email-template", context);
 
 
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setFrom("nbroffice71@gmail.com");
-            message.setTo(gmail);
-            //message.setText(emailContent);
-            message.setText(
-                "Hello Mr/Mrs,"+ requestParameters.get("passenger_name")+
-                ", You are successfully submitted your baggage information."
-                +" You paid "+totalTaxAmount+" only"+
-                "Click <a href='" + link + "'>here</a> to get Details."
+            // SimpleMailMessage message = new SimpleMailMessage();
+            // message.setFrom("nbroffice71@gmail.com");
+            // message.setTo(gmail);
+            // //message.setText(emailContent);
+            // message.setText(
+            //     "Hello Mr/Mrs,"+ requestParameters.get("passenger_name")+
+            //     ", You are successfully submitted your baggage information."
+            //     +" You paid "+totalTaxAmount+" only"+
+            //     "Click <a href='" + link + "'>here</a> to get Details."
                 
-                );
+            //     );
 
-            message.setSubject("NBR Baggage Declaration");
-            mailSender.send(message);     
+            // message.setSubject("NBR Baggage Declaration");
+            // mailSender.send(message);     
+        try {
+            byte[] pdfData = pdfGenerationService.generatePdf();
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_PDF);
+            headers.setContentDispositionFormData("inline", "NBR_baggage_declaration.pdf");
+
+            
+            emailService.sendEmailWithAttachment("mdaaanitol@gmail.com", "NBR Baggage Declaration", "Body", pdfData, "nbr_baggage_application.pdf");
+           // return ResponseEntity.ok("Email sent successfully!");
+          // return new ResponseEntity<>(pdfData, headers, HttpStatus.OK);
+        } catch (IOException e) {
+            e.printStackTrace();
+           // return ResponseEntity.status(500).body("Failed to send email: " + e.getMessage());
+        }
             model.addAttribute("showProduct", productshow);
             
             return "confirmPage";
@@ -811,30 +869,44 @@ private TemplateEngine templateEngine;
     }
 
 
-        @GetMapping("/confrimPageAdmin")
-         public String confrimPageAdmin(
-            @RequestParam Long id, // Add a parameter for the unique identifier (id)
-            @RequestParam Double payableAmount,
-            Model model,Principal principal) {
+    public ResponseEntity<String> sendEmailWithAttachment() {
+          /// CustomResponseWrapper customResponseWrapper = new CustomResponseWrapper(response);
+        try {
+            byte[] pdfData = pdfGenerationService.generatePdf();
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_PDF);
+            headers.setContentDispositionFormData("inline", "NBR_baggage_declaration.pdf");
+
+            
+            emailService.sendEmailWithAttachment("mdaaanitol@gmail.com", "NBR Baggage Declaration", "Body", pdfData, "nbr_baggage_application.pdf");
+            return ResponseEntity.ok("Email sent successfully!");
+          // return new ResponseEntity<>(pdfData, headers, HttpStatus.OK);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Failed to send email: " + e.getMessage());
+        }
+    }
+    
+
+
+
+
+    @PostMapping("/confirm-pay-by-admin")
+        public String confrimPayByAdmin(@RequestParam int id, @RequestParam Double payableAmount,Model model){
+
             String baggageSql= "SELECT * FROM baggage WHERE id =?";
             Map<String, Object>requestParameters= jdbcTemplate.queryForMap(baggageSql, id);
+            model.addAttribute("reportShow", requestParameters);
 
 
             String formattedAmount = String.format("%.2f", payableAmount);
             double paidAmount = Double.parseDouble(formattedAmount);
-           //System.out.println("=========convertedAmount================================================="+convertedAmount);
-            model.addAttribute("reportShow", requestParameters);
-
-            String paymentStatus = "Paid";
-            String sqlBaggage = "UPDATE baggage SET payment_status=? WHERE id=?";
-            jdbcTemplate.update(sqlBaggage,paymentStatus,id);
 
 
-            LocalDateTime currentDateTime = LocalDateTime.now();
-            
             String sql1="SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
             List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,id);
-            int totalTaxAmount = 0;
+            Double totalTaxAmount = 0.0;
             for (Map<String, Object> row : productshow) {
                 String taxAmount = (String) row.get("tax_amount");
 
@@ -842,42 +914,59 @@ private TemplateEngine templateEngine;
                     totalTaxAmount += Double.parseDouble(taxAmount);
                 }
             }
+            String mailBody ="";
+            String link="/baggagestart/confrimPage?id="+id;
+
+            LocalDateTime currentDateTime = LocalDateTime.now();
             String payment_id= (String)requestParameters.get("payment_id");
-            try (Connection connection = jdbcTemplate.getDataSource().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO payment_history (baggage_id,paid_amount, payment_id,payment_date) VALUES (?,?,?,?)"
-            )) {
-                preparedStatement.setLong(1, id);
-                preparedStatement.setDouble(2, paidAmount);
-                preparedStatement.setString(3, payment_id);
-                preparedStatement.setTimestamp(4, Timestamp.valueOf(currentDateTime));
 
-           preparedStatement.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            if (payableAmount != null && !payableAmount.equals(0.0)){
+                try (Connection connection = jdbcTemplate.getDataSource().getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(
+                        "INSERT INTO payment_history (baggage_id,paid_amount, payment_id,payment_date) VALUES (?,?,?,?)"
+                )) {
+                    preparedStatement.setLong(1, id);
+                    preparedStatement.setDouble(2, paidAmount);
+                    preparedStatement.setString(3, payment_id);
+                    preparedStatement.setTimestamp(4, Timestamp.valueOf(currentDateTime));
+
+                preparedStatement.executeUpdate();
+                    } catch (SQLException e) {
+                    e.printStackTrace();
+                    }
+
+                mailBody ="Hello Mr/Mrs,"+ requestParameters.get("passenger_name")+
+                ", You are successfully submitted your baggage information."
+                +" You paid "+paidAmount+" only"+"Click <a href='" + link + "'>here</a> to get Details." ;
+
+            }else{
+                 mailBody ="Thank you for you baggage payment" ;
             }
+            
+            
+            String paymentStatus = "Paid";
+            String sqlBaggage = "UPDATE baggage SET payment_status=? WHERE id=?";
+            jdbcTemplate.update(sqlBaggage,paymentStatus,id);
 
+            
 
-
-            String link="http://localhost:8080/baggagestart/confrimPage?id="+id;
             String gmail = (String) requestParameters.get("email");
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom("nbroffice71@gmail.com");
             message.setTo(gmail);
-            message.setText(
-                "Hello Mr/Mrs,"+ requestParameters.get("passenger_name")+
-                ", You are successfully submitted your baggage information."
-                +" You paid "+totalTaxAmount+" only"+"Click <a href='" + link + "'>here</a> to get Details." 
-                
-                );
+            message.setText(mailBody);
 
             message.setSubject("NBR Baggage Declaration");
-            mailSender.send(message);     
+            mailSender.send(message);   
+
+
+            model.addAttribute("reportShow", requestParameters);  
             model.addAttribute("showProduct", productshow);
-            
-            return "confirmPage";
-     
-    }
+
+             return "confirmPageAdmin";
+         }
+
+
 
 
 
@@ -989,38 +1078,71 @@ if(airportname.equalsIgnoreCase("all")){
 
 //for  baggage approve update 
 @PostMapping("/baggage_approve_update")
-public String currencApproveUpdate(@RequestParam int id, @RequestParam String status, @RequestParam String confNote, Principal principal) {
+public String currencApproveUpdate(@RequestParam int id, @RequestParam String status, @RequestParam String confNote, @RequestParam String page_route, Principal principal) {
     String paymentStatus = "Paid";
     String username = principal.getName();
     String sql = "UPDATE baggage SET status=?, payment_status=?, entry_by=? WHERE id=?";
     jdbcTemplate.update(sql, status, paymentStatus, username, id);
    // String usernameSession = principal.getName();
-    return "redirect:/baggageshow/unapprovedbaggagetotal";
+        if ("total_baggage".equals(page_route)) {
+            return "redirect:/baggageshow/baggagetotal";
+        } else if ("approve".equals(page_route)) {
+            return "redirect:/baggagestart/approve-baggage-list";
+        } else if ("unapproved".equals(page_route)) {
+            return "redirect:/baggageshow/unapprovedbaggagetotal";
+        }else if ("reject".equals(page_route)) {
+            return "redirect:/baggagestart/rejected-baggage-list";
+        }
+        // Handle the case where page_route doesn't match any of the conditions.
+       return "redirect:/baggageshow/baggagetotal";
 }
 
-//for baggage reject list 
+    //for baggage reject list 
     @PostMapping("/baggage_reject_update")
-    public String currencRejectUpdate( @RequestParam int id,@RequestParam String status,@RequestParam String confNote, Principal principal) {
+    public String currencRejectUpdate(@RequestParam int id, @RequestParam String status, @RequestParam String confNote, @RequestParam String page_route, Principal principal) {
 
-        String username=principal.getName();
-        String sql = "UPDATE baggage SET status=?,entry_by=?, confNote=? WHERE id=?";
-        jdbcTemplate.update(sql,status,username,confNote,id);
-        String usernameSession=principal.getName();
+        String username = principal.getName();
+        String sql = "UPDATE baggage SET status=?, entry_by=?, confNote=? WHERE id=?";
+        jdbcTemplate.update(sql, status, username, confNote, id);
+        String usernameSession = principal.getName();
+        if ("total_baggage".equals(page_route)) {
+            return "redirect:/baggageshow/baggagetotal";
+        } else if ("approve".equals(page_route)) {
+            return "redirect:/baggagestart/approve-baggage-list";
+        } else if ("unapproved".equals(page_route)) {
+            return "redirect:/baggageshow/unapprovedbaggagetotal";
+        }else if ("reject".equals(page_route)) {
+            return "redirect:/baggagestart/rejected-baggage-list";
+        }
+        // Handle the case where page_route doesn't match any of the conditions.
+       return "redirect:/baggageshow/baggagetotal";
+    }
 
-    return "redirect:/baggageshow/unapprovedbaggagetotal";
-}
+
 
 //for baggage on examination
     @PostMapping("/baggage_on_examination_update")
-    public String baggageOnExaminationUpdate( @RequestParam int id,@RequestParam String status,@RequestParam String confNote, Principal principal) {
+    public String baggageOnExaminationUpdate( @RequestParam int id,@RequestParam String status,@RequestParam String confNote, @RequestParam String page_route, Principal principal) {
 
         String username=principal.getName();
         String sql = "UPDATE baggage SET status=?,entry_by=?, confNote=? WHERE id=?";
         jdbcTemplate.update(sql,status,username,confNote,id);
         String usernameSession=principal.getName();
 
-    return "redirect:/baggageshow/unapprovedbaggagetotal";
+        if ("total_baggage".equals(page_route)) {
+            return "redirect:/baggageshow/baggagetotal";
+        } else if ("approve".equals(page_route)) {
+            return "redirect:/baggagestart/approve-baggage-list";
+        } else if ("unapproved".equals(page_route)) {
+            return "redirect:/baggageshow/unapprovedbaggagetotal";
+        }else if ("reject".equals(page_route)) {
+            return "redirect:/baggagestart/rejected-baggage-list";
+        }
+        // Handle the case where page_route doesn't match any of the conditions.
+       return "redirect:/baggageshow/baggagetotal";
 }
+
+
 
 
 
