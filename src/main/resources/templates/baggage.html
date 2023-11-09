@@ -31,7 +31,7 @@
 
                                         <div class="mb-3">
                                             <label for="passportNumber" class="form-label" id="passportNumberLabel">Passport Number</label><span class="astrick">*</span>
-                                            <input type="text" class="form-control" id="example1" name="passportNumber" placeholder="Enter passport number" required>
+                                            <input type="text" class="form-control" id="passportNumberId" name="passportNumber" placeholder="Enter passport number" required>
                                         </div>
 
                                         <div class="mb-3">
@@ -376,7 +376,7 @@
 
                                         <div class="mb-3">
                                             <label for="flightNo" class="form-label" id="flightNoLabel">Flight No</label><span class="astrick">*</span>
-                                            <input type="text" class="form-control" id="example1" name="flightNo" placeholder="Enter Flight  No Ex:BG 805" required>
+                                            <input type="text" class="form-control" id="FlightNoId" name="flightNo" placeholder="Enter Flight  No Ex:BG 805" required>
                                         </div>
 
                                         <div class="mb-3">
@@ -502,9 +502,9 @@
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="email" class="form-label" id="emailLabel">Email</label>
+                                            <label for="email" class="form-label" id="emailLabel">Email <span> (This email id will be used for sending confarmation)</span></label>
                                             <input type="email" class="form-control" id="example1" name="email" placeholder="Enter Your Email" >
-                                            <label for="email"  class="form-label text-danger" id="emailLabel">This email id will be used for sending confarmation</label>
+                                            <label for="email"  class="form-label text-danger" id="emailLabel"></label>
                                             
                                         </div>
 
@@ -598,7 +598,7 @@
 
                             <div class="mb-3">
                                 <label for="passportNumber" class="form-label" id="passportNumberLabel">Passport Number</label><span class="astrick">*</span>
-                                <input type="text" class="form-control" name="passportNumber" th:value="${baggageDetails['passport_number']}" placeholder="Enter Passport Number" required>
+                                <input type="text" class="form-control" id="passportNumberLabel" name="passportNumber" th:value="${baggageDetails['passport_number']}" placeholder="Enter Passport Number" required>
                             </div>
 
                             <div class="mb-3">
@@ -894,7 +894,7 @@
 
                             <div class="mb-3">
                                 <label for="flightNo" class="form-label" id="flightNoLabel">Flight No</label><span class="astrick">*</span>
-                                <input type="text" class="form-control" name="flightNo" th:value="${baggageDetails['flight_no']}" placeholder="Enter Flight No (Ex: BG 805)" required>
+                                <input type="text" class="form-control" name="flightNo" id="flightNoLabel" th:value="${baggageDetails['flight_no']}" placeholder="Enter Flight No (Ex: BG 805)" required>
                             </div>
 
                             <div class="mb-3">
@@ -1023,9 +1023,9 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="email" class="form-label" id="emailLabel">Email</label>
+                                <label for="email" class="form-label" id="emailLabel">Email <span> (This email id will be used for sending confarmation)</span></label>
                                 <input type="email" class="form-control" name="email" th:value="${baggageDetails['email']}" placeholder="Enter Your Email" >
-                                <label for="email"  class="form-label text-danger" id="emailLabel">This email id will be used for sending confarmation</label>
+
                             </div>
 
 
@@ -1199,6 +1199,24 @@
                     </div>
                 </form>
                 </div>
+
+
+<script>
+    const passportNumberElement = document.getElementById("passportNumberId");
+    const FlightNoElement = document.getElementById("FlightNoId");
+                  
+    passportNumberElement.addEventListener("keyup", function(event) {
+        event.preventDefault();
+        passportNumberElement.value = passportNumberElement.value.toUpperCase();
+    });
+
+    FlightNoElement.addEventListener("keyup", function(event) {
+        event.preventDefault();
+        FlightNoElement.value = FlightNoElement.value.toUpperCase();
+    });
+
+</script>
+
 
 
 

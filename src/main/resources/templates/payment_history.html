@@ -91,14 +91,14 @@
                     <td th:text="${reportShow['vat']}"></td>
                     <td th:text="${reportShow['ait']}"></td>
                     <td th:text="${reportShow['at']}"></td>
-                    <td th:text="${reportShow['additional_payment']}"></td>
+                    <td class="additional_payment_id" th:text="${reportShow['additional_payment']}"></td>
 
 
                     <td class="tax-amount" th:text="${reportShow['tax_amount']}"></td>
                 </tr> 
 
                 <tr>
-                        <th colspan="6" class="text-end"> Total Tax Amount</th>
+                        <th colspan="6" class="text-end"> Total Paid Amount</th>
                         <td>
                             <span id="totalTaxAmount"></span>
                         </td>
@@ -186,12 +186,20 @@
                function calculateTotalTaxAmount() {
                    // Get all the tax amount elements using a class selector
                    var taxAmountElements = document.querySelectorAll(".tax-amount");
+                   var taxAmountElements2 = document.querySelectorAll(".additional_payment_id");
+
            
                    // Initialize a variable to store the total tax amount
                    var totalTaxAmount = 0;
            
                    // Iterate through each tax amount element
                    taxAmountElements.forEach(function (element) {
+                       // Parse the text content of the element to a floating-point number
+                       var taxAmount = parseFloat(element.textContent);
+           
+                       totalTaxAmount += taxAmount;
+                   });
+                   taxAmountElements2.forEach(function (element) {
                        // Parse the text content of the element to a floating-point number
                        var taxAmount = parseFloat(element.textContent);
            

@@ -103,7 +103,7 @@
                     <th colspan="3" class="text-end"> Total Additional Payment :</th>
                     <td><span id="totaladditionPayment"></span></td>
 
-                    <input type="text" id="previousPaidAmountId" th:value="${totalPaidAmount}" readonly="readonly" />
+                    <input type="hidden" id="previousPaidAmountId" th:value="${totalPaidAmount}" readonly="readonly" />
                     <th colspan="3" class="text-end"> Payable Amount:</th>
                     <td><span id="totalPayableAmount"></span></td>
 
@@ -112,7 +112,14 @@
         </table>
         <div class="d-flex justify-content-center">
             <button type="button" class="btn btn-warning btn-lg my-2 mx-3" onclick="redirectToBaggagePage()">Edit</button>
-            <button type="button" class="btn btn-success btn-lg my-2 mx-5" onclick="redirectToConfirmPage()">Pay</button>
+
+            <form th:action="@{/baggagestart/confirm-pay-by-admin}" method="post">
+                <input type="hidden" id="baggageId" name="id" th:value="${reportShow['ID']}" />
+                <input type="hidden" id="payableAmountId" name="payableAmount" />
+                <button type="submit" class="btn btn-success btn-lg my-2 mx-5">Pay</button>
+            </form>
+
+
         </div>
 
     </div>
@@ -125,14 +132,14 @@
     window.location.href = url;
 
 }
-
+ 
 function redirectToConfirmPage() {
        
        // Get the id value from the hidden input field
        var id = document.getElementById("reportShow").value;
        var url = "/baggagestart/confrimPageAdmin?id=" + id + "&payableAmount=" + totalPayable;
        window.location.href = url;
-
+       //alert(url)
    }
 
 function paymentNotAtThisTime(){
@@ -172,6 +179,7 @@ function paymentNotAtThisTime(){
             document.getElementById("totalTaxAmount").textContent = totalTaxAmount.toFixed(2);
             document.getElementById("totaladditionPayment").textContent = additionalAmount.toFixed(2);
             document.getElementById("totalPayableAmount").textContent = totalPayable.toFixed(2);
+            document.getElementById("payableAmountId").value = totalPayable.toFixed(2);
             
         }
         window.addEventListener("load", calculateTotalTaxAmount);

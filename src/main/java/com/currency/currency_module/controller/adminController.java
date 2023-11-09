@@ -73,7 +73,7 @@ public class adminController {
     }
 
     @GetMapping("/baggagetotalid")
-    public String baggageById(Model model, @RequestParam("id") Integer id) {
+    public String baggageById(Model model, @RequestParam("id") Integer id, @RequestParam("status") String page_route) {
 
         String sql = "SELECT * FROM baggage WHERE id = ?";
         Map<String, Object> baggageView = jdbcTemplate.queryForMap(sql,id);
@@ -83,7 +83,8 @@ public class adminController {
         String sql1="SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
         List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,id);
         model.addAttribute("showProduct", productshow);
-
+        model.addAttribute("page_route", page_route);
+        
         return "baggageApprovalform"; // Replace with the actual template name
     }
 
