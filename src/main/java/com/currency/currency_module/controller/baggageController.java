@@ -381,6 +381,7 @@ private TemplateEngine templateEngine;
         String additiona_pay = ((String) productInfo.get("additional_payment"));
 
         String productName = (String) productInfo.get("productName");
+        String otherItem = (String) productInfo.get("otherItem");
         // String baggageID = (String) productInfo.get("baggageID");
         String unit = (String) productInfo.get("unit");
         String inchi = (String) productInfo.get("inchi");
@@ -429,7 +430,7 @@ private TemplateEngine templateEngine;
 
                 ps.setObject(1, productInfo.get("baggageID"));
                 ps.setObject(2, itemId);
-                ps.setString(3, " ");
+                ps.setString(3, otherItem);
                 ps.setString(4, unit);
                 ps.setString(5, inchi);
                 ps.setInt(6, quantity);
@@ -764,7 +765,10 @@ private TemplateEngine templateEngine;
             @RequestParam Long id, // Add a parameter for the unique identifier (id)
             Model model,Principal principal) {
             String baggageSql= "SELECT * FROM baggage WHERE id =?";
+            
             Map<String, Object>requestParameters= jdbcTemplate.queryForMap(baggageSql, id);
+            String emailId = (String) requestParameters.get("email");
+            System.out.println("=============================%%%%%%%%%%%%%%%%"+emailId);
             model.addAttribute("reportShow", requestParameters);
 
             String paymentStatus = "Processing";
@@ -855,7 +859,7 @@ private TemplateEngine templateEngine;
             headers.setContentDispositionFormData("inline", "NBR_baggage_declaration.pdf");
 
             
-            emailService.sendEmailWithAttachment("mdaaanitol@gmail.com", "NBR Baggage Declaration", "Body", pdfData, "nbr_baggage_application.pdf");
+            emailService.sendEmailWithAttachment(emailId, "NBR Baggage Declaration", "Body", pdfData, "nbr_baggage_application.pdf");
            // return ResponseEntity.ok("Email sent successfully!");
          // return new ResponseEntity<>(pdfData, headers, HttpStatus.OK);
         } catch (IOException e) {
@@ -910,6 +914,7 @@ private TemplateEngine templateEngine;
             String baggageSql= "SELECT * FROM baggage WHERE id =?";
             Map<String, Object>requestParameters= jdbcTemplate.queryForMap(baggageSql, id);
             model.addAttribute("reportShow", requestParameters);
+
 
 
             String formattedAmount = String.format("%.2f", payableAmount);
