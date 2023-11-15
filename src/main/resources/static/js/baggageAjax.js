@@ -13,6 +13,7 @@ function populateTable() {
     const newRow = $("<tr>");
     // Populate the table cells in the new row with data from the item
     newRow.append(`<td>${item.productName}</td>`); // Use the correct field names
+    newRow.append(`<td>${item.otherItem}</td>`); // Use the correct field names
     newRow.append(`<td>${item.unit}</td>`);
     newRow.append(`<td>${item.inchi}</td>`);
     newRow.append(`<td>${item.quantity}</td>`);
@@ -27,11 +28,6 @@ function populateTable() {
     newRow.append(`<td>${item.vat}</td>`);
     newRow.append(`<td>${item.ait}</td>`);
     newRow.append(`<td>${item.at}</td>`);
-
-
-
-
-
 
     newRow.append(`<td>${item.taxAmount}</td>`);
     // newRow.append(
@@ -69,6 +65,7 @@ function adminadd() {
   // Get input field values
   const baggageID = $("#baggageID").val();
   const productName = $("#productName").val();
+  const otherItem = $("#otherItem").val();
   const unit = $("#unit").val();
   const inchi = $("#inchi").val();
   const quantity = $("#quantity").val();
@@ -88,6 +85,7 @@ function adminadd() {
   const data = {
     baggageID,
     productName,
+    otherItem,
     unit,
     inchi,
     quantity,
@@ -155,6 +153,8 @@ function adminadd() {
 
 function addProduct(){
 
+  // document.getElementById('productName').options[0].innerText = "huju"
+
   var deleteId = parseInt(document.getElementById('deleteidhidden').value);
   
    if( document.getElementById('addButton').innerText=="Update"){
@@ -166,6 +166,7 @@ function addProduct(){
   // Get input field values
   const baggageID = $("#baggageID").val();
   const productName = $("#productName").val();
+  const otherItem = $("#otherItem").val();
   const unit = $("#unit").val();
   const inchi = $("#inchi").val();
   const quantity = $("#quantity").val();
@@ -186,6 +187,7 @@ function addProduct(){
   const data = {
     baggageID,
     productName,
+    otherItem,
     unit,
     inchi,
     quantity,
@@ -226,6 +228,7 @@ function addProduct(){
       data.id = response;
       
       populateTable();
+     
       $("#inchi").val("");
       $("#quantity").val("");
       $("#perUnitValue").val("");
@@ -293,29 +296,35 @@ function DeleteAfterEdit(idToDelete) {
   });
   
 }
+//-------> for Edit product row ajax function<-----//
 function EditProduct(idToDelete) {
   for (let i = 0; i < addData.length; i++) {
     if (addData[i].id === idToDelete) {
+      if(addData[i].productName=='Other'){
+    
+        document.getElementById('otherItem').style.display = 'block';
+        document.getElementById('otherItem').value=addData[i].otherItem;
+
+        // Set the selectedIndex to make the option selected
+  
+      }else{
+        document.getElementById('otherItem').style.display = 'none';
+        document.getElementById('otherItem').value=addData[i].otherItem;
+      }
       document.getElementById('productName').value = addData[i].productName;
+      // document.getElementById('otherItem').value = addData[i].otherItem;
       document.getElementById('unit').value = addData[i].unit;
       document.getElementById('inchi').value = addData[i].inchi;
       document.getElementById('quantity').value = addData[i].quantity;
       document.getElementById('perUnitValue').value = addData[i].perUnitValue;
       document.getElementById('totalValue').value = addData[i].totalValue;
       document.getElementById('tax').value = addData[i].tax;
-
-
       document.getElementById('cd').value = addData[i].cd;
       document.getElementById('rd').value = addData[i].rd;
       document.getElementById('sd').value = addData[i].sd;
       document.getElementById('vat').value = addData[i].vat;
       document.getElementById('ait').value = addData[i].ait;
       document.getElementById('at').value = addData[i].at;
-
-
-
-
-
       document.getElementById('taxAmount').value = addData[i].taxAmount;
       document.getElementById('deleteidhidden').value = idToDelete;
       document.getElementById('addButton').innerText = "Update";
@@ -338,8 +347,24 @@ function fetchProductData() {
 
   // Get the selected product name'
   var selectedProductName = $("#productName").val();
+  if (selectedProductName == "Other"){
+    document.getElementById('otherItem').style.display = 'block';
+    // $("#inchi").val("");
+    // $("#quantity").val("");
+    // $("#perUnitValue").val("");
+    // $("#totalValue").val("");
+    $("#tax").val(0);
 
-  if (selectedProductName !== "--Please Select--") {
+    $("#cd").val(0);
+    $("#rd").val(0);
+    $("#sd").val(0);
+    $("#vat").val(0);
+    $("#ait").val(0);
+    $("#at").val(0);
+
+  }
+  else if (selectedProductName !== "--Please Select--") {
+    document.getElementById('otherItem').style.display = 'none';
    
     // Make an AJAX request to fetch product data based on the selected product name
     $.ajax({
@@ -440,6 +465,7 @@ document
 
 //----->submit bottom button updete top from and bottom select option value <-------//
 document.addEventListener("DOMContentLoaded", function () {
+  
   //---> valueStay controller id pass <--//
   // Get the value of the 'generatedId' parameter
   const baggageId = document.getElementById("baggageID").value;
@@ -451,7 +477,6 @@ document.addEventListener("DOMContentLoaded", function () {
     success: function (data) {
       // Handle the AJAX response here
       console.log(data);
-      console.log("sdjsdk");
   
       if (!(data.length === 0)) {
         $("#table2").show();
@@ -464,6 +489,7 @@ document.addEventListener("DOMContentLoaded", function () {
           id: item.id,
           baggageID: item.baggage_id,
           productName: item.item_name,
+          otherItem: item.other_item,
           unit: item.unit_name,
           inchi: item.inchi,
           quantity: item.qty,

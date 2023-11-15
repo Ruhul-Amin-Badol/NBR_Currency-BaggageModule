@@ -67,6 +67,11 @@ public class baggageController {
 
    @Autowired
 private TemplateEngine templateEngine;
+
+    @GetMapping("/baggageRule")
+    public String showBaggageRule() {
+        return "baggageRule";
+    }
     //------> From show and hide mode<------//
     @GetMapping("/show")
     public String baggageFrom(@RequestParam(required = false, defaultValue = "") String generatedId,@RequestParam(required = false, defaultValue = "") String officeCode, Model model) {
@@ -384,6 +389,7 @@ private TemplateEngine templateEngine;
         String additiona_pay = ((String) productInfo.get("additional_payment"));
 
         String productName = (String) productInfo.get("productName");
+        String otherItem = (String) productInfo.get("otherItem");
         // String baggageID = (String) productInfo.get("baggageID");
         String unit = (String) productInfo.get("unit");
         String inchi = (String) productInfo.get("inchi");
@@ -410,6 +416,8 @@ private TemplateEngine templateEngine;
         Map<String, Object> baggageInfo = jdbcTemplate.queryForMap(baggageSql, productInfo.get("baggageID"));
         String paymentId = (String) baggageInfo.get("payment_id");
 
+       
+
 
 
 
@@ -432,7 +440,7 @@ private TemplateEngine templateEngine;
 
                 ps.setObject(1, productInfo.get("baggageID"));
                 ps.setObject(2, itemId);
-                ps.setString(3, " ");
+                ps.setString(3, otherItem);
                 ps.setString(4, unit);
                 ps.setString(5, inchi);
                 ps.setInt(6, quantity);
@@ -765,7 +773,10 @@ private TemplateEngine templateEngine;
             @RequestParam Long id, // Add a parameter for the unique identifier (id)
             Model model,Principal principal) {
             String baggageSql= "SELECT * FROM baggage WHERE id =?";
+            
             Map<String, Object>requestParameters= jdbcTemplate.queryForMap(baggageSql, id);
+            String emailId = (String) requestParameters.get("email");
+            System.out.println("=============================%%%%%%%%%%%%%%%%"+emailId);
             model.addAttribute("reportShow", requestParameters);
 
             String paymentStatus = "Processing";
@@ -849,6 +860,15 @@ private TemplateEngine templateEngine;
                 Map<String, Object> baggageQuery = jdbcTemplate.queryForMap(baggage_Sql, id);
             
 
+            emailService.sendEmailWithAttachment(emailId, "NBR Baggage Declaration", "Body", pdfData, "nbr_baggage_application.pdf");
+           // return ResponseEntity.ok("Email sent successfully!");
+         // return new ResponseEntity<>(pdfData, headers, HttpStatus.OK);
+        } catch (IOException e) {
+            e.printStackTrace();
+           // return ResponseEntity.status(500).body("Failed to send email: " + e.getMessage());
+        }
+
+
                 String baggageProductAddJoin = "SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
                 List<Map<String, Object>> allProductQuery = jdbcTemplate.queryForList(baggageProductAddJoin, id);
             
@@ -904,6 +924,7 @@ private TemplateEngine templateEngine;
             String baggageSql= "SELECT * FROM baggage WHERE id =?";
             Map<String, Object>requestParameters= jdbcTemplate.queryForMap(baggageSql, id);
             model.addAttribute("reportShow", requestParameters);
+
 
 
             String formattedAmount = String.format("%.2f", payableAmount);

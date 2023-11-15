@@ -133,20 +133,18 @@
                     <label style="font-weight: bolder; color: chartreuse;"> Payment Done</label>
                 </div>
             </div> -->
-            <div class="button-container">
-                <div>
-                    <button id="toggleButton3" onclick="showDiv3()" class="btn btn-warning">On Examination</button>
-                </div>
+            <div class="button-container" >
+                    <button id="hideDiv" onclick="examshow()" class="btn btn-warning print-button">On Examination</button>
             </div>
             
             <div class="button-container">
                 <div th:if="${baggageView['status'] != 'rejected'}">
-                    <button id="toggleButton1" onclick="showDiv1()" class="btn btn-danger">Rejected</button>
+                    <button id="toggleButton1" onclick="showDiv1()" class="btn btn-danger print-button">Rejected</button>
                 </div>
             </div>
             <div class="button-container">
                 <div th:if="${baggageView['status'] != 'approved'}">
-                    <button id="toggleButton" onclick="showDiv()" class="btn btn-success">Approved</button>
+                    <button id="toggleButton" onclick="showDiv()" class="btn btn-success print-button">Approved</button>
                 </div>
             </div>
         </div>
@@ -203,9 +201,9 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 ">
                         <div class="input-group">
-                            <button style="margin-top: 15px;" type="submit" class="btn btn-warning">On Examination</button>
+                            <button style="margin-top: 15px;" type="submit" class="btn btn-warning ">On Examination</button>
                         </div>
                     </div>
                 </form>
@@ -231,16 +229,17 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 ">
                     <div class="input-group">
-                        <button style="margin-top: 15px;" type="submit" class="btn btn-danger">Rejected</button>
+                        <button style="margin-top: 15px;" type="submit" class="btn btn-danger ">Rejected</button>
                     </div>
                 </div>
                 <br><br><br>
             </form>
             </div>
         </div>
-            <div  id="welcomeDiv"  style="display:none;">
+
+        <div  id="welcomeDiv"  style="display:none;">
                 <div style="display:flex; justify-content: right; margin-right: 165px; margin-top: -95px;">
                 <form th:action="@{/baggagestart/baggage_approve_update}"  method="post" id="myForm">
                     <div class="input-group">
@@ -250,15 +249,15 @@
                         <textarea name="confNote" class="form-control" id="exampleFormControlTextarea1" placeholder="Write your comment" rows="2" style="width:100%; display: none;"></textarea>
                         <p style="font-weight: bold;">Are you confirm ??</p>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 ">
                         <div class="input-group">
-                            <button type="submit" class="btn btn-success">Approved</button>
+                            <button type="submit" class="btn btn-success ">Approved</button>
                         </div>
                     </div>
                     <br><br><br>
                 </form>
                 </div>
-            </div>
+        </div>
         
     </div>
 </div>
@@ -286,46 +285,51 @@ function qrcode() {
         };
 
 
-        function showDiv1() {
-        document.getElementById('welcomeDiv1').style.display = "block";
-        var reject_button = document.getElementById("toggleButton1");
-        var examination_button = document.getElementById("toggleButton3");
-        var approved_button = document.getElementById("toggleButton");
-        var examination_div = document.getElementById("welcomeDiv3");
+function showDiv1() {
+    var buttonIds = ["toggleButton1", "hideDiv", "toggleButton"];
 
-        reject_button.style.display = "none";
-        approved_button.style.display = "none";
-        examination_button.style.display = "none";
-        examination_div.style.display = "none";
-    }
+    // Hide each button
+    buttonIds.forEach(function(buttonId) {
+        var button = document.getElementById(buttonId);
+        if (button) {
+            button.style.display = "none";
+        }
+    });
 
-	function showDiv() {
-        document.getElementById('welcomeDiv').style.display = "block";
+    document.getElementById('welcomeDiv1').style.display = "block";
+}
 
-        // var button = document.getElementById("toggleButton");
-        // button.style.display = "none";
-        var reject_button = document.getElementById("toggleButton1");
-        var examination_button = document.getElementById("toggleButton3");
-        
-        var approved_button = document.getElementById("toggleButton");
-        var examination_div = document.getElementById("welcomeDiv3");
-        reject_button.style.display = "none";
-        approved_button.style.display = "none";
-        examination_button.style.display = "none";
-        examination_div.style.display = "none";
-    }
+function showDiv() {
+        var buttonIds = ["toggleButton1", "hideDiv", "toggleButton"];
 
-    function showDiv3() {
-        document.getElementById('welcomeDiv3').style.display = "block";
-        var reject_button = document.getElementById("toggleButton1");
-        var examination_button = document.getElementById("toggleButton3");
+    // Hide each button
+    buttonIds.forEach(function(buttonId) {
+        var button = document.getElementById(buttonId);
+        if (button) {
+            button.style.display = "none";
+        }
+    });
+    document.getElementById('welcomeDiv').style.display = "block";
 
-        var approved_button = document.getElementById("toggleButton");
-        reject_button.style.display = "none";
-        approved_button.style.display = "none";
-        examination_button.style.display = "none";
+}
 
-    }
+function examshow() {
+    // Array of button IDs to hide
+    var buttonIds = ["toggleButton1", "hideDiv", "toggleButton"];
+
+    // Hide each button
+    buttonIds.forEach(function(buttonId) {
+        var button = document.getElementById(buttonId);
+        if (button) {
+            button.style.display = "none";
+        }
+    });
+
+    // Show the examination div
+    document.getElementById('welcomeDiv3').style.display = 'block';
+}
+
+
 
 function qrcode() {
             // Get the current page's URL
@@ -369,22 +373,20 @@ function qrcode() {
 
              
         function printPage() {
-
+        // Select all elements with the class "print-button"
         var printButtons = document.querySelectorAll(".print-button");
-        
+
+        // Hide the print buttons before printing
         for (var i = 0; i < printButtons.length; i++) {
             printButtons[i].style.display = "none";
         }
 
-          // Add an event listener for the afterprint event
-          window.addEventListener('afterprint', function () {
+        // Add an event listener for the afterprint event
+        window.addEventListener('afterprint', function () {
             // Show the print buttons when the print dialog is closed
             for (var i = 0; i < printButtons.length; i++) {
                 printButtons[i].style.display = "block";
-                console.log("==========="+printButtons[i]);
             }
-        // document.getElementById('toggleButton1').style.display = "block";
-        // document.getElementById('toggleButton').style.display = "block";
         });
 
         // Print the content of the page
