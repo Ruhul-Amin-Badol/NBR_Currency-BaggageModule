@@ -7,6 +7,8 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -17,8 +19,7 @@ import java.sql.Connection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -34,19 +35,18 @@ import com.currency.currency_module.AirportInformation;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Service;
+
 
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import com.currency.currency_module.CustomResponseWrapper;
+
 import com.currency.currency_module.services.EmailService;
-import com.currency.currency_module.services.EmailServiceException;
+
 import com.currency.currency_module.services.PdfGenerationService;
 
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
+
 import org.springframework.http.MediaType;
 
 
@@ -74,7 +74,7 @@ private TemplateEngine templateEngine;
     }
     //------> From show and hide mode<------//
     @GetMapping("/show")
-    public String baggageFrom(@RequestParam(required = false, defaultValue = "") String generatedId, Model model) {
+    public String baggageFrom(@RequestParam(required = false, defaultValue = "") String generatedId,@RequestParam(required = false, defaultValue = "") String officeCode, Model model) {
         String sql1 = "SELECT item_name FROM baggage_item_info";
         List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1);
         model.addAttribute("productshow", productshow);
@@ -83,7 +83,15 @@ private TemplateEngine templateEngine;
 
         String allAirport_sql = "SELECT * FROM airport_list";
         List<Map<String, Object>> allAirportList = jdbcTemplate.queryForList(allAirport_sql);
-        
+
+
+        String airport_sql = "SELECT * FROM airport_list WHERE office_code = ?";
+       List<Map<String, Object>> airportByOfficeCode = jdbcTemplate.queryForList(airport_sql, officeCode);
+       System.out.println("airportByOfficeCode================================"+airportByOfficeCode);
+      model.addAttribute("airportByOfficeCodes", airportByOfficeCode);
+
+
+
         model.addAttribute("allAirportList", allAirportList);
         if (!generatedId.isEmpty()) {
             String sql = "SELECT * FROM baggage WHERE id = ?";
@@ -106,10 +114,6 @@ private TemplateEngine templateEngine;
     }
 
 
-
-
-    
-
     @GetMapping("/edit-baggage")
     public String adminBaggageUpdate(@RequestParam(required = false, defaultValue = "") String generatedId, Model model){
 
@@ -120,13 +124,12 @@ private TemplateEngine templateEngine;
         String allAirport_sql = "SELECT * FROM airport_list";
         List<Map<String, Object>> allAirportList = jdbcTemplate.queryForList(allAirport_sql);
 
-
         String paymentSql = "SELECT * FROM payment_history WHERE baggage_id = ?";
         List<Map<String, Object>> paymentHistoryInfo = jdbcTemplate.queryForList(paymentSql, generatedId);
         System.out.println("paymentHistoryInfo======================================="+paymentHistoryInfo+generatedId);
 
         if (!paymentHistoryInfo.isEmpty()) {
-            Map<String, Object> firstRow = paymentHistoryInfo.get(0);
+           // Map<String, Object> firstRow = paymentHistoryInfo.get(0);
             //Double paidAmount = (Double) firstRow.get("paid_amount");
 
             Double totalPaidAmount = 0.0;
@@ -506,9 +509,7 @@ private TemplateEngine templateEngine;
             productData.put("ait", result.get("ait"));
             productData.put("at", result.get("at"));
             productData.put("additional_payment", result.get("additional_payment"));
-
-
-
+            productData.put("duty_free", result.get("duty_free"));
 
 
         } catch (EmptyResultDataAccessException e) {
@@ -815,7 +816,7 @@ private TemplateEngine templateEngine;
             }
 
             String link="/baggagestart/confrimPage?id="+id;
-            String gmail = (String) requestParameters.get("email");
+           
 
 
             Context context = new Context();
@@ -832,18 +833,11 @@ private TemplateEngine templateEngine;
 
             // String link="/baggagestart/confrimPage?id="+id;
             // String gmail = (String) requestParameters.get("email");
-
-
-
-
            // Context context = new Context();
            // context.setVariable("passengerName", requestParameters.get("passenger_name"));
           //  context.setVariable("totalTaxAmount", totalTaxAmount);
           //  context.setVariable("link", link);
-
            // String emailContent = templateEngine.process("email-template", context);
-
-
             // SimpleMailMessage message = new SimpleMailMessage();
             // message.setFrom("nbroffice71@gmail.com");
             // message.setTo(gmail);
@@ -858,14 +852,14 @@ private TemplateEngine templateEngine;
 
             // message.setSubject("NBR Baggage Declaration");
             // mailSender.send(message);     
-        try {
-            byte[] pdfData = pdfGenerationService.generatePdf();
-
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_PDF);
-            headers.setContentDispositionFormData("inline", "NBR_baggage_declaration.pdf");
-
+            try {
+               // Double totalPaidAmount = 0.0;
+                String gmail = (String) requestParameters.get("email");
             
+                String baggage_Sql = "SELECT * FROM baggage WHERE id =?";
+                Map<String, Object> baggageQuery = jdbcTemplate.queryForMap(baggage_Sql, id);
+            
+
             emailService.sendEmailWithAttachment(emailId, "NBR Baggage Declaration", "Body", pdfData, "nbr_baggage_application.pdf");
            // return ResponseEntity.ok("Email sent successfully!");
          // return new ResponseEntity<>(pdfData, headers, HttpStatus.OK);
@@ -875,20 +869,29 @@ private TemplateEngine templateEngine;
         }
 
 
+                String baggageProductAddJoin = "SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
+                List<Map<String, Object>> allProductQuery = jdbcTemplate.queryForList(baggageProductAddJoin, id);
+            
+                List<String> includedFields = Arrays.asList("passenger_name","entry_point","flight_no","passport_number");
+              //  List<String> includedFields = Arrays.asList("id","item_id","payment_id"); // Replace with your actual field names
+                List<Object> rowData = new ArrayList<>(allProductQuery);
+                rowData.add(baggageQuery);
+            
+                byte[] pdfData = pdfGenerationService.generatePdf(rowData, includedFields,totalTaxAmount);
+            
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_PDF);
+                headers.setContentDispositionFormData("inline", "NBR_baggage_declaration.pdf");
+            
+                emailService.sendEmailWithAttachment(gmail, "NBR Baggage Declaration", "Body", pdfData, "nbr_baggage_application.pdf");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            
+            
+            
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+        
 
 
             // SimpleMailMessage message = new SimpleMailMessage();

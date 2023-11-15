@@ -4,6 +4,7 @@ package com.currency.currency_module.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.currency.currency_module.AirportInformation;
 import com.currency.currency_module.model.UserActivityManagement;
+import com.currency.currency_module.services.AirportService;
 import com.currency.currency_module.services.UserActivityManagementService;
+
 
 import jakarta.servlet.http.HttpSession;
 
@@ -23,8 +26,9 @@ public class HomeController {
    UserActivityManagementService userActivityManagementService;
    @Autowired
    AirportInformation airportInformation;
-
- 
+    @Autowired
+    AirportService airportService;
+   
    
    @Autowired
    HttpSession httpSession;
@@ -34,10 +38,21 @@ public class HomeController {
         return "login";
     }
 
-      @GetMapping("/index1") 
-    public String index1() {
+
+      @GetMapping("/") 
+    public String index(Model model) {
+        model.addAttribute("allAirportList", airportService.getAllAirports());
+        return "index_0";
+    }
+
+
+    @GetMapping("/index1") 
+    public String index1(@RequestParam(required = false, defaultValue = "") String officeCode, Model model) {
+        model.addAttribute("airport", airportService.findAirportByOfficeCode(officeCode));
         return "index1";
     }
+
+
 
     @GetMapping("/dashboard")
     public String dashboard() {
