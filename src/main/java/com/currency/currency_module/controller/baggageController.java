@@ -67,6 +67,11 @@ public class baggageController {
 
    @Autowired
 private TemplateEngine templateEngine;
+
+    @GetMapping("/baggageRule")
+    public String showBaggageRule() {
+        return "baggageRule";
+    }
     //------> From show and hide mode<------//
     @GetMapping("/show")
     public String baggageFrom(@RequestParam(required = false, defaultValue = "") String generatedId, Model model) {
@@ -407,6 +412,8 @@ private TemplateEngine templateEngine;
         String baggageSql = "SELECT id, payment_id FROM baggage WHERE id = ?";
         Map<String, Object> baggageInfo = jdbcTemplate.queryForMap(baggageSql, productInfo.get("baggageID"));
         String paymentId = (String) baggageInfo.get("payment_id");
+
+       
 
 
 

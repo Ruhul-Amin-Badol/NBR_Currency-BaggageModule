@@ -1048,7 +1048,7 @@
                 <form action="" method="">
 
                             <div class="container p-3 mt-3 bg-light">
-                                <p class="fw-bold">More than one of any goods (More than two for cellular phone) which are duty free including Gold<span class="astrick">*</span> <button type="button" class="btn btn-success" id="openFileButton">View Goods List on Baggage Rule</button></p>
+                                <p class="fw-bold">More than one of any goods (More than two for cellular phone) which are duty free including Gold<span class="astrick">*</span> <button type="button" class="btn btn-success" id="openFileButton" target="baggageRule.html">View Goods List on Baggage Rule</button></p>
                                 <div class="d-flex justify-content-start mb-3">
                                     <div class="col-sm-6">
                                             <select class="form-select" aria-label="Default select example"  id="dropdownSelect" required>
@@ -1086,8 +1086,6 @@
                                                 <td>
                                                     <select class="form-select" style="width: 200px;" id="productName" name="productName" aria-label="Default select example" onchange="fetchProductData()">
                                                         <option > --Please Select-- </option>
-                                                        <option> Ruhul </option>
-                                                        <option > Fahim </option>
                                                         <th:block th:each="productName : ${productshow}">
                                                             <option th:text="${productName['item_name']}" th:value="${productName['item_name']}"></option>
                                                         </th:block>
@@ -1128,7 +1126,7 @@
                                     <thead class="bg-danger">
                                         <tr>
                                             <th scope="col">Product Name</th>
-                                            <th scope="col">Other Item</th>
+                                            <th scope="col" >Other Item</th>
                                             <th scope="col">Unit</th>
                                             <th scope="col">Inchi(For Telivision)</th>
                                             <th scope="col">Quantity</th>

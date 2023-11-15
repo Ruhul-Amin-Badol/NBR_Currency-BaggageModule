@@ -28,12 +28,6 @@ function populateTable() {
     newRow.append(`<td>${item.vat}</td>`);
     newRow.append(`<td>${item.ait}</td>`);
     newRow.append(`<td>${item.at}</td>`);
-    newRow.append(`<td>${item.at}</td>`);
-
-
-
-
-
 
     newRow.append(`<td>${item.taxAmount}</td>`);
     // newRow.append(
@@ -159,7 +153,7 @@ function adminadd() {
 
 function addProduct(){
 
-  document.getElementById('productName').options[0].innerText = "huju"
+  // document.getElementById('productName').options[0].innerText = "huju"
 
   var deleteId = parseInt(document.getElementById('deleteidhidden').value);
   
@@ -302,6 +296,7 @@ function DeleteAfterEdit(idToDelete) {
   });
   
 }
+//-------> for Edit product row ajax function<-----//
 function EditProduct(idToDelete) {
   for (let i = 0; i < addData.length; i++) {
     if (addData[i].id === idToDelete) {
@@ -311,13 +306,12 @@ function EditProduct(idToDelete) {
         document.getElementById('otherItem').value=addData[i].otherItem;
 
         // Set the selectedIndex to make the option selected
-   
-
+  
       }else{
         document.getElementById('otherItem').style.display = 'none';
-        document.getElementById('otherItem').value='';
+        document.getElementById('otherItem').value=addData[i].otherItem;
       }
-      // document.getElementById('productName').value = addData[i].productName;
+      document.getElementById('productName').value = addData[i].productName;
       // document.getElementById('otherItem').value = addData[i].otherItem;
       document.getElementById('unit').value = addData[i].unit;
       document.getElementById('inchi').value = addData[i].inchi;
@@ -325,8 +319,6 @@ function EditProduct(idToDelete) {
       document.getElementById('perUnitValue').value = addData[i].perUnitValue;
       document.getElementById('totalValue').value = addData[i].totalValue;
       document.getElementById('tax').value = addData[i].tax;
-
-
       document.getElementById('cd').value = addData[i].cd;
       document.getElementById('rd').value = addData[i].rd;
       document.getElementById('sd').value = addData[i].sd;
