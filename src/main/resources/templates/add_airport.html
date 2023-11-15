@@ -38,20 +38,25 @@
         <i class="fa fa-plane" style="padding-right: 10px"></i>Port List
     </div>
     <div class="container">
-        <form th:action="@{/create-port}" method="post">
+        <form  action="/create-port" method="post" enctype="multipart/form-data">
             <div class="row my-5">
                 <div class="col ">
-                    <input class="form-control" type="text" id="airPortNames" name="airPortNames" placeholder="Write Port Name">
+                    <input class="form-control" type="text" id="airPortNames" name="airPortNames" placeholder="Write Port Name" >
                 </div>
                 <div class="col ">
-                    <input class="form-control" type="text" id="officeCode" name="officeCode" placeholder="Office Code">
+                    <input class="form-control" type="text" id="officeCode" name="officeCode" placeholder="Office Code" >
                 </div>
+                <div class="col">
+                    <input class="form-control" type="file" name="image">
+                </div>
+
+
                 <div class="col">
                     <button type="submit" class="btn btn-warning ml-2" id="filterButton">Create Airport</button>
                 </div>
             </div>
         </form>
-
+ 
     </div>
 
     
@@ -61,6 +66,7 @@
                 <th>sl</th>
                 <th>Name</th>
                 <th>Office Code</th>
+                <th>Banner</th>
     
                 <th>Action</th>
     
@@ -73,6 +79,8 @@
                 <td th:text="${sl.count}"></td>
                 <td th:text="${show.airPortNames}"></td>
                 <td th:text="${show.officeCode}"></td>    
+                <td><img alt="" th:src="@{'img/'+${show.image}}" width="10%"
+							height="300px"></td>    
                 <td >
                     <a th:href="@{/port-edit(id=${show.id})}">Edit</a>
     

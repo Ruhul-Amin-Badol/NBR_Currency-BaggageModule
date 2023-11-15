@@ -37,18 +37,22 @@
                 <div align="center" style="float:right"><img class="oe_logo_img" alt="SajeebERP: Open Source Business" src="/img/image/bangladesh.png" height="110px;"></div>
             </div>
         </header>
-        <section class="oe_hero oe_home_hero oe_container">
+
+
+
+
+        <section class="oe_hero oe_home_hero oe_container" th:if="${airport.officeCode == null or #strings.isEmpty(airport.officeCode)} or airport.officeCode == '' ">
             <div class="oe_slider">
                 <a href="/img/image/slide1.png">
-                    <div class="oe_slide oe_website_builder_slide">
+                    <div class="oe_slide oe_website_builder_slide text-lg-center">
+                        <span class="d-flex align-items-center text-lg-center" style="margin-top: 50px; color:honeydew; font-weight: bold; font-size: 40;" th:text="${airport.airPortNames}"></span>
                     </div>
                 </a>
                 <a href="/img/image/slide2.png">
                     <div class="oe_slide oe_home_slide ">
+                        <span class="d-flex align-items-center text-lg-center" style="margin-top: 50px; color:honeydew; font-weight: bold; font-size: 40;" th:text="${airport.airPortNames}"></span>
                     </div>
                 </a>
-                
-                
             </div>
             <span class="oe_slider_arrow oe_left"><i class="icon-chevron-left"></i></span>
             <span class="oe_slider_arrow oe_right"><i class="icon-chevron-right"></i></span>
@@ -105,8 +109,12 @@
                 });
             </script>
         </section>
-        
-    <article>
+        <section class="oe_hero oe_home_hero oe_container" th:unless="${airport.officeCode == null or #strings.isEmpty(airport.officeCode)}">
+            <!-- Content when officeCode is not null -->
+            <!-- ... -->
+            
+            <img alt="" th:src="@{'img/'+${airport.image}}" style="height: 245px; width: 992px;">
+            <!-- ... --> 
         <article class="oe_page">
             <section class="oe_container">
                 <h4 class="oe_slogan">Choose Your Department</h4>
@@ -134,7 +142,8 @@
                             
                         </div>
                     </a>
-                    <a href="baggagestart/show" title="Baggage Module (General User)" class="oe_app ab_app_descr">
+                    <a  th:href="@{'baggagestart/show?officeCode=' + ${airport.officeCode}}" title="Baggage Module (General User)" class="oe_app ab_app_descr">
+                       
                         <div class="ab_app_descr">
                             <div class="oe_app_icon">
                                 <img src="/img/image/baggage.png">
