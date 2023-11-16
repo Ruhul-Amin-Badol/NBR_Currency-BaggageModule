@@ -14,6 +14,7 @@ function populateTableAdmin() {
   let  totalAdditionalPayment=0.0
   addDataAdmin.forEach(function (item) {
     // Create a new table row for each item
+
     console.log("hi i am from add")
     console.log(item)
     let newRow = $("<tr>");
@@ -543,10 +544,12 @@ function calculateTotalValueAdmin() {
     let vat = document.getElementById("vat").value / 100;
     let ait = document.getElementById("ait").value / 100;
     let at = document.getElementById("at").value / 100;
+
   
     
   
     let totalTax =  totalValue.toFixed(2);
+
     let totalCd = cd * totalValue.toFixed(2);
     let totalRd= rd * totalValue.toFixed(2);
     let totalSd = sd * totalValue.toFixed(2);

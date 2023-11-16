@@ -30,6 +30,16 @@
             background-color: #49be78;
             color: white;
         }
+
+
+        .center-btn {
+            display: flex;
+            justify-content: center;
+        }
+        /* Adjust the button width as needed */
+        .custom-btn {
+            width: 150px; /* Change the width as desired */
+        }
     </style>
 </head>
 <body>
@@ -38,14 +48,32 @@
         <i class="fa fa-plane" style="padding-right: 10px"></i>Port Update
     </div>
     <div class="container">
-        <form th:action="@{/update-port}" method="post">
-            <div class="row my-5">
-                <div class="col ">
+        <form th:action="@{/update-port}" method="post" enctype="multipart/form-data">
+            <div class="mb-3 row">
+                <label for="airPortNames" class="col-sm-2 col-form-label">Airport Names:</label>
+                <div class="col-sm-4">
                     <input class="form-control" type="hidden" id="id" name="id" th:value="${airport.id}">
-                    <input class="form-control" type="text" id="airPortNames" name="airPortNames" th:value="${airport.airPortNames}">
+                    <input type="text" class="form-control" id="airPortNames" name="airPortNames" th:value="${airport.airPortNames}">
                 </div>
-                <div class="col">
-                    <button type="submit" class="btn btn-warning ml-2" id="filterButton">Update Airport</button>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="officeCode" class="col-sm-2 col-form-label">Office Code:</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="officeCode" name="officeCode" th:value="${airport.officeCode}">
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="image" class="col-sm-2 col-form-label">Banner:</label>
+                <div class="col-sm-4">
+                    <input type="file" class="form-control" id="image" name="image">
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <div class="col-sm-6 center-btn">
+                    <button type="submit" class="btn btn-warning custom-btn">Update</button>
                 </div>
             </div>
         </form>

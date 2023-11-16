@@ -211,8 +211,20 @@
             </div>
             <div class="col">
               <div class="btn-group">
-                <a href="/index1">
-                  <button type="button" class="btn btn-success button">NBR Internal</button></a>
+                <button
+                  type="button"
+                  class="btn btn-success dropdown-toggle button"
+                  data-toggle="dropdown"
+                >
+                 NBR Internal
+                </button>
+                <div class="dropdown-menu" th:each="show : ${allAirportList}" th:object="${'allAirportList'}">
+                  <a th:each="airport : ${allAirportList}" th:if="${airport.airPortNames != 'all'}"  class="dropdown-item" 
+                       th:href="@{'/index1?officeCode=' + ${airport.officeCode}}">
+                      <span th:text="${airport.airPortNames}"></span>
+                  </a>
+                </div>
+
               </div>
             </div>
           </div>

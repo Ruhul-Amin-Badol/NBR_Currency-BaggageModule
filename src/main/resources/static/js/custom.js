@@ -105,8 +105,8 @@ $(document).ready(function() {
 
 // JavaScript code to open a new window and display the PDF or image
 document.getElementById('openFileButton').addEventListener('click', function () {
-    // Specify the URL of the PDF or image file
-    var fileUrl = 'http://bcom.gov.bd/nbr/baggage_mod/pages/baggage2/view_pdf.php'; // Replace with your file URL
+    // Specify the URL of the Thymeleaf template
+    var fileUrl = '/baggagestart/baggageRule'; // Remove the file extension
 
     // Open a new window or tab with the file
     window.open(fileUrl, '_blank');
@@ -264,7 +264,7 @@ $(document).ready(function() {
 // JavaScript code to open a new window and display the PDF or image
 document.getElementById('openFileButton').addEventListener('click', function () {
     // Specify the URL of the PDF or image file
-    var fileUrl = 'http://bcom.gov.bd/nbr/baggage_mod/pages/baggage2/view_pdf.php'; // Replace with your file URL
+    var fileUrl = 'baggageRule.html'; // Replace with your file URL
 
     // Open a new window or tab with the file
     window.open(fileUrl, '_blank');
