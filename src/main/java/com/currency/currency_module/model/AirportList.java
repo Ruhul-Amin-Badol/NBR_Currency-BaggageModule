@@ -23,6 +23,9 @@ public class AirportList {
     private Long id;
     private String airPortNames;
     private String officeCode;
+    private String bankBranchCode;
+    private String bankBranchName;
+
     private String image;
 
 
@@ -57,6 +60,24 @@ public class AirportList {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+
+    public String getBankBranchCode() {
+        return bankBranchCode;
+    }
+
+    public void setBankBranchCode(String bankBranchCode) {
+        this.bankBranchCode = bankBranchCode;
+    }
+
+
+    public String getBankBranchName() {
+        return bankBranchName;
+    }
+
+    public void setBankBranchName(String bankBranchName) {
+        this.bankBranchName = bankBranchName;
     }
 
     @JsonIgnore
