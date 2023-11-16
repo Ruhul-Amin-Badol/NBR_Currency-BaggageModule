@@ -1,5 +1,53 @@
 let addData = [];
 
+// const products = [
+//   "ক্যাসেট পেস্লয়ার/টুইনওয়ান",
+//   "ডিস্কম্যান/ওয়াকম্যান (অডিও)",
+//   "বহনযোগ্য অডিও সিডি পেস্নয়ার",
+//   "ডেস্কটপ/ল্যাপটপ কম্পিউটার (প্রিন্টার ও ইউপিএস সহ)",
+//   "কমপিউটার স্ক্যানার",
+//   "কমপিউটার প্রিন্টার",
+//   "ফ্যাক্স মেশিন",
+//   "ভিডিও ক্যামেরা (HD Cam, DV Cam, BETA Cam এবং Professional কাজে ব্যবহৃত হয় এরূপ ক্যামেরা ব্যতীত)",
+//   "স্টীল ক্যামেরা /ডিজিটাল ক্যামেরা",
+//   "সাধারণ/পুশবাটন/কর্ডলেস টেলিফোন সেট",
+//   "রাইস কুকার/প্রেসার কুকার",
+//   "টোস্টার/স্যান্ডউইচ মেকার/বেস্নন্ডার/ফুড প্রসেসর/জুসার/ কফি মেকার",
+//   "সাধারণ ও বৈদ্যুতিক টাইপরাইটার",
+//   "গৃহস্থালী সেলাই মেশিন (ম্যানুয়াল / বৈদ্যুতিক)",
+//   "টেবিল/ প্যাডেস্টাল ফ্যান/গৃহস্থালী সিলিং ফ্যান",
+//   "স্পোর্টস সরঞ্জাম (ব্যক্তিগত ব্যবহারের জন্য)",
+//   "২০০ গ্রাম ওজনের স্বর্ণ/ রৌপ্য অলংকার (এক প্রকার অলংকার ১২টির অধিক হইবে না)",
+//   "১ কার্টন (২০০ শলাকা) সিগারেট",
+//   "পর্যন্ত (CRT) সাদাকালো/রঙ্গিন টেলিভিশন",
+//   "পর্যন্ত (CRT) সাদাকালো/রঙ্গিন টেলিভিশন",
+//   "ভিসিআর/ভিসিপি",
+//   "সাধারণ সিডি ও দুইটি স্পীকারসহ কম্পোনেন্ট (মিউজিক সেন্টার) (সিডি/ভিসিডি/ ডিভিডি/এলডি/ এমডি সেট)",
+//   "ভিসিডি/ডিভিডি/এলডি/এমডি/ ব্ল রেডিস্ক প্লেয়ার",
+//   "এলসিডি কমপিউটার মনিটর (টিভি সুবিধা থাকুক বা নাই থাকুক)  পর্যন্ত",
+//   "একটি মোবাইল/ সেলুলার ফোন সেট",
+//   "Plasma, LCD, TFT ও অনুরূপ প্রযুক্তির টেলিভিশন ( ১৮ - ২১) পর্যন্ত)",
+//   "Plasma, LCD, TFT ও অনুরূপ প্রযুক্তির টেলিভিশন ( ১৮ - ২১) পর্যন্ত)",
+//   "Plasma, LCD, TFT ও অনুরূপ প্রযুক্তির টেলিভিশন ( ২২-২৯) পর্যন্ত)",
+//   "Plasma, LCD, TFT ও অনুরূপ প্রযুক্তির টেলিভিশন ( ৩০-৪২) পর্যন্ত)",
+//   "Plasma, LCD, TFT ও অনুরূপ প্রযুক্তির টেলিভিশন ( ৪৩ -৫২) পর্যন্ত)",
+//   "Plasma, LCD, TFT ও অনুরূপ প্রযুক্তির টেলিভিশন ( ৫৩ থেকে তদূর্ধ্ব সাইজ পর্যন্ত)",
+//   "৪ (চার) টি স্পীকারসহ কম্পোনেন্ট (মিউজিক সেন্টার ) (সিডি/ভিসিডি/ ডিভিডি/এলডি/এমডি/র রেডিস্ক সেট)",
+//   "৪ (চার) এর অধিক তবে সর্বোচ্চ ৮ টি স্পীকারসহ(মিউজিক সেন্টার) / স্পীকার নির্বিশেষে হোম থিয়েটার (সিডি / ভিসিডি/ ডিভিডি/এলডি/এমডি/র রেডিস্ক সেট)",
+//   "রেফ্রিজারেটর/ডিপ ফ্রিজার",
+//   "ডিশ ওয়াশার/ওয়াশিং মেশিন/ক্লথ ড্রাইয়ার",
+//   "এয়ার কুলার / এয়ার কন্ডিশনার উইনডো টাইপ ( window type )",
+//   "এয়ার কুলার / এয়ার কন্ডিশনার স্পিল্ট টাইপ (split type)",
+//   "গ্যাস ওভেন (বার্নার সহ )",
+//   "ডিশ এন্টেনা",
+//   "স্বর্ণবার বা স্বর্ণপিন্ড(সর্বোচ্চ ২০০ গ্রাম)",
+//   "রৌপ্যবার বা রৌপ্যপিন্ড(সর্বোচ্চ ২০০ গ্রাম)",
+//   "HD Cam, DV Cam, BETA Cam 47 Professional কাজে ব্যবহৃত হয় এরূপ ক্যামেরা",
+//   "এয়ারগান/এয়ার রাইফেল (বাণিজ্য মন্ত্রণালয়ের অনুমোদন ৫,০০০/- টাকা সাপেক্ষে আমদানিযোগ্য, আমদানি নীতি আদেশ ২০০৯-২০১২ দ্রষ্টব্য)",
+//   "ঝাড়বাতি",
+//   "কার্পেট ১৫ বর্গমিটার পর্যন্ত"
+// ];
+
 //----->populateTable data add every click new row<-------//
 function populateTable() {
   const newRow1 = $("<tr>");
@@ -9,27 +57,68 @@ function populateTable() {
   tbody.empty();
   let totalTax = 0.0;
   addData.forEach(function (item) {
+
+     console.log("hi i am from add")
+    console.log(item)
+    let newRow = $("<tr>");
+    // console.log(item.quantity);
+    // console.log(item.duty_free);
+    if(item.duty_free !=0 && item.quantity>item.duty_free) {
+      
+      newRow.append(`<td style="color: red;">${item.productName}</td>`); // Use the correct field names
+      newRow.append(`<td style="color: red;">${item.otherItem}</td>`); // Use the correct field names
+      newRow.append(`<td style="color: red;">${item.unit}</td>`);
+      newRow.append(`<td style="color: red;">${item.inchi}</td>`);
+      newRow.append(`<td style="color: red;">${item.quantity}</td>`);
+      newRow.append(`<td style="color: red;" class="d-none" >${item.perUnitValue}</td>`);
+      newRow.append(`<td style="color: red;">${item.totalValue}</td>`);
+      newRow.append(`<td style="color: red;">${item.tax}</td>`);
+      newRow.append(`<td style="color: red;">${item.cd}</td>`);
+      newRow.append(`<td style="color: red;">${item.rd}</td>`);
+      newRow.append(`<td style="color: red;">${item.sd}</td>`);
+      newRow.append(`<td style="color: red;">${item.vat}</td>`);
+      newRow.append(`<td style="color: red;">${item.ait}</td>`);
+      newRow.append(`<td style="color: red;">${item.at}</td>`);
+      newRow.append(`<td style="color: red;">${item.at}</td>`);
+      newRow.append(`<td style="color: red;">${item.taxAmount}</td>`);
+
+
+    } else {
+
+     newRow = $("<tr>");
+     newRow.append(`<td>${item.productName}</td>`); // Use the correct field names
+     newRow.append(`<td>${item.otherItem}</td>`); // Use the correct field names
+     newRow.append(`<td>${item.unit}</td>`);
+     newRow.append(`<td>${item.inchi}</td>`);
+     newRow.append(`<td >${item.quantity}</td>`);
+     newRow.append(`<td class="d-none" >${item.perUnitValue}</td>`);
+     newRow.append(`<td>${item.totalValue}</td>`);
+     newRow.append(`<td>${item.tax}</td>`);
+ 
+ 
+     newRow.append(`<td>${item.cd}</td>`);
+     newRow.append(`<td>${item.rd}</td>`);
+     newRow.append(`<td>${item.sd}</td>`);
+     newRow.append(`<td>${item.vat}</td>`);
+     newRow.append(`<td>${item.ait}</td>`);
+     newRow.append(`<td>${item.at}</td>`);
+     newRow.append(`<td>${item.at}</td>`);
+ 
+ 
+ 
+ 
+ 
+ 
+     newRow.append(`<td>${item.taxAmount}</td>`);
+    }
+
+
     // Create a new table row for each item
-    const newRow = $("<tr>");
+
     // Populate the table cells in the new row with data from the item
-    newRow.append(`<td>${item.productName}</td>`); // Use the correct field names
-    newRow.append(`<td>${item.otherItem}</td>`); // Use the correct field names
-    newRow.append(`<td>${item.unit}</td>`);
-    newRow.append(`<td>${item.inchi}</td>`);
-    newRow.append(`<td>${item.quantity}</td>`);
-    newRow.append(`<td class="d-none" >${item.perUnitValue}</td>`);
-    newRow.append(`<td>${item.totalValue}</td>`);
-    newRow.append(`<td>${item.tax}</td>`);
+    
 
 
-    newRow.append(`<td>${item.cd}</td>`);
-    newRow.append(`<td>${item.rd}</td>`);
-    newRow.append(`<td>${item.sd}</td>`);
-    newRow.append(`<td>${item.vat}</td>`);
-    newRow.append(`<td>${item.ait}</td>`);
-    newRow.append(`<td>${item.at}</td>`);
-
-    newRow.append(`<td>${item.taxAmount}</td>`);
     // newRow.append(
     //   `<td  class="text-center text-danger"><i class="fa-solid fa-xmark delete-button"></i></td>`
     // );
@@ -51,104 +140,141 @@ function populateTable() {
 }
 
 //-----> Product add button pass value for post request and show second table<----//
-function adminadd() {
+// function adminadd() {
   
 
-  var deleteId = parseInt(document.getElementById('deleteidhidden').value);
   
-   if( document.getElementById('addButton').innerText=="Update"){
-      DeleteAfterEdit(deleteId)
-      addData = addData.filter((obj) => obj.id !== deleteId);
-      }
-  document.getElementById('addButton').innerText = "Add";
 
-  // Get input field values
-  const baggageID = $("#baggageID").val();
-  const productName = $("#productName").val();
-  const otherItem = $("#otherItem").val();
-  const unit = $("#unit").val();
-  const inchi = $("#inchi").val();
-  const quantity = $("#quantity").val();
-  const perUnitValue = $("#perUnitValue").val();
-  const totalValue = $("#totalValue").val();
-  const tax = $("#tax").val();
-  const cd = $("#cd").val();
-  const rd = $("#rd").val();
-  const sd = $("#sd").val();
-  const vat = $("#vat").val();
-  const ait = $("#ait").val();
-  const at = $("#at").val();
-  const taxAmount = $("#taxAmount").val();
+//   var deleteId = parseInt(document.getElementById('deleteidhidden').value);
+  
+//    if( document.getElementById('addButton').innerText=="Update"){
+//       DeleteAfterEdit(deleteId)
+//       addData = addData.filter((obj) => obj.id !== deleteId);
+//       }
+//   document.getElementById('addButton').innerText = "Add";
 
-
-  // Create a data object to send to the API
-  const data = {
-    baggageID,
-    productName,
-    otherItem,
-    unit,
-    inchi,
-    quantity,
-    perUnitValue,
-    totalValue,
-    tax,
-    cd,
-    rd,
-    sd,
-    vat,
-    ait,
-    at,
-
-    taxAmount,
-  };
+//   // Get input field values
+//   const baggageID = $("#baggageID").val();
+//   const productName = $("#productName").val();
+//   const otherItem = $("#otherItem").val();
+//   const unit = $("#unit").val();
+//   const inchi = $("#inchi").val();
+//   const quantity = $("#quantity").val();
+//   const perUnitValue = $("#perUnitValue").val();
+//   const totalValue = $("#totalValue").val();
+//   const tax = $("#tax").val();
+//   const cd = $("#cd").val();
+//   const rd = $("#rd").val();
+//   const sd = $("#sd").val();
+//   const vat = $("#vat").val();
+//   const ait = $("#ait").val();
+//   const at = $("#at").val();
+//   const taxAmount = $("#taxAmount").val();
 
 
-  //  alert(data.taxAmount);
-  if(data.taxAmount != "" & totalValue != ""){
+//   // Create a data object to send to the API
+//   const data = {
+//     baggageID,
+//     productName,
+//     otherItem,
+//     unit,
+//     inchi,
+//     quantity,
+//     perUnitValue,
+//     totalValue,
+//     tax,
+//     cd,
+//     rd,
+//     sd,
+//     vat,
+//     ait,
+//     at,
 
-    addData.push(data);
-  }else{
-    alert("Required all fields")
-  }
+//     taxAmount,
+//   };
 
 
-
-
-  // Send a POST request to your Spring Boot API using jQuery's AJAX
-  $.ajax({
-    url: "http://localhost:8080/baggagestart/productInfo",
-    type: "POST",
-    contentType: "application/json",
-    data: JSON.stringify(data),
-    success: function (response) {
-      console.log(response);
-      data.id = response;
+//   //  alert(data.taxAmount);
+//   if(data.taxAmount != "" & totalValue != ""){
+//     $.ajax({
+//       url: "http://localhost:8080/baggagestart/productInfo",
+//       type: "POST",
+//       contentType: "application/json",
+//       data: JSON.stringify(data),
+//       success: function (item) {
+//         console.log("hi hi hi ")
+//         // console.log(item.duty_free);
+//         console.log("hi hi hi ")
       
-      populateTable();
-      $("#inchi").val("");
-      $("#quantity").val("");
-      $("#perUnitValue").val("");
-      $("#totalValue").val("");
-      $("#tax").val("");
+//         var extractedData = {
+//           id: item.id,
+//           item_id:item.item_id,
+//           duty_free:item.duty_free,
+//           baggageID: item.baggage_id,
+//           productName: item.item_name,
+//           otherItem: item.other_item,
+//           unit: item.unit_name,
+//           inchi: item.inchi,
+//           quantity: item.qty,
+//           perUnitValue: item.value,
+//           totalValue: item.tax_amount,
+//           tax: item.tax_percentage,
+  
+//           cd: item.cd,
+//           rd: item.rd,
+//           sd: item.sd,
+//           tasdx: item.sd,
+//           vat: item.vat,
+//           ait: item.ait,
+//           at: item.at,
+  
+  
+  
+  
+  
+  
+  
+  
+//           taxAmount: item.tax_amount,
+//         };
 
-      $("#cd").val("");
-      $("#rd").val("");
-      $("#sd").val("");
-      $("#vat").val("");
-      $("#ait").val("");
-      $("#at").val("");
+//         addData.push(extractedData);
+        
+//         populateTable();
+//         $("#inchi").val("");
+//         $("#quantity").val("");
+//         $("#perUnitValue").val("");
+//         $("#totalValue").val("");
+//         $("#tax").val("");
+  
+//         $("#cd").val("");
+//         $("#rd").val("");
+//         $("#sd").val("");
+//         $("#vat").val("");
+//         $("#ait").val("");
+//         $("#at").val("");
+  
+        
+  
+  
+//       },
+  
+//       error: function (error) {
+//         // Handle errors here
+//         console.error(error);
+//       },
+//     });
+   
+//   }else{
+//     alert("Required all fields")
+//   }
 
-      
 
 
-    },
 
-    error: function (error) {
-      // Handle errors here
-      console.error(error);
-    },
-  });
-};
+//   // Send a POST request to your Spring Boot API using jQuery's AJAX
+
+// };
 
 
 function addProduct(){
@@ -209,7 +335,84 @@ function addProduct(){
 
   if(data.taxAmount != "" & totalValue != ""){
 
-    addData.push(data);
+    $.ajax({
+      url: "/baggagestart/productInfo",
+      type: "POST",
+      contentType: "application/json",
+      data: JSON.stringify(data),
+      success: function (item) {
+        console.log(item);
+        // data.id = response;
+      
+      
+        var extractedData = {
+          id: item.id,
+          item_id:item.item_id,
+          duty_free:item.duty_free,
+          baggageID: item.baggage_id,
+          productName: item.item_name,
+          otherItem: item.other_item,
+          unit: item.unit_name,
+          inchi: item.inchi,
+          quantity: item.qty,
+          perUnitValue: item.value,
+          totalValue: item.tax_amount,
+          tax: item.tax_percentage,
+  
+          cd: item.cd,
+          rd: item.rd,
+          sd: item.sd,
+          tasdx: item.sd,
+          vat: item.vat,
+          ait: item.ait,
+          at: item.at,
+         taxAmount: item.tax_amount,
+        };
+        console.log("ggggggggggggggggg")
+        console.log(extractedData);
+        addData.push(extractedData);
+        
+        populateTable();
+        $("#inchi").val("");
+        $("#quantity").val("");
+        $("#perUnitValue").val("");
+        $("#totalValue").val("");
+        $("#tax").val("");
+  
+        $("#cd").val("");
+        $("#rd").val("");
+        $("#sd").val("");
+        $("#vat").val("");
+        $("#ait").val("");
+        $("#at").val("");
+        
+        // populateTable();
+       
+        // $("#inchi").val("");
+        // $("#quantity").val("");
+        // $("#perUnitValue").val("");
+        // $("#totalValue").val("");
+        // $("#tax").val("");
+  
+        // $("#cd").val("");
+        // $("#rd").val("");
+        // $("#sd").val("");
+        // $("#vat").val("");
+        // $("#ait").val("");
+        $("#at").val("");
+  
+        
+  
+  
+      },
+  
+      error: function (error) {
+        // Handle errors here
+        console.error(error);
+      },
+    });
+
+
   }else{
     alert("Required al fields")
   }
@@ -218,40 +421,7 @@ function addProduct(){
 
 
   // Send a POST request to your Spring Boot API using jQuery's AJAX
-  $.ajax({
-    url: "http://localhost:8080/baggagestart/productInfo",
-    type: "POST",
-    contentType: "application/json",
-    data: JSON.stringify(data),
-    success: function (response) {
-      console.log(response);
-      data.id = response;
-      
-      populateTable();
-     
-      $("#inchi").val("");
-      $("#quantity").val("");
-      $("#perUnitValue").val("");
-      $("#totalValue").val("");
-      $("#tax").val("");
 
-      $("#cd").val("");
-      $("#rd").val("");
-      $("#sd").val("");
-      $("#vat").val("");
-      $("#ait").val("");
-      $("#at").val("");
-
-      
-
-
-    },
-
-    error: function (error) {
-      // Handle errors here
-      console.error(error);
-    },
-  });
 }
 
 
@@ -259,12 +429,12 @@ function addProduct(){
 function DeleteProduct(idToDelete) {
   
   addData = addData.filter((obj) => obj.id !== idToDelete);
-  console.log(idToDelete)
+
   const delete1 = {
     idToDelete,
   };
   $.ajax({
-    url: "http://localhost:8080/baggagestart/productDelete",
+    url: "/baggagestart/productDelete",
     type: "POST",
     contentType: "application/json",
     data: JSON.stringify(delete1),
@@ -283,7 +453,7 @@ function DeleteAfterEdit(idToDelete) {
     idToDelete,
   };
   $.ajax({
-    url: "http://localhost:8080/baggagestart/productDelete",
+    url: "/baggagestart/productDelete",
     type: "POST",
     contentType: "application/json",
     data: JSON.stringify(delete1),
@@ -414,13 +584,61 @@ function fetchProductData() {
 
 // -------->Function to calculate and update the totalValue field<------//
 function calculateTotalValue() {
+ const productnameforgold=document.getElementById('productName').value
   // Get the values of quantity and perUnitValue fields
   var quantity = parseFloat(document.getElementById("quantity").value);
   var perUnitValue = parseFloat(document.getElementById("perUnitValue").value);
 
+
+
   // Check if both values are valid numbers
-  if (!isNaN(quantity) && !isNaN(perUnitValue)) {
+
+//For gold calculation 
+
+if ( (productnameforgold=="স্বর্ণবার বা স্বর্ণপিন্ড(সর্বোচ্চ ২০০ গ্রাম)" || productnameforgold=="রৌপ্যবার বা রৌপ্যপিন্ড (সর্বোচ্চ ২০০ গ্রাম)") && !isNaN(quantity) && quantity>200) {
+
+  // Calculate the total value
+ 
+  const payblequantity=quantity-200;
+
+  
+  var totalValue = payblequantity * 12.8600823;
+  
+  console.log(totalValue);
+  // Update the totalValue field with the calated result
+  document.getElementById("totalValue").value = totalValue;
+
+  let tax = document.getElementById("tax").value / 100;
+
+  let cd = document.getElementById("cd").value / 100;
+  let rd = document.getElementById("rd").value / 100;
+  let sd = document.getElementById("sd").value / 100;
+  let vat = document.getElementById("vat").value / 100;
+  let ait = document.getElementById("ait").value / 100;
+  let at = document.getElementById("at").value / 100;
+
+  
+
+  let totalTax =  totalValue.toFixed(2);
+  let totalCd = cd * totalValue.toFixed(2);
+  let totalRd= rd * totalValue.toFixed(2);
+  let totalSd = sd * totalValue.toFixed(2);
+  let totalvat = vat * totalValue.toFixed(2);
+  let totalAit = ait * totalValue.toFixed(2);
+  let totalAt = at * totalValue.toFixed(2);
+
+  let additionTaxAmount = totalTax+totalCd+totalRd+totalSd+totalvat+totalAit+totalAt;
+
+
+
+  document.getElementById("taxAmount").value = additionTaxAmount;
+}
+
+
+  else if (!isNaN(quantity) && !isNaN(perUnitValue)) {
+    
     // Calculate the total value
+    
     var totalValue = quantity * perUnitValue;
 
     // Update the totalValue field with the calculated result
@@ -449,7 +667,8 @@ function calculateTotalValue() {
 
 
     document.getElementById("taxAmount").value = additionTaxAmount.toFixed(2);
-  } else {
+  } 
+  else {
     // Handle the case where either quantity or perUnitValue is not a valid number
     document.getElementById("totalValue").value = "";
   }
@@ -471,12 +690,12 @@ document.addEventListener("DOMContentLoaded", function () {
   const baggageId = document.getElementById("baggageID").value;
 
   $.ajax({
-    url: "http://localhost:8080/baggagestart/valueStay", // Your AJAX endpoint
+    url: "/baggagestart/valueStay", // Your AJAX endpoint
     type: "POST",
     data: { baggageId: baggageId }, // Pass the baggageId as a parameter
     success: function (data) {
       // Handle the AJAX response here
-      console.log(data);
+      // console.log(data);
   
       if (!(data.length === 0)) {
         $("#table2").show();
@@ -484,9 +703,12 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('dropdownSelect').value='YES';
       }
       data.forEach(function (item) {
+        
         // Extract data from each item and add it to the addData array
         var extractedData = {
           id: item.id,
+          item_id:item.item_id,
+          duty_free:item.duty_free,
           baggageID: item.baggage_id,
           productName: item.item_name,
           otherItem: item.other_item,
@@ -496,7 +718,7 @@ document.addEventListener("DOMContentLoaded", function () {
           perUnitValue: item.value,
           totalValue: item.tax_amount,
           tax: item.tax_percentage,
-
+  
           cd: item.cd,
           rd: item.rd,
           sd: item.sd,
@@ -504,19 +726,11 @@ document.addEventListener("DOMContentLoaded", function () {
           vat: item.vat,
           ait: item.ait,
           at: item.at,
-
-
-
-
-
-
-
-
-          taxAmount: item.tax_amount,
+         taxAmount: item.tax_amount,
         };
 
 
-        console.log("extractedData==========="+extractedData)
+       
         addData.push(extractedData);
 
 
@@ -601,6 +815,8 @@ window.addEventListener("load", checkBox);
 
 //TV Inchi Calculate
 function tax_calc(){
+  const producttv=document.getElementById('productName').value
+  if(producttv=="TV"){
   console.log(tax_calc)
   var inchi=document.getElementById("inchi").value;
    var qty=document.getElementById("quantity").value;
@@ -641,4 +857,5 @@ function tax_calc(){
    var tax_amount=((tot_value*tax_perc)/100).toFixed(2);
    }
    document.getElementById("taxAmount").value=tax_amount;
+  }
    }
