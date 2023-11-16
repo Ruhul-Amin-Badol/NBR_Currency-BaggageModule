@@ -14,25 +14,59 @@ function populateTableAdmin() {
   let  totalAdditionalPayment=0.0
   addDataAdmin.forEach(function (item) {
     // Create a new table row for each item
-    const newRow = $("<tr>");
-    // Populate the table cells in the new row with data from the item
-    newRow.append(`<td>${item.productName}</td>`); // Use the correct field names
-    newRow.append(`<td>${item.unit}</td>`);
-    newRow.append(`<td>${item.inchi}</td>`);
-    newRow.append(`<td>${item.quantity}</td>`);
-    newRow.append(`<td class="d-none" >${item.perUnitValue}</td>`);
-    newRow.append(`<td>${item.totalValue}</td>`);
-    newRow.append(`<td>${item.tax}</td>`);
+    console.log("hi i am from add")
+    console.log(item)
+    let newRow = $("<tr>");
+    // console.log(item.quantity);
+    // console.log(item.duty_free);
+    if(item.duty_free !=0 && item.quantity>item.duty_free) {
+      
+      newRow.append(`<td style="color: red;">${item.productName}</td>`); // Use the correct field names
+      newRow.append(`<td style="color: red;">${item.otherItem}</td>`); // Use the correct field names
+      newRow.append(`<td style="color: red;">${item.unit}</td>`);
+      newRow.append(`<td style="color: red;">${item.inchi}</td>`);
+      newRow.append(`<td style="color: red;">${item.quantity}</td>`);
+      newRow.append(`<td style="color: red;" class="d-none" >${item.perUnitValue}</td>`);
+      newRow.append(`<td style="color: red;">${item.totalValue}</td>`);
+      newRow.append(`<td style="color: red;">${item.tax}</td>`);
+      newRow.append(`<td style="color: red;">${item.cd}</td>`);
+      newRow.append(`<td style="color: red;">${item.rd}</td>`);
+      newRow.append(`<td style="color: red;">${item.sd}</td>`);
+      newRow.append(`<td style="color: red;">${item.vat}</td>`);
+      newRow.append(`<td style="color: red;">${item.ait}</td>`);
+      newRow.append(`<td style="color: red;">${item.at}</td>`);
+      newRow.append(`<td style="color: red;">${item.at}</td>`);
+      newRow.append(`<td style="color: red;">${item.taxAmount}</td>`);
 
 
-    newRow.append(`<td>${item.cd}</td>`);
-    newRow.append(`<td>${item.rd}</td>`);
-    newRow.append(`<td>${item.sd}</td>`);
-    newRow.append(`<td>${item.vat}</td>`);
-    newRow.append(`<td>${item.ait}</td>`);
-    newRow.append(`<td>${item.at}</td>`);
-  
-    newRow.append(`<td>${item.taxAmount}</td>`);
+    } else {
+
+     newRow = $("<tr>");
+     newRow.append(`<td>${item.productName}</td>`); // Use the correct field names
+     newRow.append(`<td>${item.otherItem}</td>`); // Use the correct field names
+     newRow.append(`<td>${item.unit}</td>`);
+     newRow.append(`<td>${item.inchi}</td>`);
+     newRow.append(`<td >${item.quantity}</td>`);
+     newRow.append(`<td class="d-none" >${item.perUnitValue}</td>`);
+     newRow.append(`<td>${item.totalValue}</td>`);
+     newRow.append(`<td>${item.tax}</td>`);
+ 
+ 
+     newRow.append(`<td>${item.cd}</td>`);
+     newRow.append(`<td>${item.rd}</td>`);
+     newRow.append(`<td>${item.sd}</td>`);
+     newRow.append(`<td>${item.vat}</td>`);
+     newRow.append(`<td>${item.ait}</td>`);
+     newRow.append(`<td>${item.at}</td>`);
+     newRow.append(`<td>${item.at}</td>`);
+ 
+ 
+ 
+ 
+ 
+ 
+     newRow.append(`<td>${item.taxAmount}</td>`);
+    }
   
     if(item.additional_payment==null){
       item.additional_payment=0;
@@ -98,6 +132,7 @@ function adminadd() {
   // Get input field values
   const baggageID = $("#baggageID").val();
   const productName = $("#productName").val();
+  const otherItem = $("#otherItem").val();
   const unit = $("#unit").val();
   const inchi = $("#inchi").val();
   const quantity = $("#quantity").val();
@@ -120,6 +155,7 @@ function adminadd() {
   const data = {
     baggageID,
     productName,
+    otherItem,
     unit,
     inchi,
     quantity,
@@ -138,44 +174,125 @@ function adminadd() {
   };
   if(data.taxAmount != "" & totalValue != ""){
 
-    addDataAdmin.push(data);
+    // $.ajax({
+
+    //   url: "/baggagestart/productInfo",
+    //   type: "POST",
+    //   contentType: "application/json",
+    //   data: JSON.stringify(data),
+    //   success: function (response) {
+    //     console.log(response);
+    //     data.id = response;
+        
+    //     populateTableAdmin();
+    //     $("#inchi").val("");
+    //     $("#quantity").val("");
+    //     $("#perUnitValue").val("");
+    //     $("#totalValue").val("");
+    //     $("#tax").val("");
+  
+    //     $("#cd").val("");
+    //     $("#rd").val("");
+    //     $("#sd").val("");
+    //     $("#vat").val("");
+    //     $("#ait").val("");
+    //     $("#at").val("");
+    //     $("#additional_payment").val("");
+        
+    //   },
+  
+  
+    //   error: function (error) {
+    //     // Handle errors here
+    //     console.error(error);
+    //   },
+      
+    // });
+  
+    $.ajax({
+      url: "/baggagestart/productInfo",
+      type: "POST",
+      contentType: "application/json",
+      data: JSON.stringify(data),
+      success: function (item) {
+        console.log(item);
+        // data.id = response;
+      
+      
+        var extractedData = {
+          id: item.id,
+          item_id:item.item_id,
+          duty_free:item.duty_free,
+          baggageID: item.baggage_id,
+          productName: item.item_name,
+          otherItem: item.other_item,
+          unit: item.unit_name,
+          inchi: item.inchi,
+          quantity: item.qty,
+          perUnitValue: item.value,
+          totalValue: item.tax_amount,
+          tax: item.tax_percentage,
+  
+          cd: item.cd,
+          rd: item.rd,
+          sd: item.sd,
+          tasdx: item.sd,
+          vat: item.vat,
+          ait: item.ait,
+          at: item.at,
+          additional_payment: item.additional_payment,
+         taxAmount: item.tax_amount,
+        };
+        console.log("ggggggggggggggggg")
+        console.log(extractedData);
+        addDataAdmin.push(extractedData);
+        
+        populateTableAdmin();
+        $("#inchi").val("");
+        $("#quantity").val("");
+        $("#perUnitValue").val("");
+        $("#totalValue").val("");
+        $("#tax").val("");
+  
+        $("#cd").val("");
+        $("#rd").val("");
+        $("#sd").val("");
+        $("#vat").val("");
+        $("#ait").val("");
+        $("#at").val("");
+        
+        // populateTable();
+       
+        // $("#inchi").val("");
+        // $("#quantity").val("");
+        // $("#perUnitValue").val("");
+        // $("#totalValue").val("");
+        // $("#tax").val("");
+  
+        // $("#cd").val("");
+        // $("#rd").val("");
+        // $("#sd").val("");
+        // $("#vat").val("");
+        // $("#ait").val("");
+        $("#at").val("");
+  
+        
+  
+  
+      },
+  
+      error: function (error) {
+        // Handle errors here
+        console.error(error);
+      },
+    });
+
+
   }else{
     alert("Required all fields")
   }
   // Send a POST request to your Spring Boot API using jQuery's AJAX
-  $.ajax({
-    url: "/baggagestart/productInfo",
-    type: "POST",
-    contentType: "application/json",
-    data: JSON.stringify(data),
-    success: function (response) {
-      console.log(response);
-      data.id = response;
-      
-      populateTableAdmin();
-      $("#inchi").val("");
-      $("#quantity").val("");
-      $("#perUnitValue").val("");
-      $("#totalValue").val("");
-      $("#tax").val("");
 
-      $("#cd").val("");
-      $("#rd").val("");
-      $("#sd").val("");
-      $("#vat").val("");
-      $("#ait").val("");
-      $("#at").val("");
-      $("#additional_payment").val("");
-      
-    },
-
-
-    error: function (error) {
-      // Handle errors here
-      console.error(error);
-    },
-    
-  });
 };
 
 //-------> for delete product row ajax function<-----//
@@ -187,12 +304,12 @@ function DeleteProductAdmin(idToDelete) {
     idToDelete,
   };
   $.ajax({
-    url: "http://localhost:8080/baggagestart/productDelete",
+    url: "/baggagestart/productDelete",
     type: "POST",
     contentType: "application/json",
     data: JSON.stringify(delete1),
     success: function (response) {
-      console.log("hi i am deleted",idToDelete);
+     
       populateTableAdmin();
     },
     error: function (error) {
@@ -204,6 +321,21 @@ function DeleteProductAdmin(idToDelete) {
 function EditProductAdmin(idToDelete) {
   for (let i = 0; i < addDataAdmin.length; i++) {
     if (addDataAdmin[i].id === idToDelete) {
+      if(addData[i].productName=='Other'){
+    
+        document.getElementById('otherItem').style.display = 'block';
+        document.getElementById('otherItem').value=addData[i].otherItem;
+
+        // Set the selectedIndex to make the option selected
+   
+
+      }else{
+        document.getElementById('otherItem').style.display = 'none';
+        document.getElementById('otherItem').value='';
+      }
+//new adds
+
+
       document.getElementById('productName').value = addDataAdmin[i].productName;
       document.getElementById('unit').value = addDataAdmin[i].unit;
       document.getElementById('inchi').value = addDataAdmin[i].inchi;
@@ -228,7 +360,8 @@ function EditProductAdmin(idToDelete) {
       document.getElementById('addButtonAdmin').innerText = "Update";
       // DeleteProductAdmin(idToDelete)
       
-      return; // If found, exit the loop
+      return; 
+      // If found, exit the loop
     }
   }
 
@@ -244,8 +377,24 @@ function fetchProductDataAdmin() {
 
   // Get the selected product name'
   var selectedProductName = $("#productName").val();
+  if (selectedProductName == "Other"){
+    document.getElementById('otherItem').style.display = 'block';
+    // $("#inchi").val("");
+    // $("#quantity").val("");
+    $("#perUnitValue").val(0);
+    // $("#totalValue").val("");
+    $("#tax").val(0);
+    $("#cd").val(0);
+    $("#rd").val(0);``
+    $("#sd").val(0);
+    $("#vat").val(0);
+    $("#ait").val(0);
+    $("#at").val(0);
+  }
 
-  if (selectedProductName !== "--Please Select--") {
+  else if (selectedProductName !== "--Please Select--") {
+    document.getElementById('otherItem').style.display = 'none';
+   
    
     // Make an AJAX request to fetch product data based on the selected product name
     $.ajax({
@@ -292,47 +441,164 @@ function fetchProductDataAdmin() {
   }
 }
 
+// function fetchProductDataAdmin() {
+   
+//   document.getElementById("quantity").value = "";
+//   document.getElementById("perUnitValue").value = "";
+//   document.getElementById("totalValue").value = "";
+//   document.getElementById("taxAmount").value = "";
+
+//   // Get the selected product name'
+//   var selectedProductName = $("#productName").val();
+//   if (selectedProductName == "Other"){
+//     document.getElementById('otherItem').style.display = 'block';
+//     // $("#inchi").val("");
+//     // $("#quantity").val("");
+//     // $("#perUnitValue").val("");
+//     // $("#totalValue").val("");
+//     $("#tax").val(0);
+//     $("#cd").val(0);
+//     $("#rd").val(0);
+//     $("#sd").val(0);
+//     $("#vat").val(0);
+//     $("#ait").val(0);
+//     $("#at").val(0);
+//   }
+
+//   else if (selectedProductName !== "--Please Select--") {
+//     document.getElementById('otherItem').style.display = 'none';
+   
+//     // Make an AJAX request to fetch product data based on the selected product name
+//     $.ajax({
+//       url: "http://localhost:8080/baggagestart/getProductData",
+//       method: "POST",
+//       data: { productString: selectedProductName },
+//       dataType: "json",
+//       success: function (data) {
+//         $("#unit").val(data.unit); // Update unit field
+//         $("#tax").val(data.taxPercentage);
+//         $("#cd").val(data.cd);
+//         $("#rd").val(data.rd);
+//         $("#sd").val(data.sd);
+//         $("#vat").val(data.vat);
+//         $("#ait").val(data.ait);
+//         $("#at").val(data.at);
+
+//         $("#additional_payment").val(data.additional_payment);
+        
+//       },
+//       error: function () {
+//         alert("Error fetching product data.");
+//       },
+
+   
+//     });
+//     document.getElementById("quantity").value="0";
+//     document.getElementById("perUnitValue").value="0";
+//     document.getElementById("totalValue").value="0";
+//     document.getElementById("tax").value="0";
+//   } else {
+//     $("#unit").val("");
+//     $("#tax").val("");
+
+//     $("#cd").val("");
+//     $("#rd").val("");
+//     $("#sd").val("");
+//     $("#vat").val("");
+//     $("#ait").val("");
+//     $("#at").val("");
+
+//     $("#additional_payment").val("");
+    
+
+
+
+  // }
 // -------->Function to calculate and update the totalValue field<------//
 function calculateTotalValueAdmin() {
   // Get the values of quantity and perUnitValue fields
+  const productnameforgold=document.getElementById('productName').value
   var quantity = parseFloat(document.getElementById("quantity").value);
   var perUnitValue = parseFloat(document.getElementById("perUnitValue").value);
 
   // Check if both values are valid numbers
-  if (!isNaN(quantity) && !isNaN(perUnitValue)) {
+  if ( (productnameforgold=="স্বর্ণবার বা স্বর্ণপিন্ড(সর্বোচ্চ ২০০ গ্রাম)" || productnameforgold=="রৌপ্যবার বা রৌপ্যপিন্ড (সর্বোচ্চ ২০০ গ্রাম)") && !isNaN(quantity) && quantity>200) {
+
     // Calculate the total value
-    var totalValue = quantity * perUnitValue;
-
-    // Update the totalValue field with the calculated result
+   
+    const payblequantity=quantity-200;
+  
+    
+    var totalValue = payblequantity * 12.8600823;
+    
+    console.log(totalValue);
+    // Update the totalValue field with the calated result
     document.getElementById("totalValue").value = totalValue;
+  
     let tax = document.getElementById("tax").value / 100;
-
+  
     let cd = document.getElementById("cd").value / 100;
     let rd = document.getElementById("rd").value / 100;
     let sd = document.getElementById("sd").value / 100;
     let vat = document.getElementById("vat").value / 100;
     let ait = document.getElementById("ait").value / 100;
     let at = document.getElementById("at").value / 100;
-
+  
     
-
-    let totalTax = tax * totalValue.toFixed(2);
+  
+    let totalTax =  totalValue.toFixed(2);
     let totalCd = cd * totalValue.toFixed(2);
     let totalRd= rd * totalValue.toFixed(2);
     let totalSd = sd * totalValue.toFixed(2);
     let totalvat = vat * totalValue.toFixed(2);
     let totalAit = ait * totalValue.toFixed(2);
     let totalAt = at * totalValue.toFixed(2);
-
+  
     let additionTaxAmount = totalTax+totalCd+totalRd+totalSd+totalvat+totalAit+totalAt;
-
-
-
-    document.getElementById("taxAmount").value = additionTaxAmount.toFixed(2);
-  } else {
-    // Handle the case where either quantity or perUnitValue is not a valid number
-    document.getElementById("totalValue").value = "";
+  
+  
+  
+    document.getElementById("taxAmount").value = additionTaxAmount;
   }
+  
+  
+    else if (!isNaN(quantity) && !isNaN(perUnitValue)) {
+      
+      // Calculate the total value
+      
+      var totalValue = quantity * perUnitValue;
+  
+      // Update the totalValue field with the calculated result
+      document.getElementById("totalValue").value = totalValue;
+      let tax = document.getElementById("tax").value / 100;
+  
+      let cd = document.getElementById("cd").value / 100;
+      let rd = document.getElementById("rd").value / 100;
+      let sd = document.getElementById("sd").value / 100;
+      let vat = document.getElementById("vat").value / 100;
+      let ait = document.getElementById("ait").value / 100;
+      let at = document.getElementById("at").value / 100;
+  
+      
+  
+      let totalTax = tax * totalValue.toFixed(2);
+      let totalCd = cd * totalValue.toFixed(2);
+      let totalRd= rd * totalValue.toFixed(2);
+      let totalSd = sd * totalValue.toFixed(2);
+      let totalvat = vat * totalValue.toFixed(2);
+      let totalAit = ait * totalValue.toFixed(2);
+      let totalAt = at * totalValue.toFixed(2);
+  
+      let additionTaxAmount = totalTax+totalCd+totalRd+totalSd+totalvat+totalAit+totalAt;
+  
+  
+  
+      document.getElementById("taxAmount").value = additionTaxAmount.toFixed(2);
+    } 
+    else {
+      // Handle the case where either quantity or perUnitValue is not a valid number
+      document.getElementById("totalValue").value = "";
+    }
   
 }
 // Attach the calculateTotalValueAdmin function to the 'input' event of quantity and perUnitValue fields
@@ -350,13 +616,12 @@ document.addEventListener("DOMContentLoaded", function () {
   const baggageId = document.getElementById("baggageID").value;
 
   $.ajax({
-    url: "http://localhost:8080/baggagestart/valueStay", // Your AJAX endpoint
+    url: "/baggagestart/valueStay", // Your AJAX endpoint
     type: "POST",
     data: { baggageId: baggageId }, // Pass the baggageId as a parameter
     success: function (data) {
       // Handle the AJAX response here
-      console.log(data);
-      console.log("sdjsdk");
+   
   
       if (!(data.length === 0)) {
         $("#table2").show();
@@ -367,8 +632,11 @@ document.addEventListener("DOMContentLoaded", function () {
         // Extract data from each item and add it to the addDataAdmin array
         var extractedData = {
           id: item.id,
+          item_id:item.item_id,
+          duty_free:item.duty_free,
           baggageID: item.baggage_id,
           productName: item.item_name,
+          otherItem: item.other_item,
           unit: item.unit_name,
           inchi: item.inchi,
           quantity: item.qty,
@@ -472,6 +740,8 @@ window.addEventListener("load", checkBoxAdmin);
 
 //TV Inchi Calculate
 function tax_calcAdmin(){
+  const producttv=document.getElementById('productName').value
+  if(producttv=="TV"){
   console.log(tax_calcAdmin)
   var inchi=document.getElementById("inchi").value;
    var qty=document.getElementById("quantity").value;
@@ -512,4 +782,5 @@ function tax_calcAdmin(){
    var tax_amount=((tot_value*tax_perc)/100).toFixed(2);
    }
    document.getElementById("taxAmount").value=tax_amount;
+  }
    }
