@@ -1076,7 +1076,7 @@
                 <form action="" method="">
 
                             <div class="container p-3 mt-3 bg-light">
-                                <p class="fw-bold">More than one of any goods (More than two for cellular phone) which are duty free including Gold<span class="astrick">*</span> <button type="button" class="btn btn-success" id="openFileButton">View Goods List on Baggage Rule</button></p>
+                                <p class="fw-bold">More than one of any goods (More than two for cellular phone) which are duty free including Gold<span class="astrick">*</span> <button type="button" class="btn btn-success" id="openFileButton" target="baggageRule.html">View Goods List on Baggage Rule</button></p>
                                 <div class="d-flex justify-content-start mb-3">
                                     <div class="col-sm-6">
                                             <select class="form-select" aria-label="Default select example"  id="dropdownSelect" required>
@@ -1088,7 +1088,7 @@
                                 </div>
                                 <!-- table 1nd start -->
                                 <div id="table1"  style="display: none;">
-                                    <table class="table table-bordered w-100 table-responsive-lg table-responsive-md" style="box-sizing: border-box;">
+                                    <table class="table table-bordered w-100 table-responsive-lg table-responsive-md" style="box-sizing: border-box; zoom: 90%;">
                                         <thead >
                                             <tr>
                                                 <th scope="col">Product Name</th>
@@ -1112,13 +1112,16 @@
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <select class="form-select" id="productName" name="productName" aria-label="Default select example" onchange="fetchProductData()">
-                                                        <option selected> --Please Select-- </option>
+                                                    <select class="form-select" style="width: 200px;" id="productName" name="productName" aria-label="Default select example" onchange="fetchProductData()">
+                                                        <option > --Please Select-- </option>
                                                         <th:block th:each="productName : ${productshow}">
                                                             <option th:text="${productName['item_name']}" th:value="${productName['item_name']}"></option>
                                                         </th:block>
                                                     </select>
+                                                    <input style="display: none; margin-top: 10px; padding: 2px;" type="text" class="form-control" id="otherItem" name="other_item" placeholder=" Enter Other Product Name">
                                                 </td>
+                                                <!-- Additional input field, initially hidden -->
+                                                
                                                 <td><input type="text" class="form-control" id="unit" name="unit"></td>
                                                 <td><input type="text" class="form-control" id="inchi" name="inchi"></td>
                                                 <td><input type="text" class="form-control" id="quantity" name="quantity" onKeyUp="tax_calc()"></td>
@@ -1132,7 +1135,7 @@
                                                 <td><input type="text" class="form-control" id="vat" name="vat"></td>
                                                 <td><input type="text" class="form-control" id="ait" name="AIT"></td>
                                                 <td><input type="text" class="form-control" id="at" name="AT"></td>
-                                                <input type="text" class="form-control" id="additional_payment" value="" name="additional_payment">
+                                                <input type="text" hidden class="form-control" id="additional_payment" value="" name="additional_payment">
 
 
 
@@ -1151,24 +1154,19 @@
                                     <thead class="bg-danger">
                                         <tr>
                                             <th scope="col">Product Name</th>
+                                            <th scope="col" >Other Item</th>
                                             <th scope="col">Unit</th>
                                             <th scope="col">Inchi(For Telivision)</th>
                                             <th scope="col">Quantity</th>
                                             <th scope="col" class="d-none">Value</th>
                                             <th scope="col">Total Value</th>
                                             <th scope="col">Tax(%)</th>
-
                                             <th scope="col">CD(%)</th>
                                             <th scope="col">RD(%)</th>
                                             <th scope="col">SD(%)</th>
                                             <th scope="col">VAT(%)</th>
                                             <th scope="col">AIT(%)</th>
                                             <th scope="col">AT(%)</th>
-
-
-
-
-
                                             <th scope="col">Tax Amount</th>    
                                             <th scope="col">Edit</th>
                                             <th scope="col">Delete</th>
@@ -1242,6 +1240,18 @@
         event.preventDefault();
         FlightNoElement.value = FlightNoElement.value.toUpperCase();
     });
+
+    function fetchProductData() {
+        var selectedProduct = document.getElementById("productName").value;
+        var additionalInput = document.getElementById("additionalInput");
+
+        // Check if the selected product is the one that triggers the additional input field
+        if ("${productName['item_name']}" === Other) {
+            additionalInput.style.display = "block"; // Show the additional input field
+        } else {
+            additionalInput.style.display = "none"; // Hide the additional input field
+        }
+    }
 
 </script>
 
