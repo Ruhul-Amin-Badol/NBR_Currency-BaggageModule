@@ -853,46 +853,31 @@ private TemplateEngine templateEngine;
             // message.setSubject("NBR Baggage Declaration");
             // mailSender.send(message);     
             try {
-               // Double totalPaidAmount = 0.0;
-                String gmail = (String) requestParameters.get("email");
-            
-                String baggage_Sql = "SELECT * FROM baggage WHERE id =?";
-                Map<String, Object> baggageQuery = jdbcTemplate.queryForMap(baggage_Sql, id);
-            
-
-            emailService.sendEmailWithAttachment(emailId, "NBR Baggage Declaration", "Body", pdfData, "nbr_baggage_application.pdf");
-           // return ResponseEntity.ok("Email sent successfully!");
-         // return new ResponseEntity<>(pdfData, headers, HttpStatus.OK);
-        } catch (IOException e) {
-            e.printStackTrace();
-           // return ResponseEntity.status(500).body("Failed to send email: " + e.getMessage());
-        }
-
-
-                String baggageProductAddJoin = "SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
-                List<Map<String, Object>> allProductQuery = jdbcTemplate.queryForList(baggageProductAddJoin, id);
-            
-                List<String> includedFields = Arrays.asList("passenger_name","entry_point","flight_no","passport_number");
-              //  List<String> includedFields = Arrays.asList("id","item_id","payment_id"); // Replace with your actual field names
-                List<Object> rowData = new ArrayList<>(allProductQuery);
-                rowData.add(baggageQuery);
-            
-                byte[] pdfData = pdfGenerationService.generatePdf(rowData, includedFields,totalTaxAmount);
-            
-                HttpHeaders headers = new HttpHeaders();
-                headers.setContentType(MediaType.APPLICATION_PDF);
-                headers.setContentDispositionFormData("inline", "NBR_baggage_declaration.pdf");
-            
-                emailService.sendEmailWithAttachment(gmail, "NBR Baggage Declaration", "Body", pdfData, "nbr_baggage_application.pdf");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            
-            
-            
-
-        
-
+                // Double totalPaidAmount = 0.0;
+                 String gmail = (String) requestParameters.get("email");
+             
+                 String baggage_Sql = "SELECT * FROM baggage WHERE id =?";
+                 Map<String, Object> baggageQuery = jdbcTemplate.queryForMap(baggage_Sql, id);
+             
+ 
+                 String baggageProductAddJoin = "SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
+                 List<Map<String, Object>> allProductQuery = jdbcTemplate.queryForList(baggageProductAddJoin, id);
+             
+                 List<String> includedFields = Arrays.asList("passenger_name","entry_point","flight_no","passport_number");
+               //  List<String> includedFields = Arrays.asList("id","item_id","payment_id"); // Replace with your actual field names
+                 List<Object> rowData = new ArrayList<>(allProductQuery);
+                 rowData.add(baggageQuery);
+             
+                 byte[] pdfData = pdfGenerationService.generatePdf(rowData, includedFields,totalTaxAmount);
+             
+                 HttpHeaders headers = new HttpHeaders();
+                 headers.setContentType(MediaType.APPLICATION_PDF);
+                 headers.setContentDispositionFormData("inline", "NBR_baggage_declaration.pdf");
+             
+                 emailService.sendEmailWithAttachment(gmail, "NBR Baggage Declaration", "Body", pdfData, "nbr_baggage_application.pdf");
+             } catch (IOException e) {
+                 e.printStackTrace();
+             }
 
             // SimpleMailMessage message = new SimpleMailMessage();
             // message.setFrom("nbroffice71@gmail.com");
@@ -915,9 +900,6 @@ private TemplateEngine templateEngine;
     }
 
 
-    
-    
-    
     @PostMapping("/confirm-pay-by-admin")
         public String confrimPayByAdmin(@RequestParam int id, @RequestParam Double payableAmount,Model model){
 
