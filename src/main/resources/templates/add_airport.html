@@ -46,6 +46,15 @@
                 <div class="col ">
                     <input class="form-control" type="text" id="officeCode" name="officeCode" placeholder="Office Code" >
                 </div>
+
+                <div class="col ">
+                    <input class="form-control" type="text" id="airPortNames" name="bankBranchName" placeholder="Bank Branch Name" >
+                </div>
+                <div class="col ">
+                    <input class="form-control" type="text" id="officeCode" name="bankBranchCode" placeholder="Branch Code" >
+                </div>
+
+
                 <div class="col">
                     <input class="form-control" type="file" name="image">
                 </div>
@@ -66,6 +75,12 @@
                 <th>sl</th>
                 <th>Name</th>
                 <th>Office Code</th>
+                <th>Bank Branch Name</th>
+                <th>Branch Code</th>
+
+
+
+
                 <th>Banner</th>
     
                 <th>Action</th>
@@ -79,6 +94,9 @@
                 <td th:text="${sl.count}"></td>
                 <td th:text="${show.airPortNames}"></td>
                 <td th:text="${show.officeCode}"></td>    
+                <td th:text="${show.bankBranchName}"></td>
+                <td th:text="${show.bankBranchCode}"></td>   
+
                 <td><img alt="" th:src="@{'img/'+${show.image}}" width="10%"
 							height="300px"></td>    
                 <td >
@@ -100,6 +118,19 @@
             </tr>
         </tfoot>
     </table>
+    <style>
+        /* Set a fixed height for table rows */
+        table#example tbody tr {
+            height: 50px; /* Adjust this value according to your preference */
+        }
+    
+        /* Ensure content doesn't overflow */
+        table#example tbody td {
+            overflow: hidden;
+            text-overflow: ellipsis; /* Truncate text if it's too long */
+            white-space: nowrap; /* Prevent text from wrapping */
+        }
+    </style>
     <!-- <script src='https://code.jquery.com/jquery-3.7.0.js'></script>
     <script src='https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js'></script>
     <script src='https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js'></script>
