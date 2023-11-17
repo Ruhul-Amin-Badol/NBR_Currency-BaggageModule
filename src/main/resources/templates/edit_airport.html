@@ -65,6 +65,21 @@
             </div>
 
             <div class="mb-3 row">
+                <label for="bankBranchName" class="col-sm-2 col-form-label">Bank Branch Name:</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="bankBranchName" name="bankBranchName" th:value="${airport.bankBranchName}">
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="bankBranchCode" class="col-sm-2 col-form-label">Branch Code:</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="bankBranchCode" name="bankBranchCode" th:value="${airport.bankBranchCode}">
+                </div>
+            </div>
+
+
+            <div class="mb-3 row">
                 <label for="image" class="col-sm-2 col-form-label">Banner:</label>
                 <div class="col-sm-4">
                     <input type="file" class="form-control" id="image" name="image">
