@@ -118,5 +118,3 @@ public class PdfGenerationService {
         // Adjust the Y-coordinate with additional line spacing
         return y - rowHeight - lineSpacing;
     }
-}
-

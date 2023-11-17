@@ -76,12 +76,14 @@ public class baggageController {
     private EmailService emailService;
 
    @Autowired
-private TemplateEngine templateEngine;
+
+   private TemplateEngine templateEngine;
 
     @GetMapping("/baggageRule")
     public String showBaggageRule() {
         return "baggageRule";
     }
+
     //------> From show and hide mode<------//
     @GetMapping("/show")
     public String baggageFrom(@RequestParam(required = false, defaultValue = "") String generatedId,@RequestParam(required = false, defaultValue = "") String officeCode, Model model) {
@@ -395,7 +397,7 @@ private TemplateEngine templateEngine;
     @PostMapping("/productInfo")
     @ResponseBody
 
-    public int ProductInfo(@RequestBody Map<String, Object> productInfo) {
+    public  Map<String, Object> ProductInfo(@RequestBody Map<String, Object> productInfo) {
         String additiona_pay = ((String) productInfo.get("additional_payment"));
 
         String productName = (String) productInfo.get("productName");
@@ -470,12 +472,15 @@ private TemplateEngine templateEngine;
 
             System.out.println("Generated ID: " + generatedIdInt);
 
+            String sql2="SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_product_add.id=?";
+            Map<String, Object> result = jdbcTemplate.queryForMap(sql2,generatedId);
+
             // Rest of your code
-            return generatedIdInt;
+            return result;
         } else {
             // Handle the case where productName does not exist in baggage_item_info
             System.out.println("Product not found in baggage_item_info");
-            return -1;
+            return null;
         }
 
     }
@@ -997,6 +1002,7 @@ private TemplateEngine templateEngine;
             // Handle other status codes or errors
             System.out.println("Request failed with status: " + response.getStatusCode());
         }
+
 
       return new RedirectView("https://spg.sblesheba.com:6313/SpgLanding/SpgLanding/");
     }
