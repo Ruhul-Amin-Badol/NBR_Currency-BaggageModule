@@ -2,6 +2,8 @@ package com.currency.currency_module.services;
 
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,5 +21,15 @@ public class UserActivityManagementService {
         return userinfo;
 
     }
+    //for user data insert
+    public void saveUserActivityManagement(UserActivityManagement userActivityManagement) {
+        userActivityManagementRepository.save(userActivityManagement);
+    }
+
+    //for user data show
+    public List<UserActivityManagement> getAllUsers() {
+        return userActivityManagementRepository.findAll();
     
+    }
+
 }

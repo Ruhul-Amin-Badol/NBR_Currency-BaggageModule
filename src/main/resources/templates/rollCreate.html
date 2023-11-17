@@ -15,7 +15,7 @@
     }
 </style>
 <p>
-    <a href="/usermatrix/adduser"><button class="btn btn-success text-center">Add New User <i class="fa-regular fa-plus"></i></button></a> 
+    <a href="/usermatrix/adduser"><button class="btn btn-success text-center"><i class="fa-regular fa-users"></i> Add New User </button></a> 
 </p>
 <div class="sr-main-content-heading">
     <i class="fa fa-server" style="padding-right: 10px"></i>Roll Management
@@ -36,20 +36,19 @@
     </thead>
     <tbody >
 
-        <tr th:each="show,sl : ${baggageshow}" th:object="${'baggageshow'}">
+        <!-- <tr th:each="user : ${userList}" >
             
-            <input type="hidden" th:value="${show['id']}">
-           
-                <td th:text="${show['entry_point']}"></td>
-                <td th:text="${show['passenger_name']}"></td>
-                <td th:text="${show['passport_number']}"></td>
-                <td th:text="${show['passport_validity_date']}"></td>
-                <td th:text="${show['nationality']}"></td>
-                <td th:text="${show['previous_country']}"></td>
-                <td>
-                    <a th:href="@{}">Edit</a> 
-                </td>
-        </tr>
+            
+            <td th:text="${user.userId}"></td>
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.fname}"></td>
+            <td th:text="${user.designation}"></td>
+            <td th:text="${user.level}"></td>
+            <td th:text="${user.status}"></td>
+            <td>
+                <a th:href=""><button class="btn btn-danger">Edit</button></a>
+            </td>
+        </tr> -->
 
 
 

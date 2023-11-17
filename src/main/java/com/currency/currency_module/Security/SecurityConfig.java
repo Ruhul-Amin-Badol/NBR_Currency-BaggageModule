@@ -82,6 +82,10 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.GET, "/baggagestart/confrimPage").permitAll()
 
 
+                    .requestMatchers(HttpMethod.POST, "/usermatrix/userinsert").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/usermatrix/rollcreate").permitAll()
+
+
                   
 
                     .requestMatchers(HttpMethod.POST, "/currencystart/addCurrency").permitAll()

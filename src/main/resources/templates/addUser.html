@@ -4,7 +4,7 @@
         <div class="card-body">
             <h3 class="card-title fw-bold mb-5 text-warning">User Management</h3>
 
-            <form action="#" method="post" enctype="multipart/form-data">
+            <form th:action="@{/usermatrix/userinsert}" method="post" enctype="multipart/form-data">
 
                 <div class="form-group row">
                     <label for="username" class="col-sm-2 col-form-label">User Name:</label>
@@ -42,27 +42,40 @@
                     <label for="level" class="col-sm-2 col-form-label">Level:</label>
                     <div class="col-sm-4">
                         <select class="form-control" id="level" name="level">
-                            <option value="1">Viewer</option>
-                            <option value="2">Purchase Officer</option>
-                            <option value="3">HRM Manager</option>
-                            <!-- Add more options as needed -->
+                            <option value="Viewer">Viewer</option>
+                            <option value="Purchase Officer">Purchase Officer</option>
+                            <option value="HRM Manager">HRM Manager</option>
+                            <option value="Sales & Store Manager">Sales & Store Manager</option>
+                            <option value="Supreme Administrator">Supreme Administrator</option>
+                            <option value="Envelope Print">Envelope Print</option>
+                            <option value="Damage Warehouse">Damage Warehouse</option>
+                            <option value="Marketing Coordinator">Marketing Coordinator</option>
+                            <option value="IT Specialist">IT Specialist</option>
+                            <option value="Customer Support">Customer Support</option>
+                            <option value="Project Manager">Project Manager</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="form-group row">
+                    <label for="entry_date" class="col-sm-2 col-form-label">Entry Date:</label>
+                    <div class="col-sm-4">
+                        <input type="datetime-local" class="form-control" id="entry_date" name="entry_date">
+                    </div>
+                
                     <label for="expire_date" class="col-sm-2 col-form-label">Expire Date:</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="expire_date" name="expire_date">
+                        <input type="datetime-local" class="form-control" id="expire_date" name="expire_date">
                     </div>
 
+                    
+                </div>
+
+                <div class="form-group row">
                     <label for="employee_id" class="col-sm-2 col-form-label">Employee ID:</label>
                     <div class="col-sm-4">
                         <input type="text" class="form-control" id="employee_id" name="employee_id">
                     </div>
-                </div>
-
-                <div class="form-group row">
                     <!-- <label for="file" class="col-sm-2 col-form-label">Upload File:</label>
                     <div class="col-sm-4">
                         <input type="file" class="form-control-file" id="file" name="file">
@@ -70,16 +83,16 @@
 
                     <label for="project_name" class="col-sm-2 col-form-label">Airport Name:</label>
                     <div class="col-sm-4">
-                        <select class="form-control" id="project_name" name="project_name">
-                            <option value="1">All</option>
-                            <option value="2">Hazrat Shahjalal International Airport(Dhaka)</option>
-                            <!-- Add more options as needed -->
+                        <select class="form-control" id="airport_list_id" name="airportList.id">
+                            <th:block th:each="airportName : ${allAirportList}">
+                                <option th:text="${airportName.airPortNames}" th:value="${airportName.id}"></option>
+                            </th:block>
                         </select>
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <div class="col-sm-10 offset-sm-2 text-center">
+                    <div class="col-sm-10 col-md-8 offset-sm-2 text-center">
                         <button type="submit" class="btn btn-primary">Save</button>
                     </div>
                 </div>
