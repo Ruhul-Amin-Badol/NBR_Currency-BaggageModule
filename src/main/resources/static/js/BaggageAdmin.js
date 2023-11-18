@@ -59,7 +59,6 @@ function populateTableAdmin() {
      newRow.append(`<td>${item.vat}</td>`);
      newRow.append(`<td>${item.ait}</td>`);
      newRow.append(`<td>${item.at}</td>`);
-     newRow.append(`<td>${item.at}</td>`);
  
  
  
@@ -339,13 +338,16 @@ function DeleteProductAdmin(idToDelete) {
   });
 
 }
-function EditProductAdmin(idToDelete) {
+function EditProductAdmin(editToDelete) {
   for (let i = 0; i < addDataAdmin.length; i++) {
-    if (addDataAdmin[i].id === idToDelete) {
-      if(addData[i].productName=='Other'){
+    if (addDataAdmin[i].id === editToDelete) {
+      if(addDataAdmin[i].productName=='Other'){
+
+
+
     
         document.getElementById('otherItem').style.display = 'block';
-        document.getElementById('otherItem').value=addData[i].otherItem;
+        document.getElementById('otherItem').value=addDataAdmin[i].otherItem;
 
         // Set the selectedIndex to make the option selected
    

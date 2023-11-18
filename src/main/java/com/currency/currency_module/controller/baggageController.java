@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,11 +27,15 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.view.RedirectView;
+
 import com.currency.currency_module.AirportInformation;
 
 import org.springframework.mail.SimpleMailMessage;
@@ -44,10 +49,15 @@ import org.thymeleaf.context.Context;
 import com.currency.currency_module.services.EmailService;
 
 import com.currency.currency_module.services.PdfGenerationService;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
 
 @Controller
@@ -657,6 +667,9 @@ public class baggageController {
       
     }
 
+
+
+
         // --->Final submit  update value set <----//
     @PostMapping("/finalsubmitAdmin")
     public String finalsubmitBaggageForAdmin(
@@ -773,7 +786,7 @@ public class baggageController {
       
     }
 
-        @GetMapping("/confrimPage")
+    @GetMapping("/confrimPage")
          public String confrimPage(
             @RequestParam Long id, // Add a parameter for the unique identifier (id)
             Model model,Principal principal) {
@@ -858,46 +871,31 @@ public class baggageController {
             // message.setSubject("NBR Baggage Declaration");
             // mailSender.send(message);     
             try {
-               // Double totalPaidAmount = 0.0;
-                String gmail = (String) requestParameters.get("email");
-            
-                String baggage_Sql = "SELECT * FROM baggage WHERE id =?";
-                Map<String, Object> baggageQuery = jdbcTemplate.queryForMap(baggage_Sql, id);
-            
-
-            emailService.sendEmailWithAttachment(emailId, "NBR Baggage Declaration", "Body", pdfData, "nbr_baggage_application.pdf");
-           // return ResponseEntity.ok("Email sent successfully!");
-         // return new ResponseEntity<>(pdfData, headers, HttpStatus.OK);
-        } catch (IOException e) {
-            e.printStackTrace();
-           // return ResponseEntity.status(500).body("Failed to send email: " + e.getMessage());
-        }
-
-
-                String baggageProductAddJoin = "SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
-                List<Map<String, Object>> allProductQuery = jdbcTemplate.queryForList(baggageProductAddJoin, id);
-            
-                List<String> includedFields = Arrays.asList("passenger_name","entry_point","flight_no","passport_number");
-              //  List<String> includedFields = Arrays.asList("id","item_id","payment_id"); // Replace with your actual field names
-                List<Object> rowData = new ArrayList<>(allProductQuery);
-                rowData.add(baggageQuery);
-            
-                byte[] pdfData = pdfGenerationService.generatePdf(rowData, includedFields,totalTaxAmount);
-            
-                HttpHeaders headers = new HttpHeaders();
-                headers.setContentType(MediaType.APPLICATION_PDF);
-                headers.setContentDispositionFormData("inline", "NBR_baggage_declaration.pdf");
-            
-                emailService.sendEmailWithAttachment(gmail, "NBR Baggage Declaration", "Body", pdfData, "nbr_baggage_application.pdf");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            
-            
-            
-
-        
-
+                // Double totalPaidAmount = 0.0;
+                 String gmail = (String) requestParameters.get("email");
+             
+                 String baggage_Sql = "SELECT * FROM baggage WHERE id =?";
+                 Map<String, Object> baggageQuery = jdbcTemplate.queryForMap(baggage_Sql, id);
+             
+ 
+                 String baggageProductAddJoin = "SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
+                 List<Map<String, Object>> allProductQuery = jdbcTemplate.queryForList(baggageProductAddJoin, id);
+             
+                 List<String> includedFields = Arrays.asList("passenger_name","entry_point","flight_no","passport_number");
+               //  List<String> includedFields = Arrays.asList("id","item_id","payment_id"); // Replace with your actual field names
+                 List<Object> rowData = new ArrayList<>(allProductQuery);
+                 rowData.add(baggageQuery);
+             
+                 byte[] pdfData = pdfGenerationService.generatePdf(rowData, includedFields,totalTaxAmount);
+             
+                 HttpHeaders headers = new HttpHeaders();
+                 headers.setContentType(MediaType.APPLICATION_PDF);
+                 headers.setContentDispositionFormData("inline", "NBR_baggage_declaration.pdf");
+             
+                 emailService.sendEmailWithAttachment(gmail, "NBR Baggage Declaration", "Body", pdfData, "nbr_baggage_application.pdf");
+             } catch (IOException e) {
+                 e.printStackTrace();
+             }
 
             // SimpleMailMessage message = new SimpleMailMessage();
             // message.setFrom("nbroffice71@gmail.com");
@@ -916,11 +914,167 @@ public class baggageController {
             model.addAttribute("showProduct", productshow);
             
             return "confirmPage";
-     
+        }
+
+
+    @GetMapping("/takePaymentRequest")
+    public String takePaymentRequest(){
+        
+    return null;
     }
 
+    //for payment============
+    @GetMapping("/makePaymentRequest2")
+    public RedirectView makePaymentRequest2(@RequestParam("token") String token, Model model) {
+        String stringWithPlus = token.replace(" ", "+");
+         
 
+       String url = "https://spg.sblesheba.com:6314/api/v2/SpgService/CreatePaymentRequest";
+        String username = "duUser2014";
+        String password = "duUserPayment2014";
+        String auth = Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", "Basic " + auth);
+
+        // Populate your request data
+        Map<String, Object> requestData = new HashMap<>();
+        requestData.put("authentication", Map.of(
+                "apiAccessUserId", "a2i@pmo",
+                "apiAccessToken", stringWithPlus
+        ));
+        requestData.put("referenceInfo", Map.of(
+                "InvoiceNo", "INV155422121443",
+                "invoiceDate", "2023-01-01",
+                "returnUrl", "http://localhost:8080/",
+                "totalAmount", "1000",
+                "applicentName", "Md. Hasan Monsur",
+                "applicentContactNo", "01710563521",
+                "extraRefNo", "2132"
+        ));
+        requestData.put("creditInformations", Arrays.asList(
+                Map.of(
+                        "slno", "1",
+                        "crAccount", "1111111111111",
+                        "crAmount", "500",
+                        "tranMode", "CHL",
+                        "onbehalf", "Any Name/Party"
+                ),
+                Map.of(
+                        "slno", "2",
+                        "crAccount", "0002601020871",
+                        "crAmount", "500",
+                        "tranMode", "TRN"
+                )
+        ));
+
+        HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestData, headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.exchange(
+                url,
+                HttpMethod.POST,
+                request,
+                String.class
+        );
+
+        if (response.getStatusCode() == HttpStatus.OK) {
+            // Process the successful response
+            String responseBody = response.getBody();
+                  try {
+                // Parse JSON response
+                ObjectMapper objectMapper = new ObjectMapper();
+               JsonNode jsonNode = objectMapper.readTree(responseBody);
+                
+                // Extract and print access_token
+                String sessionToken = jsonNode.get("session_token").asText();
+                
+                return new RedirectView("https://spg.sblesheba.com:6313/SpgLanding/SpgLanding/" +sessionToken);
+            } catch (Exception e) {
+                // Handle parsing exception
+                e.printStackTrace();
+               
+            }
+           
+        } else {
+            // Handle other status codes or errors
+            System.out.println("Request failed with status: " + response.getStatusCode());
+        }
+
+
+      return new RedirectView("https://spg.sblesheba.com:6313/SpgLanding/SpgLanding/");
+    }
     
+    
+    
+
+
+
+
+
+
+
+
+    @PostMapping("/makePaymentRequest")
+    public String makePaymentRequest() {
+        String url = "https://spg.sblesheba.com:6314/api/v2/SpgService/GetAccessToken";
+        String username = "duUser2014";
+        String password = "duUserPayment2014";
+        //String auth = Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
+        String auth ="ZHVVc2VyMjAxNDpkdVVzZXJQYXltZW50MjAxNA==";
+
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", "Basic " + auth);
+
+        // Populate your request data
+        Map<String, Object> requestData = new HashMap<>();
+        // Populate your request data here
+        requestData.put("AccessUser", Map.of("userName", "a2i@pmo", "password", "sbPayment0002"));
+        requestData.put("invoiceNo", "INV155422121443");
+        requestData.put("amount", "1000");
+        requestData.put("invoiceDate", "2023-01-01");
+        requestData.put("accounts", Arrays.asList(
+                Map.of("crAccount", "1111111111111", "crAmount", 500),
+                Map.of("crAccount", "0002601020871", "crAmount", 500)
+        ));
+
+
+        HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestData, headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.exchange(
+                url,
+                HttpMethod.POST,
+                request,
+                String.class
+        );
+
+        if (response.getStatusCode() == HttpStatus.OK) {
+            // Process the successful response
+            String responseBody = response.getBody();
+                        try {
+                // Parse JSON response
+                ObjectMapper objectMapper = new ObjectMapper();
+               JsonNode jsonNode = objectMapper.readTree(responseBody);
+                
+                // Extract and print access_token
+                String accessToken = jsonNode.get("access_token").asText();
+                return "redirect:/baggagestart/makePaymentRequest2?token=" + accessToken;
+            } catch (Exception e) {
+                // Handle parsing exception
+                e.printStackTrace();
+               
+            }
+            
+        } else {
+            // Handle other status codes or errors
+            System.out.println("Request failed with status: " + response.getStatusCode());
+        }
+        return "error";
+    }
     
     
     @PostMapping("/confirm-pay-by-admin")

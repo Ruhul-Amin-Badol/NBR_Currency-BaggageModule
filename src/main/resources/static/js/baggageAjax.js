@@ -102,7 +102,7 @@ function populateTable() {
      newRow.append(`<td>${item.vat}</td>`);
      newRow.append(`<td>${item.ait}</td>`);
      newRow.append(`<td>${item.at}</td>`);
-     newRow.append(`<td>${item.at}</td>`);
+
  
  
  
