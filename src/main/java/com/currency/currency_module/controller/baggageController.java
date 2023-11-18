@@ -928,7 +928,6 @@ public class baggageController {
     public RedirectView makePaymentRequest2(@RequestParam("token") String token, Model model) {
         String stringWithPlus = token.replace(" ", "+");
          
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+stringWithPlus);
 
        String url = "https://spg.sblesheba.com:6314/api/v2/SpgService/CreatePaymentRequest";
         String username = "duUser2014";
@@ -997,7 +996,7 @@ public class baggageController {
                 e.printStackTrace();
                
             }
-            System.out.println(responseBody);
+           
         } else {
             // Handle other status codes or errors
             System.out.println("Request failed with status: " + response.getStatusCode());
@@ -1042,7 +1041,6 @@ public class baggageController {
                 Map.of("crAccount", "0002601020871", "crAmount", 500)
         ));
 
-        System.out.println("============requestData"+requestData);
 
         HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestData, headers);
 
@@ -1064,7 +1062,6 @@ public class baggageController {
                 
                 // Extract and print access_token
                 String accessToken = jsonNode.get("access_token").asText();
-                System.out.println("Access Token: " + accessToken);
                 return "redirect:/baggagestart/makePaymentRequest2?token=" + accessToken;
             } catch (Exception e) {
                 // Handle parsing exception
