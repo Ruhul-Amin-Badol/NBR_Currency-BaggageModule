@@ -123,7 +123,7 @@ function adminadd() {
   var deleteId = parseInt(document.getElementById('deleteidhidden').value);
 
    if( document.getElementById('addButtonAdmin').innerText=="Update"){
-      DeleteProductAdmin(deleteId)
+      DeleteAfterEdit(deleteId)
       addDataAdmin = addDataAdmin.filter((obj) => obj.id !== deleteId);
       
       }
@@ -297,6 +297,26 @@ function adminadd() {
 
 //-------> for delete product row ajax function<-----//
 
+function DeleteAfterEdit(idToDelete) {
+
+  const delete1 = {
+    idToDelete,
+  };
+  $.ajax({
+    url: "/baggagestart/productDelete",
+    type: "POST",
+    contentType: "application/json",
+    data: JSON.stringify(delete1),
+    success: function (response) {
+      console.log("hi i am deleted",idToDelete);
+    },
+    error: function (error) {
+      console.error(error);
+    },
+  });
+  
+}
+
 function DeleteProductAdmin(idToDelete) {
 
     addDataAdmin = addDataAdmin.filter((obj) => obj.id !== idToDelete);
@@ -398,7 +418,7 @@ function fetchProductDataAdmin() {
    
     // Make an AJAX request to fetch product data based on the selected product name
     $.ajax({
-      url: "http://localhost:8080/baggagestart/getProductData",
+      url: "/baggagestart/getProductData",
       method: "POST",
       data: { productString: selectedProductName },
       dataType: "json",

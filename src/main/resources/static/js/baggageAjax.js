@@ -538,7 +538,7 @@ function fetchProductData() {
    
     // Make an AJAX request to fetch product data based on the selected product name
     $.ajax({
-      url: "http://localhost:8080/baggagestart/getProductData",
+      url: "/baggagestart/getProductData",
       method: "POST",
       data: { productString: selectedProductName },
       dataType: "json",

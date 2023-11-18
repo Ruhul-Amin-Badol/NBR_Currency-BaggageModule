@@ -142,11 +142,51 @@
 }
 
 function redirectToConfirmPage() {
-       
-       // Get the id value from the hidden input field
-       var id = document.getElementById("reportShow").value;
-       var url = "http://localhost:8080/baggagestart/confrimPage?id=" + id;
-       window.location.href = url;
+    var accessTokenData = {
+  "AccessUser": {
+    "userName": "a2i@pmo",
+    "password": "sbPayment0002"
+  },
+  "invoiceNo": "INV155422121443",
+  "amount": "1000",
+  "invoiceDate": "2023-01-01",
+  "accounts": [
+    {
+      "crAccount": "1111111111111",
+      "crAmount": 500
+    },
+    {
+      "crAccount": "0002601020871",
+      "crAmount": 500
+    }
+  ]
+};
+
+// Make the AJAX request to GetAccessToken API
+$.ajax({
+  url: "https://spg.sblesheba.com:6314/api/v2/SpgService/GetAccessToken",
+  type: "POST",
+  contentType: "application/json",
+  data: JSON.stringify(accessTokenData),
+  headers: {
+    "Authorization": "Basic ZHVVc2VyMjAxNDpkdVVzZXJQYXltZW50MjAxNA=="
+  },
+  success: function (response) {
+    // Access token is available in the 'response' object
+    var accessToken = response.accessToken;
+    // Use the access token as needed
+    console.log("Access Token:", accessToken);
+  },
+  error: function (error) {
+    console.error(error);
+  }
+});
+      
+
+// Get the id value from the hidden input field
+    //    var id = document.getElementById("reportShow").value;
+    //    var url = "http://localhost:8080/baggagestart/confrimPage?id=" + id;
+    //    window.location.href = url;
    }
 
 function paymentNotAtThisTime(){
