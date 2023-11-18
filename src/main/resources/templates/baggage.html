@@ -15,13 +15,41 @@
                                     <div class="col-sm-6">
                                         
                                         <div class="mb-3">
+
+
+
+
                                             <label for="entryPoint" class="form-label" id="entryPointLabel">Select Entry Point</label><span class="astrick">*</span>
+                                           
+                                            <div th:if="${airportByOfficeCodes != null and not #lists.isEmpty(airportByOfficeCodes)}">
+                                                <!-- Render a readonly text input for the first element in the list -->
+                                                <input type="text" class="form-select" name="entryPoint" th:value="${airportByOfficeCodes[0]['air_port_names']}" readonly>
+                                            </div>
+                                            <div th:if="${airportByOfficeCodes == null or #lists.isEmpty(airportByOfficeCodes)}">
+                                                <!-- Render a select dropdown if the list is null or empty -->
+                                                <select class="form-select" name="entryPoint" aria-label="Default select example" required>
+                                                    <option value="">--Please Select--</option>
+                                                    <option th:each="allAirport : ${allAirportList}" th:value="${allAirport.air_port_names}" th:text="${allAirport.air_port_names}" th:unless="${allAirport.air_port_names == 'all'}"></option>
+                                                </select>
+                                            </div>
+
+
+
+
+
+
+
+
+                                            <!-- <input type="text" class="form-select" name="entryPoint" th:value="${airportByOfficeCodes[0]['air_port_names']}" placeholder="Airport Name" readonly>
+
                                             <select class="form-select" name="entryPoint" aria-label="Default select example" required>
                                                 <option value="">--Please Select--</option>
 
                                                 <option th:each="allAirport : ${allAirportList}" th:value="${allAirport.air_port_names}" th:text="${allAirport.air_port_names}"  th:unless="${allAirport.air_port_names == 'all'}"></option>
 
-                                            </select>
+                                            </select> -->
+                                        
+                                        
                                         </div>
 
                                         <div class="mb-3">
@@ -1048,7 +1076,7 @@
                 <form action="" method="">
 
                             <div class="container p-3 mt-3 bg-light">
-                                <p class="fw-bold">More than one of any goods (More than two for cellular phone) which are duty free including Gold<span class="astrick">*</span> <button type="button" class="btn btn-success" id="openFileButton">View Goods List on Baggage Rule</button></p>
+                                <p class="fw-bold">More than one of any goods (More than two for cellular phone) which are duty free including Gold<span class="astrick">*</span> <button type="button" class="btn btn-success" id="openFileButton" target="baggageRule.html">View Goods List on Baggage Rule</button></p>
                                 <div class="d-flex justify-content-start mb-3">
                                     <div class="col-sm-6">
                                             <select class="form-select" aria-label="Default select example"  id="dropdownSelect" required>
@@ -1086,8 +1114,6 @@
                                                 <td>
                                                     <select class="form-select" style="width: 200px;" id="productName" name="productName" aria-label="Default select example" onchange="fetchProductData()">
                                                         <option > --Please Select-- </option>
-                                                        <option> Ruhul </option>
-                                                        <option > Fahim </option>
                                                         <th:block th:each="productName : ${productshow}">
                                                             <option th:text="${productName['item_name']}" th:value="${productName['item_name']}"></option>
                                                         </th:block>
@@ -1128,7 +1154,7 @@
                                     <thead class="bg-danger">
                                         <tr>
                                             <th scope="col">Product Name</th>
-                                            <th scope="col">Other Item</th>
+                                            <th scope="col" >Other Item</th>
                                             <th scope="col">Unit</th>
                                             <th scope="col">Inchi(For Telivision)</th>
                                             <th scope="col">Quantity</th>

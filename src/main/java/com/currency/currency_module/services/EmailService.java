@@ -14,7 +14,7 @@ public class EmailService {
 
     @Autowired
     private JavaMailSender javaMailSender;
-
+ 
 
     public void sendEmailWithAttachment(String to, String subject, String text, byte[] attachment, String attachmentName) {
         try {

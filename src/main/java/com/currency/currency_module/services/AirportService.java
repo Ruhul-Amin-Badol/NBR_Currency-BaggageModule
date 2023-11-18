@@ -28,13 +28,21 @@ public class AirportService {
       return airportRepository.findById(id).orElseThrow(()->new ResourceNotFound("User not found"));
     }
 
+    public AirportList findAirportByOfficeCode(String officeCode) {
+      return airportRepository.findByOfficeCode(officeCode).orElseThrow(()->new ResourceNotFound("User not found"));
+    }
+
 
 
     public AirportList updateAirport(AirportList airportList){
       System.out.println("airport ======================="+airportList);
      AirportList existingAirport = airportRepository.findById(airportList.getId()).orElseThrow(()->new ResourceNotFound("User not found"));
      if (existingAirport != null) {
+
+      System.out.println("airport ======================="+airportList+"=====================================================");
          existingAirport.setAirPortNames(airportList.getAirPortNames());
+         existingAirport.setOfficeCode(airportList.getOfficeCode());
+         existingAirport.setImage(airportList.getImage());
          AirportList updatedAirport = airportRepository.save(existingAirport);
          return updatedAirport;
      } else {

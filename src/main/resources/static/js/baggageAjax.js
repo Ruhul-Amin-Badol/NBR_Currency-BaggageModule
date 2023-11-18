@@ -57,6 +57,7 @@ function populateTable() {
   tbody.empty();
   let totalTax = 0.0;
   addData.forEach(function (item) {
+
      console.log("hi i am from add")
     console.log(item)
     let newRow = $("<tr>");
@@ -116,6 +117,7 @@ function populateTable() {
 
     // Populate the table cells in the new row with data from the item
     
+
 
     // newRow.append(
     //   `<td  class="text-center text-danger"><i class="fa-solid fa-xmark delete-button"></i></td>`
@@ -277,7 +279,7 @@ function populateTable() {
 
 function addProduct(){
 
-  document.getElementById('productName').options[0].innerText = "huju"
+  // document.getElementById('productName').options[0].innerText = "huju"
 
   var deleteId = parseInt(document.getElementById('deleteidhidden').value);
   
@@ -464,6 +466,7 @@ function DeleteAfterEdit(idToDelete) {
   });
   
 }
+//-------> for Edit product row ajax function<-----//
 function EditProduct(idToDelete) {
   for (let i = 0; i < addData.length; i++) {
     if (addData[i].id === idToDelete) {
@@ -473,11 +476,10 @@ function EditProduct(idToDelete) {
         document.getElementById('otherItem').value=addData[i].otherItem;
 
         // Set the selectedIndex to make the option selected
-   
-
+  
       }else{
         document.getElementById('otherItem').style.display = 'none';
-        document.getElementById('otherItem').value='';
+        document.getElementById('otherItem').value=addData[i].otherItem;
       }
       document.getElementById('productName').value = addData[i].productName;
       // document.getElementById('otherItem').value = addData[i].otherItem;
@@ -487,8 +489,6 @@ function EditProduct(idToDelete) {
       document.getElementById('perUnitValue').value = addData[i].perUnitValue;
       document.getElementById('totalValue').value = addData[i].totalValue;
       document.getElementById('tax').value = addData[i].tax;
-
-
       document.getElementById('cd').value = addData[i].cd;
       document.getElementById('rd').value = addData[i].rd;
       document.getElementById('sd').value = addData[i].sd;

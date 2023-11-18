@@ -13,6 +13,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
+
+
 @Entity
 public class AirportList {
 
@@ -21,6 +23,7 @@ public class AirportList {
     private Long id;
     private String airPortNames;
     private String officeCode;
+    private String image;
 
 
 
@@ -48,7 +51,13 @@ public class AirportList {
     public String getOfficeCode() {
         return this.officeCode;
     }
+    public String getImage() {
+        return image;
+    }
 
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     @JsonIgnore
     @OneToMany(mappedBy = "airportList", cascade = CascadeType.ALL)
