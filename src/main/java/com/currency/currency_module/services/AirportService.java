@@ -40,9 +40,11 @@ public class AirportService {
      if (existingAirport != null) {
 
       System.out.println("airport ======================="+airportList+"=====================================================");
-         existingAirport.setAirPortNames(airportList.getAirPortNames());
-         existingAirport.setOfficeCode(airportList.getOfficeCode());
-         existingAirport.setImage(airportList.getImage());
+        existingAirport.setAirPortNames(airportList.getAirPortNames());
+        existingAirport.setOfficeCode(airportList.getOfficeCode());
+        existingAirport.setBankBranchName(airportList.getBankBranchName());
+        existingAirport.setBankBranchCode(airportList.getBankBranchCode());
+        existingAirport.setImage(airportList.getImage());
          AirportList updatedAirport = airportRepository.save(existingAirport);
          return updatedAirport;
      } else {

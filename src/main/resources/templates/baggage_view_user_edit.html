@@ -129,6 +129,11 @@
                 <a href="/baggagestart/show"><button type="button" class="btn btn-primary print-button">Go Back</button></a>
             </div>
         </div>
+        <div class="d-flex justify-content-center">
+            <form method="post" th:action="@{/baggagestart/makePaymentRequest}">
+                    <button type="submit" class="btn btn-success print-button"> pay now</button>
+            </form>
+        </div>
 
     </div>
     <script>
@@ -143,10 +148,12 @@
 
 function redirectToConfirmPage() {
        
+
+    alert("==================")
        // Get the id value from the hidden input field
-       var id = document.getElementById("reportShow").value;
-       var url = "http://localhost:8080/baggagestart/confrimPage?id=" + id;
-       window.location.href = url;
+    //    var id = document.getElementById("reportShow").value;
+    //    var url = "http://localhost:8080/baggagestart/confrimPage?id=" + id;
+    //    window.location.href = url;
    }
 
 function paymentNotAtThisTime(){
