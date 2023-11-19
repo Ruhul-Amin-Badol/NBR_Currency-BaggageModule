@@ -67,7 +67,7 @@
         </div>
 
         <div class='dashboard-nav-dropdown'><a href="#!"
-                class="dashboard-nav-item dashboard-nav-dropdown-toggle boxbox" ><i class="fa-regular fa-users"></i></i>User Matrix</a>
+                class="dashboard-nav-item dashboard-nav-dropdown-toggle boxbox" ><i class="fa-regular fa-users"></i><p th:if="${session['matrix'] == 0}" th:text="${session['matrix']}"></p></i>User Matrix</a>
             <div class='dashboard-nav-dropdown-menu'>
                 <a href="/usermatrix/dashboard"
                     class="dashboard-nav-dropdown-item boxboxdown"> → User Dashboard</a>
