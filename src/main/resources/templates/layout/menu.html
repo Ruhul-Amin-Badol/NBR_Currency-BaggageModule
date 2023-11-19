@@ -44,16 +44,18 @@
                 class="fas fa-tachometer-alt"></i> Dashboard
         </a>
 
-        <div class='dashboard-nav-dropdown '>
+        <div class='dashboard-nav-dropdown' th:if="${session['IsBaggage'] == 1}">
             <a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle boxbox"><i class="fa-solid fa-suitcase-rolling"></i>Baggage Module</a>
-            <div class='dashboard-nav-dropdown-menu'>
+            <div class='dashboard-nav-dropdown-menu' >
                 <a href="/baggagestart/show" class="dashboard-nav-dropdown-item boxboxdown">→ Baggage Info Entry</a>
                 <a href="/baggageshow/baggageApplicationShow" class="dashboard-nav-dropdown-item boxboxdown">→ Baggage Information Edit</a>
                 <a href="/baggageshow/unapprovedbaggagetotal" class="dashboard-nav-dropdown-item boxboxdown">→ Total Unapproved
                     Baggage</a>
                
+            </div>
         </div>
-        <div class='dashboard-nav-dropdown'><a href="#!"
+
+        <div class='dashboard-nav-dropdown' th:if="${session['IsCurrency'] == 1}"><a href="#!"
                 class="dashboard-nav-item dashboard-nav-dropdown-toggle boxbox"><i class="fas fa-2x  fa-donate"></i>  Currency Module</a>
             <div class='dashboard-nav-dropdown-menu'>
                 <a href="/currencystart/show"
@@ -66,8 +68,9 @@
             </div>
         </div>
 
-        <div class='dashboard-nav-dropdown'><a href="#!"
-                class="dashboard-nav-item dashboard-nav-dropdown-toggle boxbox" ><i class="fa-regular fa-users"></i><p th:if="${session['matrix'] == 0}" th:text="${session['matrix']}"></p></i>User Matrix</a>
+        <div class='dashboard-nav-dropdown' th:if="${session['IsMatrix'] == 1}"><a href="#!"
+                class="dashboard-nav-item dashboard-nav-dropdown-toggle boxbox" ><i class="fa-regular fa-users"></i></i>User Matrix</a>
+                <!-- <p th:if="${session['matrix'] == 0}" th:text="${session['matrix']}"></p> -->
             <div class='dashboard-nav-dropdown-menu'>
                 <a href="/usermatrix/dashboard"
                     class="dashboard-nav-dropdown-item boxboxdown"> → User Dashboard</a>
@@ -77,6 +80,8 @@
                     class="dashboard-nav-dropdown-item boxboxdown"> → Roll Manage</a>
             </div>
         </div>
+
+
 
         <a href="/payment-record" class="dashboard-nav-item boxbox"><i class="far fa-money-bill-alt"></i>Payment Record </a>
         <!-- <a href="/baggagestart/payment-history-report" class="dashboard-nav-item boxbox"><i class="far fa-money-bill-alt"></i>Payment History </a> -->

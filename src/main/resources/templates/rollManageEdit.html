@@ -87,20 +87,20 @@
                     <h3 class="col-sm-4 fw-bold text-success">Access Modules</h3>
                     <div class="col-sm-10">
                         <div class="form-check pt-2">
-                            <input class="form-check-input" type="checkbox" id="userMatrixCheckbox" name="userMatrixCheckbox">
+                            <input class="form-check-input" type="checkbox" id="userMatrixCheckbox" name="userMatrixCheckbox" th:checked="${user.userMatrix==1}">
                             <label class="form-check-label" for="userMatrixCheckbox">User Matrix</label>
                             <!-- Hidden input field to store the actual value (0 or 1) -->
-                            <input type="hidden" id="userMatrix" name="userMatrix" value="0">
+                            <input type="hidden" id="userMatrix" name="userMatrix" th:value="${user.userMatrix}">
                         </div>
                         <div class="form-check pt-2">
-                            <input class="form-check-input" type="checkbox" id="baggageModuleCheckbox" name="baggageModuleCheckbox">
+                            <input class="form-check-input" type="checkbox" id="baggageModuleCheckbox" name="baggageModuleCheckbox" th:checked="${user.baggageModule==1}" >
                             <label class="form-check-label" for="baggageModuleCheckbox">Baggage Module</label>
-                            <input type="hidden" id="baggageModule" name="baggageModule" value="0">
+                            <input type="hidden" id="baggageModule" name="baggageModule" th:value="${user.baggageModule}">
                         </div>
                         <div class="form-check pt-2">
-                            <input class="form-check-input" type="checkbox" id="currencyModuleCheckbox" name="currencyModuleCheckbox">
+                            <input class="form-check-input" type="checkbox" id="currencyModuleCheckbox" name="currencyModuleCheckbox" th:checked="${user.currencyModule==1}">
                             <label class="form-check-label" for="currencyModuleCheckbox">Currency Module</label>
-                            <input type="hidden" id="currencyModule" name="currencyModule" value="0">
+                            <input type="hidden" id="currencyModule" name="currencyModule" th:value="${user.currencyModule}">
                         </div>
                     </div>
                 </div>

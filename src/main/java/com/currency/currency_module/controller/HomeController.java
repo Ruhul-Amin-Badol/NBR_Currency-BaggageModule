@@ -61,8 +61,10 @@ public class HomeController {
         String usernameSession = principal.getName();
         UserActivityManagement  
         user= userActivityManagementService.findUserWithUserName(usernameSession);
-        
-        System.out.println("Session created with matrix value: " + session.getAttribute("matrix"));
+        session.setAttribute("IsMatrix", user.getUserMatrix());
+        session.setAttribute("IsBaggage", user.getBaggageModule());
+        session.setAttribute("IsCurrency", user.getCurrencyModule());
+
         return "dashboard";
     }
     @GetMapping("/logout")
