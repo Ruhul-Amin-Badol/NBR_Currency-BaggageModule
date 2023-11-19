@@ -61,6 +61,7 @@ public class userMatrixController {
     }
             @PostMapping("/updateuser/{userId}")
             public String updateUser(@PathVariable Long userId, @ModelAttribute UserActivityManagement user) {
+                System.out.println(user);
                 // Set the user ID from the path variable
                 user.setUserId(userId);
 
@@ -83,4 +84,29 @@ public class userMatrixController {
                  model.addAttribute("userList", userList);
                 return "rollManage";
             }
+
+             @GetMapping("/rolledit/{userId}")
+            public String rolleditUser(@PathVariable Long userId, Model model) {
+                UserActivityManagement user = userActivityManagementService.getUserById(userId);
+                model.addAttribute("user", user);
+                List<AirportList> allAirportList = airportService.getAllAirports();
+                model.addAttribute("allAirportList", allAirportList);
+                return "rollManageEdit"; 
+    }
+    
+            @GetMapping("/rolldeleteuser/{userId}")
+            public String rolldeleteUser(@PathVariable Long userId) {
+                userActivityManagementService.deleteUserById(userId);
+                return "redirect:/usermatrix/rollManage";
+            }
+
+            @PostMapping("/rollupdateuser/{userId}")
+            public String rollupdateUser(@PathVariable Long userId, @ModelAttribute UserActivityManagement user) {
+                // Set the user ID from the path variable
+                user.setUserId(userId);
+
+                userActivityManagementService.saverollUserActivityManagement(user);
+                return "redirect:/usermatrix/rollmanage";
+    }
+
 }
