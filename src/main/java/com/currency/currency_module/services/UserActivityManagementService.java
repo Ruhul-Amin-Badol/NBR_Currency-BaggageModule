@@ -46,6 +46,36 @@ public class UserActivityManagementService {
         }
     }
 
+    //roll manage update service
+
+    public void saverollUserActivityManagement(UserActivityManagement userActivityManagement) {
+        // Check if the user has an ID
+        if (userActivityManagement.getUserId() != null) {
+            UserActivityManagement existingUser = userActivityManagementRepository.findById(userActivityManagement.getUserId())
+                    .orElseThrow(() -> new ResourceNotFound("User not found with id: " + userActivityManagement.getUserId()));
+            // Update the existing user with new data
+            existingUser.setUsername(userActivityManagement.getUsername());
+            existingUser.setFname(userActivityManagement.getFname());
+            existingUser.setPassword(userActivityManagement.getPassword());
+            existingUser.setDesignation(userActivityManagement.getDesignation());
+            existingUser.setStatus(userActivityManagement.getStatus());
+            existingUser.setLevel(userActivityManagement.getLevel());
+            existingUser.setEntryDate(userActivityManagement.getEntryDate());
+            existingUser.setExpireDate(userActivityManagement.getExpireDate());
+            existingUser.setEmployeeId(userActivityManagement.getEmployeeId());
+            existingUser.setAirportList(userActivityManagement.getAirportList());
+            existingUser.setUserMatrix(userActivityManagement.getUserMatrix());
+            existingUser.setBaggageModule(userActivityManagement.getBaggageModule());
+            existingUser.setCurrencyModule(userActivityManagement.getCurrencyModule());
+            
+
+            userActivityManagementRepository.save(existingUser);
+        } else {
+            userActivityManagementRepository.save(userActivityManagement);
+        }
+    }
+
+
     //for user data show
     public List<UserActivityManagement> getAllUsers() {
         return userActivityManagementRepository.findAll();

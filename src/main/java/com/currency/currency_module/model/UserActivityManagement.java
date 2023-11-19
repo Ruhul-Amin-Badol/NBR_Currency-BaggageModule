@@ -83,6 +83,42 @@ public class UserActivityManagement {
 
     @Column(name = "india_user")
     private int indiaUser;
+
+    @Column(name = "userMatrix", nullable = true)
+    private Integer userMatrix;
+
+    @Column(name = "baggageModule", nullable = true)
+    private Integer baggageModule;
+
+    @Column(name = "currencyModule", nullable = true)
+    private Integer currencyModule;
+
+
+
+    public int getUserMatrix() {
+        return this.userMatrix;
+    }
+
+    public void setUserMatrix(int userMatrix) {
+        this.userMatrix = userMatrix;
+    }
+
+    public int getBaggageModule() {
+        return this.baggageModule;
+    }
+
+    public void setBaggageModule(int baggageModule) {
+        this.baggageModule = baggageModule;
+    }
+
+    public int getCurrencyModule() {
+        return this.currencyModule;
+    }
+
+    public void setCurrencyModule(int currencyModule) {
+        this.currencyModule = currencyModule;
+    }
+
     
 
     @ManyToOne
