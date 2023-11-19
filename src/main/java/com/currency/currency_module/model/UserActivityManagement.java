@@ -85,13 +85,13 @@ public class UserActivityManagement {
     private int indiaUser;
 
     @Column(name = "userMatrix", nullable = true)
-    private Integer userMatrix;
+    private Integer userMatrix=0;
 
     @Column(name = "baggageModule", nullable = true)
-    private Integer baggageModule;
+    private Integer baggageModule=0;
 
     @Column(name = "currencyModule", nullable = true)
-    private Integer currencyModule;
+    private Integer currencyModule=0;
 
 
 
