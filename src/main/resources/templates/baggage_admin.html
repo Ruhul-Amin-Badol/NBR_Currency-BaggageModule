@@ -1090,7 +1090,7 @@
                                 </div>
                                 <!-- table 1nd start -->
                                 <div id="table1" style="display: none;">
-                                    <table class="table table-bordered w-100">
+                                    <table class="table table-bordered w-100 table-responsive-lg table-responsive-md" style="box-sizing: border-box; zoom: 90%;">
                                         <thead >
                                             <tr>
                                                 <th scope="col">Product Name</th>
@@ -1121,6 +1121,7 @@
                                                             <option th:text="${productName['item_name']}" th:value="${productName['item_name']}"></option>
                                                         </th:block>
                                                     </select>
+                                                    <input style="display: none; margin-top: 10px; padding: 2px;" type="text" class="form-control" id="otherItem" name="other_item" placeholder=" Enter Other Product Name">
                                                 </td>
                                                 <td><input type="text" class="form-control"  id="unit" name="unit"></td>
                                                 <td><input type="text" class="form-control" id="inchi" name="inchi"></td>
@@ -1148,10 +1149,11 @@
                                 </div>
                                 <!-- table 2nd start -->
                                 <div id="table2" style="display: none;">
-                                <table id="ajaxtable"class="table table-bordered ">
+                                <table id="ajaxtable"class="table table-bordered " style="zoom: 75%;">
                                     <thead class="bg-danger">
                                         <tr>
                                             <th scope="col">Product Name</th>
+                                            <th scope="col">Other Item</th>
                                             <th scope="col">Unit</th>
                                             <th scope="col">Inchi(For Telivision)</th>
                                             <th scope="col">Quantity</th>

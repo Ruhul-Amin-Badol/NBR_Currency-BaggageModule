@@ -2,6 +2,8 @@ package com.currency.currency_module.controller;
 
 
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,8 +57,14 @@ public class HomeController {
 
 
     @GetMapping("/dashboard")
-    public String dashboard() {
-  
+    public String dashboard(Principal principal,HttpSession session) {
+        String usernameSession = principal.getName();
+        UserActivityManagement  
+        user= userActivityManagementService.findUserWithUserName(usernameSession);
+        session.setAttribute("IsMatrix", user.getUserMatrix());
+        session.setAttribute("IsBaggage", user.getBaggageModule());
+        session.setAttribute("IsCurrency", user.getCurrencyModule());
+
         return "dashboard";
     }
     @GetMapping("/logout")

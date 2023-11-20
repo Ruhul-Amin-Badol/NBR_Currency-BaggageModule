@@ -119,4 +119,3 @@ public class PdfGenerationService {
         return y - rowHeight - lineSpacing;
     }
 }
-

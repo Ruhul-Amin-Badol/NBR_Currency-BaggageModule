@@ -25,8 +25,16 @@ public class PaymentHistory {
     private Long paymentId;
     private String officeCode;
 
+    private Long airportId;
+    private String sessionToken;
+    private String status;
+
+ 
 
     private Double paidAmount;
+   
+
+
 
 
 
@@ -62,6 +70,21 @@ public class PaymentHistory {
 
     public void setPaidAmount(Double paidAmount) {
         this.paidAmount = paidAmount;
+    }
+    public String getSessionToken() {
+        return this.sessionToken;
+    }
+
+    public void setSessionToken(String sessionToken) {
+        this.sessionToken = sessionToken;
+    }
+
+    public String getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
 

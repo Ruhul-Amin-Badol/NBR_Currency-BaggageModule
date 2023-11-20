@@ -130,7 +130,7 @@
             </div>
         </div>
         <div class="d-flex justify-content-center">
-            <form method="post" th:action="@{/baggagestart/makePaymentRequest}">
+            <form method="post" th:action="@{'/baggagestart/makePaymentRequest/' + ${reportShow['ID']}}">
                     <button type="submit" class="btn btn-success print-button"> pay now</button>
             </form>
         </div>
