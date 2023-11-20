@@ -42,10 +42,10 @@ public class privilegeaController {
 
 
 
-    @GetMapping("/pvtdashboard") 
-    public String pvtdashboard() {
+    // @GetMapping("/pvtdashboard") 
+    // public String pvtdashboard() {
         
-        return "pvtdashboard";
-    }
+    //     return "pvtdashboard";
+    // }
     
 }

@@ -54,7 +54,7 @@ public static class App1ConfigurationAdapter {
                        .loginPage("/pvt/signinpvt")  // Specify the login page for the second form
                        .loginProcessingUrl("/pvt/loginpvt")  // Specify the login processing URL for the second form
                        // Redirect to /otherDashboard after successful login for the second form
-                       .defaultSuccessUrl("/pvt/pvtdashboard", true)
+                       .defaultSuccessUrl("/pvt/pvt-entry", true)
                        .permitAll())
                .rememberMe(withDefaults())
                     ;
