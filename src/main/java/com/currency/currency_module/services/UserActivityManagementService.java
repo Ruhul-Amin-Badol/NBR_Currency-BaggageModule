@@ -67,6 +67,9 @@ public class UserActivityManagementService {
             existingUser.setUserMatrix(userActivityManagement.getUserMatrix());
             existingUser.setBaggageModule(userActivityManagement.getBaggageModule());
             existingUser.setCurrencyModule(userActivityManagement.getCurrencyModule());
+            existingUser.setPaymentRecord(userActivityManagement.getPaymentRecord());
+            existingUser.setPort(userActivityManagement.getPort());
+            existingUser.setPaymentHistory(userActivityManagement.getPaymentHistory());
             
 
             userActivityManagementRepository.save(existingUser);

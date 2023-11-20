@@ -83,7 +83,7 @@ public class UserActivityManagement {
 
     @Column(name = "india_user")
     private int indiaUser;
-
+    
     @Column(name = "userMatrix", nullable = true)
     private Integer userMatrix=0;
 
@@ -92,6 +92,15 @@ public class UserActivityManagement {
 
     @Column(name = "currencyModule", nullable = true)
     private Integer currencyModule=0;
+    
+    @Column(nullable = true)
+    private Integer paymentRecord=0;
+
+    @Column(nullable = true)
+    private Integer port=0;
+
+    @Column(nullable = true)
+    private Integer paymentHistory=0;
 
 
 
@@ -300,6 +309,31 @@ public class UserActivityManagement {
 
     public void setAirportList(AirportList airportList) {
         this.airportList = airportList;
+    }
+
+    
+    public Integer getPaymentRecord() {
+        return this.paymentRecord;
+    }
+
+    public void setPaymentRecord(Integer paymentRecord) {
+        this.paymentRecord = paymentRecord;
+    }
+
+    public Integer getPort() {
+        return this.port;
+    }
+
+    public void setPort(Integer port) {
+        this.port = port;
+    }
+
+    public Integer getPaymentHistory() {
+        return this.paymentHistory;
+    }
+
+    public void setPaymentHistory(Integer paymentHistory) {
+        this.paymentHistory = paymentHistory;
     }
 
 
