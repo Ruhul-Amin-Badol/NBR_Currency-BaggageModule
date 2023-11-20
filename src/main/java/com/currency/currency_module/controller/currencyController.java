@@ -49,8 +49,6 @@ public class currencyController {
 
     @GetMapping("/show")
     public String index( Model model) {
-
-
         model.addAttribute("allAirportList", airportService.getAllAirports());
         return "currency";
     }
