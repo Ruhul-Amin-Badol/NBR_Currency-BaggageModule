@@ -46,8 +46,8 @@
 
         <div class='dashboard-nav-dropdown' th:if="${session['IsBaggage'] == 1}">
             <a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle boxbox"><i class="fa-solid fa-suitcase-rolling"></i>Baggage Module</a>
-            <div class='dashboard-nav-dropdown-menu' >
-                <a href="/baggagestart/show" class="dashboard-nav-dropdown-item boxboxdown">→ Baggage Info Entry</a>
+            <div class='dashboard-nav-dropdown-menu'>
+                <!-- <a href="/baggagestart/show" class="dashboard-nav-dropdown-item boxboxdown">→ Baggage Info Entry</a> -->
                 <a href="/baggageshow/baggageApplicationShow" class="dashboard-nav-dropdown-item boxboxdown">→ Baggage Information Edit</a>
                 <a href="/baggageshow/unapprovedbaggagetotal" class="dashboard-nav-dropdown-item boxboxdown">→ Total Unapproved
                     Baggage</a>
@@ -86,6 +86,12 @@
         <a href="/payment-record" class="dashboard-nav-item boxbox" th:if="${session['IspaymentRecord'] == 1}"><i class="far fa-money-bill-alt"></i>Payment Record </a>
         <!-- <a href="/baggagestart/payment-history-report" class="dashboard-nav-item boxbox"><i class="far fa-money-bill-alt"></i>Payment History </a> -->
         <a href="/add-airport"class="dashboard-nav-item boxbox" th:if="${session['Isport'] == 1}"><i class="fas fa-plane"></i> Port </a>
+        <div class="nav-item-divider"></div>
+
+
+        <a href="/payment-total-history" class="dashboard-nav-item boxbox"><i class="fa-regular fa-clipboard"></i>Payment History </a>
+        <!-- <a href="/baggagestart/payment-history" class="dashboard-nav-item boxbox"><i class="far fa-money-bill-alt"></i>Payment History </a> -->
+        <a href="/add-airport"class="dashboard-nav-item boxbox"><i class="fas fa-plane"></i> Port </a>
         <div class="nav-item-divider"></div>
 
 

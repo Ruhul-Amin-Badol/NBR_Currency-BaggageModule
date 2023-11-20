@@ -53,8 +53,14 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
+
+        if(user.getStatus().equalsIgnoreCase("Active")){
+            return true;
+        }else{
+            return false;
+        }
         // TODO Auto-generated method stub
-        return true;
+       
     
 }
 }

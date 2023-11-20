@@ -16,11 +16,10 @@
                                         
                                         <div class="mb-3">
 
-
-
-
                                             <label for="entryPoint" class="form-label" id="entryPointLabel">Select Entry Point</label><span class="astrick">*</span>
                                            
+                                            <input type="hidden" class="form-select" name="office_code" th:value="${airportByOfficeCodes[0]['office_code']}">
+
                                             <div th:if="${airportByOfficeCodes != null and not #lists.isEmpty(airportByOfficeCodes)}">
                                                 <!-- Render a readonly text input for the first element in the list -->
                                                 <input type="text" class="form-select" name="entryPoint" th:value="${airportByOfficeCodes[0]['air_port_names']}" readonly>
@@ -32,13 +31,6 @@
                                                     <option th:each="allAirport : ${allAirportList}" th:value="${allAirport.air_port_names}" th:text="${allAirport.air_port_names}" th:unless="${allAirport.air_port_names == 'all'}"></option>
                                                 </select>
                                             </div>
-
-
-
-
-
-
-
 
                                             <!-- <input type="text" class="form-select" name="entryPoint" th:value="${airportByOfficeCodes[0]['air_port_names']}" placeholder="Airport Name" readonly>
 
@@ -408,7 +400,7 @@
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="mobileNo" class="form-label" id="mobileNoLabel">Mobile No</label>
+                                            <label for="mobileNo" class="form-label" id="mobileNoLabel">Mobile No</label><span class="astrick">*</span>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <select class="form-select" name="countryCode" id="countryCode" >
@@ -525,7 +517,7 @@
                                                     
                                                     
                                                 </div>
-                                                <input type="text" class="form-control" id="mobileNo" name="mobileNo" placeholder="Enter Mobile No" >
+                                                <input type="text" class="form-control" id="mobileNo" name="mobileNo" placeholder="Enter Mobile No" required>
                                             </div>
                                         </div>
 
@@ -926,7 +918,7 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="mobileNo" class="form-label" id="mobileNoLabel">Mobile No</label>
+                                <label for="mobileNo" class="form-label" id="mobileNoLabel">Mobile No</label><span class="astrick">*</span>
                                 <!-- <input type="text" class="form-control" name="mobileNo" th:value="${baggageDetails['mobile_no']}" placeholder="Enter Mobile No" required> -->
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -1046,7 +1038,7 @@
                                         
                                         
                                     </div>
-                                    <input type="text" class="form-control" id="mobileNo" name="mobileNo" th:value="${baggageDetails['mobile_no']}" placeholder="Enter Mobile No" >
+                                    <input type="text" class="form-control" id="mobileNo" name="mobileNo" th:value="${baggageDetails['mobile_no']}" placeholder="Enter Mobile No" required>
                                 </div>
                             </div>
 

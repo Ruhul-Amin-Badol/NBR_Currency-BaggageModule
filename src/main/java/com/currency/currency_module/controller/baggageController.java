@@ -92,17 +92,14 @@ public class baggageController {
         List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1);
         model.addAttribute("productshow", productshow);
 
-
-
         String allAirport_sql = "SELECT * FROM airport_list";
         List<Map<String, Object>> allAirportList = jdbcTemplate.queryForList(allAirport_sql);
 
 
         String airport_sql = "SELECT * FROM airport_list WHERE office_code = ?";
-       List<Map<String, Object>> airportByOfficeCode = jdbcTemplate.queryForList(airport_sql, officeCode);
-       System.out.println("airportByOfficeCode================================"+airportByOfficeCode);
-      model.addAttribute("airportByOfficeCodes", airportByOfficeCode);
-
+        List<Map<String, Object>> airportByOfficeCode = jdbcTemplate.queryForList(airport_sql, officeCode);
+        System.out.println("airportByOfficeCode================================"+airportByOfficeCode);
+        model.addAttribute("airportByOfficeCodes", airportByOfficeCode);
 
 
         model.addAttribute("allAirportList", allAirportList);
@@ -110,12 +107,9 @@ public class baggageController {
             String sql = "SELECT * FROM baggage WHERE id = ?";
             Map<String, Object> baggageDetails = jdbcTemplate.queryForMap(sql, generatedId);
             
-
-
             model.addAttribute("InsertMode", false);
             model.addAttribute("editMode", true);
             model.addAttribute("ID", generatedId);
-
             model.addAttribute("baggageDetails", baggageDetails);
              
         } else {
@@ -150,8 +144,6 @@ public class baggageController {
                Double paidAmount = (Double) paymentHistory.get("paid_amount");
                System.out.println("paidAmount======================================="+paidAmount);
             totalPaidAmount= totalPaidAmount+paidAmount;
-
-
             }
             model.addAttribute("totalPaidAmount", totalPaidAmount);
             System.out.println("paymentHistoryInfo======================================="+totalPaidAmount);
@@ -166,17 +158,12 @@ public class baggageController {
         }
        
 
-
-
-
         
         model.addAttribute("allAirportList", allAirportList);
         if (!generatedId.isEmpty()) {
             String sql = "SELECT * FROM baggage WHERE id = ?";
             Map<String, Object> baggageDetails = jdbcTemplate.queryForMap(sql, generatedId);
             
-
-
             model.addAttribute("InsertMode", false);
             model.addAttribute("editMode", true);
             model.addAttribute("ID", generatedId);
@@ -193,16 +180,16 @@ public class baggageController {
      //rejected baggage list by nitol
     @GetMapping("/rejected-baggage-list")
     public String rejectBaggage(Model model,Principal principal) {
-        String airportname=airportInformation.getAirport(principal);
+        String officeCode=airportInformation.getAirport(principal);
 
-        if(airportname.equalsIgnoreCase("all")){
-             String sql1 = "SELECT * FROM baggage where status=?";
-        List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql1,"approved");
+        if(officeCode.equalsIgnoreCase("all")){
+             String sql1 = "SELECT * FROM baggage where status=? and office_code =?";
+        List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql1,"approved",officeCode);
         model.addAttribute("baggageshow", baggageshow);
         }
         else{
-        String sql1 = "SELECT * FROM baggage where status=? AND entry_point=?";
-        List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql1,"approved",airportname);
+        String sql1 = "SELECT * FROM baggage where status=? AND office_code=?";
+        List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql1,"approved",officeCode);
         model.addAttribute("baggageshow", baggageshow);
         }
 
@@ -213,18 +200,18 @@ public class baggageController {
 
     @GetMapping("/approve-baggage-list")
     public String approveBaggage( Model model,Principal principal) {
-        String airportname=airportInformation.getAirport(principal);
+        String officeCode=airportInformation.getAirport(principal);
 
         // List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,"approved");
         // model.addAttribute("baggageshow", productshow);
-        if(airportname.equalsIgnoreCase("all")){
-             String sql1 = "SELECT * FROM baggage where status=?";
-        List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql1,"approved");
+        if(officeCode.equalsIgnoreCase("all")){
+             String sql1 = "SELECT * FROM baggage where status=? and office_code =?";
+        List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql1,"approved",officeCode);
         model.addAttribute("baggageshow", baggageshow);
         }
         else{
-        String sql1 = "SELECT * FROM baggage where status=? AND entry_point=?";
-        List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql1,"approved",airportname);
+        String sql1 = "SELECT * FROM baggage where status=? AND office_code=?";
+        List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql1,"approved",officeCode);
         model.addAttribute("baggageshow", baggageshow);
         }
 
@@ -249,6 +236,7 @@ public class baggageController {
             @RequestParam String email,
             @RequestParam int accompaniedBaggageCount,
             @RequestParam int unaccompaniedBaggageCount,
+            @RequestParam String office_code,
         
             
             Model model) {
@@ -256,7 +244,7 @@ public class baggageController {
 
  
 // paymentId,
-        String sql = "INSERT INTO baggage (entry_point, passenger_name, passport_number, passport_validity_date,nationality, previous_country, dateofarrival, flight_no, mobile_no, email, accom_no, unaccom_no,meat_products,foreign_currency) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)";
+        String sql = "INSERT INTO baggage (entry_point, passenger_name, passport_number, passport_validity_date,nationality, previous_country, dateofarrival, flight_no, mobile_no, email, accom_no, unaccom_no,meat_products,foreign_currency,office_code) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)";
         long generatedId = -1;
         // Use a try-with-resources block to ensure the resources are properly closed
         try (Connection connection = jdbcTemplate.getDataSource().getConnection();
@@ -284,6 +272,7 @@ public class baggageController {
             preparedStatement.setInt(12, unaccompaniedBaggageCount);
             preparedStatement.setString(13, " ");
             preparedStatement.setString(14, " ");
+            preparedStatement.setString(15, office_code);
 
             // Execute the insert statement
             preparedStatement.executeUpdate();
@@ -308,6 +297,7 @@ public class baggageController {
 
             String sql_airport = "SELECT * FROM airport_list WHERE air_port_names = ?";
             Map<String, Object> airportDetails = jdbcTemplate.queryForMap(sql_airport, airportName);
+            // making payment id
             String officeCode = (String) airportDetails.get("office_code");
             int incrementId = autoincrementId.intValue();
             String autoincrementIdAsString = String.format("%07d", incrementId);
@@ -855,10 +845,6 @@ public class baggageController {
             context.setVariable("link", link);
 
            // String emailContent = templateEngine.process("email-template", context);
-
-
-
-
             // String text = "dkfnldskfjlaskjdfn";
 
             // String link="/baggagestart/confrimPage?id="+id;
@@ -1262,7 +1248,7 @@ public int countApprovedBaggage(Principal principal) {
        String sql = "SELECT COUNT(*) FROM baggage WHERE status = 'approved'";
     return jdbcTemplate.queryForObject(sql, Integer.class);
    }else{
-     String sql = "SELECT COUNT(*) FROM baggage WHERE status = 'approved' AND entry_point=?";
+     String sql = "SELECT COUNT(*) FROM baggage WHERE status = 'approved' AND office_code=?";
     return jdbcTemplate.queryForObject(sql, Integer.class,airportname);
    }
    
@@ -1276,7 +1262,7 @@ public int countunApprovedBaggage(Principal principal) {
        String sql = "SELECT COUNT(*) FROM baggage WHERE status = 'unapproved'";
     return jdbcTemplate.queryForObject(sql, Integer.class);
    }else{
-     String sql = "SELECT COUNT(*) FROM baggage WHERE status = 'unapproved' AND entry_point=?";
+     String sql = "SELECT COUNT(*) FROM baggage WHERE status = 'unapproved' AND office_code=?";
     return jdbcTemplate.queryForObject(sql, Integer.class,airportname);
    }
 }
@@ -1290,7 +1276,7 @@ public int countrejectedBaggage(Principal principal) {
        String sql = "SELECT COUNT(*) FROM baggage WHERE status = 'rejected'";
     return jdbcTemplate.queryForObject(sql, Integer.class);
    }else{
-     String sql = "SELECT COUNT(*) FROM baggage WHERE status = 'rejected' AND entry_point=?";
+     String sql = "SELECT COUNT(*) FROM baggage WHERE status = 'rejected' AND office_code=?";
     return jdbcTemplate.queryForObject(sql, Integer.class,airportname);
    }
 }
@@ -1306,13 +1292,11 @@ if(airportname.equalsIgnoreCase("all")){
     String sql = "SELECT COUNT(*) FROM baggage";
  return jdbcTemplate.queryForObject(sql, Integer.class);
 }else{
-  String sql = "SELECT COUNT(*) FROM baggage WHERE  entry_point=?";
+  String sql = "SELECT COUNT(*) FROM baggage WHERE  office_code=?";
  return jdbcTemplate.queryForObject(sql, Integer.class,airportname);
 }
     
 }
-
-
 
 
 //for  baggage approve update 

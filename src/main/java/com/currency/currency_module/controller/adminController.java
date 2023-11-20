@@ -31,13 +31,13 @@ public class adminController {
     public String baggagetotal( Model model ,Principal principal) {
         String airportname=airportInformation.getAirport(principal);
         if(airportname.equalsIgnoreCase("all")){
-        String sql1 = "SELECT * FROM baggage";
+        String sql1 = "SELECT * FROM baggage ";
         List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql1);
         model.addAttribute("baggageshow", baggageshow);
         }
         else{
 
-        String sql1 = "SELECT * FROM baggage WHERE entry_point = ?";
+        String sql1 = "SELECT * FROM baggage WHERE office_code = ?";
         List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql1,airportname);
         model.addAttribute("baggageshow", baggageshow);
         }
@@ -52,24 +52,20 @@ public class adminController {
 
     @GetMapping("/unapprovedbaggagetotal")
     public String unapprovedbaggagetotal( Model model,Principal principal) {
-        String airportname=airportInformation.getAirport(principal);
+        String officeCode=airportInformation.getAirport(principal);
       
-        
-          if(airportname.equalsIgnoreCase("all")){
-              String sql = "SELECT * FROM baggage WHERE status = 'unapproved'";
-        List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql);
-        model.addAttribute("baggageshow", baggageshow);
+          if(officeCode.equalsIgnoreCase("all")){
+            String sql = "SELECT * FROM baggage WHERE status = 'unapproved' and office_code =?";
+            List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql,officeCode);
+            model.addAttribute("baggageshow", baggageshow);
           }
           else{
-             String sql = "SELECT * FROM baggage WHERE status = 'unapproved' AND entry_point=?";
-             List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql,airportname);
-        model.addAttribute("baggageshow", baggageshow);
+             String sql = "SELECT * FROM baggage WHERE status = 'unapproved' AND office_code=?";
+             List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql,officeCode);
+            model.addAttribute("baggageshow", baggageshow);
           }
        
-        
         return "unapproved_baggage_list";
-       
-
     }
 
     @GetMapping("/baggagetotalid")
