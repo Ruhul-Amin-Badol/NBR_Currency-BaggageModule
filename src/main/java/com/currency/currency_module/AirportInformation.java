@@ -15,11 +15,8 @@ public class AirportInformation {
 
     public String getAirport(Principal principal ){
         String usernameSession = principal.getName();
-
         UserActivityManagement  
         user= userActivityManagementService.findUserWithUserName(usernameSession);
-
-        return user.getAirportList().getAirPortNames();
-
+        return user.getAirportList().getOfficeCode();
     }
 }

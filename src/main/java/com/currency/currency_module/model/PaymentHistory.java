@@ -23,7 +23,9 @@ public class PaymentHistory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long paymentId;
-    private Long airportId;
+    private String officeCode;
+
+
     private Double paidAmount;
 
 
@@ -37,6 +39,13 @@ public class PaymentHistory {
     }
 
 
+    public String getOfficeCode() {
+        return this.officeCode;
+    }
+
+    public void setOfficeCode(String officeCode) {
+        this.officeCode = officeCode;
+    }
 
     public Long getPaymentId() {
         return this.paymentId;
@@ -46,13 +55,6 @@ public class PaymentHistory {
         this.paymentId = paymentId;
     }
 
-    public Long getAirportId() {
-        return this.airportId;
-    }
-
-    public void setAirportId(Long airportId) {
-        this.airportId = airportId;
-    }
 
     public Double getPaidAmount() {
         return this.paidAmount;
