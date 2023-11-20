@@ -22,8 +22,7 @@ public class CurrencyServices {
    @Autowired
    CurrencyAddRepository currencyAddRepository;
     
-   public CurrencyDeclaration  currencyInsert(CurrencyDeclaration currencyDeclcuaration
-    ){
+   public CurrencyDeclaration  currencyInsert(CurrencyDeclaration currencyDeclcuaration){
     // currencyDeclcuaration.setContactNo(" ");
     if(currencyDeclcuaration.getNationality().equals("Other")){
         currencyDeclcuaration.setNationality(currencyDeclcuaration.getOtherNationality());
