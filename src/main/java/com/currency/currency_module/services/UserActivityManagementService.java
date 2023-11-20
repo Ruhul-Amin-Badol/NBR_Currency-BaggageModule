@@ -103,5 +103,11 @@ public class UserActivityManagementService {
      public Long countallinactiveuser() {
         return userActivityManagementRepository.countByStatus("Inactive");
     }
+     public List<UserActivityManagement> findAllActiveuser() {
+        return userActivityManagementRepository.findAllByStatus("Active");
+    }
+     public List<UserActivityManagement> findAllinActiveuser() {
+        return userActivityManagementRepository.findAllByStatus("Inactive");
+    }
 
 }

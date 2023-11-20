@@ -1,5 +1,6 @@
 package com.currency.currency_module.repository;
 
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -10,6 +11,8 @@ public interface UserActivityManagementRepository extends JpaRepository<UserActi
     Optional<UserActivityManagement> findByUsername(String username);
 
     Long countByStatus(String status);
+
+    List<UserActivityManagement> findAllByStatus(String status);
 
  
     

@@ -113,6 +113,28 @@ public class userMatrixController {
                 return "redirect:/usermatrix/rollmanage";
     }
 
+            //Roll manage dashboard
+
+            @GetMapping("/allusershow")
+            public String allusershow(Model model){
+                List<UserActivityManagement> userList = userActivityManagementService.getAllUsers();
+                model.addAttribute("userList", userList);
+                return "allUserShow";
+                }
+
+            @GetMapping("/allactiveuser")
+            public String allactiveusershow(Model model){
+                List<UserActivityManagement> activeuserList = userActivityManagementService.findAllActiveuser();
+                model.addAttribute("activeuser", activeuserList);
+                return "allActiveUserShow";
+                }
+
+            @GetMapping("/allinactiveuser")
+            public String findAllinActiveuser(Model model){
+                List<UserActivityManagement> activeuserList = userActivityManagementService.findAllinActiveuser();
+                model.addAttribute("inactiveuser", activeuserList);
+                return "allInActiveUserShow";
+                }
 
                 
 
