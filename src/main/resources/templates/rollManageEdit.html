@@ -102,6 +102,22 @@
                             <label class="form-check-label" for="currencyModuleCheckbox">Currency Module</label>
                             <input type="hidden" id="currencyModule" name="currencyModule" th:value="${user.currencyModule}">
                         </div>
+                        <div class="form-check pt-2">
+                            <input class="form-check-input" type="checkbox" id="userPaymentRecordCheckbox" name="userPaymentRecordCheckbox" th:checked="${user.paymentRecord==1}">
+                            <label class="form-check-label" for="userPaymentRecordCheckbox">Payment Record</label>
+                            <!-- Hidden input field to store the actual value (0 or 1) -->
+                            <input type="hidden" id="userPaymentRecord" name="paymentRecord" th:value="${user.paymentRecord}">
+                        </div>
+                        <div class="form-check pt-2">
+                            <input class="form-check-input" type="checkbox" id="portCheckbox" name="portCheckbox" th:checked="${user.port==1}" >
+                            <label class="form-check-label" for="portCheckbox">Port</label>
+                            <input type="hidden" id="port" name="port" th:value="${user.port}">
+                        </div>
+                        <div class="form-check pt-2">
+                            <input class="form-check-input" type="checkbox" id="paymentHistoryCheckbox" name="paymentHistoryCheckbox" th:checked="${user.paymentHistory==1}">
+                            <label class="form-check-label" for="paymentHistoryCheckbox">Payment History</label>
+                            <input type="hidden" id="paymentHistory" name="paymentHistory" th:value="${user.paymentRecord}">
+                        </div>
                     </div>
                 </div>
                 
@@ -121,9 +137,13 @@
     document.getElementById("userMatrixCheckbox").addEventListener("change", updateHiddenField);
     document.getElementById("baggageModuleCheckbox").addEventListener("change", updateHiddenField);
     document.getElementById("currencyModuleCheckbox").addEventListener("change", updateHiddenField);
+    document.getElementById("userPaymentRecordCheckbox").addEventListener("change", updateHiddenField);
+    document.getElementById("portCheckbox").addEventListener("change", updateHiddenField);
+    document.getElementById("paymentHistoryCheckbox").addEventListener("change", updateHiddenField);
 
     // Function to update hidden field based on checkbox state
     function updateHiddenField(event) {
+        console.log("jjjjjjjj");
         const checkboxId = event.target.id;
         const hiddenFieldId = checkboxId.replace("Checkbox", "");
         const hiddenField = document.getElementById(hiddenFieldId);

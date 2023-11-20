@@ -13,6 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.security.web.SecurityFilterChain;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
 public class SecurityConfig {
     @Autowired 
@@ -34,79 +36,87 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-    //      AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
-    // authenticationManagerBuilder.userDetailsService(userDetailsSe*rvice);
-    // AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
+        //      AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
+        // authenticationManagerBuilder.userDetailsService(userDetailsSe*rvice);
+        // AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
 
-                    httpSecurity.csrf().disable()
-                    .authorizeHttpRequests()
-                    .requestMatchers(HttpMethod.GET, "/baggagestart/*").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/index1").permitAll()
-                    // .requestMatchers(HttpMethod.POST, "/baggagestart/*").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/baggagestart/valueStay").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/currencystart/delete").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/baggagestart/productDelete").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/baggagestart/getProductData").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/baggagestart/show").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/baggagestart/baggageInsert").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/baggagestart/productInfo").permitAll()
-                    .requestMatchers(HttpMethod.POST, "baggagestart/finalsubmit").permitAll()
-                    .requestMatchers(HttpMethod.GET, "baggagestart/finalsubmit").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/baggagestart/confrimPage").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/baggagestart/baggageUpdate").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/baggagestart/finalsubmitadmin").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/baggagestart/baggageRule").permitAll()
-                    
-                     
-
-                    .requestMatchers(HttpMethod.GET, "/currencystart/*").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/home").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/currencystart/currencyUpdate").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/currencystart/currencyformStay").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/currencystart/finalsubmiform").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/profile").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/currencystart/finalsubmit").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/currencystart/showapprovedcurrencyform").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/currencystart/showapprovedcurrencyform").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/baggageshow/baggagetotal").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/currencystart/unapprovedcurrency").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/currencystart/show").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/currencystart/currencyinsert").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/currencystart/delete").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/currencystart/showconfirmgenaral").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/currencystart/confirmgenaral").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/baggageshow/baggagetotalid").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/baggageshow/baggageApplicationEdit").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/baggageshow/baggageApplicationShow").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/baggagestart/confrimPage").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/baggagestart/makePaymentRequest/{id}").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/baggagestart/makePaymentRequest2/{accessToken}").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/baggagestart/takePaymentRequest/{id}/*").permitAll()
+        httpSecurity.csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests()
+                .requestMatchers(HttpMethod.GET, "/baggagestart/*").permitAll()
+                .requestMatchers(HttpMethod.GET, "/error").permitAll()
+                .requestMatchers(HttpMethod.GET, "/index1").permitAll()
+                // .requestMatchers(HttpMethod.POST, "/baggagestart/*").permitAll()
+                .requestMatchers(HttpMethod.POST, "/baggagestart/valueStay").permitAll()
+                .requestMatchers(HttpMethod.POST, "/currencystart/delete").permitAll()
+                .requestMatchers(HttpMethod.POST, "/baggagestart/productDelete").permitAll()
+                .requestMatchers(HttpMethod.POST, "/baggagestart/getProductData").permitAll()
+                .requestMatchers(HttpMethod.POST, "/baggagestart/show").permitAll()
+                .requestMatchers(HttpMethod.POST, "/baggagestart/baggageInsert").permitAll()
+                .requestMatchers(HttpMethod.POST, "/baggagestart/productInfo").permitAll()
+                .requestMatchers(HttpMethod.POST, "baggagestart/finalsubmit").permitAll()
+                .requestMatchers(HttpMethod.GET, "baggagestart/finalsubmit").permitAll()
+                .requestMatchers(HttpMethod.GET, "/baggagestart/confrimPage").permitAll()
+                .requestMatchers(HttpMethod.POST, "/baggagestart/baggageUpdate").permitAll()
+                .requestMatchers(HttpMethod.POST, "/baggagestart/finalsubmitadmin").permitAll()
+                .requestMatchers(HttpMethod.GET, "/baggagestart/baggageRule").permitAll()
 
 
-                    .requestMatchers(HttpMethod.POST, "/usermatrix/userinsert").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/usermatrix/rollcreate").permitAll()
+
+                .requestMatchers(HttpMethod.GET, "/currencystart/*").permitAll()
+                .requestMatchers(HttpMethod.GET, "/home").permitAll()
+                .requestMatchers(HttpMethod.POST, "/currencystart/currencyUpdate").permitAll()
+                .requestMatchers(HttpMethod.POST, "/currencystart/currencyformStay").permitAll()
+                .requestMatchers(HttpMethod.GET, "/currencystart/finalsubmiform").permitAll()
+                .requestMatchers(HttpMethod.GET, "/").permitAll()
+                .requestMatchers(HttpMethod.GET, "/profile").permitAll()
+                .requestMatchers(HttpMethod.GET, "/currencystart/finalsubmit").permitAll()
+                .requestMatchers(HttpMethod.GET, "/currencystart/showapprovedcurrencyform").permitAll()
+                .requestMatchers(HttpMethod.POST, "/currencystart/showapprovedcurrencyform").permitAll()
+                .requestMatchers(HttpMethod.GET, "/baggageshow/baggagetotal").permitAll()
+                .requestMatchers(HttpMethod.GET, "/currencystart/unapprovedcurrency").permitAll()
+                .requestMatchers(HttpMethod.GET, "/currencystart/show").permitAll()
+                .requestMatchers(HttpMethod.POST, "/currencystart/currencyinsert").permitAll()
+                .requestMatchers(HttpMethod.POST, "/currencystart/delete").permitAll()
+                .requestMatchers(HttpMethod.GET, "/currencystart/showconfirmgenaral").permitAll()
+                .requestMatchers(HttpMethod.POST, "/currencystart/confirmgenaral").permitAll()
+                .requestMatchers(HttpMethod.GET, "/baggageshow/baggagetotalid").permitAll()
+                .requestMatchers(HttpMethod.GET, "/baggageshow/baggageApplicationEdit").permitAll()
+                .requestMatchers(HttpMethod.GET, "/baggageshow/baggageApplicationShow").permitAll()
+                .requestMatchers(HttpMethod.GET, "/baggagestart/confrimPage").permitAll()
+                .requestMatchers(HttpMethod.POST, "/baggagestart/makePaymentRequest/{id}").permitAll()
+                .requestMatchers(HttpMethod.GET, "/baggagestart/makePaymentRequest2/{accessToken}").permitAll()
+                .requestMatchers(HttpMethod.GET, "/baggagestart/takePaymentRequest/{id}/*").permitAll()
 
 
-                  
+                .requestMatchers(HttpMethod.POST, "/usermatrix/userinsert").permitAll()
+                .requestMatchers(HttpMethod.GET, "/usermatrix/rollcreate").permitAll()
 
-                    .requestMatchers(HttpMethod.POST, "/currencystart/addCurrency").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/currencystart/finalsubmit").permitAll()
 
-                    .requestMatchers(HttpMethod.GET, "/currencystart/currencyEdit").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/currencystart/showunapprovedcurrency").permitAll()
-                    .requestMatchers("/img/**", "/css/**", "/js/**", "/WEB-INF/views/**").permitAll()
-                    .anyRequest()
-                    .authenticated()
-                    .and()
-                    .formLogin()
-                    .loginPage("/signin")
-                    .loginProcessingUrl("/login")
-                    .defaultSuccessUrl("/dashboard", true)
-                    .permitAll()
-                    .and()
-                    .rememberMe();
+
+
+                .requestMatchers(HttpMethod.POST, "/currencystart/addCurrency").permitAll()
+                .requestMatchers(HttpMethod.POST, "/currencystart/finalsubmit").permitAll()
+
+                .requestMatchers(HttpMethod.GET, "/currencystart/currencyEdit").permitAll()
+                .requestMatchers(HttpMethod.POST, "/currencystart/showunapprovedcurrency").permitAll()
+                .requestMatchers("/img/**", "/css/**", "/js/**", "/WEB-INF/views/**").permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()  
+                .formLogin(login -> login
+                        .loginPage("/signinpvt")  // Specify the login page for the second form
+                        .loginProcessingUrl("/loginpvt")  // Specify the login processing URL for the second form
+                        // Redirect to /otherDashboard after successful login for the second form
+                        .defaultSuccessUrl("/pvtdashboard", true)
+                        .permitAll())
+                .formLogin(login -> login
+                        .loginPage("/signin")
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/dashboard", true)
+                        .permitAll())
+
+                .rememberMe(withDefaults())
+                    ;
                    
 
                     
