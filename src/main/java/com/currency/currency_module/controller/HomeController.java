@@ -58,7 +58,7 @@ public class HomeController {
         return "index1";
     }
     @GetMapping("/pvtdashboard") 
-    public String pvtdashboard(@RequestParam() String officeCode, Model model) {
+    public String pvtdashboard() {
         // model.addAttribute("airport", airportService.findAirportByOfficeCode(officeCode));
         return "pvtdashboard";
     }
