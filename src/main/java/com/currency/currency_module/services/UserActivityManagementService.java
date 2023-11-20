@@ -93,5 +93,15 @@ public class UserActivityManagementService {
         userActivityManagementRepository.deleteById(userId);
     }
     
+     public Long countalluser() {
+        return userActivityManagementRepository.count();
+    }
+     public Long countallactiveuser() {
+        return userActivityManagementRepository.countByStatus("Active");
+    }
+
+     public Long countallinactiveuser() {
+        return userActivityManagementRepository.countByStatus("Inactive");
+    }
 
 }

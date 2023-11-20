@@ -9,6 +9,8 @@ public interface UserActivityManagementRepository extends JpaRepository<UserActi
 
     Optional<UserActivityManagement> findByUsername(String username);
 
+    Long countByStatus(String status);
+
  
     
 }

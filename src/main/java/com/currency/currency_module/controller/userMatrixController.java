@@ -1,5 +1,6 @@
 package com.currency.currency_module.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.ui.Model;
 
 import com.currency.currency_module.model.UserActivityManagement;
@@ -26,8 +28,10 @@ public class userMatrixController {
     private UserActivityManagementService userActivityManagementService;
 
     @GetMapping("/dashboard")
-            public String index(){
-
+            public String index(Model model){
+                 model.addAttribute("usercount", userActivityManagementService.countalluser());
+                 model.addAttribute("activeusercount", userActivityManagementService.countallactiveuser());
+                 model.addAttribute("inactiveusercount", userActivityManagementService.countallinactiveuser());
                 return "userMatrixDashboard";
         }
 
@@ -108,5 +112,8 @@ public class userMatrixController {
                 userActivityManagementService.saverollUserActivityManagement(user);
                 return "redirect:/usermatrix/rollmanage";
     }
+
+
+                
 
 }
