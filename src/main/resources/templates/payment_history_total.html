@@ -1,0 +1,109 @@
+<div th:replace="~{layout/header}"></div>
+<!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" > -->
+<link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" >
+<link href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css" rel="stylesheet" >
+
+<style>
+    .sr-main-content-heading {
+      margin: 0;
+      padding: 0;
+      font-size: 18px;
+      font-weight: 500;
+      color: #48465b;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+</style>
+<p>
+    <a href="/usermatrix/adduser"><button class="btn btn-success text-center">Add New User <i class="fa-regular fa-plus"></i></button></a> 
+</p>
+<div class="sr-main-content-heading">
+    <i class="fa fa-server" style="padding-right: 10px"></i>Payment History
+  </div>
+<table id="example" class="table table-striped ">
+    <thead>
+        <tr>
+                
+                <th>Payment id</th>
+                <th>Office code</th>
+                <th>Paid Amount</th>
+                <th>Date</th>
+
+
+        </tr>
+    </thead>
+    <tbody >
+
+        <tr th:each="show,sl : ${tranjectionHistories}" th:object="${'tranjectionHistories'}">
+            
+           
+                <td th:text="${show['payment_id']}"></td>
+                <td th:text="${show['office_code']}"></td>
+                <td th:text="${show['paid_amount']}"></td>
+                <td th:text="${#temporals.format(show['payment_date'], 'dd/MM/yyyy HH:mm:ss')}"></td>
+        </tr>
+
+
+
+ 
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>Payment id</th>
+            <th>Office code</th>
+            <th>Paid Amount</th>
+            <th>Date</th>
+        </tr>
+    </tfoot>
+</table>
+<script src='https://code.jquery.com/jquery-3.7.0.js'></script>
+<script src='https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js'></script>
+<script src='https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js'></script>
+<script src='https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js'></script>
+<script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap5.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js'></script>
+<script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js'></script>
+<script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js'></script>
+<script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js'></script>
+
+
+<!-- <script>
+    $(document).ready(function() {
+    var table = $('#example').DataTable( {
+        lengthChange: false,
+        buttons: [ 'copy', 'excel', 'pdf', 'colvis' ]
+    } );
+ 
+    table.buttons().container()
+        .appendTo( '#example_wrapper .col-md-6:eq(0)' );
+} );
+
+</script> -->
+
+
+<script>
+    $(document).ready(function() {
+        var table = $('#example').DataTable({
+            lengthChange: false,
+            buttons: ['copy', 'excel', 'pdf', 'colvis']
+        });
+
+        table.buttons().container()
+        .appendTo( '#example_wrapper .col-md-6:eq(0)' );
+
+        // Calculate total paid amount
+        var totalPaidAmount = 0;
+        table.rows().every(function() {
+            var data = this.data();
+            var paidAmount = parseFloat(data[2].replace(',', '')); // Adjust index if needed
+            if (!isNaN(paidAmount)) {
+                totalPaidAmount += paidAmount;
+            }
+        });
+
+        // Append total paid amount to the table footer
+        $('#example').append('<tfoot><tr><th>Total Paid Amount:</th><th></th><th>' + totalPaidAmount.toFixed(2) + '</th><th></th></tr></tfoot>');
+    });
+</script>
