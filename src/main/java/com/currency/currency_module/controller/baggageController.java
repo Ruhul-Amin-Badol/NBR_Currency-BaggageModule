@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
@@ -789,7 +790,13 @@ public class baggageController {
     @GetMapping("/confrimPage")
          public String confrimPage(
             @RequestParam Long id, // Add a parameter for the unique identifier (id)
-            Model model,Principal principal) {
+            Model model,
+            @RequestParam("session_token") String Sessiontoken,
+            @RequestParam("status") String status,
+            Principal principal) {
+            System.out.println(Sessiontoken);
+            System.out.println(status);
+
             String baggageSql= "SELECT * FROM baggage WHERE id =?";
             
             Map<String, Object>requestParameters= jdbcTemplate.queryForMap(baggageSql, id);
@@ -798,6 +805,9 @@ public class baggageController {
             model.addAttribute("reportShow", requestParameters);
 
             String paymentStatus = "Processing";
+            if(!status.equals("success")){
+                paymentStatus=status;
+            }
             String sqlBaggage = "UPDATE baggage SET payment_status=? WHERE id=?";
             jdbcTemplate.update(sqlBaggage,paymentStatus,id);
 
@@ -820,13 +830,15 @@ public class baggageController {
             //System.out.println("currentDateTime=============================="+currentDateTime);
             try (Connection connection = jdbcTemplate.getDataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO payment_history (baggage_id,paid_amount, payment_id,payment_date) VALUES (?,?,?,?)"
+                    "INSERT INTO payment_history (baggage_id,paid_amount, payment_id,payment_date,session_token,status) VALUES (?,?,?,?,?,?)"
             )) {
             //System.out.println("totalTaxAmount=============================================="+totalTaxAmount);
            preparedStatement.setInt(1, baggage_id);
            preparedStatement.setDouble(2, totalTaxAmount);
            preparedStatement.setString(3, payment_id);
            preparedStatement.setTimestamp(4, Timestamp.valueOf(currentDateTime));
+           preparedStatement.setString(5,Sessiontoken );
+           preparedStatement.setString(6, status);
 
            preparedStatement.executeUpdate();
             } catch (SQLException e) {
@@ -917,18 +929,32 @@ public class baggageController {
         }
 
 
-    @GetMapping("/takePaymentRequest")
-    public String takePaymentRequest(){
-        
-    return null;
+    @GetMapping("/takePaymentRequest/{id}/")
+
+    public String takePaymentRequest(@PathVariable Long id,@RequestParam("session_token") String Sessiontoken,@RequestParam("status") String status){
+        System.out.println("dhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+        System.out.println(id);
+        System.out.println(Sessiontoken);
+    return "redirect:/baggagestart/confrimPage?id="+id+"&session_token="+Sessiontoken+"&status="
+    +status;
     }
 
     //for payment============
     @GetMapping("/makePaymentRequest2")
-    public RedirectView makePaymentRequest2(@RequestParam("token") String token, Model model) {
+    public RedirectView makePaymentRequest2(@RequestParam("token") String token,@RequestParam("id") Long id,@RequestParam("tax_amount") String total_tax, Model model) {
         String stringWithPlus = token.replace(" ", "+");
+
+        String baggageSql= "SELECT * FROM baggage WHERE id =?";           
+        Map<String, Object>baggagedata= jdbcTemplate.queryForMap(baggageSql, id);
+        String payment_id= (String)baggagedata.get("payment_id");
+        String passenger_name= (String)baggagedata.get("passenger_name");
+        String cellular_phone= (String)baggagedata.get("mobile_no");
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        // Format the LocalDateTime to a string using the formatter
+        String formattedDate = currentDateTime.format(formatter);
          
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+stringWithPlus);
 
        String url = "https://spg.sblesheba.com:6314/api/v2/SpgService/CreatePaymentRequest";
         String username = "duUser2014";
@@ -946,27 +972,21 @@ public class baggageController {
                 "apiAccessToken", stringWithPlus
         ));
         requestData.put("referenceInfo", Map.of(
-                "InvoiceNo", "INV155422121443",
-                "invoiceDate", "2023-01-01",
-                "returnUrl", "http://localhost:8080/",
-                "totalAmount", "1000",
-                "applicentName", "Md. Hasan Monsur",
-                "applicentContactNo", "01710563521",
+                "InvoiceNo", payment_id,
+                "invoiceDate", formattedDate,
+                "returnUrl", "http://localhost:8080/baggagestart/takePaymentRequest/"+id+"/",
+                "totalAmount", total_tax,
+                "applicentName", passenger_name,
+                "applicentContactNo", cellular_phone,
                 "extraRefNo", "2132"
         ));
         requestData.put("creditInformations", Arrays.asList(
                 Map.of(
                         "slno", "1",
                         "crAccount", "1111111111111",
-                        "crAmount", "500",
+                        "crAmount", total_tax,
                         "tranMode", "CHL",
                         "onbehalf", "Any Name/Party"
-                ),
-                Map.of(
-                        "slno", "2",
-                        "crAccount", "0002601020871",
-                        "crAmount", "500",
-                        "tranMode", "TRN"
                 )
         ));
 
@@ -997,7 +1017,7 @@ public class baggageController {
                 e.printStackTrace();
                
             }
-            System.out.println(responseBody);
+           
         } else {
             // Handle other status codes or errors
             System.out.println("Request failed with status: " + response.getStatusCode());
@@ -1017,8 +1037,37 @@ public class baggageController {
 
 
 
-    @PostMapping("/makePaymentRequest")
-    public String makePaymentRequest() {
+    @PostMapping("/makePaymentRequest/{id}")
+    public String makePaymentRequest(@PathVariable Long id) {
+
+
+        String baggageSql= "SELECT * FROM baggage WHERE id =?";           
+        Map<String, Object>requestParameters= jdbcTemplate.queryForMap(baggageSql, id);
+
+
+        String sql1="SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
+        List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,id);
+        Double totalTaxAmount = 0.0;
+        for (Map<String, Object> row : productshow) {
+            String taxAmount = (String) row.get("tax_amount");
+
+            if (taxAmount != null) {
+                totalTaxAmount += Double.parseDouble(taxAmount);
+            }
+                
+        }
+        String payment_id= (String)requestParameters.get("payment_id");
+        LocalDateTime currentDateTime = LocalDateTime.now();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        // Format the LocalDateTime to a string using the formatter
+        String formattedDate = currentDateTime.format(formatter);
+
+        // Print the formatted date
+  
+            
+
         String url = "https://spg.sblesheba.com:6314/api/v2/SpgService/GetAccessToken";
         String username = "duUser2014";
         String password = "duUserPayment2014";
@@ -1034,15 +1083,14 @@ public class baggageController {
         Map<String, Object> requestData = new HashMap<>();
         // Populate your request data here
         requestData.put("AccessUser", Map.of("userName", "a2i@pmo", "password", "sbPayment0002"));
-        requestData.put("invoiceNo", "INV155422121443");
-        requestData.put("amount", "1000");
-        requestData.put("invoiceDate", "2023-01-01");
+        requestData.put("invoiceNo", payment_id);
+        requestData.put("amount", totalTaxAmount);
+        requestData.put("invoiceDate", formattedDate);
         requestData.put("accounts", Arrays.asList(
-                Map.of("crAccount", "1111111111111", "crAmount", 500),
-                Map.of("crAccount", "0002601020871", "crAmount", 500)
+                Map.of("crAccount", "1111111111111", "crAmount", totalTaxAmount)
+              
         ));
 
-        System.out.println("============requestData"+requestData);
 
         HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestData, headers);
 
@@ -1064,8 +1112,7 @@ public class baggageController {
                 
                 // Extract and print access_token
                 String accessToken = jsonNode.get("access_token").asText();
-                System.out.println("Access Token: " + accessToken);
-                return "redirect:/baggagestart/makePaymentRequest2?token=" + accessToken;
+                return "redirect:/baggagestart/makePaymentRequest2?token=" + accessToken+"&id="+id+"&tax_amount="+totalTaxAmount;
             } catch (Exception e) {
                 // Handle parsing exception
                 e.printStackTrace();

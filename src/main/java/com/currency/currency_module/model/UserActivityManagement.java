@@ -1,4 +1,5 @@
 package com.currency.currency_module.model;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,7 +31,7 @@ public class UserActivityManagement {
     private String password;
 
     @Column(name = "level")
-    private int level;
+    private String level;
 
     @Column(name = "fname")
     private String fname;
@@ -48,10 +49,10 @@ public class UserActivityManagement {
     private String designation;
 
     @Column(name = "entry_date")
-    private Date entryDate;
+    private LocalDateTime entryDate;
 
     @Column(name = "expire_date")
-    private Date expireDate;
+    private LocalDateTime expireDate;
 
     @Column(name = "status")
     private String status;
@@ -82,6 +83,42 @@ public class UserActivityManagement {
 
     @Column(name = "india_user")
     private int indiaUser;
+
+    @Column(name = "userMatrix", nullable = true)
+    private Integer userMatrix=0;
+
+    @Column(name = "baggageModule", nullable = true)
+    private Integer baggageModule=0;
+
+    @Column(name = "currencyModule", nullable = true)
+    private Integer currencyModule=0;
+
+
+
+    public int getUserMatrix() {
+        return this.userMatrix;
+    }
+
+    public void setUserMatrix(int userMatrix) {
+        this.userMatrix = userMatrix;
+    }
+
+    public int getBaggageModule() {
+        return this.baggageModule;
+    }
+
+    public void setBaggageModule(int baggageModule) {
+        this.baggageModule = baggageModule;
+    }
+
+    public int getCurrencyModule() {
+        return this.currencyModule;
+    }
+
+    public void setCurrencyModule(int currencyModule) {
+        this.currencyModule = currencyModule;
+    }
+
     
 
     @ManyToOne
@@ -113,11 +150,11 @@ public class UserActivityManagement {
         this.password = password;
     }
 
-    public int getLevel() {
+    public String getLevel() {
         return this.level;
     }
 
-    public void setLevel(int level) {
+    public void setLevel(String level) {
         this.level = level;
     }
 
@@ -161,19 +198,19 @@ public class UserActivityManagement {
         this.designation = designation;
     }
 
-    public Date getEntryDate() {
+    public LocalDateTime getEntryDate() {
         return this.entryDate;
     }
 
-    public void setEntryDate(Date entryDate) {
+    public void setEntryDate(LocalDateTime entryDate) {
         this.entryDate = entryDate;
     }
 
-    public Date getExpireDate() {
+    public LocalDateTime getExpireDate() {
         return this.expireDate;
     }
 
-    public void setExpireDate(Date expireDate) {
+    public void setExpireDate(LocalDateTime expireDate) {
         this.expireDate = expireDate;
     }
 

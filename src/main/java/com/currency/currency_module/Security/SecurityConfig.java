@@ -80,8 +80,13 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.GET, "/baggageshow/baggageApplicationEdit").permitAll()
                     .requestMatchers(HttpMethod.GET, "/baggageshow/baggageApplicationShow").permitAll()
                     .requestMatchers(HttpMethod.GET, "/baggagestart/confrimPage").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/baggagestart/makePaymentRequest").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/baggagestart/makePaymentRequest/{id}").permitAll()
                     .requestMatchers(HttpMethod.GET, "/baggagestart/makePaymentRequest2/{accessToken}").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/baggagestart/takePaymentRequest/{id}/*").permitAll()
+
+
+                    .requestMatchers(HttpMethod.POST, "/usermatrix/userinsert").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/usermatrix/rollcreate").permitAll()
 
 
                   

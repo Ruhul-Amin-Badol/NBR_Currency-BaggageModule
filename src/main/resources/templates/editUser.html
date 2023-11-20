@@ -1,0 +1,96 @@
+<div th:replace="~{layout/header}"></div>
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-body">
+            <h3 class="card-title fw-bold mb-5 text-warning">User Management Edit</h3>
+
+            <form th:action="@{/usermatrix/updateuser/{userId}(userId=${user.userId})}" method="post" enctype="multipart/form-data" >
+
+                <div class="form-group row">
+                    <label for="username" class="col-sm-2 col-form-label">User Name:</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="username" name="username" th:value="${user.username}">
+                    </div>
+            
+                    <label for="fname" class="col-sm-2 col-form-label">Full Name:</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="fname" name="fname" th:value="${user.fname}">
+                    </div>
+                </div>
+            
+                <div class="form-group row">
+                    <label for="password" class="col-sm-2 col-form-label">Password:</label>
+                    <div class="col-sm-4">
+                        <input type="password" class="form-control" id="password" name="password" th:value="${user.password}">
+                    </div>
+            
+                    <label for="designation" class="col-sm-2 col-form-label">Designation:</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="designation" name="designation" th:value="${user.designation}">
+                    </div>
+                </div>
+            
+                <div class="form-group row">
+                    <label for="status" class="col-sm-2 col-form-label">Status:</label>
+                    <div class="col-sm-4">
+                        <select class="form-control" id="status" name="status">
+                            <option value="Active" th:selected="${user.status == 'Active'}">Active</option>
+                            <option value="Inactive" th:selected="${user.status == 'Inactive'}">Inactive</option>
+                        </select>
+                    </div>
+            
+                    <label for="level" class="col-sm-2 col-form-label">Level:</label>
+                    <div class="col-sm-4">
+                        <select class="form-control" id="level" name="level">
+                            <option value="Viewer" th:selected="${user.level == 'Viewer'}">Viewer</option>
+                            <option value="Purchase Officer" th:selected="${user.level == 'Purchase Officer'}">Purchase Officer</option>
+                            <option value="HRM Manager" th:selected="${user.level == 'HRM Manager'}">HRM Manager</option>
+                            <option value="Sales & Store Manager" th:selected="${user.level == 'Sales & Store Manager'}">Sales & Store Manager</option>
+                            <option value="Supreme Administrator" th:selected="${user.level == 'Supreme Administrator'}">Supreme Administrator</option>
+                            <option value="Envelope Print" th:selected="${user.level == 'Envelope Print'}">Envelope Print</option>
+                            <option value="Damage Warehouse" th:selected="${user.level == 'Damage Warehouse'}">Damage Warehouse</option>
+                            <option value="Marketing Coordinator" th:selected="${user.level == 'Marketing Coordinator'}">Marketing Coordinator</option>
+                            <option value="IT Specialist" th:selected="${user.level == 'IT Specialist'}">IT Specialist</option>
+                            <option value="Customer Support" th:selected="${user.level == 'Customer Support'}">Customer Support</option>
+                            <option value="Project Manager" th:selected="${user.level == 'Project Manager'}">Project Manager</option>
+                        </select>
+                    </div>
+                </div>
+            
+                <div class="form-group row">
+                    <label for="entry_date" class="col-sm-2 col-form-label">Entry Date:</label>
+                    <div class="col-sm-4">
+                        <input type="datetime-local" class="form-control" id="entry_date" name="entry_date" th:value="${user.entryDate}">
+                    </div>
+            
+                    <label for="expire_date" class="col-sm-2 col-form-label">Expire Date:</label>
+                    <div class="col-sm-4">
+                        <input type="datetime-local" class="form-control" id="expire_date" name="expire_date" th:value="${user.expireDate}">
+                    </div>
+                </div>
+            
+                <div class="form-group row">
+                    <label for="employee_id" class="col-sm-2 col-form-label">Employee ID:</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="employeeId" name="employeeId" th:value="${user.employeeId}" th:selected="${user.employeeId == employeeId}">
+                    </div>
+            
+                    <label for="airport_list_id" class="col-sm-2 col-form-label">Airport Name:</label>
+                    <div class="col-sm-4">
+                        <select class="form-control" id="airport_list_id" name="airportList.id">
+                            <option th:each="airportName : ${allAirportList}" th:text="${airportName.airPortNames}" th:value="${airportName.id}" th:selected="${user.airportList.id == airportName.id}"></option>
+                        </select>
+                    </div>
+                </div>
+            
+                <div class="form-group row">
+                    <div class="col-sm-10 col-md-8 offset-sm-2 text-center">
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+<div th:replace="~{layout/footer}"></div>
