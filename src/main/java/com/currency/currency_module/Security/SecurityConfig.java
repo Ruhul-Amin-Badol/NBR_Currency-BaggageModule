@@ -83,6 +83,7 @@ public class SecurityConfig {
                     .requestMatchers(HttpMethod.POST, "/baggagestart/makePaymentRequest/{id}").permitAll()
                     .requestMatchers(HttpMethod.GET, "/baggagestart/makePaymentRequest2/{accessToken}").permitAll()
                     .requestMatchers(HttpMethod.GET, "/baggagestart/takePaymentRequest/{id}/*").permitAll()
+                    //.requestMatchers(HttpMethod.GET, "/pvt/*").permitAll()
 
 
                     .requestMatchers(HttpMethod.POST, "/usermatrix/userinsert").permitAll()

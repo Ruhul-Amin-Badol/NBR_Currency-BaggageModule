@@ -784,14 +784,13 @@ public class baggageController {
             @RequestParam("session_token") String Sessiontoken,
             @RequestParam("status") String status,
             Principal principal) {
-            System.out.println(Sessiontoken);
-            System.out.println(status);
+            // System.out.println(Sessiontoken);
+            // System.out.println(status);
 
             String baggageSql= "SELECT * FROM baggage WHERE id =?";
             
             Map<String, Object>requestParameters= jdbcTemplate.queryForMap(baggageSql, id);
             String emailId = (String) requestParameters.get("email");
-            System.out.println("=============================%%%%%%%%%%%%%%%%"+emailId);
             model.addAttribute("reportShow", requestParameters);
 
             String paymentStatus = "Processing";
@@ -815,12 +814,13 @@ public class baggageController {
             }
             String payment_id= (String)requestParameters.get("payment_id");
             Integer baggage_id= (Integer)requestParameters.get("id");
+            String officeCode= (String)requestParameters.get("office_code");
             LocalDateTime currentDateTime = LocalDateTime.now();
 
             //System.out.println("currentDateTime=============================="+currentDateTime);
             try (Connection connection = jdbcTemplate.getDataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO payment_history (baggage_id,paid_amount, payment_id,payment_date,session_token,status) VALUES (?,?,?,?,?,?)"
+                    "INSERT INTO payment_history (baggage_id,paid_amount, payment_id,payment_date,session_token,status,office_code) VALUES (?,?,?,?,?,?,?)"
             )) {
             //System.out.println("totalTaxAmount=============================================="+totalTaxAmount);
            preparedStatement.setInt(1, baggage_id);
@@ -829,6 +829,7 @@ public class baggageController {
            preparedStatement.setTimestamp(4, Timestamp.valueOf(currentDateTime));
            preparedStatement.setString(5,Sessiontoken );
            preparedStatement.setString(6, status);
+           preparedStatement.setString(7, officeCode);
 
            preparedStatement.executeUpdate();
             } catch (SQLException e) {

@@ -24,19 +24,21 @@ public class PaymentHistory {
     private Long id;
     private Long paymentId;
     private String officeCode;
-
-    private Long airportId;
+    private Long baggageId;
     private String sessionToken;
     private String status;
-
- 
-
     private Double paidAmount;
    
 
 
 
+    public Long getBaggageId() {
+        return this.baggageId;
+    }
 
+    public void setBaggageId(Long baggageId) {
+        this.baggageId = baggageId;
+    }
 
     public Long getId() {
         return this.id;
