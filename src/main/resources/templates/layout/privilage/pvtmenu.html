@@ -1,0 +1,84 @@
+<!-- <link rel="stylesheet" th:href="@{/css/bootstrap@5.0.2.min.css}" />
+<link rel="stylesheet" th:href="@{/css/style.css}" /> -->
+<style>
+    .itemnav {
+    font-family: 'Helvetica Neue', 'Nunito', sans-serif;
+    background: #373942;
+    padding: 13px 15px 12px;
+    border-top: 2px solid #0401012e;
+    
+}
+/* .boxbox{
+    border: 1px solid #272727;
+    background-color: #7c8aff;
+    font-size: 15px;
+    font-weight: bold;
+    color: black !important;
+}
+.boxboxdown{
+    border: 1px solid #272727;
+    background-color: #bec5ff;
+    font-size: 15px;
+    font-weight: bold;
+    color: black !important;
+
+} */
+</style>
+
+<div class="dashboard-nav">
+    <header style="background-color: white;">
+        <a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a>
+        <!-- <a href="#" class="brand-logo"> -->
+                <div style="padding: 5px; text-align: center; margin-bottom: 5px;">
+                    <img th:src="@{/img/logo/bdlogo.png}"
+                alt="ERP Logo" width="70%"></a>
+                    </div>
+    </header>
+
+    <nav class="dashboard-nav-list">
+        <!-- <a href="#" class="dashboard-nav-item active" ><i
+                class="fas fa-tachometer-alt"></i> Baggage & Currency Module
+        </a> -->
+        <h1 id="title_text" style="background: #0270b9; width: 100%; color: white; text-align:center; font-size:18px; margin:0px; margin-bottom:1px; padding: 10px 0px;">Privileged Vehicle Tracking</h1>
+        <a href="/pvt/pvt-dashboard" class="dashboard-nav-item active boxbox"><i
+                class="fas fa-tachometer-alt"></i> Dashboard
+        </a>
+
+        <div class='dashboard-nav-dropdown' >
+            <a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle boxbox"><i class="fa-regular fa-truck"></i></i>Privileged Vehicle Tracking</a>
+            <div class='dashboard-nav-dropdown-menu'>
+                <!-- <a href="/baggagestart/show" class="dashboard-nav-dropdown-item boxboxdown">→ Baggage Info Entry</a> -->
+                <a href="/pvt/pvt-entry" class="dashboard-nav-dropdown-item boxboxdown">→Add Privileged Vehicle Tracking</a>
+                <a href="/pvt/all-pvt" class="dashboard-nav-dropdown-item boxboxdown">→ Total Privileged Vehicle Tracking</a>
+               
+            </div>
+        </div>
+
+        <a href="#" class="dashboard-nav-item boxbox"><i class="fas fa-cogs"></i>
+            Settings </a><a href="#"
+            class="dashboard-nav-item boxbox"><i class="fas fa-user"></i> Profile </a>
+        <div class="nav-item-divider"></div>
+
+
+
+        <a href="/logout" class="dashboard-nav-item boxbox" style="background-color: red; color: white;"><i
+                class="fas fa-sign-out-alt"></i> Logout </a>
+    </nav>
+</div>
+
+
+<!-- jquary 3.7.1 js -->
+<script th:src="@{/js/jquery.3.7.1.min.js}"></script>
+
+<!-- bootstrap 5.0.2 js -->
+<script th:src="@{/js/bootstrap@5.0.2.min.js}"></script>
+<script th:src="@{/js/bootstrap@5.0.2.bundle.min.js}"></script>
+
+<!-- popper js -->
+<script th:src="@{/js/popper@2.9.2.min.js}"></script>
+
+<!-- custom js -->
+<script th:src="@{/js/custom.js}"></script>
+<script th:src="@{/js/currencyAjax.js}"></script>
+<script th:src="@{/js/baggageAjax.js}"></script>
+<script th:src="@{/js/dashboard.js}"></script>

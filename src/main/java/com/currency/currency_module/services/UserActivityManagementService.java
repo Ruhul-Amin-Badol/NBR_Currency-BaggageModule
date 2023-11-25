@@ -67,6 +67,9 @@ public class UserActivityManagementService {
             existingUser.setUserMatrix(userActivityManagement.getUserMatrix());
             existingUser.setBaggageModule(userActivityManagement.getBaggageModule());
             existingUser.setCurrencyModule(userActivityManagement.getCurrencyModule());
+            existingUser.setPaymentRecord(userActivityManagement.getPaymentRecord());
+            existingUser.setPort(userActivityManagement.getPort());
+            existingUser.setPaymentHistory(userActivityManagement.getPaymentHistory());
             
 
             userActivityManagementRepository.save(existingUser);
@@ -93,5 +96,21 @@ public class UserActivityManagementService {
         userActivityManagementRepository.deleteById(userId);
     }
     
+     public Long countalluser() {
+        return userActivityManagementRepository.count();
+    }
+     public Long countallactiveuser() {
+        return userActivityManagementRepository.countByStatus("Active");
+    }
+
+     public Long countallinactiveuser() {
+        return userActivityManagementRepository.countByStatus("Inactive");
+    }
+     public List<UserActivityManagement> findAllActiveuser() {
+        return userActivityManagementRepository.findAllByStatus("Active");
+    }
+     public List<UserActivityManagement> findAllinActiveuser() {
+        return userActivityManagementRepository.findAllByStatus("Inactive");
+    }
 
 }

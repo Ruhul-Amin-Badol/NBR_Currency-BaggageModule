@@ -1,4 +1,4 @@
-<div th:replace="~{layout/support}"></div>
+<div th:replace="~{layout/Privilage/pvtheader}"></div>
 <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" > -->
 <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" >
 <link href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css" rel="stylesheet" >
@@ -19,7 +19,7 @@
 <div class="sr-main-content-heading">
     <i class="fa fa-server" style="padding-right: 10px"></i>Privileged Vehicle Tracking
   </div>
-<table id="example" class="table table-striped " style="zoom: 70%;">
+<table id="example" class="table table-striped " style="zoom: 85%;">
     <thead>
         <tr>
 
@@ -28,8 +28,8 @@
             <th>Bill Entry Date</th>
             <th>CC</th>
             <th>Chasis No</th>
-
             <th>CPB Validity</th>
+            <th>CPB Holder Name/Org.use</th>
             <th>Custom House</th>
             <th>Engine No</th>
             <th>Org Name</th>
@@ -38,6 +38,7 @@
             <th>Vehicle Name</th>
             <th>Vehicle Reg No</th>
             <th>Year of Manufacture</th>
+            <th>Action</th>
             <!-- Include other fields similarly -->
         </tr>
     </thead>
@@ -51,6 +52,7 @@
             <td th:text="${pvtInfo.cc}"></td>
             <td th:text="${pvtInfo.chasisNo}"></td>
             <td th:text="${pvtInfo.cpbValidity}"></td>
+            <td th:text="${pvtInfo.cpbHolder}"></td>
              <td th:text="${pvtInfo.customHosue}"></td>
             <td th:text="${pvtInfo.engNo}"></td>
             <td th:text="${pvtInfo.orgName}"></td>
@@ -59,6 +61,12 @@
             <td th:text="${pvtInfo.vehicleName}"></td>
             <td th:text="${pvtInfo.vehicleRegNo}"></td>
             <td th:text="${pvtInfo.yrOfManf}"></td>
+            <td >
+                <div class="d-flex">
+                   <a th:href="@{/pvt/edit-pvt(id=${pvtInfo.id})}" class="btn btn-primary" style="margin-right: 5px;"><i class="fa fa-edit"></i></a>
+                   <a th:href="@{/pvt/delete-pvt(id=${pvtInfo.id})}" onclick="return confirm('Are you sure you want to delete this user?');" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                </div>
+            </td> 
             <!-- Include other fields similarly -->
         </tr>
 
@@ -75,6 +83,7 @@
             <th>CC</th>
             <th>Chasis No</th>
             <th>CPB Validity</th>
+            <th>CPB Holder Name/Org.use</th>
             <th>Custom House</th>
             <th>Engine No</th>
             <th>Org Name</th>
@@ -83,6 +92,7 @@
             <th>Vehicle Name</th>
             <th>Vehicle Reg No</th>
             <th>Year of Manufacture</th>
+            <th>Action</th>
             <!-- Include other fields similarly -->
         </tr>
     </tfoot>

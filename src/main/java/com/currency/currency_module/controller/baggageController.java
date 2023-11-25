@@ -908,12 +908,16 @@ public class baggageController {
 
     @GetMapping("/takePaymentRequest/{id}/")
 
-    public String takePaymentRequest(@PathVariable Long id,@RequestParam("session_token") String Sessiontoken,@RequestParam("status") String status){
-        System.out.println("dhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
-        System.out.println(id);
-        System.out.println(Sessiontoken);
+    public String takePaymentRequest(@PathVariable Long id,@RequestParam("session_token") String Sessiontoken,@RequestParam("status") String status,Model model){
+        if(status.equalsIgnoreCase("success")){
     return "redirect:/baggagestart/confrimPage?id="+id+"&session_token="+Sessiontoken+"&status="
     +status;
+        }
+        else{
+            model.addAttribute("status", HttpStatus.BAD_GATEWAY.value());
+            model.addAttribute("errorMessage", "Invalid status value");
+            return "error";
+        }
     }
 
     //for payment============

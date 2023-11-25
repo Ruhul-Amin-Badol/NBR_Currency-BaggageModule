@@ -1090,14 +1090,14 @@
                                 </div>
                                 <!-- table 1nd start -->
                                 <div id="table1" style="display: none;">
-                                    <table class="table table-bordered w-100 table-responsive-lg table-responsive-md" style="box-sizing: border-box; zoom: 90%;">
-                                        <thead >
+                                    <table class="table table-bordered w-100 table-responsive-lg table-responsive-md" style="box-sizing: border-box; ">
+                                        <thead style="zoom: 80%;">
                                             <tr>
                                                 <th scope="col">Product Name</th>
-                                                <th scope="col">Unit</th>
-                                                <th scope="col">Inchi(For Television)</th>
+                                                <th scope="col" style="width: 80px;">Unit</th>
+                                                <th scope="col" >Inchi(For Television)</th>
                                                 <th scope="col">Quantity</th>
-                                                <th scope="col">Per Unit Value</th>
+                                                <th scope="col" style="width: 80px;">Per Unit Value</th>
                                                 <th scope="col">Total Value</th>
                                                 <th scope="col">Tax(%)</th>
                                                 <th scope="col">CD(%)</th>
@@ -1115,7 +1115,7 @@
                                         <tbody>
                                             <tr>
                                                 <td><input id="totalPaidAmountId" type="hidden" th:value="${totalPaidAmount}" readonly="readonly" />
-                                                    <select class="form-select" id="productName" name="productName" aria-label="Default select example" onchange="fetchProductDataAdmin()">
+                                                    <select class="form-select" style="width: 200px;" id="productName" name="productName" aria-label="Default select example" onchange="fetchProductDataAdmin()">
                                                         <option selected> --Please Select-- </option>
                                                         <th:block th:each="productName : ${productshow}">
                                                             <option th:text="${productName['item_name']}" th:value="${productName['item_name']}"></option>

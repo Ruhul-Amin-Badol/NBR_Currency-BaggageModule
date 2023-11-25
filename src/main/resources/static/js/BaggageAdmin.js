@@ -18,8 +18,6 @@ function populateTableAdmin() {
     console.log("hi i am from add")
     console.log(item)
     let newRow = $("<tr>");
-    // console.log(item.quantity);
-    // console.log(item.duty_free);
     if(item.duty_free !=0 && item.quantity>item.duty_free) {
       
       newRow.append(`<td style="color: red;">${item.productName}</td>`); // Use the correct field names
@@ -36,7 +34,7 @@ function populateTableAdmin() {
       newRow.append(`<td style="color: red;">${item.vat}</td>`);
       newRow.append(`<td style="color: red;">${item.ait}</td>`);
       newRow.append(`<td style="color: red;">${item.at}</td>`);
-      newRow.append(`<td style="color: red;">${item.at}</td>`);
+      // newRow.append(`<td style="color: red;">${item.at}</td>`);
       newRow.append(`<td style="color: red;">${item.taxAmount}</td>`);
 
 
@@ -59,12 +57,6 @@ function populateTableAdmin() {
      newRow.append(`<td>${item.vat}</td>`);
      newRow.append(`<td>${item.ait}</td>`);
      newRow.append(`<td>${item.at}</td>`);
- 
- 
- 
- 
- 
- 
      newRow.append(`<td>${item.taxAmount}</td>`);
     }
   
@@ -75,10 +67,10 @@ function populateTableAdmin() {
     newRow.append(`<td>${item.additional_payment}</td>`);
  
     newRow.append(
-      `<td  class="text-center text-danger"><button onClick="EditProductAdmin(${item.id})" type="button" class="btn btn-primary" id="addButtonAdmin">Edit</button></td>`
+      `<td  class="text-center text-danger"><button onClick="EditProductAdmin(${item.id})" type="button" class="btn btn-primary" id="addButtonAdmin"><i class="fa-solid fa-pen-to-square"></i></button></td>`
     );
     newRow.append(
-      `<td  class="text-center text-danger"><button onClick="DeleteProductAdmin(${item.id})" type="button" class="btn btn-danger" id="addButtonAdmin">Delete</button></td>`
+      `<td  class="text-center text-danger"><button onClick="DeleteProductAdmin(${item.id})" type="button" class="btn btn-danger" id="addButtonAdmin"><i class="fa-solid fa-trash"></i></button></td>`
     );
     let toatal=item.taxAmount
     totalTax += parseFloat(toatal);
@@ -338,9 +330,9 @@ function DeleteProductAdmin(idToDelete) {
   });
 
 }
-function EditProductAdmin(editToDelete) {
+function EditProductAdmin(idToDelete) {
   for (let i = 0; i < addDataAdmin.length; i++) {
-    if (addDataAdmin[i].id === editToDelete) {
+    if (addDataAdmin[i].id === idToDelete) {
       if(addDataAdmin[i].productName=='Other'){
 
 

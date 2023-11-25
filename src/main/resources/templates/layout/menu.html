@@ -68,6 +68,10 @@
             </div>
         </div>
 
+        <div class='' th:if="${session['IsBaggage'] == 1}"><a href="/baggageshow/baggageReport"
+            class="dashboard-nav-item  boxbox"><i class="fa-solid fa-suitcase"></i>Baggage Report</a>
+        </div>
+
         <div class='dashboard-nav-dropdown' th:if="${session['IsMatrix'] == 1}"><a href="#!"
                 class="dashboard-nav-item dashboard-nav-dropdown-toggle boxbox" ><i class="fa-regular fa-users"></i></i>User Matrix</a>
                 <!-- <p th:if="${session['matrix'] == 0}" th:text="${session['matrix']}"></p> -->
@@ -83,16 +87,16 @@
 
 
 
-        <a href="/payment-record" class="dashboard-nav-item boxbox"><i class="far fa-money-bill-alt"></i>Payment Record </a>
+        <a href="/payment-record" class="dashboard-nav-item boxbox" th:if="${session['IspaymentRecord'] == 1}"><i class="far fa-money-bill-alt"></i>Payment Record </a>
         <!-- <a href="/baggagestart/payment-history-report" class="dashboard-nav-item boxbox"><i class="far fa-money-bill-alt"></i>Payment History </a> -->
-        <a href="/add-airport"class="dashboard-nav-item boxbox"><i class="fas fa-plane"></i> Port </a>
-        <div class="nav-item-divider"></div>
+        <a href="/add-airport"class="dashboard-nav-item boxbox" th:if="${session['Isport'] == 1}"><i class="fas fa-plane"></i> Port </a>
+        <!-- <div class="nav-item-divider"></div> -->
 
 
-        <a href="/payment-total-history" class="dashboard-nav-item boxbox"><i class="fa-regular fa-clipboard"></i>Payment History </a>
+        <a href="/payment-total-history" class="dashboard-nav-item boxbox"><i class="fa-regular fa-clipboard" th:if="${session['IspaymentHistory'] == 1}"></i><i class="fa-solid fa-money-check-dollar"></i>Payment History </a>
         <!-- <a href="/baggagestart/payment-history" class="dashboard-nav-item boxbox"><i class="far fa-money-bill-alt"></i>Payment History </a> -->
-        <a href="/add-airport"class="dashboard-nav-item boxbox"><i class="fas fa-plane"></i> Port </a>
-        <div class="nav-item-divider"></div>
+        <!-- <a href="/add-airport"class="dashboard-nav-item boxbox"><i class="fas fa-plane"></i> Port </a> -->
+        <!-- <div class="nav-item-divider"></div> -->
 
 
 

@@ -97,13 +97,17 @@
         });
     }
 
+   //filter date function 
     $(document).ready(function () {
         fetchDataAndPopulateTable();
 
         $('#filterButton').on('click', function () {
             const fromDate = $('#fromDate').val();
             const toDate = $('#toDate').val();
-            dataTable.columns(0).search(fromDate + '|' + toDate, true, false).draw();
+
+            dataTable.columns(3).search(fromDate + '|' + toDate, true, false);
+
+            dataTable.draw();
         });
     });
 </script>

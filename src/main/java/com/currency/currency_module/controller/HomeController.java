@@ -53,6 +53,10 @@ public class HomeController {
     public String login() {
         return "login";
     }
+    @GetMapping("/signinpvt") 
+    public String loginpvt() {
+        return "loginpvt";
+    }
 
 
       @GetMapping("/") 
@@ -67,17 +71,29 @@ public class HomeController {
         model.addAttribute("airport", airportService.findAirportByOfficeCode(officeCode));
         return "index1";
     }
+    @GetMapping("/pvtdashboard") 
+    public String pvtdashboard() {
+        // model.addAttribute("airport", airportService.findAirportByOfficeCode(officeCode));
+        return "pvtdashboard";
+    }
+
+
 
 
 
     @GetMapping("/dashboard")
-    public String dashboard(Principal principal,HttpSession session) {
+    public String dashboard(Principal principal,HttpSession session,Model model) {
+        
         String usernameSession = principal.getName();
         UserActivityManagement  
         user= userActivityManagementService.findUserWithUserName(usernameSession);
+        model.addAttribute("loggedpersonname",user.getFname());
         session.setAttribute("IsMatrix", user.getUserMatrix());
         session.setAttribute("IsBaggage", user.getBaggageModule());
         session.setAttribute("IsCurrency", user.getCurrencyModule());
+        session.setAttribute("IspaymentRecord", user.getPaymentRecord());
+        session.setAttribute("Isport", user.getPort());
+        session.setAttribute("IspaymentHistory", user.getPaymentHistory());
 
         return "dashboard";
     }
@@ -109,6 +125,10 @@ public class HomeController {
     @GetMapping("/logout")
     public String logout() {
         return "redirect:/";
+    }
+    @GetMapping("/error")
+    public String Error() {
+        return "Error";
     }
     @GetMapping("/finduser/{username}")
     @ResponseBody
