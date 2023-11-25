@@ -25,26 +25,22 @@ public class pvtController {
     
     @GetMapping("/pvt-dashboard")
     public String pvrtDashboard(Model model) {
-
         return "pvt_dashboard";
     }
 
     @GetMapping("/pvt-entry")
     public String pvrtEntry(Model model) {
-
         return "pvt_entry";
     }
 
     @PostMapping("/insert-pvt")
     public String insertPvt(PvtInfo pvtInfo) {
        pvtinfoService.insertPvt(pvtInfo);
-    
-            return "redirect:/pvt/pvt-entry";
+        return "redirect:/pvt/pvt-entry";
     }
 
     @GetMapping("/all-pvt")
     public String index( Model model) {
-
         model.addAttribute("allPvt", pvtinfoService.getAllPvtInfo());
         return "get_all_pvt";
     }

@@ -1,0 +1,143 @@
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<div th:replace="~{layout/support}"></div>
+
+<style>
+    /* Your CSS styles here */
+    .dropdown-menu.pull-right {
+        right: 23px !important;
+        left: auto;
+    }
+
+    .oe_slide.oe_website_builder_slide {
+        background-color: #f0f0f0;
+        background: url(/img/image/slide1.png) !important;
+        color: #404040;
+    }
+
+    .oe_slide.oe_home_slide {
+        background-color: #f0f0f0;
+        background: url(/img/image/slide2.png) !important;
+        color: #404040;
+    }
+
+
+
+.table-bordered > :not(caption) > * > * {
+    border-width: 0 1px;
+}
+.table-sm > :not(caption) > * > * {
+    padding: 0.25rem 0.25rem;
+}
+
+.table > :not(caption) > * > * {
+    padding: 0.5rem 0.5rem;
+    background-color: var(--bs-table-bg);
+    background-image: linear-gradient(var(--bs-table-accent-bg),var(--bs-table-accent-bg));
+    border-bottom-width: 1px;
+}
+tbody, td, tfoot, th, thead, tr {
+    border-color: inherit;
+    border-style: solid;
+    border-width: 0;
+}
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+user agent stylesheet
+td {
+    display: table-cell;
+    vertical-align: inherit;
+}
+.table-hover > tbody > tr:hover {
+    --bs-table-accent-bg: var(--bs-table-hover-bg);
+    color: var(--bs-table-hover-color);
+}
+.table {
+    --bs-table-bg: transparent;
+    --bs-table-accent-bg: transparent;
+    --bs-table-striped-color: #212529;
+    --bs-table-striped-bg: rgba(0, 0, 0, 0.05);
+    --bs-table-active-color: #212529;
+    --bs-table-active-bg: rgba(0, 0, 0, 0.1);
+    --bs-table-hover-color: #212529;
+    --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+    vertical-align: top;
+    border-color: #dee2e6;
+}
+table {
+    caption-side: bottom;
+    border-collapse: collapse;
+}
+user agent stylesheet
+table {
+    border-collapse: separate;
+    text-indent: initial;
+    border-spacing: 2px;
+}
+
+    /* Additional styles can be added here */
+</style>
+
+<body class="oe_styling_v8">
+    <div class="oe_website_contents">
+
+        <section class="oe_hero oe_home_hero oe_container">
+            <!-- Content when officeCode is not null -->
+            <!-- ... -->
+            <!-- <img alt="" src="" style="height: 245px; width: 992px;"> -->
+            <img alt="dd" th:src="@{/img/image/NBR.jpg}" style="height: 245px; width: 992px;">
+            <!-- ... --> 
+            <article class="oe_page mt-3 p-2">
+                <h5 class="card-title text-muted text-align">Baggage Search</h5>
+                <hr>
+                    <form th:action="@{/passenger-baggage-search}" method="post">
+                    <div class="form-group row">
+                      <div class="col-sm-9">
+                        <input type="text" class="form-control" id="passport_number" name="passport_number" placeholder="Enter Passport Number">
+                      </div>
+                      <div class="col-sm-3">
+                        <input type="submit" class="form-control btn-primary" id="inputPassword" value="Search">
+                      </div>
+                    </div>
+                  </form>
+                  <div class="table-responsive">
+                    <table class="table table-sm table-bordered table-hover">
+                        <thead>
+                            <tr class="alert-info">
+                                <th>Name</th>
+                                <th>Passport Number</th>
+                                <th>Entry Point</th>
+                                <!-- <th>Paid Amount</th> -->
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+<tbody>
+    <!-- Thymeleaf iteration to display baggageData -->
+    <tr th:each="baggage : ${baggageData}">
+        <td th:text="${baggage.passenger_name}"></td>
+        <td th:text="${baggage.passport_number}"></td>
+        <td th:text="${baggage.entry_point}"></td>
+        <!-- <td th:text="${baggage.paid_amount}"></td> -->
+        <td>
+            <!-- Assuming status is a string value and using Bootstrap badge -->
+            <span th:text="${baggage.status}" 
+                  th:classappend="${baggage.status == 'Pending'} ? 'badge rounded-pill bg-danger'"></span>
+        </td>
+    </tr>
+</tbody>
+                    </table>
+                </div>
+            </article>
+        
+    </div>
+
+<div th:replace="~{layout/footer}"></div>
