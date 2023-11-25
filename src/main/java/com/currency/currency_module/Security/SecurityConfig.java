@@ -40,13 +40,14 @@ public class SecurityConfig {
 public static class App1ConfigurationAdapter {
    @Bean
     SecurityFilterChain securityFilterChain1(HttpSecurity httpSecurity) throws Exception {
-       //      AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
+       // AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
        // authenticationManagerBuilder.userDetailsService(userDetailsSe*rvice);
        // AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
 
        httpSecurity.csrf(csrf -> csrf.disable())
                .securityMatcher("/pvt/*")
                .authorizeHttpRequests()
+            //    .requestMatchers(HttpMethod.GET, "/pvt/pvt-entry").permitAll()
                .anyRequest()
                .authenticated()
                .and()
@@ -54,7 +55,7 @@ public static class App1ConfigurationAdapter {
                        .loginPage("/pvt/signinpvt")  // Specify the login page for the second form
                        .loginProcessingUrl("/pvt/loginpvt")  // Specify the login processing URL for the second form
                        // Redirect to /otherDashboard after successful login for the second form
-                       .defaultSuccessUrl("/pvt/pvt-entry", true)
+                       .defaultSuccessUrl("/pvt/pvt-dashboard", true)
                        .permitAll())
                .rememberMe(withDefaults())
                     ;
