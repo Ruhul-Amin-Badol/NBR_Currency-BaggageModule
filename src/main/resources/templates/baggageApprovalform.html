@@ -117,26 +117,12 @@
      <div class="d-flex justify-content-center" id="qrcode"></div>
 
         <div style="text-align: right; margin-right: 30px;">
-            <!-- <div class="form-check" style=" font-weight: bold; margin: 12px 58px;">
-                <div th:if="${baggageView['payment_status'] == 'Processing' || baggageView['payment_status'] == 'Unpaid'}"> -->
-                    <!-- <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" onclick="paymentReview()">
-                    <label> Payment review</label> -->
-                    <!-- <form action="">
-                        <input type="checkbox" value="" id="flexCheckChecked" onclick="paymentReview()">
-                        <label for="paymentReview">Payment Review</label><br>
-                    </form>
-                </div>
-                <div th:if="${baggageView['payment_status'] == 'Review'}">
-                    <label style=" margin-right: -30px; font-weight: bolder; color:chocolate;"> Payment on review</label>
-                </div>
-                <div th:if="${baggageView['payment_status'] == 'Paid'}">
-                    <label style="font-weight: bolder; color: chartreuse;"> Payment Done</label>
-                </div>
-            </div> -->
+            <div class="button-container" >
+                <a id="editDiv" th:href="@{/baggagestart/edit-baggage(generatedId=${baggageView.ID})}" class="btn btn-primary print-button">Edit</a>
+            </div>
             <div class="button-container" >
                     <button id="hideDiv" onclick="examshow()" class="btn btn-warning print-button">On Examination</button>
             </div>
-            
             <div class="button-container">
                 <div th:if="${baggageView['status'] != 'rejected'}">
                     <button id="toggleButton1" onclick="showDiv1()" class="btn btn-danger print-button">Rejected</button>
@@ -150,38 +136,9 @@
         </div>
         <br><br><br>
 
-
-
     </div>
 
     <div class="d-flex row col-md-12" style="margin-top: 10px;" th:object="${baggageView}">
-
-
-        <!-- <div id="welcomeDiv3" style="display:none;">
-            <div style="display:flex; justify-content: right; margin-right: 165px; margin-top: -95px;">
-            <form th:action="@{/baggagestart/baggage_on_examination_update}"  method="post" id="myForm">
-                <div class="input-group">
-                    <div class="">
-                        <input th:value="${baggageView['id']}" type="hidden" name="id">
-                        <input th:value="On Examination" type="hidden" name="status">
-                        <label style="font-weight: bold;" for="confNote" class="form-label" >Give the Reason of Rejection</label>
-                        <select name="confNote" class="form-control" id="confNote">
-                            <option value="">---Couse of on Examination----</option>
-                            <option value="Misdeclaration">Found Mobile </option>
-                            <option value="Restricted item">Found Gold</option>
-                            <option value="Restricted item">Other</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="input-group">
-                        <button style="margin-top: 15px;" type="submit" class="btn btn-danger">Rejected</button>
-                    </div>
-                </div>
-                <br><br><br>
-            </form>
-            </div>
-        </div> -->
 
         <div id="welcomeDiv3" style="display:none;">
 
@@ -286,7 +243,7 @@ function qrcode() {
 
 
 function showDiv1() {
-    var buttonIds = ["toggleButton1", "hideDiv", "toggleButton"];
+    var buttonIds = ["toggleButton1", "hideDiv", "toggleButton","editDiv"];
 
     // Hide each button
     buttonIds.forEach(function(buttonId) {
@@ -300,7 +257,7 @@ function showDiv1() {
 }
 
 function showDiv() {
-        var buttonIds = ["toggleButton1", "hideDiv", "toggleButton"];
+        var buttonIds = ["toggleButton1", "hideDiv", "toggleButton","editDiv"];
 
     // Hide each button
     buttonIds.forEach(function(buttonId) {
@@ -315,7 +272,7 @@ function showDiv() {
 
 function examshow() {
     // Array of button IDs to hide
-    var buttonIds = ["toggleButton1", "hideDiv", "toggleButton"];
+    var buttonIds = ["toggleButton1", "hideDiv", "toggleButton","editDiv"];
 
     // Hide each button
     buttonIds.forEach(function(buttonId) {
@@ -330,7 +287,6 @@ function examshow() {
 }
 
 
-
 function qrcode() {
             // Get the current page's URL
             var currentURL = window.location.href;
@@ -341,13 +297,6 @@ function qrcode() {
             // Display the QR code image
             $("#qrcode").html('<img src="' + qrCodeUrl + '" alt="QR Code" />');
         };
-        // function redirectToHomePage() {
-            
-        //     // Get the id value from the hidden input field
-        //     var id = document.getElementById("reportShow").value;
-        //     var url = "http://localhost:8080/baggagestart/show" + id;
-        //     window.location.href = url;
-        // }
 
         function calculateTotalTaxAmount() {
             // Get all the tax amount elements using a class selector

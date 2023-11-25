@@ -419,15 +419,7 @@ public class baggageController {
         Map<String, Object> baggageInfo = jdbcTemplate.queryForMap(baggageSql, productInfo.get("baggageID"));
         String paymentId = (String) baggageInfo.get("payment_id");
 
-       
-
-
-
-
-
-
-
-
+    
         System.out.println("paymentId==========================="+paymentId);
         // Check if itemId is not null (i.e., productName exists in baggage_item_info)
         if (itemId != null) {
@@ -838,8 +830,6 @@ public class baggageController {
 
             String link="/baggagestart/confrimPage?id="+id;
            
-
-
             Context context = new Context();
             context.setVariable("passengerName", requestParameters.get("passenger_name"));
             context.setVariable("totalTaxAmount", totalTaxAmount);
@@ -885,7 +875,7 @@ public class baggageController {
                  List<Object> rowData = new ArrayList<>(allProductQuery);
                  rowData.add(baggageQuery);
              
-                 byte[] pdfData = pdfGenerationService.generatePdf(rowData, includedFields,totalTaxAmount);
+                 byte[] pdfData = pdfGenerationService.generatePdf(rowData, includedFields,totalTaxAmount,Sessiontoken,status,id);
              
                  HttpHeaders headers = new HttpHeaders();
                  headers.setContentType(MediaType.APPLICATION_PDF);
@@ -1124,9 +1114,6 @@ public class baggageController {
             String baggageSql= "SELECT * FROM baggage WHERE id =?";
             Map<String, Object>requestParameters= jdbcTemplate.queryForMap(baggageSql, id);
             model.addAttribute("reportShow", requestParameters);
-
-
-
             String formattedAmount = String.format("%.2f", payableAmount);
             double paidAmount = Double.parseDouble(formattedAmount);
 
@@ -1306,6 +1293,7 @@ public String currencApproveUpdate(@RequestParam int id, @RequestParam String st
     String paymentStatus = "Paid";
     String username = principal.getName();
     String sql = "UPDATE baggage SET status=?, payment_status=?, entry_by=? WHERE id=?";
+
     jdbcTemplate.update(sql, status, paymentStatus, username, id);
    // String usernameSession = principal.getName();
         if ("total_baggage".equals(page_route)) {
@@ -1316,8 +1304,47 @@ public String currencApproveUpdate(@RequestParam int id, @RequestParam String st
             return "redirect:/baggageshow/unapprovedbaggagetotal";
         }else if ("reject".equals(page_route)) {
             return "redirect:/baggagestart/rejected-baggage-list";
+        }else if ("baggeage_application_show".equals(page_route)) {
+            return "redirect:baggageshow/baggageApplicationShow";
         }
         // Handle the case where page_route doesn't match any of the conditions.
+            String baggageSql= "SELECT * FROM baggage WHERE id =?";
+            Map<String, Object>requestParameters= jdbcTemplate.queryForMap(baggageSql, id);
+
+
+            // try {
+            //     // Double totalPaidAmount = 0.0;
+            //      String gmail = (String) requestParameters.get("email");
+             
+            //      String baggage_Sql = "SELECT * FROM baggage WHERE id =?";
+            //      Map<String, Object> baggageQuery = jdbcTemplate.queryForMap(baggage_Sql, id);
+             
+ 
+            //      String baggageProductAddJoin = "SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
+            //      List<Map<String, Object>> allProductQuery = jdbcTemplate.queryForList(baggageProductAddJoin, id);
+             
+            //      List<String> includedFields = Arrays.asList("passenger_name","entry_point","flight_no","passport_number");
+            //    //  List<String> includedFields = Arrays.asList("id","item_id","payment_id"); // Replace with your actual field names
+            //      List<Object> rowData = new ArrayList<>(allProductQuery);
+            //      rowData.add(baggageQuery);
+            //      Double totalTaxAmount = 2.2;
+            //     String  sessionToken="ddd";
+            //      byte[] pdfData = pdfGenerationService.generatePdf(rowData, includedFields,totalTaxAmount,Sessiontoken,status,id);
+             
+            //      HttpHeaders headers = new HttpHeaders();
+            //      headers.setContentType(MediaType.APPLICATION_PDF);
+            //      headers.setContentDispositionFormData("inline", "NBR_baggage_declaration.pdf");
+             
+            //      emailService.sendEmailWithAttachment(gmail, "NBR Baggage Declaration", "Body", pdfData, "nbr_baggage_application.pdf");
+            //  } catch (IOException e) {
+            //      e.printStackTrace();
+            //  }
+
+
+
+
+
+
        return "redirect:/baggageshow/baggagetotal";
 }
 
@@ -1337,6 +1364,8 @@ public String currencApproveUpdate(@RequestParam int id, @RequestParam String st
             return "redirect:/baggageshow/unapprovedbaggagetotal";
         }else if ("reject".equals(page_route)) {
             return "redirect:/baggagestart/rejected-baggage-list";
+        }else if ("baggeage_application_show".equals(page_route)) {
+            return "redirect:baggageshow/baggageApplicationShow";
         }
         // Handle the case where page_route doesn't match any of the conditions.
        return "redirect:/baggageshow/baggagetotal";
@@ -1361,6 +1390,8 @@ public String currencApproveUpdate(@RequestParam int id, @RequestParam String st
             return "redirect:/baggageshow/unapprovedbaggagetotal";
         }else if ("reject".equals(page_route)) {
             return "redirect:/baggagestart/rejected-baggage-list";
+        }else if ("baggeage_application_show".equals(page_route)) {
+            return "redirect:baggageshow/baggageApplicationShow";
         }
         // Handle the case where page_route doesn't match any of the conditions.
        return "redirect:/baggageshow/baggagetotal";

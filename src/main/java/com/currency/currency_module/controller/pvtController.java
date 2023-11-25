@@ -34,20 +34,17 @@ public class pvtController {
 
     @GetMapping("/pvt-entry")
     public String pvrtEntry(Model model) {
-
         return "pvt_entry";
     }
 
     @PostMapping("/insert-pvt")
     public String insertPvt(PvtInfo pvtInfo) {
        pvtinfoService.insertPvt(pvtInfo);
-    
-            return "redirect:/pvt/all-pvt";
+        return "redirect:/pvt/pvt-entry";
     }
 
     @GetMapping("/all-pvt")
     public String index( Model model) {
-
         model.addAttribute("allPvt", pvtinfoService.getAllPvtInfo());
         return "get_all_pvt";
     }

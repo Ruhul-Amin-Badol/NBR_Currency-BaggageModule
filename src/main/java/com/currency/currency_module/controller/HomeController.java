@@ -3,27 +3,41 @@ package com.currency.currency_module.controller;
 
 
 import java.security.Principal;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.currency.currency_module.AirportInformation;
 import com.currency.currency_module.model.UserActivityManagement;
 import com.currency.currency_module.services.AirportService;
 import com.currency.currency_module.services.UserActivityManagementService;
+import org.springframework.jdbc.core.JdbcTemplate;
 
-
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/")
 public class HomeController {
+    @Autowired
+    JdbcTemplate jdbcTemplate;
     @Autowired
    UserActivityManagementService userActivityManagementService;
    @Autowired
@@ -83,6 +97,31 @@ public class HomeController {
 
         return "dashboard";
     }
+
+
+    @GetMapping("/baggage-search")
+    public String passengerBaggageSearch(Model model) {
+        return "passenger_baggage_serach";
+    }
+
+    @PostMapping("/passenger-baggage-search")
+    public String searchBaggage(@RequestParam("passport_number") String passportNumber ,Model model) {
+        // Use JDBC to search for baggage based on passport number
+        String sql = "SELECT * FROM baggage WHERE passport_number = ?";
+        List<Map<String, Object>> baggageData = jdbcTemplate.queryForList(sql, passportNumber);
+
+        // Add baggage data to the model to pass it to the view
+        System.out.println("baggageData=====================================" + baggageData);
+
+        // ModelAndView modelAndView = new ModelAndView("passenger_baggage_serach");
+        // modelAndView.addObject("baggageData", baggageData);
+        model.addAttribute("baggageData", baggageData);
+        return "passenger_baggage_serach";
+    }
+
+
+    
+
     @GetMapping("/logout")
     public String logout() {
         return "redirect:/";
