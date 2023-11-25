@@ -1,0 +1,125 @@
+<div th:replace="~{layout/ppm_privilage/ppmheader}"></div>
+
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h1> Privileged Person Module</h1>
+    </div>
+    <div class="card-body">
+     
+    </div>
+  </div>
+  <style>
+    .card-category {
+      font-size: 13px;
+
+    }
+    .card-icon {
+      border-radius: 3px;
+      background-color: #daffdae0;
+      padding: 15px;
+      margin-top: -20px;
+      margin-right: 15px;
+      float: left;
+      box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(0, 188, 212, 0.4);
+}
+.custom-card {
+                height: 100%; /* Set a fixed height for all cards */
+                box-sizing: border-box; /* Include padding and border in the height */
+            }
+  </style>
+
+
+  <div class="container mt-5">
+    <div class="row">
+
+      <div class="col-lg-4 col-md-6 col-sm-12 custom-card">
+        <div class="card card-stats mb-5">
+          <a target="_blank"
+            href="/ppm/custom-passbook-application"
+            class="card-link custom-card"
+          >
+            <div
+              class="card-header card-header-info"
+              style="background: linear-gradient(60deg, #26c6da, #00acc1)"
+            >
+              <div class="card-icon">
+                <i class="fa-regular fa-users"></i>
+              </div>
+              <p class="card-category fw-bold" style="color: #ffffff">
+                Custom Passbook Application
+              </p>
+              <h3 class="card-title" style="color: #ffffff" th:text=${passbookCount}></h3>
+            </div>
+            <div class="card-footer">
+              <div class="stats">
+                <!-- Add your stats information here -->
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Repeat the structure for the remaining cards -->
+      <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="card card-stats mb-5">
+          <a target="_blank"
+          href="/ppm/car-transfer-application"
+            class="card-link"
+          >
+            <div
+              class="card-header card-header-info"
+              style="background: #2bb652"
+            >
+              <div class="card-icon">
+                <i class="fa-regular fa-users"></i>
+              </div>
+              <p class="card-category fw-bold" style="color: #ffffff">
+                
+                Car Transfer Application
+              </p>
+              <h3 class="card-title" style="color: #ffffff" th:text=${carTransferCount}></h3>
+            </div>
+            <div class="card-footer">
+              <div class="stats">
+                <!-- Add your stats information here -->
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Repeat the structure for the remaining cards -->
+      <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="card card-stats mb-5">
+          <a target="_blank"
+          href="/ppm/car-sale-application"
+            class="card-link"
+          >
+            <div
+              class="card-header card-header-info"
+              style="background: #ff6308"
+            >
+              <div class="card-icon">
+                <i class="fa-regular fa-users"></i>
+              </div>
+              <p class="card-category fw-bold" style="color: #ffffff">
+                Car Sale Application
+              </p>
+              <h3 class="card-title" style="color: #ffffff" th:text=${carSaleCount}></h3>
+            </div>
+            <div class="card-footer">
+              <div class="stats">
+                <!-- Add your stats information here -->
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+
+      <!-- Repeat the structure for the remaining cards -->
+    </div>
+  </div>
+</div>
+<div th:replace="~{layout/ppm_privilage/ppmfooter}"></div>

@@ -9,4 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PvtInfoRepository extends JpaRepository<PvtInfo,Long>  {
      List<PvtInfo> findAll();
+    
+
 }

@@ -35,10 +35,26 @@ public class PpmController {
     PpmInfo ppmInfo;
 
 
-    @GetMapping("/pvt-dashboard")
+    @GetMapping("/ppm-dashboard")
     public String ppmDashboard(Model model) {
+        Integer passbook = 1;
+        Integer carTransfer = 2;
+        Integer carSale = 3;
+        model.addAttribute("passbookCount", ppmInfoService.ppmCount(passbook));
+        model.addAttribute("carTransferCount", ppmInfoService.ppmCount(carTransfer));
+        model.addAttribute("carSaleCount", ppmInfoService.ppmCount(carSale));
         return "ppm_dashboard";
     }
+
+    // @GetMapping("/ppm-dashboard")
+    // public String pvrtDashboard(Model model) {
+    //     model.addAttribute("allcount", ppminfoService.privilageCount());
+    //     return "ppm_dashboard";
+    // }
+
+
+
+
 
     @GetMapping("/ppm-entry")
     public String ppmtEntry(Model model) {
@@ -75,6 +91,30 @@ public class PpmController {
 
         model.addAttribute("allPpm", ppmInfoService.getAllPpmInfo());
         return "get_all_ppm";
+    }
+
+
+    @GetMapping("custom-passbook-application")
+    public String customPassbookApplication( Model model) {
+        Integer passbook =1;
+        model.addAttribute("allPpm", ppmInfoService.passbookReport(passbook));
+        return "custom_passbook_application_report";
+    }
+
+    @GetMapping("/car-transfer-application")
+    public String carTransferApplication( Model model) {
+          Integer carTransfer =2;
+
+        model.addAttribute("allPpm", ppmInfoService.carTransferRepost(carTransfer));
+        return "car_transfer_application_report";
+    }
+
+
+    @GetMapping("/car-sale-application")
+    public String carSaleApplication( Model model) {
+          Integer carSale =3;
+        model.addAttribute("allPpm", ppmInfoService.carSaleRepost(carSale));
+        return "car_sale_application_report";
     }
 
 
