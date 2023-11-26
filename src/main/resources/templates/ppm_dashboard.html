@@ -1,9 +1,9 @@
-<div th:replace="~{layout/Privilage/pvtheader}"></div>
+<div th:replace="~{layout/ppm_privilage/ppmheader}"></div>
 
 <div class="container">
   <div class="card">
     <div class="card-header">
-      <h1>Welcome back Privilage Module</h1>
+      <h1> Privileged Person Module</h1>
     </div>
     <div class="card-body">
      
@@ -36,7 +36,7 @@
       <div class="col-lg-4 col-md-6 col-sm-12 custom-card">
         <div class="card card-stats mb-5">
           <a target="_blank"
-            href="/pvt/all-pvt"
+            href="/ppm/custom-passbook-application"
             class="card-link custom-card"
           >
             <div
@@ -47,9 +47,9 @@
                 <i class="fa-regular fa-users"></i>
               </div>
               <p class="card-category fw-bold" style="color: #ffffff">
-                Total Privilage 
+                Custom Passbook Application
               </p>
-              <h3 class="card-title" style="color: #ffffff" th:text=${allcount}></h3>
+              <h3 class="card-title" style="color: #ffffff" th:text=${passbookCount}></h3>
             </div>
             <div class="card-footer">
               <div class="stats">
@@ -64,7 +64,7 @@
       <div class="col-lg-4 col-md-6 col-sm-12">
         <div class="card card-stats mb-5">
           <a target="_blank"
-            href="#"
+          href="/ppm/car-transfer-application"
             class="card-link"
           >
             <div
@@ -75,9 +75,10 @@
                 <i class="fa-regular fa-users"></i>
               </div>
               <p class="card-category fw-bold" style="color: #ffffff">
-                All Entry
+                
+                Car Transfer Application
               </p>
-              <h3 class="card-title" style="color: #ffffff" >99</h3>
+              <h3 class="card-title" style="color: #ffffff" th:text=${carTransferCount}></h3>
             </div>
             <div class="card-footer">
               <div class="stats">
@@ -92,7 +93,7 @@
       <div class="col-lg-4 col-md-6 col-sm-12">
         <div class="card card-stats mb-5">
           <a target="_blank"
-            href="#"
+          href="/ppm/car-sale-application"
             class="card-link"
           >
             <div
@@ -103,9 +104,9 @@
                 <i class="fa-regular fa-users"></i>
               </div>
               <p class="card-category fw-bold" style="color: #ffffff">
-                Previlage Report
+                Car Sale Application
               </p>
-              <h3 class="card-title" style="color: #ffffff" >99</h3>
+              <h3 class="card-title" style="color: #ffffff" th:text=${carSaleCount}></h3>
             </div>
             <div class="card-footer">
               <div class="stats">
@@ -121,4 +122,4 @@
     </div>
   </div>
 </div>
-<div th:replace="~{layout/Privilage/pvtfooter}"></div>
+<div th:replace="~{layout/ppm_privilage/ppmfooter}"></div>

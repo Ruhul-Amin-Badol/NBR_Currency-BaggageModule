@@ -1,145 +1,119 @@
-
-
+<div th:replace="~{layout/Privilage/pvtheader}"></div>
 <style>
-.form-check,label{
-color:#4517b3;
-}
-input[type=text], select {
-  width: 100%;
-  padding: 6px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-input[type=submit] {
-  width: 100%;
-  background-color: #4CAF50;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-input[type=submit]:hover {
-  background-color: #45a049;
-}
-
-/*div {
-  border-radius: 5px;
-  background-color: #f2f2f2;
-  padding: 20px;
-}*/
+  .submit-btn {
+    display: block;
+    margin: 0 auto;
+  }
 </style>
-
-
-<div th:replace="~{layout/header}"></div>
-
-<div class="container">
-  <div class="card">
+<div class="container-fluid">
+  <div class="card shadow">
     <div class="card-header">
-      <h1>Privileged Vehicle Tracking</h1>
+      <h1 class="text-warning">Privileged Vehicle Tracking</h1>
     </div>
     <div class="card-body">
-     
+      <form th:action="@{/pvt/insert-pvt}" method="post">
+        <div class="container">
+          <div class="row" >
+            <div class="col-md-6" style="padding: 32px;">
+
+              <div class="form-group">
+                <label for="billEntryNo">Bill of Entry No.</label>
+                <input type="text" class="form-control" id="billEntryNo" name="billEntryNo" placeholder="Enter B/E No" autocomplete="off" required>
+              </div>
+
+              <div class="form-group">
+                <label for="billEntryDate">Bill of Entry Date</label>
+                <input type="date" class="form-control" id="billEntryDate" name="billEntryDate" autocomplete="off" required>
+              </div>
+
+              <div class="form-group">
+                <label for="orgName">Name of org.</label>
+                <input type="text" class="form-control" id="orgName" name="orgName" autocomplete="off">
+              </div>
+              <div class="form-group">
+                <label for="passBookNo">Importer/Passbook Number</label>
+                <input type="text" class="form-control" id="passBookNo" name="passBookNo" autocomplete="off">
+            </div>
+            
+            <div class="form-group">
+                <label for="cpb_validity">CPB Validity</label>
+                <input type="text" class="form-control" id="cpbValidity" name="cpbValidity" placeholder="Enter CPB Validity" autocomplete="off" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="cpbValidity">Name of CPB Holder /Org. use</label>
+                <input type="text" class="form-control" id="cpbHolder" name="cpbHolder" autocomplete="off">
+            </div>
+            
+            <div class="form-group">
+                <label for="vehicleRegNo">Vehicle Reg. No.</label>
+                <input type="text" class="form-control" id="vehicleRegNo" name="vehicleRegNo" autocomplete="off">
+            </div>
+            
+            
+              <!-- Add similar form groups for other fields -->
+
+            </div>
+
+            <div class="col-md-6" style="padding: 32px;">
+              <span id="rajosso">
+                <div class="form-group">
+                  <label for="vehicleName">Vehicle Name</label>
+                  <input type="text" class="form-control" id="vehicleName" name="vehicleName" autocomplete="off">
+                </div>
+              </span>
+
+              <!-- Add similar form groups for other fields -->
+
+              <div class="form-group">
+                <label for="customHouse">Custom House</label>
+                <select class="form-control" name="customHosue" id="customHosue" autocomplete="off">
+                  <option value="">--Please Select--</option>
+                  <option value="Custom House, Benapole">Custom House, Benapole</option>
+                  <option value="Custom House, Chattogram">Custom House, Chattogram</option>
+                  <option value="Custom House, Dhaka">Custom House, Dhaka</option>
+                  <option value="Custom House, ICD">Custom House, ICD</option>
+                  <option value="Custom House, Pangaon">Custom House, Pangaon</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="remarks">Remarks</label>
+                <input type="text" class="form-control" id="remarks" name="remarks" required autocomplete="off">
+            </div>
+            
+            <div class="form-group">
+                <label for="cc">CC</label>
+                <input type="text" class="form-control" id="cc" name="cc" autocomplete="off">
+            </div>
+            
+            <div class="form-group">
+                <label for="engNo">Engine No.</label>
+                <input type="text" class="form-control" id="engNo" name="engNo" autocomplete="off">
+            </div>
+            
+            <div class="form-group">
+                <label for="chasisNo">Chasis No.</label>
+                <input type="text" class="form-control" id="chasisNo" name="chasisNo" autocomplete="off">
+            </div>
+            
+            <div class="form-group">
+                <label for="yrOfManf">Year of Manufacturing</label>
+                <input type="text" class="form-control" id="yrOfManf" name="yrOfManf" autocomplete="off">
+            </div>
+
+
+            </div>
+          </div>
+        </div>
+
+        <input type="submit" class="btn btn-primary submit-btn btn-lg" name="submit" id="submit" value="Submit">
+      </form>
     </div>
   </div>
-  <style>
-    .card-category {
-      font-size: 13px;
-
-    }
-    .card-icon {
-      border-radius: 3px;
-      background-color: #daffdae0;
-      padding: 15px;
-      margin-top: -20px;
-      margin-right: 15px;
-      float: left;
-      box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(0, 188, 212, 0.4);
-}
-.custom-card {
-                height: 100%; /* Set a fixed height for all cards */
-                box-sizing: border-box; /* Include padding and border in the height */
-            }
-  </style>
-
-<div>
-
-<form th:action="@{/pvt/insert-pvt}" method="post">
-  <div class="container">
-  	<div class="row" style="border:4px solid gray;">
-			<div class="col-md-6" style="padding:32px;">
-	
-			<label for="country">Bill of Entry No.</label>
-		  <input type="text" id="billEntryNo" name="billEntryNo" placeholder="Enter B/E No"    autocomplete="off"  required ><br><br>
-		    <label for="country">Bill of Entry Date</label>
-  <input type="date" id="billEntryDate" name="billEntryDate"  autocomplete="off"  required ><br><br>
-   <label for="country">Name of org.</label>
-  <input type="text" id="orgName" name="orgName" autocomplete="off"   ><br><br>
-     <label for="country">Importer/Passbook Number</label>
-  <input type="text" id="passBookNo" name="passBookNo"  autocomplete="off"   ><br><br>
-     
-  <label for="country">CPB Validity</label>
-	<input type="text" id="cpb_validity" name="cpb_validity" placeholder="Enter CPB Validity"  autocomplete="off"  required ><br><br>
-   <label for="country">Name of CPB Holder /Org. use</label>
-	<input type="text" id="cpbValidity" name="cpbValidity" autocomplete="off"   ><br><br>
-	  <label for="country">Vehicle Reg. No.</label>
-  <input type="text" id="vehicleRegNo" name="vehicleRegNo"  autocomplete="off"   ><br><br>
-   <label for="country">Remarks</label>
-  <input type="text" id="remarks" name="remarks"  required autocomplete="off" ><br><br>
-			</div>
-			
-			
-	<div class="col-md-6"><br>
- <span id="rajosso" >
-     <label for="country">Vehicle Name</label>
-  <input type="text" id="vehicleName" name="vehicleName"   autocomplete="off" ><br><br>
- </span>
- <label for="country">CC</label>
-  <input type="text" id="cc" name="cc"   autocomplete="off" ><br><br>
-
-       <label for="country">Engine No.</label>
-  <input type="text" id="engNo" name="engNo"   autocomplete="off" ><br><br>
-	 <br><br>
-	
-
-    <label for="country">Chasis No.</label>
-  <input type="text" id="chasisNo" name="chasisNo"   autocomplete="off" ><br><br>
-
-	 
-	
-     <label for="country">Year of Manufacturing</label>
- <input type="text" id="yrOfManf" name="yrOfManf"   autocomplete="off" ><br><br>
-	 
-
-
-   <label for="country">Custom House</label>
-  	 <select name="customHosue" id="customHosue" autocomplete="off">
-	 <option value=""></option>
-	 	<option value="Custom House, Benapole">Custom House, Benapole</option>
-		<option value="Custom House ,Chattogram">Custom House ,Chattogram</option>
-		 <option value="Custom House, Dhaka">Custom House, Dhaka</option>
-		  <option value="Custom House ,ICD">Custom House ,ICD</option>
-		   <option value="Custom House ,Pangaon">Custom House ,Pangaon</option>
-	 </select><br><br>
-
-
- 
-    
-	</div>
-	</div>
-  </div>
-  
-  
-  
-  
-    <input type="submit" name="submit" id="submit" value="Submit">
-  </form>
 </div>
 
 
+<div th:replace="~{layout/Privilage/pvtfooter}"></div>
+
+    

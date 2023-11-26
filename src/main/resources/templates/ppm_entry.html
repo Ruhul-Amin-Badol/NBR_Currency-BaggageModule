@@ -1,0 +1,294 @@
+<div th:replace="~{layout/ppm_privilage/ppmheader}"></div>
+<style>
+.form-check,label{
+color:#4517b3;
+}
+input[type=text], select {
+  width: 100%;
+  padding: 6px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+</style>
+
+
+<script>
+function application(){
+
+	var get_val=document.getElementById('application_type').value;
+
+	if(get_val==1){
+	document.getElementById('passbook_appli').style.display="block";
+	document.getElementById('passbook_appli2').style.display="block";
+	document.getElementById('car_trans12').style.display="block";
+	document.getElementById('car_trans13').style.display="block";
+	document.getElementById('car_trans14').style.display="block";
+
+	document.getElementById('car_trans').style.display="none";
+		document.getElementById('car_trans2').style.display="none";
+			document.getElementById('car_trans3').style.display="none";
+				document.getElementById('car_trans4').style.display="none";
+					document.getElementById('car_trans5').style.display="none";
+						document.getElementById('car_trans6').style.display="none";
+							document.getElementById('car_trans7').style.display="none";
+								document.getElementById('car_trans8').style.display="none";
+									document.getElementById('car_trans9').style.display="none";
+										document.getElementById('car_trans10').style.display="none";
+											document.getElementById('car_trans11').style.display="none";
+											document.getElementById('car_trans15').style.display="none";
+												document.getElementById('car_trans16').style.display="none";
+												
+	}
+	else if(get_val==2){
+	document.getElementById('passbook_appli').style.display="none";
+	document.getElementById('passbook_appli2').style.display="none";
+		document.getElementById('car_trans15').style.display="none";
+												document.getElementById('car_trans16').style.display="none";
+	
+
+	document.getElementById('car_trans').style.display="block";
+		document.getElementById('car_trans2').style.display="block";
+			document.getElementById('car_trans3').style.display="block";
+				document.getElementById('car_trans4').style.display="block";
+					document.getElementById('car_trans5').style.display="block";
+						document.getElementById('car_trans6').style.display="block";
+							document.getElementById('car_trans7').style.display="block";
+								document.getElementById('car_trans8').style.display="block";
+									document.getElementById('car_trans9').style.display="block";
+										document.getElementById('car_trans10').style.display="block";
+											document.getElementById('car_trans11').style.display="block";
+	}
+	
+		else if(get_val==3){
+	document.getElementById('passbook_appli').style.display="none";
+	document.getElementById('passbook_appli2').style.display="none";
+		document.getElementById('car_trans12').style.display="none";
+			document.getElementById('car_trans13').style.display="none";
+				document.getElementById('car_trans14').style.display="none";
+				document.getElementById('car_trans11').style.display="none";
+
+	document.getElementById('car_trans').style.display="block";
+		document.getElementById('car_trans2').style.display="block";
+			document.getElementById('car_trans3').style.display="block";
+				document.getElementById('car_trans4').style.display="block";
+					document.getElementById('car_trans5').style.display="block";
+						document.getElementById('car_trans6').style.display="block";
+							document.getElementById('car_trans7').style.display="block";
+								document.getElementById('car_trans8').style.display="block";
+									document.getElementById('car_trans9').style.display="block";
+										document.getElementById('car_trans10').style.display="block";
+											document.getElementById('car_trans15').style.display="block";
+												document.getElementById('car_trans16').style.display="block";
+	}
+}
+
+</script>
+
+<div>
+  <form th:action="@{/ppm/insert-ppm}" method="post"  enctype="multipart/form-data" >
+  <div class="container">
+  	<div class="row" style="border:4px solid gray;">
+	<div class="col-md-4" style="padding:32px;">
+
+	</div>
+	
+		<div class="col-md-4" style="padding:32px;">
+	<label for="country">Application Type.</label>
+	
+		  <select name="applicationType" id="application_type" onchange="application()" required >
+		  	<option value="">---Select Application Type---</option>
+			<option value="1">Customs Passbook Application form</option>
+			<option value="2">Car Transfer Application Form</option>
+			<option value="3">Car Sale Application Form</option>
+		  </select>
+	</div>
+	
+		<div class="col-md-4" style="padding:32px;">
+
+	</div>
+	
+			<div class="col-md-6">
+	
+			<label for="country">Name of Institute/Organization</label>
+		  <input type="text" id="organization" name="organization" placeholder="Enter Name of Institute/Organization"    autocomplete="off"  required ><br><br>
+		    <label for="country">Name Of Ministry (if applicable)</label>
+  <input type="text" id="ministry" name="ministry"  autocomplete="off"   >
+   
+			</div>
+			
+			
+	<div class="col-md-6">
+
+     <label for="country">Reference No & Date of Institute/Organization</label><br />
+  <input type="text" id="org_ref_no" name="orgRefNo"  style="width:50%;"   autocomplete="off" placeholder="Enter Reference No" >
+  <input type="text" id="org_ref_date" name="orgRefDate"   autocomplete="off" style="width:38%;" placeholder="Enter Reference Date" >
+  <br><br>
+
+       <label for="country">Reference No & Date of Ministry </label><br />
+   <input type="text" id="ministry_ref_no" name="ministryRefNo"  style="width:50%;"   autocomplete="off" placeholder="Enter Reference No" >
+  <input type="text" id="ministry_ref_date" name="ministryRefDate"   autocomplete="off" style="width:38%;" placeholder="Enter Reference Date" >
+	 <br><br>
+	
+	</div>
+
+	<p >
+    		<div class="col-md-6" id="passbook_appli" >
+	
+			<label for="country">Applicant Name </label>
+		  <input type="text" id="applicant_name" name="applicantName" placeholder="Enter Applicant Name"    autocomplete="off"   ><br><br>
+		    <label for="country">Designation</label>
+  <input type="text" id="designation" name="designation"  autocomplete="off"   ><br><br>
+  
+  <label for="country">UNLP No </label>
+		  <input type="text" id="unlp_no" name="unlpNo" placeholder="Enter UNLP No"    autocomplete="off"   ><br><br>
+		    <label for="country">UNLP Duration(if applicable)</label>
+  <input type="text" id="unlp_duration" name="unlpDuration"  autocomplete="off"   ><br><br>
+    <label for="country">First Arrival Date </label>
+		  <input type="text" id="first_arrival_date" name="firstArrivalDate"     autocomplete="off"   ><br><br>
+	
+			</div>
+			
+			
+	<div class="col-md-6" id="passbook_appli2" >
+
+     <label for="country">Passport No</label>
+  <input type="text" id="passport_no" name="passportNo"   autocomplete="off" ><br><br>
+
+       <label for="country">Duration(if applicable) </label>
+  <input type="text" id="pass_duration" name="passDuration"   autocomplete="off" ><br><br>
+  
+     <label for="country">Visa No</label>
+  <input type="text" id="visa_no" name="visaNo"   autocomplete="off" ><br><br>
+
+       <label for="country">Visa Duration </label>
+  <input type="text" id="visa_duration" name="visaDuration"   autocomplete="off" ><br><br>
+      <label for="country">Work Duration </label>
+  <input type="text" id="work_duration" name="workDuration"   autocomplete="off" ><br><br>
+	 <br><br> 
+	</div>
+	
+	
+	
+	
+	</p>
+	
+	<p >
+	
+	<div class="col-md-6" id="car_trans">
+		     <label for="country">Ministry of Foreign Affairs Reference No & Date (if applicable) </label><br />
+  <input type="text" id="ministry_foreign_ref_no" name="ministryForeignRefNo"  style="width:50%;"   autocomplete="off" placeholder="Enter Reference No" >
+  <input type="text" id="ministry_foreign_ref_date" name="ministryForeignRefDate"   autocomplete="off" style="width:38%;" placeholder="Enter Reference Date" >
+
+	</div>
+	<div class="col-md-6" id="car_trans2">
+	   
+	</div>
+
+
+
+<h2 style="text-align:center;background-color:#8e938e;font-size:19px;width:100%;color:white;font-weight:bold;" id="car_trans3" >Seller Information</h2>
+	<div class="col-md-6" id="car_trans4" >
+		     <label for="country">Name </label>
+  <input type="text" id="seller_name" name="sellerName"   autocomplete="off" ><br><br>
+  <label for="country">Customs Passbook/Diplomat Id No & Date </label><br />
+    <input type="text" id="custom_pass_id_no" name="customPassIdNo"  style="width:60%;"   autocomplete="off" placeholder="Enter Passbook/Diplomat Id No" >
+  <input type="text" id="custom_pass_date" name="customPassDate"   autocomplete="off" style="width:38%;" placeholder="Enter Date" >
+	</div>
+	<div class="col-md-6" id="car_trans5" >
+	     <label for="country">Designation </label>
+  <input type="text" id="seller_designation" name="sellerDesignation"   autocomplete="off" ><br><br>
+   <label for="country">Visa/Diplomat Visa No & Date </label><br />
+  <input type="text" id="seller_visa_no" name="sellerVisaNo"  style="width:50%;"   autocomplete="off" placeholder="Enter Visa/Diplomat Visa No" >
+  <input type="text" id="seller_visa_date" name="sellerVisaDate"   autocomplete="off" style="width:38%;" placeholder="Enter Date" >
+	</div>
+	<h2 style="text-align:center;background-color:#8e938e;font-size:19px;width:100%;color:white;font-weight:bold;" id="car_trans6" >Vehicle Information</h2>
+	<div class="col-md-6" id="car_trans7" >
+		     <label for="country">Name </label>
+  <input type="text" id="vehicle_name" name="vehicleName"   autocomplete="off" ><br><br>
+  <label for="country">Engine No </label>
+  <input type="text" id="eng_no" name="engNo"   autocomplete="off" ><br><br>
+   <label for="country">Year Of Manufacture </label>
+  <input type="text" id="manufacture_date" name="manufactureDate"   autocomplete="off" ><br><br>
+	</div>
+	<div class="col-md-6" id="car_trans8" >
+	     <label for="country">Registration No </label>
+  <input type="text" id="registration_no" name="registrationNo"   autocomplete="off" ><br><br>
+   <label for="country">Chassis No </label>
+  <input type="text" id="chassis_no" name="chassisNo"   autocomplete="off" ><br><br>
+   <label for="country">CC </label>
+  <input type="text" id="cc" name="cc"   autocomplete="off" ><br><br>
+	</div>
+<h2 style="text-align:center;background-color:#8e938e;font-size:19px;width:100%;color:white;font-weight:bold;" id="car_trans9" >Buyer Information (Optional)</h2>
+	<div class="col-md-6" id="car_trans10" >
+		     <label for="country">Name </label>
+  <input type="text" id="buyer_name" name="buyerName"   autocomplete="off" ><br><br>
+  <label for="country">Customs Passbook/Diplomat Id No & Date </label>
+    <input type="text" id="buyer_passbo_no" name="buyerPassboNo"  style="width:60%;"   autocomplete="off" placeholder="Enter Passbook/Diplomat Id No" >
+  <input type="text" id="buyer_pass_date" name="buyerPassDate"   autocomplete="off" style="width:38%;" placeholder="Enter Date" >
+	</div>
+	<div class="col-md-6" id="car_trans11" >
+	     <label for="country">Designation </label>
+  <input type="text" id="buyer_designation" name="buyerDesignation"   autocomplete="off" ><br><br>
+   <label for="country">Visa/Diplomat Visa No & Date </label><br />
+ <input type="text" id="buyer_visa_no" name="buyerVisaNo"  style="width:50%;"   autocomplete="off" placeholder="Enter Visa/Diplomat Visa No" >
+  <input type="text" id="buyer_visa_date" name="buyerVisaDate"   autocomplete="off" style="width:38%;" placeholder="Enter Date" >
+	</div>
+	<div class="col-md-6" id="car_trans15" >
+	     <label for="country">Address </label>
+  <input type="text" id="buyer_address" name="buyerAddress"   autocomplete="off" ><br><br>
+   <label for="country">NID </label><br />
+ <input type="text" id="buyer_nid" name="buyerNid"  style="width:50%;"   autocomplete="off" placeholder="Enter NID No" >
+  
+	</div>
+	<div class="col-md-6" id="car_trans16" >
+	     <label for="country">TIN </label>
+  <input type="text" id="buyer_tin" name="buyerTin"   autocomplete="off" ><br><br>
+   
+	</div>
+	
+	<h2 style="text-align:center;background-color:#8e938e;font-size:19px;width:100%;color:white;font-weight:bold;" id="car_trans14" >Contact Person</h2>
+	<div class="col-md-6" id="car_trans12" >
+		     <label for="country">Name </label>
+  <input type="text" id="contact_person_name" name="contactPersonName"   autocomplete="off" ><br><br>
+  <label for="country">Mobile No </label>
+  <input type="text" id="cont_mobile_no" name="contMobileNo"   autocomplete="off" ><br><br>
+	</div>
+	<div class="col-md-6" id="car_trans13">
+	     <label for="country">Designation </label>
+  <input type="text" id="con_designation" name="conDesignation"   autocomplete="off" ><br><br>
+   <label for="country">Phone No </label>
+  <input type="text" id="con_phone_no" name="conPhoneNo"   autocomplete="off" ><br><br>
+	</div>
+	<div class="col-md-6" id="">
+	     <label for="country">Upload Relevent Document </label>
+  <input type="file" id="uploadFile" name="uploadFile"   autocomplete="off" ><br><br>
+    
+	</div>
+	</p>
+  </div>
+    <input type="submit" name="submit" id="submit" value="Submit">
+  </form>
+</div>
+
+<div th:replace="~{layout/ppm_privilage/ppmfooter}"></div>
+
+

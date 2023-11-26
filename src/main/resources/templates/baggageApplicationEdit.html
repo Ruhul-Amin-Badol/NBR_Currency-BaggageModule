@@ -68,7 +68,7 @@
                     record.nationality,
                     record.passport_number,
                     record.status,
-                    `<a href="/baggagestart/edit-baggage?generatedId=${record.id}" class="btn btn-primary">Edit</a>`,
+                    ` <a href="/baggagestart/edit-baggage?generatedId=${record.id}" class="btn btn-primary">Edit</a>`,
                 ]);
 
                 if (dataTable) {
@@ -97,13 +97,17 @@
         });
     }
 
+   //filter date function 
     $(document).ready(function () {
         fetchDataAndPopulateTable();
 
         $('#filterButton').on('click', function () {
             const fromDate = $('#fromDate').val();
             const toDate = $('#toDate').val();
-            dataTable.columns(0).search(fromDate + '|' + toDate, true, false).draw();
+
+            dataTable.columns(3).search(fromDate + '|' + toDate, true, false);
+
+            dataTable.draw();
         });
     });
 </script>

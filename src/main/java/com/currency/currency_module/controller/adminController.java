@@ -6,16 +6,20 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.currency.currency_module.AirportInformation;
+import com.currency.currency_module.model.AirportList;
+import com.currency.currency_module.services.AirportService;
 
-
+@Component
 @Controller
 @RequestMapping("/baggageshow")
 public class adminController {
@@ -25,7 +29,8 @@ public class adminController {
 
     @Autowired
     AirportInformation airportInformation;
-
+    @Autowired
+    AirportService airportService;
     
     @GetMapping("/baggagetotal")
     public String baggagetotal( Model model ,Principal principal) {
@@ -112,7 +117,34 @@ public class adminController {
             return "baggageApplicationEdit";
         }
 
-        
 
+        //For Baggage Report
+        
+        @GetMapping("/baggageReport")
+     
+        public String baggageReport(Model model ){ 
+            model.addAttribute("allAirportList", airportService.getAllAirports());
+
+            String sql1 = "SELECT item_name FROM baggage_item_info";
+            List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1);
+            model.addAttribute("productshow", productshow);
+
+            String sql2 ="SELECT * FROM baggage JOIN baggage_item_info ON baggage.id = baggage_item_info.id JOIN baggage_product_add ON baggage_item_info. id = baggage_product_add.baggage_id";
+            List<Map<String, Object>> product = jdbcTemplate.queryForList(sql2);
+            model.addAttribute("product", product);
+            
+            return "baggageReport";
+        }
+
+        // @PostMapping("/baggagefilterReport")
+        // @ResponseBody
+        // public String baggagefilterReport(Model model ){ 
+           
+        //     String sql2 ="SELECT * FROM baggage JOIN baggage_item_info ON baggage.id = baggage_item_info.id JOIN baggage_product_add ON baggage_item_info. id = baggage_product_add.baggage_id";
+        //     List<Map<String, Object>> product = jdbcTemplate.queryForList(sql2);
+        //     model.addAttribute("product", product);
+            
+        //     return "baggageReport";
+        // }
 
 }

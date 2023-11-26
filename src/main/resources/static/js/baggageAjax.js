@@ -1,53 +1,5 @@
 let addData = [];
 
-// const products = [
-//   "ক্যাসেট পেস্লয়ার/টুইনওয়ান",
-//   "ডিস্কম্যান/ওয়াকম্যান (অডিও)",
-//   "বহনযোগ্য অডিও সিডি পেস্নয়ার",
-//   "ডেস্কটপ/ল্যাপটপ কম্পিউটার (প্রিন্টার ও ইউপিএস সহ)",
-//   "কমপিউটার স্ক্যানার",
-//   "কমপিউটার প্রিন্টার",
-//   "ফ্যাক্স মেশিন",
-//   "ভিডিও ক্যামেরা (HD Cam, DV Cam, BETA Cam এবং Professional কাজে ব্যবহৃত হয় এরূপ ক্যামেরা ব্যতীত)",
-//   "স্টীল ক্যামেরা /ডিজিটাল ক্যামেরা",
-//   "সাধারণ/পুশবাটন/কর্ডলেস টেলিফোন সেট",
-//   "রাইস কুকার/প্রেসার কুকার",
-//   "টোস্টার/স্যান্ডউইচ মেকার/বেস্নন্ডার/ফুড প্রসেসর/জুসার/ কফি মেকার",
-//   "সাধারণ ও বৈদ্যুতিক টাইপরাইটার",
-//   "গৃহস্থালী সেলাই মেশিন (ম্যানুয়াল / বৈদ্যুতিক)",
-//   "টেবিল/ প্যাডেস্টাল ফ্যান/গৃহস্থালী সিলিং ফ্যান",
-//   "স্পোর্টস সরঞ্জাম (ব্যক্তিগত ব্যবহারের জন্য)",
-//   "২০০ গ্রাম ওজনের স্বর্ণ/ রৌপ্য অলংকার (এক প্রকার অলংকার ১২টির অধিক হইবে না)",
-//   "১ কার্টন (২০০ শলাকা) সিগারেট",
-//   "পর্যন্ত (CRT) সাদাকালো/রঙ্গিন টেলিভিশন",
-//   "পর্যন্ত (CRT) সাদাকালো/রঙ্গিন টেলিভিশন",
-//   "ভিসিআর/ভিসিপি",
-//   "সাধারণ সিডি ও দুইটি স্পীকারসহ কম্পোনেন্ট (মিউজিক সেন্টার) (সিডি/ভিসিডি/ ডিভিডি/এলডি/ এমডি সেট)",
-//   "ভিসিডি/ডিভিডি/এলডি/এমডি/ ব্ল রেডিস্ক প্লেয়ার",
-//   "এলসিডি কমপিউটার মনিটর (টিভি সুবিধা থাকুক বা নাই থাকুক)  পর্যন্ত",
-//   "একটি মোবাইল/ সেলুলার ফোন সেট",
-//   "Plasma, LCD, TFT ও অনুরূপ প্রযুক্তির টেলিভিশন ( ১৮ - ২১) পর্যন্ত)",
-//   "Plasma, LCD, TFT ও অনুরূপ প্রযুক্তির টেলিভিশন ( ১৮ - ২১) পর্যন্ত)",
-//   "Plasma, LCD, TFT ও অনুরূপ প্রযুক্তির টেলিভিশন ( ২২-২৯) পর্যন্ত)",
-//   "Plasma, LCD, TFT ও অনুরূপ প্রযুক্তির টেলিভিশন ( ৩০-৪২) পর্যন্ত)",
-//   "Plasma, LCD, TFT ও অনুরূপ প্রযুক্তির টেলিভিশন ( ৪৩ -৫২) পর্যন্ত)",
-//   "Plasma, LCD, TFT ও অনুরূপ প্রযুক্তির টেলিভিশন ( ৫৩ থেকে তদূর্ধ্ব সাইজ পর্যন্ত)",
-//   "৪ (চার) টি স্পীকারসহ কম্পোনেন্ট (মিউজিক সেন্টার ) (সিডি/ভিসিডি/ ডিভিডি/এলডি/এমডি/র রেডিস্ক সেট)",
-//   "৪ (চার) এর অধিক তবে সর্বোচ্চ ৮ টি স্পীকারসহ(মিউজিক সেন্টার) / স্পীকার নির্বিশেষে হোম থিয়েটার (সিডি / ভিসিডি/ ডিভিডি/এলডি/এমডি/র রেডিস্ক সেট)",
-//   "রেফ্রিজারেটর/ডিপ ফ্রিজার",
-//   "ডিশ ওয়াশার/ওয়াশিং মেশিন/ক্লথ ড্রাইয়ার",
-//   "এয়ার কুলার / এয়ার কন্ডিশনার উইনডো টাইপ ( window type )",
-//   "এয়ার কুলার / এয়ার কন্ডিশনার স্পিল্ট টাইপ (split type)",
-//   "গ্যাস ওভেন (বার্নার সহ )",
-//   "ডিশ এন্টেনা",
-//   "স্বর্ণবার বা স্বর্ণপিন্ড(সর্বোচ্চ ২০০ গ্রাম)",
-//   "রৌপ্যবার বা রৌপ্যপিন্ড(সর্বোচ্চ ২০০ গ্রাম)",
-//   "HD Cam, DV Cam, BETA Cam 47 Professional কাজে ব্যবহৃত হয় এরূপ ক্যামেরা",
-//   "এয়ারগান/এয়ার রাইফেল (বাণিজ্য মন্ত্রণালয়ের অনুমোদন ৫,০০০/- টাকা সাপেক্ষে আমদানিযোগ্য, আমদানি নীতি আদেশ ২০০৯-২০১২ দ্রষ্টব্য)",
-//   "ঝাড়বাতি",
-//   "কার্পেট ১৫ বর্গমিটার পর্যন্ত"
-// ];
-
 //----->populateTable data add every click new row<-------//
 function populateTable() {
   const newRow1 = $("<tr>");
@@ -63,27 +15,27 @@ function populateTable() {
     let newRow = $("<tr>");
     // console.log(item.quantity);
     // console.log(item.duty_free);
-    if(item.duty_free !=0 && item.quantity>item.duty_free) {
+    // if(item.duty_free !=0 && item.quantity>item.duty_free) {
       
-      newRow.append(`<td style="color: red;">${item.productName}</td>`); // Use the correct field names
-      newRow.append(`<td style="color: red;">${item.otherItem}</td>`); // Use the correct field names
-      newRow.append(`<td style="color: red;">${item.unit}</td>`);
-      newRow.append(`<td style="color: red;">${item.inchi}</td>`);
-      newRow.append(`<td style="color: red;">${item.quantity}</td>`);
-      newRow.append(`<td style="color: red;" class="d-none" >${item.perUnitValue}</td>`);
-      newRow.append(`<td style="color: red;">${item.totalValue}</td>`);
-      newRow.append(`<td style="color: red;">${item.tax}</td>`);
-      newRow.append(`<td style="color: red;">${item.cd}</td>`);
-      newRow.append(`<td style="color: red;">${item.rd}</td>`);
-      newRow.append(`<td style="color: red;">${item.sd}</td>`);
-      newRow.append(`<td style="color: red;">${item.vat}</td>`);
-      newRow.append(`<td style="color: red;">${item.ait}</td>`);
-      newRow.append(`<td style="color: red;">${item.at}</td>`);
-      newRow.append(`<td style="color: red;">${item.at}</td>`);
-      newRow.append(`<td style="color: red;">${item.taxAmount}</td>`);
+    //   newRow.append(`<td style="color: red;">${item.productName}</td>`); // Use the correct field names
+    //   newRow.append(`<td style="color: red;">${item.otherItem}</td>`); // Use the correct field names
+    //   newRow.append(`<td style="color: red;">${item.unit}</td>`);
+    //   newRow.append(`<td style="color: red;">${item.inchi}</td>`);
+    //   newRow.append(`<td style="color: red;">${item.quantity}</td>`);
+    //   newRow.append(`<td style="color: red;" class="d-none" >${item.perUnitValue}</td>`);
+    //   newRow.append(`<td style="color: red;">${item.totalValue}</td>`);
+    //   newRow.append(`<td style="color: red;">${item.tax}</td>`);
+    //   newRow.append(`<td style="color: red;">${item.cd}</td>`);
+    //   newRow.append(`<td style="color: red;">${item.rd}</td>`);
+    //   newRow.append(`<td style="color: red;">${item.sd}</td>`);
+    //   newRow.append(`<td style="color: red;">${item.vat}</td>`);
+    //   newRow.append(`<td style="color: red;">${item.ait}</td>`);
+    //   newRow.append(`<td style="color: red;">${item.at}</td>`);
+    //   newRow.append(`<td style="color: red;">${item.at}</td>`);
+    //   newRow.append(`<td style="color: red;">${item.taxAmount}</td>`);
 
 
-    } else {
+    // } else {
 
      newRow = $("<tr>");
      newRow.append(`<td>${item.productName}</td>`); // Use the correct field names
@@ -94,23 +46,15 @@ function populateTable() {
      newRow.append(`<td class="d-none" >${item.perUnitValue}</td>`);
      newRow.append(`<td>${item.totalValue}</td>`);
      newRow.append(`<td>${item.tax}</td>`);
- 
- 
+
      newRow.append(`<td>${item.cd}</td>`);
      newRow.append(`<td>${item.rd}</td>`);
      newRow.append(`<td>${item.sd}</td>`);
      newRow.append(`<td>${item.vat}</td>`);
      newRow.append(`<td>${item.ait}</td>`);
      newRow.append(`<td>${item.at}</td>`);
-
- 
- 
- 
- 
- 
- 
      newRow.append(`<td>${item.taxAmount}</td>`);
-    }
+    // }
 
 
     // Create a new table row for each item
@@ -123,10 +67,10 @@ function populateTable() {
     //   `<td  class="text-center text-danger"><i class="fa-solid fa-xmark delete-button"></i></td>`
     // );
     newRow.append(
-      `<td  class="text-center text-danger"><button onClick="EditProduct(${item.id})" type="button" class="btn btn-primary" id="addButton">Edit</button></td>`
+      `<td  class="text-center text-danger"><button onClick="EditProduct(${item.id})" type="button" class="btn btn-primary" id="addButton"><i class="fa-solid fa-pen-to-square"></i></button></td>`
     );
     newRow.append(
-      `<td  class="text-center text-danger"><button onClick="DeleteProduct(${item.id})" type="button" class="btn btn-danger" id="addButton">Delete</button></td>`
+      `<td  class="text-center text-danger"><button onClick="DeleteProduct(${item.id})" type="button" class="btn btn-danger" id="addButton"><i class="fa-solid fa-trash"></i></button></td>`
     );
     let toatal=item.taxAmount
     totalTax += parseFloat(toatal);

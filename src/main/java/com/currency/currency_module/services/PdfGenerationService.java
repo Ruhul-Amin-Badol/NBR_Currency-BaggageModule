@@ -57,6 +57,7 @@ public class PdfGenerationService {
                 yPosition -= heightImage;
 
                 // Display header text
+
                 String headerText = "National Board Of Revenue, Bangladesh";
                 contentStream.beginText();
                 contentStream.newLineAtOffset(xPosition, yPosition);
@@ -72,6 +73,33 @@ public class PdfGenerationService {
                     contentStream.endText();
                     yPosition -= rowHeight; // Adjust the Y-coordinate
                 }
+
+                // String headerText = "National Board Of Revenue, Bangladesh";
+                // contentStream.beginText();
+                // contentStream.newLineAtOffset(xPosition, yPosition);
+                // contentStream.showText(headerText);
+                // contentStream.endText();
+                // yPosition -= rowHeight; // Adjust the Y-coordinate
+
+
+
+                // Generate QR code
+
+
+                // Set the position and size of the QR code image
+                float xQRCode = 250;
+                float yQRCode = 200;
+                float widthQRCode = 100;  // Adjust this value based on your QR code image size
+                float heightQRCode = 100;  // Adjust this value based on your QR code image size
+
+                // Draw the QR code on the page
+                String qrCodeData = "http://172.24.79.143:8080/baggagestart/confrimPage?id="+id+"&session_token="+sessionToken+"&status=success";
+                ByteArrayOutputStream qrCodeStream = generateQRCode(qrCodeData);
+                contentStream.drawImage(PDImageXObject.createFromByteArray(document, qrCodeStream.toByteArray(), "QR Code"), xQRCode, yQRCode, widthQRCode, heightQRCode);
+
+                // Adjust the Y-coordinate after adding the QR code
+                yPosition -= heightQRCode;
+
 
                 // Generate QR code
                 String qrCodeData = "http://172.24.79.144:8080/baggagestart/confrimPage?id="+id+"&session_token="+sessionToken+"&status=success";
@@ -105,6 +133,14 @@ public class PdfGenerationService {
                         // Reset x-coordinate for the next row
                         xPosition = margin;
                     }
+                }
+                // Display total paid amount
+                if (totalPaidAmount != null) {
+                    contentStream.beginText();
+                    contentStream.newLineAtOffset(xPosition, yPosition);
+                    contentStream.showText("Total Paid Amount: " + totalPaidAmount);
+                    contentStream.endText();
+                    yPosition -= rowHeight; // Adjust the Y-coordinate
                 }
             }
 
@@ -161,5 +197,4 @@ public class PdfGenerationService {
 
         // Adjust the Y-coordinate with additional line spacing
         return y - rowHeight - lineSpacing;
-    }
-}
+    }}

@@ -47,7 +47,7 @@ public class airportController {
     @PostMapping("/create-port")
     private String createPort(@ModelAttribute @Valid AirportList airportList, BindingResult result, @RequestParam MultipartFile image) {
       
-      System.out.println("image.getOriginalFilename()========================="+image.getOriginalFilename());
+     // System.out.println("image.getOriginalFilename()========================="+image.getOriginalFilename());
         airportList.setImage(image.getOriginalFilename());
         AirportList uplodeImage = airportService.createAirport(airportList);
 

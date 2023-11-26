@@ -1,0 +1,114 @@
+<div th:replace="~{layout/Privilage/pvtheader}"></div>
+<style>
+  .submit-btn {
+    display: block;
+    margin: 0 auto;
+  }
+</style>
+<div class="container-fluid">
+    <div class="card shadow">
+      <div class="card-header">
+        <h1 class="text-warning">Privileged Vehicle Tracking Edit</h1>
+      </div>
+      <div class="card-body">
+        <form th:action="@{/pvt/update-pvt}" method="post" th:object="${pvtInfo}">
+          <input type="hidden"  th:field="*{id}" />
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6" style="padding: 32px;">
+  
+                <div class="form-group">
+                  <label for="billEntryNo">Bill of Entry No.</label>
+                  <input type="text" class="form-control" id="billEntryNo" name="billEntryNo" th:field="*{billEntryNo}" placeholder="Enter B/E No" autocomplete="off" required >
+                </div>
+  
+                <div class="form-group">
+                  <label for="billEntryDate">Bill of Entry Date</label>
+                  <input type="date" class="form-control" id="billEntryDate" name="billEntryDate" th:field="*{billEntryDate}" autocomplete="off" required >
+                </div>
+  
+                <div class="form-group">
+                  <label for="orgName">Name of org.</label>
+                  <input type="text" class="form-control" id="orgName" name="orgName" th:field="*{orgName}" autocomplete="off" >
+                </div>
+  
+                <div class="form-group">
+                  <label for="passBookNo">Importer/Passbook Number</label>
+                  <input type="text" class="form-control" id="passBookNo" name="passBookNo" th:field="*{passBookNo}" autocomplete="off" >
+                </div>
+  
+                <div class="form-group">
+                  <label for="cpb_validity">CPB Validity</label>
+                  <input type="text" class="form-control" id="cpb_validity" name="cpb_validity" th:field="*{cpbValidity}" placeholder="Enter CPB Validity" autocomplete="off" required >
+                </div>
+
+                <div class="form-group">
+                    <label for="cpbValidity">Name of CPB Holder /Org. use</label>
+                    <input type="text" class="form-control" id="cpbValidity" name="cpbValidity" th:field="*{cpbHolder}" autocomplete="off">
+                </div>
+  
+                <div class="form-group">
+                  <label for="vehicleRegNo">Vehicle Reg. No.</label>
+                  <input type="text" class="form-control" id="vehicleRegNo" name="vehicleRegNo" th:field="*{vehicleRegNo}" autocomplete="off" >
+                </div>
+  
+                <!-- Add similar form groups for other fields -->
+  
+              </div>
+  
+              <div class="col-md-6" style="padding: 32px;">
+                <div class="form-group">
+                  <label for="vehicleName">Vehicle Name</label>
+                  <input type="text" class="form-control" id="vehicleName" name="vehicleName" th:field="*{vehicleName}" autocomplete="off" >
+                </div>
+  
+                <div class="form-group">
+                  <label for="customHosue">Custom House</label>
+                  <select class="form-control" name="customHosue" id="customHosue" th:field="*{customHosue}" autocomplete="off">
+                    <option value="" th:selected="${pvtInfo.customHosue == '--Please Select--'}">--Please Select--</option>
+                    <option value="Custom House, Benapole" th:selected="${pvtInfo.customHosue == 'Custom House, Benapole'}">Custom House, Benapole</option>
+                    <option value="Custom House, Chattogram" th:selected="${pvtInfo.customHosue == 'Custom House, Chattogram'}">Custom House, Chattogram</option>
+                    <option value="Custom House, Dhaka" th:selected="${pvtInfo.customHosue == 'Custom House, Dhaka'}">Custom House, Dhaka</option>
+                    <option value="Custom House, ICD" th:selected="${pvtInfo.customHosue == 'Custom House, ICD'}">Custom House, ICD</option>
+                    <option value="Custom House, Pangaon" th:selected="${pvtInfo.customHosue == 'Custom House, Pangaon'}">Custom House, Pangaon</option>
+                  </select>
+                </div>
+  
+                <div class="form-group">
+                  <label for="remarks">Remarks</label>
+                  <input type="text" class="form-control" id="remarks" name="remarks" th:field="*{remarks}" required autocomplete="off" >
+                </div>
+  
+                <div class="form-group">
+                  <label for="cc">CC</label>
+                  <input type="text" class="form-control" id="cc" name="cc" th:field="*{cc}" autocomplete="off" >
+                </div>
+  
+                <div class="form-group">
+                  <label for="engNo">Engine No.</label>
+                  <input type="text" class="form-control" id="engNo" name="engNo" th:field="*{engNo}" autocomplete="off" >
+                </div>
+  
+                <div class="form-group">
+                  <label for="chasisNo">Chasis No.</label>
+                  <input type="text" class="form-control" id="chasisNo" name="chasisNo" th:field="*{chasisNo}" autocomplete="off" >
+                </div>
+  
+                <div class="form-group">
+                  <label for="yrOfManf">Year of Manufacturing</label>
+                  <input type="text" class="form-control" id="yrOfManf" name="yrOfManf" th:field="*{yrOfManf}" autocomplete="off" >
+                </div>
+  
+              </div>
+            </div>
+          </div>
+  
+          <input type="submit" class="btn btn-primary submit-btn btn-lg" name="submit" id="submit" value="Update">
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+<div th:replace="~{layout/Privilage/pvtfooter}"></div>
+

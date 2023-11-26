@@ -40,13 +40,14 @@ public class SecurityConfig {
 public static class App1ConfigurationAdapter {
    @Bean
     SecurityFilterChain securityFilterChain1(HttpSecurity httpSecurity) throws Exception {
-       //      AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
+       // AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
        // authenticationManagerBuilder.userDetailsService(userDetailsSe*rvice);
        // AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
 
        httpSecurity.csrf(csrf -> csrf.disable())
                .securityMatcher("/pvt/*")
                .authorizeHttpRequests()
+            //    .requestMatchers(HttpMethod.GET, "/pvt/pvt-entry").permitAll()
                .anyRequest()
                .authenticated()
                .and()
@@ -54,13 +55,32 @@ public static class App1ConfigurationAdapter {
                        .loginPage("/pvt/signinpvt")  // Specify the login page for the second form
                        .loginProcessingUrl("/pvt/loginpvt")  // Specify the login processing URL for the second form
                        // Redirect to /otherDashboard after successful login for the second form
-                       .defaultSuccessUrl("/pvt/pvt-entry", true)
+                       .defaultSuccessUrl("/pvt/pvt-dashboard", true)
                        .permitAll())
-               .rememberMe(withDefaults())
-                    ;
-                   
+               .rememberMe(withDefaults());     
+                return httpSecurity.build();
+    }
 
-                    
+}
+
+@Configuration
+@Order(2)
+public static class App2ConfigurationAdapter {
+   @Bean
+    SecurityFilterChain securityFilterChain2(HttpSecurity httpSecurity) throws Exception {
+
+       httpSecurity.csrf(csrf -> csrf.disable())
+               .securityMatcher("/ppm/*")
+               .authorizeHttpRequests()
+               .anyRequest()
+               .authenticated()
+               .and()
+               .formLogin(login -> login
+                       .loginPage("/ppm/signinppm")  // Specify the login page for the second form
+                       .loginProcessingUrl("/ppm/loginppm")  // Specify the login processing URL for the second form
+                       .defaultSuccessUrl("/ppm/ppm-dashboard", true)
+                       .permitAll())
+               .rememberMe(withDefaults());
                 return httpSecurity.build();
     }
 
@@ -69,10 +89,10 @@ public static class App1ConfigurationAdapter {
 
 
 @Configuration
-@Order(2)
-public static class App2ConfigurationAdapter {
+@Order(3)
+public static class App3ConfigurationAdapter {
    @Bean
-    SecurityFilterChain securityFilterChain2(HttpSecurity httpSecurity) throws Exception {
+    SecurityFilterChain securityFilterChain3(HttpSecurity httpSecurity) throws Exception {
        //      AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
        // authenticationManagerBuilder.userDetailsService(userDetailsSe*rvice);
        // AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
