@@ -144,8 +144,11 @@ public class currencyController {
    
     public String updatestatuscurrency(@RequestParam Long id, Model model){
         CurrencyDeclaration currencyDeclaration= currencyServices.findcurrency(id);
+
         currencyDeclaration.setStatus("unchecked");
         currencyDeclarationRepository.save(currencyDeclaration);
+         List<BaggageCurrencyAdd> listcurrency= currencyServices.baggagecurrecylist(id);
+         model.addAttribute("CurrencyShow", listcurrency);
          model.addAttribute("Currency",currencyServices.findcurrency(id));
         
 

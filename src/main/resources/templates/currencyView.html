@@ -239,7 +239,7 @@
                             <tr>
                                 <td style="border: 1px solid black;" th:text="${customer.currencyName}"> USD </td>
                                 <td style="border: 1px solid black;" th:text="${customer.currencyAmount}" class="currency-amount"> USD </td>
-                                <td style="border: 1px solid black;" class="currency-words" > One Hundred </td>
+                                <td style="border: 1px solid black;" class="currency-words" ></td>
                             </tr>
                      
                     </tbody>
@@ -300,10 +300,10 @@
 </div>
 <script>
 
-        var a = ['','One ','Two ','Three ','Four ', 'Five ','Six ','Seven ','Eight ','Nine ','Ten ','Eleven ','Twelve ','Thirteen ','Fourteen ','Fifteen ','Sixteen ','Seventeen ','Eighteen ','Nineteen '];
-var b = ['', '', 'Twenty','Thirty','Forty','Fifty', 'Sixty','Seventy','Eighty','Ninety'];
+    var a = ['','One ','Two ','Three ','Four ', 'Five ','Six ','Seven ','Eight ','Nine ','Ten ','Eleven ','Twelve ','Thirteen ','Fourteen ','Fifteen ','Sixteen ','Seventeen ','Eighteen ','Nineteen '];
+    var b = ['', '', 'Twenty','Thirty','Forty','Fifty', 'Sixty','Seventy','Eighty','Ninety'];
 
-function inWords (num) {
+    function inWords (num) {
 
     if ((num = num.toString()).length > 9) return 'overflow';
     n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
@@ -372,23 +372,7 @@ function convertCurrencyToWords() {
         window.location.href = '/currencystart/currencyEdit?id=' + id;
         }
         
-   //currency barcode js
-    function generateBarcode() {
-    // Get the value from the hidden input field
-    var idValue = document.getElementById("Currency").value*10000;
-
-    // Define the element where you want to display the barcode
-    var barcodeElement = document.getElementById("barcode");
-
-    // Generate the barcode using JsBarcode
-    JsBarcode(barcodeElement, idValue, {
-        format: "CODE128", // Specify the barcode format you want to use
-        displayValue: false, // Set to true if you want to display the value alongside the barcode
-    });
-    var barcodeValueElement = document.getElementById("barcode-value");
-    barcodeValueElement.textContent = idValue;
-}
-window.onload = qrcode;
+window.onload = convertCurrencyToWords;
 </script> 
 
 <div th:replace="~{layout/footer}"></div>
