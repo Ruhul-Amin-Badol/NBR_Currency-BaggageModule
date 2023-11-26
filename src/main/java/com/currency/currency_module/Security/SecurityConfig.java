@@ -171,7 +171,7 @@ public static class App3ConfigurationAdapter {
 
                     
                 return httpSecurity.build();
-    }
+    } 
 
 }
 
