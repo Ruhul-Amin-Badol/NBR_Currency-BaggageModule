@@ -1,0 +1,183 @@
+<div th:replace="~{layout/support}"></div>
+<!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" > -->
+<link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" >
+<link href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css" rel="stylesheet" >
+
+<style>
+    .sr-main-content-heading {
+      margin: 0;
+      padding: 0;
+      font-size: 18px;
+      font-weight: 500;
+      color: #48465b;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+</style>
+
+
+<div class="sr-main-content-heading">
+    <i class="fa fa-server" style="padding-right: 10px"></i>Prevelige Person Module
+    <p>Car Sale Application</p>
+  </div>
+<table id="example" class="table table-striped " style="zoom: 70%;">
+    <thead>
+        <tr>
+
+
+            <th>Buyer Address</th>
+
+            <th>Buyer Name</th>
+            <th>Buyer NID</th>
+            <th>Buyer Passport Date</th>
+            <th>Buyer Passport BO No</th>
+            <th>Buyer TIN</th>
+
+            <th>CC</th>
+            <th>Chassis No</th>
+
+            <th>Custom Pass Date</th>
+            <th>Custom Pass ID No</th>
+
+            <th>Eng No</th>
+
+
+            <th>Manufacture Date</th>
+            <th>Ministry</th>
+            <th>Ministry Foreign Ref Date</th>
+            <th>Ministry Foreign Ref No</th>
+            <th>Ministry Ref Date</th>
+            <th>Ministry Ref No</th>
+            <th>Org Ref Date</th>
+            <th>Org Ref No</th>
+            <th>Organization</th>
+
+            <th>Registration No</th>
+            <th>Seller Designation</th>
+            <th>Seller Name</th>
+            <th>Seller Visa Date</th>
+            <th>Seller Visa No</th>
+
+            <th>Upload File</th>
+            <th>Vehicle Name</th>
+
+        </tr>
+    </thead>
+    <tbody >
+
+        <tr th:each="ppmInfo : ${allPpm}">
+
+<!-- Assuming ppmInfo is the object containing these fields -->
+
+<td th:text="${ppmInfo.buyerAddress}"></td>
+
+<td th:text="${ppmInfo.buyerName}"></td>
+<td th:text="${ppmInfo.buyerNid}"></td>
+<td th:text="${ppmInfo.buyerPassDate}"></td>
+<td th:text="${ppmInfo.buyerPassboNo}"></td>
+<td th:text="${ppmInfo.buyerTin}"></td>
+
+<td th:text="${ppmInfo.cc}"></td>
+<td th:text="${ppmInfo.chassisNo}"></td>
+
+<td th:text="${ppmInfo.customPassDate}"></td>
+<td th:text="${ppmInfo.customPassIdNo}"></td>
+
+<td th:text="${ppmInfo.engNo}"></td>
+
+
+<td th:text="${ppmInfo.manufactureDate}"></td>
+<td th:text="${ppmInfo.ministry}"></td>
+<td th:text="${ppmInfo.ministryForeignRefDate}"></td>
+<td th:text="${ppmInfo.ministryForeignRefNo}"></td>
+<td th:text="${ppmInfo.ministryRefDate}"></td>
+<td th:text="${ppmInfo.ministryRefNo}"></td>
+<td th:text="${ppmInfo.orgRefDate}"></td>
+<td th:text="${ppmInfo.orgRefNo}"></td>
+<td th:text="${ppmInfo.organization}"></td>
+
+<td th:text="${ppmInfo.registrationNo}"></td>
+<td th:text="${ppmInfo.sellerDesignation}"></td>
+<td th:text="${ppmInfo.sellerName}"></td>
+<td th:text="${ppmInfo.sellerVisaDate}"></td>
+<td th:text="${ppmInfo.sellerVisaNo}"></td>
+
+<td th:text="${ppmInfo.uploadFile}"></td>
+<td th:text="${ppmInfo.vehicleName}"></td>
+
+
+            <!-- Include other fields similarly -->
+        </tr>
+
+
+
+ 
+    </tbody>
+    <tfoot>
+        <tr>
+
+
+            <th>Buyer Address</th>
+
+            <th>Buyer Name</th>
+            <th>Buyer NID</th>
+            <th>Buyer Passport Date</th>
+            <th>Buyer Passport BO No</th>
+            <th>Buyer TIN</th>
+            <th>CC</th>
+            <th>Chassis No</th>
+
+            <th>Custom Pass Date</th>
+            <th>Custom Pass ID No</th>
+
+
+            <th>Eng No</th>
+
+
+            <th>Manufacture Date</th>
+            <th>Ministry</th>
+            <th>Ministry Foreign Ref Date</th>
+            <th>Ministry Foreign Ref No</th>
+            <th>Ministry Ref Date</th>
+            <th>Ministry Ref No</th>
+            <th>Org Ref Date</th>
+            <th>Org Ref No</th>
+            <th>Organization</th>
+
+            <th>Registration No</th>
+            <th>Seller Designation</th>
+            <th>Seller Name</th>
+            <th>Seller Visa Date</th>
+            <th>Seller Visa No</th>
+
+            <th>Upload File</th>
+            <th>Vehicle Name</th>
+
+        </tr>
+    </tfoot>
+</table>
+<script src='https://code.jquery.com/jquery-3.7.0.js'></script>
+<script src='https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js'></script>
+<script src='https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js'></script>
+<script src='https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js'></script>
+<script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap5.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js'></script>
+<script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js'></script>
+<script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js'></script>
+<script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js'></script>
+
+
+<script>
+    $(document).ready(function() {
+    var table = $('#example').DataTable( {
+        lengthChange: false,
+        buttons: [ 'copy', 'excel', 'pdf', 'colvis' ]
+    } );
+ 
+    table.buttons().container()
+        .appendTo( '#example_wrapper .col-md-6:eq(0)' );
+} );
+
+</script>

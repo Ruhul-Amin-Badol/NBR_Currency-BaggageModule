@@ -1,0 +1,163 @@
+<div th:replace="~{layout/support}"></div>
+<!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" > -->
+<link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" >
+<link href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css" rel="stylesheet" >
+
+<style>
+    .sr-main-content-heading {
+      margin: 0;
+      padding: 0;
+      font-size: 18px;
+      font-weight: 500;
+      color: #48465b;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+</style>
+
+
+<div class="sr-main-content-heading">
+    <i class="fa fa-server" style="padding-right: 10px"></i>Prevelige Person Module
+    <p>Custom Passbook Application</p>
+  </div>
+<table id="example" class="table table-striped " style="zoom: 70%;">
+    <thead>
+        <tr>
+
+            <th>Applicant Name</th>
+
+            <th>Con Designation</th>
+            <th>Con Phone No</th>
+            <th>Cont Mobile No</th>
+            <th>Contact Person Name</th>
+
+            <th>Designation</th>
+            <!-- <th>Edit By</th>
+            <th>Eng No</th>
+            <th>Entry At</th>
+            <th>Entry By</th> -->
+            <th>First Arrival Date</th>
+
+            <th>Ministry</th>
+
+            <th>Ministry Ref Date</th>
+            <th>Ministry Ref No</th>
+            <th>Org Ref Date</th>
+            <th>Org Ref No</th>
+            <th>Organization</th>
+            <th>Pass Duration</th>
+            <th>Passport No</th>
+
+            <th>UNLP Duration</th>
+            <th>UNLP No</th>
+            <th>Upload File</th>
+            <th>Visa Duration</th>
+            <th>Visa No</th>
+            <th>Work Duration</th>
+        </tr>
+    </thead>
+    <tbody >
+
+        <tr th:each="ppmInfo : ${allPpm}">
+
+<!-- Assuming ppmInfo is the object containing these fields -->
+<td th:text="${ppmInfo.applicantName}"></td>
+<td th:text="${ppmInfo.conDesignation}"></td>
+<td th:text="${ppmInfo.conPhoneNo}"></td>
+<td th:text="${ppmInfo.contMobileNo}"></td>
+<td th:text="${ppmInfo.contactPersonName}"></td>
+
+<td th:text="${ppmInfo.designation}"></td>
+<!-- <td th:text="${ppmInfo.editBy}"></td>
+<td th:text="${ppmInfo.engNo}"></td>
+<td th:text="${ppmInfo.entryAt}"></td>
+<td th:text="${ppmInfo.entryBy}"></td> -->
+<td th:text="${ppmInfo.firstArrivalDate}"></td>
+
+<td th:text="${ppmInfo.ministry}"></td>
+
+<td th:text="${ppmInfo.ministryRefDate}"></td>
+<td th:text="${ppmInfo.ministryRefNo}"></td>
+<td th:text="${ppmInfo.orgRefDate}"></td>
+<td th:text="${ppmInfo.orgRefNo}"></td>
+<td th:text="${ppmInfo.organization}"></td>
+<td th:text="${ppmInfo.passDuration}"></td>
+<td th:text="${ppmInfo.passportNo}"></td>
+
+<td th:text="${ppmInfo.unlpDuration}"></td>
+<td th:text="${ppmInfo.unlpNo}"></td>
+<td th:text="${ppmInfo.uploadFile}"></td>
+
+<td th:text="${ppmInfo.visaDuration}"></td>
+<td th:text="${ppmInfo.visaNo}"></td>
+<td th:text="${ppmInfo.workDuration}"></td> 
+
+            <!-- Include other fields similarly -->
+        </tr>
+
+
+
+ 
+    </tbody>
+    <tfoot>
+        <tr>
+
+            <th>Applicant Name</th>
+
+            <th>Con Designation</th>
+            <th>Con Phone No</th>
+            <th>Cont Mobile No</th>
+            <th>Contact Person Name</th>
+
+            <th>Designation</th>
+            <!-- <th>Edit By</th>
+            <th>Eng No</th>
+            <th>Entry At</th>
+            <th>Entry By</th> -->
+            <th>First Arrival Date</th>
+
+            <th>Ministry</th>
+
+            <th>Ministry Ref Date</th>
+            <th>Ministry Ref No</th>
+            <th>Org Ref Date</th>
+            <th>Org Ref No</th>
+            <th>Organization</th>
+            <th>Pass Duration</th>
+            <th>Passport No</th>
+
+            <th>UNLP Duration</th>
+            <th>UNLP No</th>
+            <th>Upload File</th>
+
+            <th>Visa Duration</th>
+            <th>Visa No</th>
+            <th>Work Duration</th>
+        </tr>
+    </tfoot>
+</table>
+<script src='https://code.jquery.com/jquery-3.7.0.js'></script>
+<script src='https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js'></script>
+<script src='https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js'></script>
+<script src='https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js'></script>
+<script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap5.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js'></script>
+<script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js'></script>
+<script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js'></script>
+<script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js'></script>
+
+
+<script>
+    $(document).ready(function() {
+    var table = $('#example').DataTable( {
+        lengthChange: false,
+        buttons: [ 'copy', 'excel', 'pdf', 'colvis' ]
+    } );
+ 
+    table.buttons().container()
+        .appendTo( '#example_wrapper .col-md-6:eq(0)' );
+} );
+
+</script>

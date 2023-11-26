@@ -57,7 +57,10 @@ public class HomeController {
     public String loginpvt() {
         return "loginpvt";
     }
-
+    @GetMapping("/ppm/signinppm") 
+    public String loginppm() {
+        return "loginppm";
+    }
 
       @GetMapping("/") 
     public String index(Model model) {
@@ -76,8 +79,6 @@ public class HomeController {
         // model.addAttribute("airport", airportService.findAirportByOfficeCode(officeCode));
         return "pvtdashboard";
     }
-
-
 
 
 

@@ -16,7 +16,9 @@ public class PpmInfoService {
 
 
 
-
+   public Integer ppmCount(Integer applicationType){
+    return ppmInfoRepository.countByApplicationType(applicationType);
+}
 
 
    public PpmInfo insertPpm (PpmInfo ppmInfo) {
@@ -27,6 +29,20 @@ public class PpmInfoService {
    public List<PpmInfo> getAllPpmInfo() {
     return ppmInfoRepository.findAll();
    }
+
+
+    public List<PpmInfo> passbookReport(Integer applicationType) {
+        return ppmInfoRepository.findByApplicationType(applicationType);
+   }
+
+    public List<PpmInfo> carTransferRepost(Integer applicationType) {
+        return ppmInfoRepository.findByApplicationType(applicationType);
+   }
+
+    public List<PpmInfo> carSaleRepost(Integer applicationType) {
+        return ppmInfoRepository.findByApplicationType(applicationType);
+   }
+
 
 
 }
