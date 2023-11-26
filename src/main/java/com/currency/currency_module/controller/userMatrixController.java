@@ -10,13 +10,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 
 import com.currency.currency_module.model.UserActivityManagement;
 import com.currency.currency_module.model.AirportList;
 import com.currency.currency_module.services.AirportService;
 import com.currency.currency_module.services.UserActivityManagementService;
+
+import jakarta.validation.Valid;
 
 @Controller
 
@@ -50,8 +55,8 @@ public class userMatrixController {
             }
 
     @PostMapping("/userinsert")
-            public String userInsert(UserActivityManagement userActivityManagement){
-                userActivityManagementService.saveUserActivityManagement(userActivityManagement);
+            public String userInsert(@ModelAttribute @Valid UserActivityManagement userActivityManagement,BindingResult result,MultipartFile signature ){
+                userActivityManagementService.saveUserActivityManagement(userActivityManagement,signature);
                 return "redirect:/usermatrix/rollcreate";
             }
 
@@ -69,7 +74,7 @@ public class userMatrixController {
                 // Set the user ID from the path variable
                 user.setUserId(userId);
 
-                userActivityManagementService.saveUserActivityManagement(user);
+                // userActivityManagementService.saveUserActivityManagement(user);
                 return "redirect:/usermatrix/rollcreate";
     }
 

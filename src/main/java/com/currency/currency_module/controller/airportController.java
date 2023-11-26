@@ -26,6 +26,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.security.Principal;
 
 
 @Controller
@@ -49,21 +50,21 @@ public class airportController {
       
      // System.out.println("image.getOriginalFilename()========================="+image.getOriginalFilename());
         airportList.setImage(image.getOriginalFilename());
-        AirportList uplodeImage = airportService.createAirport(airportList);
+        AirportList uplodeImage = airportService.createAirport(airportList,image);
 
-		if (uplodeImage != null) {
-			try {
+		// if (uplodeImage != null) {
+		// 	try {
 
-				File saveFile = new ClassPathResource("static/img").getFile();
+		// 		File saveFile = new ClassPathResource("static/img").getFile();
 
-				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + image.getOriginalFilename());
-				System.out.println("path=========================================="+path);
-				Files.copy(image.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+		// 		Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + image.getOriginalFilename());
+		// 		System.out.println("path=========================================="+path);
+		// 		Files.copy(image.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+		// 	} catch (Exception e) {
+		// 		e.printStackTrace();
+		// 	}
+		// }
         return "redirect:/add-airport";
     }
     
@@ -94,35 +95,35 @@ public class airportController {
     // }
 
     @PostMapping("/update-port")
-    private String updatePort(@ModelAttribute @Valid AirportList airportList, BindingResult result, @RequestParam MultipartFile image) {
+    private String updatePort(@ModelAttribute @Valid AirportList airportList, BindingResult result, @RequestParam MultipartFile image,Principal principal) {
 
         airportList.setImage(image.getOriginalFilename());
-        AirportList uplodeImage = airportService.updateAirport(airportList);
+        AirportList uplodeImage = airportService.updateAirport(airportList,image,principal);
 
 
-		if (uplodeImage != null) {
-			try {
+		// if (uplodeImage != null) {
+		// 	try {
 
-                String saveDirectory = "./airports"; // specify the directory path
-                File saveFile = new File(saveDirectory);
+        //         String saveDirectory = "./airports"; // specify the directory path
+        //         File saveFile = new File(saveDirectory);
 
-                if (!saveFile.exists()) {
-                    saveFile.mkdirs(); // create the directory if it doesn't exist
-                }
+        //         if (!saveFile.exists()) {
+        //             saveFile.mkdirs(); // create the directory if it doesn't exist
+        //         }
 
-				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + image.getOriginalFilename());
+		// 		Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + image.getOriginalFilename());
 				
-				Files.copy(image.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-                String fileLocation = path.toString();
+		// 		Files.copy(image.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+        //         String fileLocation = path.toString();
 
-                System.out.println("=============================>=============");
-                System.out.println(fileLocation);
-                System.out.println("=============================>==============");
+        //         System.out.println("=============================>=============");
+        //         System.out.println(fileLocation);
+        //         System.out.println("=============================>==============");
 
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+		// 	} catch (Exception e) {
+		// 		e.printStackTrace();
+		// 	}
+		// }
         return "redirect:/add-airport";
     }
 
