@@ -835,30 +835,6 @@ public class baggageController {
             context.setVariable("totalTaxAmount", totalTaxAmount);
             context.setVariable("link", link);
 
-           // String emailContent = templateEngine.process("email-template", context);
-            // String text = "dkfnldskfjlaskjdfn";
-
-            // String link="/baggagestart/confrimPage?id="+id;
-            // String gmail = (String) requestParameters.get("email");
-           // Context context = new Context();
-           // context.setVariable("passengerName", requestParameters.get("passenger_name"));
-          //  context.setVariable("totalTaxAmount", totalTaxAmount);
-          //  context.setVariable("link", link);
-           // String emailContent = templateEngine.process("email-template", context);
-            // SimpleMailMessage message = new SimpleMailMessage();
-            // message.setFrom("nbroffice71@gmail.com");
-            // message.setTo(gmail);
-            // //message.setText(emailContent);
-            // message.setText(
-            //     "Hello Mr/Mrs,"+ requestParameters.get("passenger_name")+
-            //     ", You are successfully submitted your baggage information."
-            //     +" You paid "+totalTaxAmount+" only"+
-            //     "Click <a href='" + link + "'>here</a> to get Details."
-                
-            //     );
-
-            // message.setSubject("NBR Baggage Declaration");
-            // mailSender.send(message);     
             try {
                 // Double totalPaidAmount = 0.0;
                  String gmail = (String) requestParameters.get("email");
@@ -885,26 +861,17 @@ public class baggageController {
              } catch (IOException e) {
                  e.printStackTrace();
              }
-
-            // SimpleMailMessage message = new SimpleMailMessage();
-            // message.setFrom("nbroffice71@gmail.com");
-            // message.setTo(gmail);
-            // //message.setText(emailContent);
-            // message.setText(
-            //     "Hello Mr/Mrs,"+ requestParameters.get("passenger_name")+
-            //     ", You are successfully submitted your baggage information."
-            //     +" You paid "+totalTaxAmount+" only"+
-            //     "Click <a href='" + link + "'>here</a> to get Details."
-                
-            //     );
-
-            // message.setSubject("NBR Baggage Declaration");
-            // mailSender.send(message);     
             model.addAttribute("showProduct", productshow);
             
             return "confirmPage";
         }
 
+
+
+
+
+
+    
 
     @GetMapping("/takePaymentRequest/{id}/")
 

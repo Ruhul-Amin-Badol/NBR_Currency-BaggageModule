@@ -129,7 +129,7 @@ public class HomeController {
     }
     @GetMapping("/error")
     public String Error() {
-        return "Error";
+        return "error";
     }
     @GetMapping("/finduser/{username}")
     @ResponseBody

@@ -97,8 +97,12 @@
                 <td th:text="${show.bankBranchName}"></td>
                 <td th:text="${show.bankBranchCode}"></td>   
 
-                <td><img alt="" th:src="@{'img/'+${show.image}}" width="10%"
-							height="300px"></td>    
+                <td>
+                    <!-- <img alt="" th:src="@{'img/'+${show.image}}" width="10%"
+							height="300px"> -->
+                            <img th:src="@{/airports/.jpg}" alt="Uploaded Image">
+                        
+                        </td>    
                 <td >
                     <a th:href="@{/port-edit(id=${show.id})}">Edit</a>
     
@@ -168,5 +172,3 @@
 
 
 </div>
-
-

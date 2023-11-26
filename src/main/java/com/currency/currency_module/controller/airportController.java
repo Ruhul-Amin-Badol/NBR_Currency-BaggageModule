@@ -103,11 +103,21 @@ public class airportController {
 		if (uplodeImage != null) {
 			try {
 
-				File saveFile = new ClassPathResource("static/img").getFile();
+                String saveDirectory = "./airports"; // specify the directory path
+                File saveFile = new File(saveDirectory);
+
+                if (!saveFile.exists()) {
+                    saveFile.mkdirs(); // create the directory if it doesn't exist
+                }
 
 				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + image.getOriginalFilename());
-				System.out.println("path=========================================="+path);
+				
 				Files.copy(image.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+                String fileLocation = path.toString();
+
+                System.out.println("=============================>=============");
+                System.out.println(fileLocation);
+                System.out.println("=============================>==============");
 
 			} catch (Exception e) {
 				e.printStackTrace();
