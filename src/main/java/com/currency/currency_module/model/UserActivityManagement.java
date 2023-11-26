@@ -102,8 +102,17 @@ public class UserActivityManagement {
     @Column(nullable = true)
     private Integer paymentHistory=0;
 
+    @Column(nullable = true)
+    private String Signature;
 
+    public String getSignature() {
+        return this.Signature;
+    }
 
+    public void setSignature(String Signature) {
+        this.Signature = Signature;
+    }
+    
     public int getUserMatrix() {
         return this.userMatrix;
     }
@@ -129,7 +138,6 @@ public class UserActivityManagement {
     }
 
     
-
     @ManyToOne
     @JoinColumn(name = "airport_list_id")
     private AirportList airportList;

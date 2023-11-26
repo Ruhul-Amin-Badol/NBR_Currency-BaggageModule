@@ -2,17 +2,49 @@ package com.currency.currency_module.services;
 
 
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
-
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.currency.currency_module.ResourceNotFound.ResourceNotFound;
 import com.currency.currency_module.model.UserActivityManagement;
 import com.currency.currency_module.repository.UserActivityManagementRepository;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.cloud.StorageClient;
 
 @Service
 public class UserActivityManagementService {
+
+
+    public UserActivityManagementService() {
+
+        
+    try {
+      // Initialize Firebase Admin SDK
+      InputStream serviceAccount = getClass().getClassLoader().getResourceAsStream("static/apikeyfirbase.json");
+
+      if (serviceAccount == null) {
+          throw new IllegalArgumentException("Firebase credentials file not found.");
+      }
+
+      FirebaseOptions options = new FirebaseOptions.Builder()
+              .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+              .setStorageBucket("nbrbd-47f44.appspot.com")  // Set this to your Firebase Storage bucket URL
+              .build();
+
+      FirebaseApp.initializeApp(options);
+  } catch (IOException e) {
+      e.printStackTrace();
+  } catch (Exception e) {
+      e.printStackTrace();
+  }
+    }
+
     @Autowired
     UserActivityManagementRepository userActivityManagementRepository;
 
@@ -22,7 +54,7 @@ public class UserActivityManagementService {
 
     }
     //for user data insert
-    public void saveUserActivityManagement(UserActivityManagement userActivityManagement) {
+    public void saveUserActivityManagement(UserActivityManagement userActivityManagement,MultipartFile image) {
         // Check if the user has an ID
         if (userActivityManagement.getUserId() != null) {
             UserActivityManagement existingUser = userActivityManagementRepository.findById(userActivityManagement.getUserId())
@@ -42,7 +74,30 @@ public class UserActivityManagementService {
 
             userActivityManagementRepository.save(existingUser);
         } else {
-            userActivityManagementRepository.save(userActivityManagement);
+
+                           try {
+            // Get a reference to the storage service
+            var storage = StorageClient.getInstance().bucket();
+
+            // Generate a unique filename for the uploaded file
+            
+            String fileName ="signatures/"+userActivityManagement.getUsername();
+
+            // Upload the file to Firebase Storage
+            storage.create(fileName, image.getInputStream(), image.getContentType());
+
+            String downloadUrl = storage.get(fileName).signUrl(73000, java.util.concurrent.TimeUnit.DAYS).toString();
+            userActivityManagement.setSignature(downloadUrl);
+             
+             userActivityManagementRepository.save(userActivityManagement);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception
+            
+        }
+
+            
         }
     }
 

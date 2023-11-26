@@ -66,22 +66,22 @@ public class PpmController {
     public String insertPpm(@ModelAttribute @Valid PpmInfo ppmInfo, BindingResult result, @RequestParam MultipartFile uploadFile) {
      //  ppmInfoService.insertPpm(ppmInfo);
         ppmInfo.setUploadFile(uploadFile.getOriginalFilename());
-        PpmInfo uplodeImage = ppmInfoService.insertPpm(ppmInfo);
+        PpmInfo uplodeImage = ppmInfoService.insertPpm(ppmInfo,uploadFile);
        // AirportList uplodeImage = airportService.createAirport(airportList);
 
-		if (uplodeImage != null) {
-			try {
+		// if (uplodeImage != null) {
+		// 	try {
 
-				File saveFile = new ClassPathResource("static/img").getFile();
+		// 		File saveFile = new ClassPathResource("static/img").getFile();
 
-				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + uploadFile.getOriginalFilename());
-				System.out.println("path=========================================="+path);
-				Files.copy(uploadFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+		// 		Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + uploadFile.getOriginalFilename());
+		// 		System.out.println("path=========================================="+path);
+		// 		Files.copy(uploadFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+		// 	} catch (Exception e) {
+		// 		e.printStackTrace();
+		// 	}
+		// }
 
         return "redirect:/ppm/ppm-entry";
     }
