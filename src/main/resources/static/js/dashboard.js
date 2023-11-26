@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const totalShowApplicationId = document.getElementById("totalShowApplication").value;
   
     $.ajax({
-      url: "http://localhost:8080/baggagestart/countAllBaggage", 
+      url: "/baggagestart/countAllBaggage", 
       type: "GET",
       success: function (data) {
         // Handle the AJAX response here
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const totalBaggageapproveapplicationId = document.getElementById("totalBaggageapproveapplication").value;
   
     $.ajax({
-      url: "http://localhost:8080/baggagestart/countApprovedBaggage", 
+      url: "/baggagestart/countApprovedBaggage", 
       type: "GET",
       success: function (data) {
         console.log(data);
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const totalBaggageunapproveapplicationId = document.getElementById("totalBaggageUnapprove").value;
   
     $.ajax({
-      url: "http://localhost:8080/baggagestart/countunApprovedBaggage", 
+      url: "/baggagestart/countunApprovedBaggage", 
       type: "GET",
       success: function (data) {
         console.log(data);
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const totalRejectBaggageapplicationId = document.getElementById("totalRejectBaggage").value;
   
         $.ajax({
-          url: "http://localhost:8080/baggagestart/countrejectedBaggage", 
+          url: "/baggagestart/countrejectedBaggage", 
           type: "GET",
           success: function (data) {
             console.log(data);
@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
          const totaluncheckedstatuscountapplication = document.getElementById("uncheckedstatuscount").value;
   
          $.ajax({
-           url: "http://localhost:8080/currencystart/uncheckedstatuscount", 
+           url: "/currencystart/uncheckedstatuscount", 
            type: "GET",
            success: function (data) {
              console.log(data);
@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const totalcheckedstatuscountapplication = document.getElementById("Currencycheckedstatuscount").value;
   
             $.ajax({
-              url: "http://localhost:8080/currencystart/checkedstatuscount", 
+              url: "/currencystart/checkedstatuscount", 
               type: "GET",
               success: function (data) {
                 console.log(data);
@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         const totalAllcheckedstatuscountapplication = document.getElementById("Currencyallcheckedstatuscount").value;
   
                         $.ajax({
-                          url: "http://localhost:8080/currencystart/allstatuscount", 
+                          url: "/currencystart/allstatuscount", 
                           type: "GET",
                           success: function (data) {
                             console.log(data);
@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const totalrejectedstatuscountapplication = document.getElementById("rejectedCurrencystatuscount").value;
   
       $.ajax({
-        url: "http://localhost:8080/currencystart/rejectedstatuscount", 
+        url: "/currencystart/rejectedstatuscount", 
         type: "GET",
         success: function (data) {
           console.log(data);

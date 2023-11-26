@@ -142,7 +142,7 @@
     // Get the id value from the hidden input field
     var id = document.getElementById("reportShow").value;
     console.log(id);
-    var url = "http://localhost:8080/baggagestart/show?generatedId=" + id;
+    var url = "/baggagestart/show?generatedId=" + id;
     window.location.href = url;
 
 }
@@ -159,7 +159,7 @@ function redirectToConfirmPage() {
 
 function paymentNotAtThisTime(){
     var id = document.getElementById("reportShow").value;
-       var url = "http://localhost:8080/baggagestart/payment-not-at-this-time?id=" + id;
+       var url = "/baggagestart/payment-not-at-this-time?id=" + id;
        window.location.href = url;
 
 }
