@@ -160,7 +160,11 @@ public static class App3ConfigurationAdapter {
                .exceptionHandling(exceptionHandling ->
                exceptionHandling
                        .authenticationEntryPoint((request, response, authException) -> {
-                           response.sendRedirect("/error");
+                        if ("/baggageshow/baggagetotalid".equals(request.getRequestURI())) {
+                            response.sendRedirect("/error"); // Redirect only for "/fahim"
+                        } else {
+                            response.sendRedirect("/signin");
+                        }
                        })
                  )
                
