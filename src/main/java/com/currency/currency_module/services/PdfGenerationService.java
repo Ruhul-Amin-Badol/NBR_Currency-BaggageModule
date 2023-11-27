@@ -265,15 +265,41 @@ public byte[] firebaseImage(Principal principal){
 
 
                 // Set the position and size of the QR code image
-                float xQRCode = 250;
+                float xQRCode = 80;
                 float yQRCode = 200;
                 float widthQRCode = 100;  // Adjust this value based on your QR code image size
                 float heightQRCode = 100;  // Adjust this value based on your QR code image size
 
                 // Draw the QR code on the page
-                String qrCodeData = "http://172.24.79.143:8080/baggagestart/confrimPage?id="+id+"&session_token="+sessionToken+"&status=success";
+                String qrCodeData = "http://192.168.0.105:8080/baggagestart/confrimPage?id="+id+"&session_token="+sessionToken+"&status=success";
                 ByteArrayOutputStream qrCodeStream = generateQRCode(qrCodeData);
                 contentStream.drawImage(PDImageXObject.createFromByteArray(document, qrCodeStream.toByteArray(), "QR Code"), xQRCode, yQRCode, widthQRCode, heightQRCode);
+
+                String qrCodeText = "(Scan to View all";
+                contentStream.beginText();
+                contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 10); // Adjust font size if needed
+                contentStream.newLineAtOffset(xQRCode, yQRCode-8); // Adjust the Y-coordinate for the text
+                contentStream.showText(qrCodeText);
+                contentStream.endText();
+
+
+
+                float xQRCode1 = 500;
+                float yQRCode1= 200;
+                float widthQRCode1 = 100;  // Adjust this value based on your QR code image size
+                float heightQRCode1 = 100;  // Adjust this value based on your QR code image size
+
+                // Draw the QR code on the page
+                String qrCodeData1 = "http://192.168.0.105:8080/baggageshow/baggagetotalid?id="+id+"&status=total_baggage";
+                ByteArrayOutputStream qrCodeStream1 = generateQRCode(qrCodeData1);
+                contentStream.drawImage(PDImageXObject.createFromByteArray(document, qrCodeStream1.toByteArray(), "QR Code"), xQRCode1, yQRCode1, widthQRCode1, heightQRCode1);
+
+                String qrCodeText1 = "(Scan to confirm)";
+                contentStream.beginText();
+                contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 10); // Adjust font size if needed
+                contentStream.newLineAtOffset(xQRCode1, yQRCode1-8); // Adjust the Y-coordinate for the text
+                contentStream.showText(qrCodeText1);
+                contentStream.endText();
 
                 // Adjust the Y-coordinate after adding the QR code
                 yPosition -= heightQRCode;
