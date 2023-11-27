@@ -87,7 +87,7 @@ public class baggageController {
 
     //------> From show and hide mode<------//
     @GetMapping("/show")
-    public String baggageFrom(@RequestParam(required = false, defaultValue = "") String generatedId,@RequestParam(required = false, defaultValue = "") String officeCode, Model model) {
+    public String baggageFrom(@RequestParam(required = false, defaultValue = "") String generatedId, Model model) {
         String sql1 = "SELECT item_name FROM baggage_item_info";
         List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1);
         model.addAttribute("productshow", productshow);
@@ -96,10 +96,10 @@ public class baggageController {
         List<Map<String, Object>> allAirportList = jdbcTemplate.queryForList(allAirport_sql);
 
 
-        String airport_sql = "SELECT * FROM airport_list WHERE office_code = ?";
-        List<Map<String, Object>> airportByOfficeCode = jdbcTemplate.queryForList(airport_sql, officeCode);
-        System.out.println("airportByOfficeCode================================"+airportByOfficeCode);
-        model.addAttribute("airportByOfficeCodes", airportByOfficeCode);
+        // String airport_sql = "SELECT * FROM airport_list WHERE office_code = ?";
+        // List<Map<String, Object>> airportByOfficeCode = jdbcTemplate.queryForList(airport_sql, officeCode);
+        // System.out.println("airportByOfficeCode================================"+airportByOfficeCode);
+        // model.addAttribute("airportByOfficeCodes", airportByOfficeCode);
 
 
         model.addAttribute("allAirportList", allAirportList);
