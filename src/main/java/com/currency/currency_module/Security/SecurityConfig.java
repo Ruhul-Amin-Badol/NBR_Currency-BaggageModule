@@ -136,7 +136,7 @@ public static class App3ConfigurationAdapter {
                .requestMatchers(HttpMethod.POST, "/currencystart/delete").permitAll()
                .requestMatchers(HttpMethod.GET, "/currencystart/showconfirmgenaral").permitAll()
                .requestMatchers(HttpMethod.POST, "/currencystart/confirmgenaral").permitAll()
-               .requestMatchers(HttpMethod.GET, "/baggageshow/baggagetotalid").permitAll()
+            
                .requestMatchers(HttpMethod.GET, "/baggageshow/baggageApplicationEdit").permitAll()
                .requestMatchers(HttpMethod.GET, "/baggageshow/baggageApplicationShow").permitAll()
                .requestMatchers(HttpMethod.GET, "/baggagestart/confrimPage").permitAll()
@@ -160,6 +160,13 @@ public static class App3ConfigurationAdapter {
                .anyRequest()
                .authenticated()
                .and()
+               .exceptionHandling(exceptionHandling ->
+               exceptionHandling
+                       .authenticationEntryPoint((request, response, authException) -> {
+                           response.sendRedirect("/error");
+                       })
+                 )
+               
                .formLogin(login -> login
                        .loginPage("/signin")
                        .loginProcessingUrl("/login")
