@@ -236,10 +236,15 @@ public class baggageController {
             @RequestParam String email,
             @RequestParam int accompaniedBaggageCount,
             @RequestParam int unaccompaniedBaggageCount,
-            @RequestParam String office_code,
+            // @RequestParam String office_code,
         
             
             Model model) {
+
+            String sqloffice = "SELECT * FROM airport_list WHERE office_code=?";
+            Map<String, Object> airportDetails1 = jdbcTemplate.queryForMap(sqloffice, entryPoint );
+            String airportname = (String) airportDetails1.get("air_port_names");
+            System.out.println("+++++++++++++++++++++++++++++++++++++++"+airportname);
 
 
  
@@ -252,7 +257,7 @@ public class baggageController {
                         Statement.RETURN_GENERATED_KEYS)) {
 
             // Set the parameters
-            preparedStatement.setString(1, entryPoint);
+            preparedStatement.setString(1, airportname);
             preparedStatement.setString(2, passengerName);
             preparedStatement.setString(3, passportNumber);
             preparedStatement.setString(4, passportValidityDate);
@@ -272,7 +277,7 @@ public class baggageController {
             preparedStatement.setInt(12, unaccompaniedBaggageCount);
             preparedStatement.setString(13, " ");
             preparedStatement.setString(14, " ");
-            preparedStatement.setString(15, office_code);
+            preparedStatement.setString(15, entryPoint);
 
             // Execute the insert statement
             preparedStatement.executeUpdate();
