@@ -64,7 +64,7 @@ public class CurrencyDeclaration {
     @Column(name = "status")
     private String status;
 
-    @Column(name = "entry_at")
+    @Column(name = "entry_at" ,columnDefinition = "timestamp")
     private Timestamp entryAt;
 
     @Column(name = "check_by")

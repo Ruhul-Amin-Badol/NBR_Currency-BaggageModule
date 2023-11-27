@@ -1,16 +1,54 @@
 package com.currency.currency_module.services;
+import java.io.InputStream;
+import java.io.IOException;
 import java.util.List;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.currency.currency_module.model.PpmInfo;
 import com.currency.currency_module.repository.PpmInfoRepository;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.cloud.StorageClient;
+
+import org.springframework.web.multipart.MultipartFile;
 
 
 
 @Service
 public class PpmInfoService {
+
+
+    public PpmInfoService() {
+
+
+                
+    try {
+      // Initialize Firebase Admin SDK
+      InputStream serviceAccount = getClass().getClassLoader().getResourceAsStream("static/apikeyfirbase.json");
+
+      if (serviceAccount == null) {
+          throw new IllegalArgumentException("Firebase credentials file not found.");
+      }
+
+      FirebaseOptions options = new FirebaseOptions.Builder()
+              .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+              .setStorageBucket("nbrbd-47f44.appspot.com")  // Set this to your Firebase Storage bucket URL
+              .build();
+
+      FirebaseApp.initializeApp(options);
+  } catch (IOException e) {
+      e.printStackTrace();
+  } catch (Exception e) {
+      e.printStackTrace();
+  }
+
+
+    }
+
        @Autowired 
    PpmInfoRepository ppmInfoRepository;
 
@@ -21,8 +59,33 @@ public class PpmInfoService {
 }
 
 
-   public PpmInfo insertPpm (PpmInfo ppmInfo) {
-    return ppmInfoRepository.save(ppmInfo);
+   public PpmInfo insertPpm (PpmInfo ppmInfo,MultipartFile image) {
+
+                          try {
+            // Get a reference to the storage service
+            var storage = StorageClient.getInstance().bucket();
+
+            // Generate a unique filename for the uploaded file
+            
+            String fileName ="ppfuploads/ppmdoc"+ppmInfo.getId();
+
+            // Upload the file to Firebase Storage
+            storage.create(fileName, image.getInputStream(), image.getContentType());
+
+            String downloadUrl = storage.get(fileName).signUrl(73000, java.util.concurrent.TimeUnit.DAYS).toString();
+            ppmInfo.setUploadFile(downloadUrl);
+             
+             
+             return ppmInfoRepository.save(ppmInfo);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception
+            return null;
+            
+        }
+
+
    }
 
 

@@ -112,8 +112,8 @@
         <section class="oe_hero oe_home_hero oe_container" th:unless="${airport.officeCode == null or #strings.isEmpty(airport.officeCode)}">
             <!-- Content when officeCode is not null -->
             <!-- ... -->
-            
-            <img alt="" th:src="@{'img/'+${airport.image}}" style="height: 245px; width: 992px;">
+  
+            <img alt="" th:src="${airport.image}" style="height: 245px; width: 992px;">
             <!-- ... --> 
         <article class="oe_page">
             <section class="oe_container">
@@ -131,7 +131,7 @@
                             Privileged Vehicle Tracking
                         </div>
                     </a>
-                    <a href="/dashboard" title="Baggage Module & Currency Module (Admin)" class="oe_app ab_app_descr">
+                    <a href="/signin" title="Baggage Module & Currency Module (Admin)" class="oe_app ab_app_descr">
                         <div class="ab_app_descr">
                             <div class="oe_app_icon">
                                 <img src="/img/image/baggage.png">

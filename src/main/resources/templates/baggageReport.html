@@ -130,33 +130,36 @@
     var table = $('#example').DataTable({
         lengthChange: false,
         buttons: ['copy', 'excel', 'pdf', 'colvis'],
+        columnDefs: [
+                {
+                    targets: [5, 6], // targets the Additional Pay and Tax Amount columns
+                    render: function (data, type, row) {
+                        return parseFloat(data || 0).toFixed(2); // ensure data is treated as a number
+                    }
+                },
+                {
+                    targets: 7, // targets the Total Paid column
+                    render: function (data, type, row) {
+                        var additionalPay = parseFloat(row[5] || 0);
+                        var taxAmount = parseFloat(row[6] || 0);
+                        return (additionalPay + taxAmount).toFixed(2); // sum Additional Pay and Tax Amount
+                    }
+                }
+            ]
      
     });
-
-    $('#filterButton').on('click', function () {
-    var fromDate = $('#fromDate').val();
-    var toDate = $('#toDate').val();
-
-    if (fromDate && toDate) {
-        var formattedFromDate = moment(fromDate, 'YYYY-MM-DD').format('YYYY-MM-DD');
-        var formattedToDate = moment(toDate, 'YYYY-MM-DD').format('YYYY-MM-DD');
-        console.log(formattedFromDate);
-        console.log(formattedToDate);
-
-        table.column(1).search(formattedFromDate + ' to ' + formattedToDate).draw();
-    } else {
-        // Handle the case where either fromDate or toDate is not selected
-        console.log("Please select both From and To dates.");
-    }
-});
 
     $('#filterButton').click(function () {
         var airportName = $('#airportName').val();
         var productName = $('#productName').val();
+        var fromDate = $('#fromDate').val();
+        var toDate = $('#toDate').val();
 
-        console.log("Selected Airport Name:", airportName);
-        console.log("Selected Product Name:", productName);
+        var formattedFromDate = moment(fromDate, 'YYYY-MM-DD').format('MM-DD-YYYY');
+        var formattedToDate = moment(toDate, 'YYYY-MM-DD').format('MM-DD-YYYY');
 
+        table.search('').draw();
+        table.column(1).search(formattedFromDate + '|' + formattedToDate, true, false).draw();
         table.column(0).search(airportName).draw();
         table.column(2).search(productName).draw();
     });

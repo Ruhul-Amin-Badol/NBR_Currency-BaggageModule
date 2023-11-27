@@ -129,7 +129,7 @@ public class adminController {
             List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1);
             model.addAttribute("productshow", productshow);
 
-            String sql2 ="SELECT * FROM baggage JOIN baggage_item_info ON baggage.id = baggage_item_info.id JOIN baggage_product_add ON baggage_item_info. id = baggage_product_add.baggage_id";
+            String sql2 ="SELECT * FROM baggage JOIN baggage_product_add ON baggage.id = baggage_product_add.baggage_id JOIN baggage_item_info ON baggage_item_info. id = baggage_product_add.item_id";
             List<Map<String, Object>> product = jdbcTemplate.queryForList(sql2);
             model.addAttribute("product", product);
             

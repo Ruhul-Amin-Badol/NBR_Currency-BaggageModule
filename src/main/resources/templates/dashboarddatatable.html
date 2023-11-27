@@ -1,5 +1,5 @@
-<div th:replace="~{layout/support}"></div>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" >
+<div th:replace="~{layout/header}"></div>
+<!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" > -->
 <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" >
 <link href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css" rel="stylesheet" >
 <script src="https://cdn.datatables.net/plug-ins/1.10.24/filtering/date-range.js"></script>
@@ -28,7 +28,7 @@
   </style>
   <body>
     <span id="print_id" >
-      <a href="/dashboard"><input type="button" class="btn btn-success btn-sm" value="Go Back" id="go_back" style="margin: 20px !important;"></a>
+      <a href="/dashboard"><input type="button" class="btn btn-success btn-md" value="Go Back" id="go_back" style="margin: 20px !important;"></a>
   </span>
     <div class="sr-main-content-padding">
       <div class="sr-main-content-heading">
@@ -42,7 +42,7 @@
         <input type="date" id="end-date" name="end-date" class="form-control" placeholder="End Date">
         <button class="btn btn-warning mx-2" id="filter-button">Filter</button>
     </div>
-    <table id="example" class="table table-striped " style="zoom: 70%;">
+    <table id="example" class="table table-striped ">
         <thead>
             <tr>
                 <th>sl</th>
@@ -81,7 +81,7 @@
                 <td th:text="${show.email}"></td>
     
                 <td >
-                    <a th:href="@{/currencystart/show-currency-details(id=${show.id})}">View Application</a>
+                    <a th:href="@{/currencystart/show-currency-details(id=${show.id})}"><button class="btn btn-sm btn-primary">View Application</button></a>
     
                 </td>
             </tr>

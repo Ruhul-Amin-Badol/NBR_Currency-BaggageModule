@@ -50,7 +50,7 @@
     function fetchDataAndPopulateTable() {
         // Fetch data from the API
         $.ajax({
-            url: 'http://localhost:8080/baggageshow/baggageApplicationEdit',
+            url: '/baggageshow/baggageApplicationEdit',
             type: 'GET',
             dataType: 'json',
             success: function (apiResponse) {
