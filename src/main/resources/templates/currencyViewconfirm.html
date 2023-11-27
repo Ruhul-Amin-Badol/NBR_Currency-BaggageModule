@@ -234,12 +234,12 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody th:each="customer : ${Baggagecurrency}">
+                    <tbody th:each="customer : ${CurrencyShow}">
                        
                             <tr>
                                 <td style="border: 1px solid black;" th:text="${customer.currencyName}"> USD </td>
                                 <td style="border: 1px solid black;" th:text="${customer.currencyAmount}" class="currency-amount"> USD </td>
-                                <td style="border: 1px solid black;" class="currency-words" > One Hundred </td>
+                                <td style="border: 1px solid black;" class="currency-words" ></td>
                             </tr>
                      
                     </tbody>
@@ -325,7 +325,7 @@ function qrcode() {
         };
 
         var a = ['','One ','Two ','Three ','Four ', 'Five ','Six ','Seven ','Eight ','Nine ','Ten ','Eleven ','Twelve ','Thirteen ','Fourteen ','Fifteen ','Sixteen ','Seventeen ','Eighteen ','Nineteen '];
-var b = ['', '', 'Twenty','Thirty','Forty','Fifty', 'Sixty','Seventy','Eighty','Ninety'];
+        var b = ['', '', 'Twenty','Thirty','Forty','Fifty', 'Sixty','Seventy','Eighty','Ninety'];
 
 function inWords (num) {
 

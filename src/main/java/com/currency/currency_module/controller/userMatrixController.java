@@ -106,7 +106,7 @@ public class userMatrixController {
             @GetMapping("/rolldeleteuser/{userId}")
             public String rolldeleteUser(@PathVariable Long userId) {
                 userActivityManagementService.deleteUserById(userId);
-                return "redirect:/usermatrix/rollManage";
+                return "redirect:/usermatrix/rollmanage";
             }
 
             @PostMapping("/rollupdateuser/{userId}")

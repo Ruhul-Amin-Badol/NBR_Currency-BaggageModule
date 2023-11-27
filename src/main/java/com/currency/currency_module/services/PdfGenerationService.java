@@ -129,7 +129,7 @@ public byte[] generatePdf(List<?> rowData, List<String> includedFields, Double t
             float heightQRCode = 100;  // Adjust this value based on your QR code image size
 
             // Draw the QR code on the page
-            String qrCodeData = "http://192.168.1.174:8080/baggagestart/confrimPage?id="+id;
+            String qrCodeData = "http://172.24.75.139:8080/baggagestart/confrimPage?id="+id;
             ByteArrayOutputStream qrCodeStream = generateQRCode(qrCodeData);
             contentStream.drawImage(PDImageXObject.createFromByteArray(document, qrCodeStream.toByteArray(), "QR Code"), xQRCode, yQRCode, widthQRCode, heightQRCode);
 
@@ -247,7 +247,7 @@ public byte[] firebaseImage(Principal principal){
                 float heightQRCode = 100;  // Adjust this value based on your QR code image size
 
                 // Draw the QR code on the page
-                String qrCodeData = "http://192.168.0.105:8080/baggagestart/confrimPage?id="+id+"&session_token="+sessionToken+"&status=success";
+                String qrCodeData = "http://172.24.75.139:8080/baggagestart/confrimPage?id="+id+"&session_token="+sessionToken+"&status=success";
                 ByteArrayOutputStream qrCodeStream = generateQRCode(qrCodeData);
                 contentStream.drawImage(PDImageXObject.createFromByteArray(document, qrCodeStream.toByteArray(), "QR Code"), xQRCode, yQRCode, widthQRCode, heightQRCode);
 
@@ -266,7 +266,7 @@ public byte[] firebaseImage(Principal principal){
                 float heightQRCode1 = 100;  // Adjust this value based on your QR code image size
 
                 // Draw the QR code on the page
-                String qrCodeData1 = "http://192.168.0.105:8080/baggageshow/baggagetotalid?id="+id+"&status=total_baggage";
+                String qrCodeData1 = "http://172.24.75.139:8080/baggageshow/baggagetotalid?id="+id+"&status=total_baggage";
                 ByteArrayOutputStream qrCodeStream1 = generateQRCode(qrCodeData1);
                 contentStream.drawImage(PDImageXObject.createFromByteArray(document, qrCodeStream1.toByteArray(), "QR Code"), xQRCode1, yQRCode1, widthQRCode1, heightQRCode1);
 

@@ -143,14 +143,11 @@ public static class App3ConfigurationAdapter {
                .requestMatchers(HttpMethod.POST, "/baggagestart/makePaymentRequest/{id}").permitAll()
                .requestMatchers(HttpMethod.GET, "/baggagestart/makePaymentRequest2/{accessToken}").permitAll()
                .requestMatchers(HttpMethod.GET, "/baggagestart/takePaymentRequest/{id}/*").permitAll()
-
-
-               .requestMatchers(HttpMethod.POST, "/usermatrix/userinsert").permitAll()
-               .requestMatchers(HttpMethod.GET, "/usermatrix/rollcreate").permitAll()
-
-
-
-
+                .requestMatchers(HttpMethod.GET, "/baggage-search").permitAll()
+                .requestMatchers(HttpMethod.POST, "/passenger-baggage-search").permitAll()
+              
+            //    .requestMatchers(HttpMethod.POST, "/usermatrix/userinsert").permitAll()
+            //    .requestMatchers(HttpMethod.GET, "/usermatrix/rollcreate").permitAll()
                .requestMatchers(HttpMethod.POST, "/currencystart/addCurrency").permitAll()
                .requestMatchers(HttpMethod.POST, "/currencystart/finalsubmit").permitAll()
 
@@ -163,7 +160,11 @@ public static class App3ConfigurationAdapter {
                .exceptionHandling(exceptionHandling ->
                exceptionHandling
                        .authenticationEntryPoint((request, response, authException) -> {
-                           response.sendRedirect("/error");
+                        if ("/baggageshow/baggagetotalid".equals(request.getRequestURI())) {
+                            response.sendRedirect("/error"); // Redirect only for "/fahim"
+                        } else {
+                            response.sendRedirect("/signin");
+                        }
                        })
                  )
                
