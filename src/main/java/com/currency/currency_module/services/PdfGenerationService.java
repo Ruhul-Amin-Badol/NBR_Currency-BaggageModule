@@ -32,31 +32,7 @@ import java.util.Map;
 public class PdfGenerationService {
     
 
-   
 
-
-    public PdfGenerationService() {
-
-            try {
-      // Initialize Firebase Admin SDK
-      InputStream serviceAccount = getClass().getClassLoader().getResourceAsStream("static/apikeyfirbase.json");
-
-      if (serviceAccount == null) {
-          throw new IllegalArgumentException("Firebase credentials file not found.");
-      }
-
-      FirebaseOptions options = new FirebaseOptions.Builder()
-              .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-              .setStorageBucket("nbrbd-47f44.appspot.com")  // Set this to your Firebase Storage bucket URL
-              .build();
-
-      FirebaseApp.initializeApp(options);
-  } catch (IOException e) {
-      e.printStackTrace();
-  } catch (Exception e) {
-      e.printStackTrace();
-  }
-    }
 
 
 
