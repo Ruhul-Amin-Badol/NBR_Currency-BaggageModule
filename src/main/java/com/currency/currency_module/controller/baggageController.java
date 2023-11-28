@@ -810,12 +810,12 @@ public class baggageController {
             String emailId = (String) requestParameters.get("email");
             model.addAttribute("reportShow", requestParameters);
 
-            String paymentStatus = "Processing";
-            if(!status.equals("success")){
-                paymentStatus=status;
-            }
-            String sqlBaggage = "UPDATE baggage SET payment_status=? WHERE id=?";
-            jdbcTemplate.update(sqlBaggage,paymentStatus,id);
+            // String paymentStatus = "Processing";
+            // if(!status.equals("success")){
+            //     paymentStatus=status;
+            // }
+            // String sqlBaggage = "UPDATE baggage SET payment_status=? WHERE id=?";
+            // jdbcTemplate.update(sqlBaggage,paymentStatus,id);
 
 
             String sql1="SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
@@ -834,7 +834,7 @@ public class baggageController {
             String officeCode= (String)requestParameters.get("office_code");
             LocalDateTime currentDateTime = LocalDateTime.now();
 
-            //System.out.println("currentDateTime=============================="+currentDateTime);
+            System.out.println("currentDateTime=============================="+currentDateTime);
             try (Connection connection = jdbcTemplate.getDataSource().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "INSERT INTO payment_history (baggage_id,paid_amount, payment_id,payment_date,session_token,status,office_code) VALUES (?,?,?,?,?,?,?)"
@@ -875,7 +875,7 @@ public class baggageController {
                  List<Object> rowData = new ArrayList<>(allProductQuery);
                  rowData.add(baggageQuery);
              
-                 byte[] pdfData = pdfGenerationService.generatePdf(rowData, includedFields,totalTaxAmount,Sessiontoken,status,id);
+                 byte[] pdfData = pdfGenerationService.generatePdf(allProductQuery,rowData, includedFields,totalTaxAmount,Sessiontoken,status,id);
              
                  HttpHeaders headers = new HttpHeaders();
                  headers.setContentType(MediaType.APPLICATION_PDF);
@@ -1088,6 +1088,7 @@ public class baggageController {
             System.out.println("Request failed with status: " + response.getStatusCode());
         }
         return "error";
+
     }
     
     
@@ -1301,7 +1302,7 @@ public String currencApproveUpdate(@RequestParam int id, @RequestParam String st
                  rowData.add(baggageQuery);
                  Double totalTaxAmount = 2.2;
                 String  sessionToken="ddd";
-                 byte[] pdfData = pdfGenerationService.generatePdf(rowData, includedFields,totalTaxAmount,id,principal);
+                 byte[] pdfData = pdfGenerationService.generatePdf(allProductQuery,rowData, includedFields,totalTaxAmount,id,principal);
              
                  HttpHeaders headers = new HttpHeaders();
                  headers.setContentType(MediaType.APPLICATION_PDF);

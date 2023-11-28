@@ -37,40 +37,13 @@ public class PdfGenerationService {
 
 
 //for baggage approve 
-public byte[] generatePdf(List<?> rowData, List<String> includedFields, Double totalPaidAmount,Integer id,Principal principal) throws IOException {
+public byte[] generatePdf(List<Map<String, Object>>allProductQuery,List<?> rowData, List<String> includedFields, Double totalPaidAmount,Integer id,Principal principal) throws IOException {
     byte[] imageData = firebaseImage(principal);
     try (PDDocument document = new PDDocument()) {
         PDPage page = new PDPage();
         document.addPage(page);
 
-
-
-       
-
-        
-
-
-
-
-
-
-
-
-
-
-
         try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
-
-            
-            
-
-
-
-
-
-
-
-
 
             contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 14);
 
@@ -112,7 +85,7 @@ public byte[] generatePdf(List<?> rowData, List<String> includedFields, Double t
              PDImageXObject signature = PDImageXObject.createFromByteArray(document, imageData, "Firebase Image");
 
             float xSignature= 60;
-            float ySignature = 350;
+            float ySignature = 100;
             float widthSignature= 100;  // Adjust this value based on your image size
             float heightSignature = 100;  // Adjust this value based on your image size
 
@@ -121,15 +94,72 @@ public byte[] generatePdf(List<?> rowData, List<String> includedFields, Double t
 
             // Generate QR code
 
+            
+
+                float xTable = 100;
+                float yTable = page.getMediaBox().getHeight()-7*margin-100; 
+                // Adjust the Y-coordinate for the start of the table
+                float tableWidth1 = page.getMediaBox().getWidth() - 2 * margin;
+                float tableHeight = 20f;
+                
+                float red = 220 / 255f;
+                float green = 76 / 255f;
+                float blue = 100 / 255f;
+                // Draw table header
+                contentStream.setLineWidth(1f);
+                contentStream.setNonStrokingColor(red,green,blue); 
+                contentStream.addRect(xTable-39, yTable-7, 500,22);
+                contentStream.fill();
+                contentStream.setNonStrokingColor(0,0,0); 
+                contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA_BOLD), 10); // Adjust font and size if needed
+                contentStream.beginText();
+                contentStream.newLineAtOffset(xTable, yTable);
+                contentStream.showText("Product Name");
+                contentStream.newLineAtOffset(130, 0);
+                contentStream.showText("Unit");
+                contentStream.newLineAtOffset(86, 0);
+                contentStream.showText("Quantity");
+                contentStream.newLineAtOffset(86, 0);
+                contentStream.showText("Value");
+                contentStream.newLineAtOffset(86, 0);
+                contentStream.showText("Tax Amount");
+                contentStream.endText();
+                yTable -= 20; // Adjust the Y-coordinate for the table content
+                contentStream.setNonStrokingColor(0,0,0);
+
+
+
+                for (Map<String, Object> row : allProductQuery) {
+                    contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 10); // Adjust font size if needed
+                
+                    // Draw each column in the row
+                    contentStream.beginText();
+                    contentStream.newLineAtOffset(xTable-5, yTable);
+                    contentStream.showText(row.get("item_name").toString());
+                    contentStream.newLineAtOffset(140, 0);
+                    contentStream.showText(row.get("unit_name").toString());
+                    contentStream.newLineAtOffset(90, 0);
+                    contentStream.showText(row.get("qty").toString());
+                    contentStream.newLineAtOffset(90, 0);
+                    contentStream.showText(row.get("value").toString());
+                    contentStream.newLineAtOffset(90, 0);
+                    contentStream.showText(row.get("tax_amount").toString());
+                    contentStream.endText();
+                
+                    yTable -= tableHeight; // Adjust the Y-coordinate for the next row
+                }
+                
+
+
 
             // Set the position and size of the QR code image
             float xQRCode = 250;
-            float yQRCode = 200;
+            float yQRCode = 50;
             float widthQRCode = 100;  // Adjust this value based on your QR code image size
             float heightQRCode = 100;  // Adjust this value based on your QR code image size
 
             // Draw the QR code on the page
-            String qrCodeData = "http://172.24.75.139:8080/baggagestart/confrimPage?id="+id;
+            String qrCodeData = "http://192.168.0.105:8080/baggagestart/confrimPage?id="+id;
             ByteArrayOutputStream qrCodeStream = generateQRCode(qrCodeData);
             contentStream.drawImage(PDImageXObject.createFromByteArray(document, qrCodeStream.toByteArray(), "QR Code"), xQRCode, yQRCode, widthQRCode, heightQRCode);
 
@@ -195,7 +225,7 @@ public byte[] firebaseImage(Principal principal){
 
 
 
-    public byte[] generatePdf(List<?> rowData, List<String> includedFields, Double totalPaidAmount,String sessionToken, String status,Long id) throws IOException {
+    public byte[] generatePdf(List<Map<String, Object>>allProductQuery,List<?> rowData, List<String> includedFields, Double totalPaidAmount,String sessionToken, String status,Long id) throws IOException {
         try (PDDocument document = new PDDocument()) {
             PDPage page = new PDPage();
             document.addPage(page);
@@ -203,8 +233,9 @@ public byte[] firebaseImage(Principal principal){
             try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
                 contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 14);
 
-                float margin = 50;
+                float margin = 35;
                 float yStart = page.getMediaBox().getHeight() - margin;
+                System.out.println(page.getMediaBox().getHeight());
                 float tableWidth = page.getMediaBox().getWidth() - 2 * margin;
                 float yPosition = yStart;
                 float rowHeight = 20f;
@@ -225,7 +256,63 @@ public byte[] firebaseImage(Principal principal){
                 contentStream.drawImage(image, xImage, yImage, widthImage, heightImage);
 
                 // Adjust the Y-coordinate after adding the image
-                yPosition -= heightImage;
+                // yPosition -= heightImage;
+
+
+                float xTable = 100;
+                float yTable = page.getMediaBox().getHeight()-7*margin-100; 
+                // Adjust the Y-coordinate for the start of the table
+                float tableWidth1 = page.getMediaBox().getWidth() - 2 * margin;
+                float tableHeight = 20f;
+                
+                float red = 220 / 255f;
+                float green = 76 / 255f;
+                float blue = 100 / 255f;
+                // Draw table header
+                contentStream.setLineWidth(1f);
+                contentStream.setNonStrokingColor(red,green,blue); 
+                contentStream.addRect(xTable-39, yTable-7, 500,22);
+                contentStream.fill();
+                contentStream.setNonStrokingColor(0,0,0); 
+                contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA_BOLD), 10); // Adjust font and size if needed
+                contentStream.beginText();
+                contentStream.newLineAtOffset(xTable, yTable);
+                contentStream.showText("Product Name");
+                contentStream.newLineAtOffset(130, 0);
+                contentStream.showText("Unit");
+                contentStream.newLineAtOffset(86, 0);
+                contentStream.showText("Quantity");
+                contentStream.newLineAtOffset(86, 0);
+                contentStream.showText("Value");
+                contentStream.newLineAtOffset(86, 0);
+                contentStream.showText("Tax Amount");
+                contentStream.endText();
+                yTable -= 20; // Adjust the Y-coordinate for the table content
+                contentStream.setNonStrokingColor(0,0,0);
+
+
+
+                for (Map<String, Object> row : allProductQuery) {
+                    contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 10); // Adjust font size if needed
+                
+                    // Draw each column in the row
+                    contentStream.beginText();
+                    contentStream.newLineAtOffset(xTable-5, yTable);
+                    contentStream.showText(row.get("item_name").toString());
+                    contentStream.newLineAtOffset(140, 0);
+                    contentStream.showText(row.get("unit_name").toString());
+                    contentStream.newLineAtOffset(90, 0);
+                    contentStream.showText(row.get("qty").toString());
+                    contentStream.newLineAtOffset(90, 0);
+                    contentStream.showText(row.get("value").toString());
+                    contentStream.newLineAtOffset(90, 0);
+                    contentStream.showText(row.get("tax_amount").toString());
+                    contentStream.endText();
+                
+                    yTable -= tableHeight; // Adjust the Y-coordinate for the next row
+                }
+                
+
 
                 // Display header text
                 // String headerText = "National Board Of Revenue, Bangladesh";
@@ -242,12 +329,12 @@ public byte[] firebaseImage(Principal principal){
 
                 // Set the position and size of the QR code image
                 float xQRCode = 80;
-                float yQRCode = 200;
+                float yQRCode = 50;
                 float widthQRCode = 100;  // Adjust this value based on your QR code image size
                 float heightQRCode = 100;  // Adjust this value based on your QR code image size
 
                 // Draw the QR code on the page
-                String qrCodeData = "http://172.24.75.139:8080/baggagestart/confrimPage?id="+id+"&session_token="+sessionToken+"&status=success";
+                String qrCodeData = "http://192.168.0.105:8080/baggagestart/confrimPage?id="+id+"&session_token="+sessionToken+"&status=success";
                 ByteArrayOutputStream qrCodeStream = generateQRCode(qrCodeData);
                 contentStream.drawImage(PDImageXObject.createFromByteArray(document, qrCodeStream.toByteArray(), "QR Code"), xQRCode, yQRCode, widthQRCode, heightQRCode);
 
@@ -261,12 +348,12 @@ public byte[] firebaseImage(Principal principal){
 
 
                 float xQRCode1 = 500;
-                float yQRCode1= 200;
+                float yQRCode1= 50;
                 float widthQRCode1 = 100;  // Adjust this value based on your QR code image size
                 float heightQRCode1 = 100;  // Adjust this value based on your QR code image size
 
                 // Draw the QR code on the page
-                String qrCodeData1 = "http://172.24.75.139:8080/baggageshow/baggagetotalid?id="+id+"&status=total_baggage";
+                String qrCodeData1 = "http://192.168.0.105:8080/baggageshow/baggagetotalid?id="+id+"&status=total_baggage";
                 ByteArrayOutputStream qrCodeStream1 = generateQRCode(qrCodeData1);
                 contentStream.drawImage(PDImageXObject.createFromByteArray(document, qrCodeStream1.toByteArray(), "QR Code"), xQRCode1, yQRCode1, widthQRCode1, heightQRCode1);
 
@@ -279,6 +366,9 @@ public byte[] firebaseImage(Principal principal){
 
                 // Adjust the Y-coordinate after adding the QR code
                 yPosition -= heightQRCode;
+
+
+           
 
                 for (Object row : rowData) {
                     if (row instanceof Map) {
@@ -354,7 +444,9 @@ public byte[] firebaseImage(Principal principal){
 
         // Draw a simple text for the field value with the label
         contentStream.beginText();
-        contentStream.newLineAtOffset(x, y);  // Adjust X and Y coordinates
+        contentStream.newLineAtOffset(x, y);
+        System.out.println(x);
+        System.out.println(y);  // Adjust X and Y coordinates
         contentStream.showText(labelText);
         contentStream.endText();
 
