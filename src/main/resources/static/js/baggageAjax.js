@@ -300,7 +300,7 @@ function addProduct(){
           inchi: item.inchi,
           quantity: item.qty,
           perUnitValue: item.value,
-          totalValue: item.tax_amount,
+          totalValue: item.qty*item.value,
           tax: item.tax_percentage,
   
           cd: item.cd,
@@ -539,47 +539,47 @@ function calculateTotalValue() {
 
 //For gold calculation 
 
-if ( (productnameforgold=="স্বর্ণবার বা স্বর্ণপিন্ড(সর্বোচ্চ ২০০ গ্রাম)" || productnameforgold=="রৌপ্যবার বা রৌপ্যপিন্ড (সর্বোচ্চ ২০০ গ্রাম)") && !isNaN(quantity) && quantity>200) {
+// if ( (productnameforgold=="স্বর্ণবার বা স্বর্ণপিন্ড(সর্বোচ্চ ২০০ গ্রাম)" || productnameforgold=="রৌপ্যবার বা রৌপ্যপিন্ড (সর্বোচ্চ ২০০ গ্রাম)") && !isNaN(quantity) && quantity>200) {
 
-  // Calculate the total value
+//   // Calculate the total value
  
-  const payblequantity=quantity-200;
+//   const payblequantity=quantity-200;
 
   
-  var totalValue = payblequantity * 12.8600823;
+//   var totalValue = payblequantity * 12.8600823;
   
-  console.log(totalValue);
-  // Update the totalValue field with the calated result
-  document.getElementById("totalValue").value = totalValue;
+//   console.log(totalValue);
+//   // Update the totalValue field with the calated result
+//   document.getElementById("totalValue").value = totalValue;
 
-  let tax = document.getElementById("tax").value / 100;
+//   let tax = document.getElementById("tax").value / 100;
 
-  let cd = document.getElementById("cd").value / 100;
-  let rd = document.getElementById("rd").value / 100;
-  let sd = document.getElementById("sd").value / 100;
-  let vat = document.getElementById("vat").value / 100;
-  let ait = document.getElementById("ait").value / 100;
-  let at = document.getElementById("at").value / 100;
+//   let cd = document.getElementById("cd").value / 100;
+//   let rd = document.getElementById("rd").value / 100;
+//   let sd = document.getElementById("sd").value / 100;
+//   let vat = document.getElementById("vat").value / 100;
+//   let ait = document.getElementById("ait").value / 100;
+//   let at = document.getElementById("at").value / 100;
 
   
 
-  let totalTax =  totalValue.toFixed(2);
-  let totalCd = cd * totalValue.toFixed(2);
-  let totalRd= rd * totalValue.toFixed(2);
-  let totalSd = sd * totalValue.toFixed(2);
-  let totalvat = vat * totalValue.toFixed(2);
-  let totalAit = ait * totalValue.toFixed(2);
-  let totalAt = at * totalValue.toFixed(2);
+//   let totalTax =  totalValue.toFixed(2);
+//   let totalCd = cd * totalValue.toFixed(2);
+//   let totalRd= rd * totalValue.toFixed(2);
+//   let totalSd = sd * totalValue.toFixed(2);
+//   let totalvat = vat * totalValue.toFixed(2);
+//   let totalAit = ait * totalValue.toFixed(2);
+//   let totalAt = at * totalValue.toFixed(2);
 
-  let additionTaxAmount = totalTax+totalCd+totalRd+totalSd+totalvat+totalAit+totalAt;
-
-
-
-  document.getElementById("taxAmount").value = additionTaxAmount;
-}
+//   let additionTaxAmount = totalTax+totalCd+totalRd+totalSd+totalvat+totalAit+totalAt;
 
 
-  else if (!isNaN(quantity) && !isNaN(perUnitValue)) {
+
+//   document.getElementById("taxAmount").value = additionTaxAmount;
+// }
+
+
+  if (!isNaN(quantity) && !isNaN(perUnitValue)) {
     
     // Calculate the total value
     
@@ -660,7 +660,7 @@ document.addEventListener("DOMContentLoaded", function () {
           inchi: item.inchi,
           quantity: item.qty,
           perUnitValue: item.value,
-          totalValue: item.tax_amount,
+          totalValue: item.qty*item.value,
           tax: item.tax_percentage,
   
           cd: item.cd,
