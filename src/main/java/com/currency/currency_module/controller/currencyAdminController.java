@@ -55,6 +55,15 @@ public class currencyAdminController {
          model.addAttribute("unapproveCurrency",listCurrencyDeclaration);
       return "currencyEditAdmin";
 }
+
+    @GetMapping("/adminunapprovedcurrency")
+    public String showunapprovedcurrency(Model model){
+        //System.out.println();
+        List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatus("unchecked");
+        model.addAttribute("unapproveCurrency",listCurrencyDeclaration);
+    return "currencyAdminUnapprove";
+
+    }
 }
 
 
