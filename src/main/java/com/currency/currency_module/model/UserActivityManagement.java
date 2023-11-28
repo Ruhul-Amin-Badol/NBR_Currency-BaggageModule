@@ -105,42 +105,25 @@ public class UserActivityManagement {
     @Column(nullable = true)
     private String Signature;
 
-    public String getSignature() {
-        return this.Signature;
-    }
-
-    public void setSignature(String Signature) {
-        this.Signature = Signature;
-    }
-    
-    public int getUserMatrix() {
-        return this.userMatrix;
-    }
-
-    public void setUserMatrix(int userMatrix) {
-        this.userMatrix = userMatrix;
-    }
-
-    public int getBaggageModule() {
-        return this.baggageModule;
-    }
-
-    public void setBaggageModule(int baggageModule) {
-        this.baggageModule = baggageModule;
-    }
-
-    public int getCurrencyModule() {
-        return this.currencyModule;
-    }
-
-    public void setCurrencyModule(int currencyModule) {
-        this.currencyModule = currencyModule;
-    }
 
     
     @ManyToOne
     @JoinColumn(name = "airport_list_id")
     private AirportList airportList;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<ModuleRole> roles;
+
+
+    public Set<ModuleRole> getRoles() {
+        return this.roles;
+    }
+
+    public void setRoles(Set<ModuleRole> roles) {
+        this.roles = roles;
+    }
+
 
 
     public Long getUserId() {
@@ -344,15 +327,48 @@ public class UserActivityManagement {
         this.paymentHistory = paymentHistory;
     }
 
+    
+    public String getSignature() {
+        return this.Signature;
+    }
+
+    public void setSignature(String Signature) {
+        this.Signature = Signature;
+    }
+    
+    public int getUserMatrix() {
+        return this.userMatrix;
+    }
+
+    public void setUserMatrix(int userMatrix) {
+        this.userMatrix = userMatrix;
+    }
+
+    public int getBaggageModule() {
+        return this.baggageModule;
+    }
+
+    public void setBaggageModule(int baggageModule) {
+        this.baggageModule = baggageModule;
+    }
+
+    public int getCurrencyModule() {
+        return this.currencyModule;
+    }
+
+    public void setCurrencyModule(int currencyModule) {
+        this.currencyModule = currencyModule;
+    }
+
 
 
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities=new HashSet<>();
- 
-            var role=new SimpleGrantedAuthority(fname);
-           authorities.add(role);
-      
+         for (ModuleRole role : roles) {
+            var hhh=new SimpleGrantedAuthority(role.getName());
+           authorities.add(hhh);
+         }
         return authorities;
     }
 

@@ -47,6 +47,7 @@ public static class App1ConfigurationAdapter {
        httpSecurity.csrf(csrf -> csrf.disable())
                .securityMatcher("/pvt/*")
                .authorizeHttpRequests()
+               .requestMatchers("/pvt/**").hasAuthority("priviliges")
             //    .requestMatchers(HttpMethod.GET, "/pvt/pvt-entry").permitAll()
                .anyRequest()
                .authenticated()
