@@ -1,0 +1,123 @@
+<div th:replace="~{layout/currency/currencyheader}"></div>
+<!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" > -->
+<link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" >
+<link href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css" rel="stylesheet" >
+<script src="https://cdn.datatables.net/plug-ins/1.10.24/filtering/date-range.js"></script>
+  <style>
+    .sr-main-content {
+      background-color: #ededf4;
+      font-family: Roboto, Helvetica, sans-serif !important;
+    }
+    .sr-main-content-padding {
+      background: white;
+      padding: 10px 20px;
+      border: 1px solid #e6e9ed;
+      border-radius: 5px;
+    }
+    .sr-main-content-heading {
+      margin: 0;
+      padding: 0;
+      font-size: 18px;
+      font-weight: 500;
+      color: #48465b;
+    }
+    .fa,
+    .fas {
+      font-weight: 900;
+    }
+  </style>
+  <body>
+    <span id="print_id" >
+      <a href="/dashboard"><input type="button" class="btn btn-success btn-md" value="Go Back" id="go_back" style="margin: 20px !important;"></a>
+  </span>
+    <div class="sr-main-content-padding">
+      <div class="sr-main-content-heading" style="text-align: center;">
+        <i class="fa fa-server" style="padding-right: 10px"></i>Currency Information Edit
+      </div>
+      <div class="date-filter d-flex my-5" >
+        <label for="fromDate">From: </label>
+        <input type="date" id="start-date" name="start-date" class="form-control" placeholder="Start Date">
+        <label for="fromDate">To: </label>
+        <input type="date" id="end-date" name="end-date" class="form-control" placeholder="End Date">
+        <button class="btn btn-warning mx-2" id="filter-button">Filter</button>
+    </div>
+    <table id="example" class="table table-striped " >
+        <thead style="background-color: goldenrod;">
+            <tr>
+                <th>sl</th>
+                <th>Date of Arrival</th>
+                <th>Name</th>
+                <th>Nationality</th>
+                <th>Profession</th>
+                <th>Flight No</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody >
+    
+            <tr th:each="show,sl : ${unapproveCurrency}" th:object="${'unapproveCurrency'}">
+                
+                <td th:text="${sl.count}"></td>
+                <td th:text="${show.dateOfArrival}"></td>
+                <td th:text="${show.passengerName}"></td>
+                <td th:text="${show.nationality}"></td>
+                <td th:text="${show.profession}"></td>
+                <td th:text="${show.flightNo}"></td>
+                <td >
+                    <button type="button" class="btn btn-primary" style="color: white;"><a style="text-decoration: none; color: white;" th:href="@{/currencystart/currencyEdit(id=${show.id})}">Edit</a></button>
+    
+                </td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>sl</th>
+                <th>Date of Arrival</th>
+                <th>Name</th>
+                <th>Nationality</th>
+                <th>Profession</th>
+                <th>Flight No</th>
+                <th>Action</th>
+            </tr>
+        </tfoot>
+    </table>
+    <script src='https://code.jquery.com/jquery-3.7.0.js'></script>
+    <script src='https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js'></script>
+    <script src='https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js'></script>
+
+    
+    
+    <script>
+ 
+
+
+    $(document).ready(function () {
+    var table = $('#example').DataTable({
+        lengthChange: false,
+    });
+
+    // Initialize the Date Range Filter
+    $.fn.dataTable.ext.search.push(
+        function (settings, data, dataIndex) {
+            var min = $('#start-date').val();
+            var max = $('#end-date').val();
+            var date = data[5]; // Change this index to match your date column
+
+            if ((min === '' && max === '') || (min <= date && max >= date)) {
+                return true;
+            }
+
+            return false;
+        }
+    );
+
+    // Add the event listener to the filter button
+    $('#filter-button').on('click', function () {
+        table.draw();
+    });
+
+    table.buttons().container().appendTo('#example_wrapper .col-md-6:eq(0)');
+});
+
+    
+    </script>

@@ -86,13 +86,36 @@ public static class App2ConfigurationAdapter {
 
 }
 
-
-
 @Configuration
 @Order(3)
 public static class App3ConfigurationAdapter {
    @Bean
     SecurityFilterChain securityFilterChain3(HttpSecurity httpSecurity) throws Exception {
+
+       httpSecurity.csrf(csrf -> csrf.disable())
+               .securityMatcher("/currencyadmin/*")
+               .authorizeHttpRequests()
+               .anyRequest()
+               .authenticated()
+               .and()
+               .formLogin(login -> login
+                       .loginPage("/currencyadmin/signincurrency")  // Specify the login page for the second form
+                       .loginProcessingUrl("/currencyadmin/logincurrency")  // Specify the login processing URL for the second form
+                       .defaultSuccessUrl("/currencyadmin/currencyDashboard", true)
+                       .permitAll())
+               .rememberMe(withDefaults());
+                return httpSecurity.build();
+    }
+
+}
+
+
+
+@Configuration
+@Order(4)
+public static class App4ConfigurationAdapter {
+   @Bean
+    SecurityFilterChain securityFilterChain4(HttpSecurity httpSecurity) throws Exception {
        //      AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
        // authenticationManagerBuilder.userDetailsService(userDetailsSe*rvice);
        // AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
