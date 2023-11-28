@@ -236,7 +236,7 @@ function Note_calc(){
     const currencyId = document.getElementById("currencyId").value;
   
     $.ajax({
-      url: "http://localhost:8080/currencystart/currencyformStay", // Your AJAX endpoint
+      url: "/currencystart/currencyformStay", // Your AJAX endpoint
       type: "POST",
       data: { currencyId: currencyId }, // Pass the baggageId as a parameter
       success: function (data) {

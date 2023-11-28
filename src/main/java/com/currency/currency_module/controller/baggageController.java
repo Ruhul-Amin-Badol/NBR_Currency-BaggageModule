@@ -244,7 +244,7 @@ public class baggageController {
             String sqloffice = "SELECT * FROM airport_list WHERE office_code=?";
             Map<String, Object> airportDetails1 = jdbcTemplate.queryForMap(sqloffice, entryPoint );
             String airportname = (String) airportDetails1.get("air_port_names");
-            System.out.println("+++++++++++++++++++++++++++++++++++++++"+airportname);
+            
 
 
  
@@ -343,7 +343,12 @@ public class baggageController {
             @RequestParam String idCurrency,
 
             Model model) {
-        String sql = "UPDATE baggage SET entry_point=?, passenger_name=?, passport_number=?, passport_validity_date=?, nationality=?, previous_country=?, dateofarrival=?, flight_no=?, mobile_no=?, email=?, accom_no=?, unaccom_no=?,meat_products=?,foreign_currency=? WHERE id=?";
+    
+            
+            String sqloffice = "SELECT * FROM airport_list WHERE office_code=?";
+            Map<String, Object> airportDetails1 = jdbcTemplate.queryForMap(sqloffice, entryPoint );
+            String airportname = (String) airportDetails1.get("air_port_names");
+        String sql = "UPDATE baggage SET entry_point=?, office_code=?, passenger_name=?, passport_number=?, passport_validity_date=?, nationality=?, previous_country=?, dateofarrival=?, flight_no=?, mobile_no=?, email=?, accom_no=?, unaccom_no=?,meat_products=?,foreign_currency=? WHERE id=?";
            
         String otherNationality ="";
          if ("Other".equalsIgnoreCase(nationality)) {
@@ -356,6 +361,7 @@ public class baggageController {
         try {
             jdbcTemplate.update(
                     sql,
+                    airportname,
                     entryPoint,
                     passengerName,
                     passportNumber,
@@ -375,6 +381,77 @@ public class baggageController {
        
          
                 return "redirect:/baggagestart/show?generatedId=" + id;
+             
+            // If the update is successful, you can perform any necessary actions here.
+            // For example, you can retrieve the updated record and pass it to the view.
+             // Redirect to the updated record
+
+            // return "redirect:/reportEdit?generatedId="+id;
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error"; // You can customize this based on your error handling logic.
+        }
+    }
+
+    @PostMapping("/baggageUpdateadmin")
+    public String updateBaggageAdmin(
+            @RequestParam Long id, // Add a parameter for the unique identifier (id)
+            @RequestParam String entryPoint,
+            @RequestParam String passengerName,
+            @RequestParam String passportNumber,
+            @RequestParam String passportValidityDate,
+            @RequestParam String nationality,
+            @RequestParam String otherNationalityInput,
+            @RequestParam String countryFrom,
+            @RequestParam String dateOfArrival,
+            @RequestParam String flightNo,
+            @RequestParam String mobileNo,
+            @RequestParam String email,
+            @RequestParam int accompaniedBaggageCount,
+            @RequestParam int unaccompaniedBaggageCount,
+            @RequestParam String idMeat,
+            @RequestParam String idCurrency,
+
+            Model model) {
+    
+            
+            String sqloffice = "SELECT * FROM airport_list WHERE office_code=?";
+            Map<String, Object> airportDetails1 = jdbcTemplate.queryForMap(sqloffice, entryPoint );
+            String airportname = (String) airportDetails1.get("air_port_names");
+        String sql = "UPDATE baggage SET entry_point=?, office_code=?, passenger_name=?, passport_number=?, passport_validity_date=?, nationality=?, previous_country=?, dateofarrival=?, flight_no=?, mobile_no=?, email=?, accom_no=?, unaccom_no=?,meat_products=?,foreign_currency=? WHERE id=?";
+           
+        String otherNationality ="";
+         if ("Other".equalsIgnoreCase(nationality)) {
+                 otherNationality =  otherNationalityInput;
+            } else {
+                 otherNationality = nationality;
+            }
+
+
+        try {
+            jdbcTemplate.update(
+                    sql,
+                    airportname,
+                    entryPoint,
+                    passengerName,
+                    passportNumber,
+                    passportValidityDate,
+                    otherNationality,
+                    countryFrom,
+                    dateOfArrival,
+                    flightNo,
+                    mobileNo,
+                    email,
+                    accompaniedBaggageCount,
+                    unaccompaniedBaggageCount,
+                    idMeat,
+                    idCurrency,
+                    id // Set the id parameter for the WHERE clause
+            );
+       
+         
+                return "redirect:/baggagestart/edit-baggage?generatedId=" + id;
              
             // If the update is successful, you can perform any necessary actions here.
             // For example, you can retrieve the updated record and pass it to the view.
@@ -938,7 +1015,7 @@ public class baggageController {
         requestData.put("referenceInfo", Map.of(
                 "InvoiceNo", payment_id,
                 "invoiceDate", formattedDate,
-                "returnUrl", "http://localhost:8080/baggagestart/takePaymentRequest/"+id+"/",
+                "returnUrl", "http://13.232.110.60:8080/baggagestart/takePaymentRequest/"+id+"/",
                 "totalAmount", total_tax,
                 "applicentName", passenger_name,
                 "applicentContactNo", cellular_phone,
