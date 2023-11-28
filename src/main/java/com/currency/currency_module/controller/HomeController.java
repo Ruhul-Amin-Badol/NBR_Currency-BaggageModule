@@ -74,8 +74,9 @@ public class HomeController {
 
 
     @GetMapping("/index1") 
-    public String index1(@RequestParam(required = false, defaultValue = "") String officeCode, Model model) {
-        model.addAttribute("airport", airportService.findAirportByOfficeCode(officeCode));
+    public String index1( Model model) {
+        //@RequestParam(required = false, defaultValue = "") String officeCode,
+       // model.addAttribute("airport", airportService.findAirportByOfficeCode(officeCode));
         return "index1";
     }
     @GetMapping("/pvtdashboard") 
