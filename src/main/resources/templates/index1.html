@@ -1,3 +1,4 @@
+<div th:replace="~{layout/support}"></div>
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -5,7 +6,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 
-<div th:replace="~{layout/support}"></div>
+
 
 <style>
     /* Your CSS styles here */
@@ -31,24 +32,30 @@
 
 <body class="oe_styling_v8">
     <div class="oe_website_contents">
-        <header class="oe_website_header">
+        <!-- <header class="oe_website_header">
             <div class="oe_row oe_fit">
                 <div align="center" style="float:left"><img src="/img/logo/nbr.png" style="width: 350px;"></div>
                 <div align="center" style="float:right"><img class="oe_logo_img" alt="SajeebERP: Open Source Business" src="/img/image/main_logo.png" style="width: 350px;"></div>
             </div>
-        </header>
+        </header> -->
+        <div class="container mb-3 mt-2 ">
+            <div class="row d-flex  gap-2">
+              <div class="col-7 " ><img class="img-fluid ml-5" alt="SajeebERP: Open Source Business" src="/img/image/main_logo.png" ></div>  
+              <div class="col-4 "><img  class="img-fluid ml-4 mt-4 rounded" src="/img/logo/nbr.png" ></div>
+            </div>
+          </div>
 
 
 
 
         <section class="oe_hero oe_home_hero oe_container" th:if="${airport.officeCode == null or #strings.isEmpty(airport.officeCode)} or airport.officeCode == '' ">
             <div class="oe_slider">
-                <a href="/img/image/slide1.png">
+                <a href="/img/image/slide2.png">
                     <div class="oe_slide oe_website_builder_slide text-lg-center">
                         <span class="d-flex align-items-center text-lg-center" style="margin-top: 50px; color:honeydew; font-weight: bold; font-size: 40;" th:text="${airport.airPortNames}"></span>
                     </div>
                 </a>
-                <a href="/img/image/slide2.png">
+                <a href="/img/image/slide1.png">
                     <div class="oe_slide oe_home_slide ">
                         <span class="d-flex align-items-center text-lg-center" style="margin-top: 50px; color:honeydew; font-weight: bold; font-size: 40;" th:text="${airport.airPortNames}"></span>
                     </div>
@@ -137,7 +144,7 @@
                                 <img src="/img/image/baggage.png">
                             </div>
                         </div>
-                        <div class="oe_app_name">Baggage Module & Currency Module (Admin)</div>
+                        <div class="oe_app_name">Online Baggage Declaration - Admin</div>
                         <div class="oe_app_descr">
                             
                         </div>
@@ -149,7 +156,7 @@
                                 <img src="/img/image/baggage.png">
                             </div>
                         </div>
-                        <div class ="oe_app_name">Baggage Module (General User)</div>
+                        <div class ="oe_app_name">Online Baggage Declaration</div>
                         <div class="oe_app_descr">
                             Baggage Module
                         </div>
@@ -160,7 +167,18 @@
                                 <img src="/img/image/currency.png">
                             </div>
                         </div>
-                        <div class="oe_app_name">Currency Declaration (General User)</div>
+                        <div class="oe_app_name">Online Currency Declaration</div>
+                        <div class="oe_app_descr">
+                            Currency Declaration
+                        </div>
+                    </a>
+                    <a href="/currencyadmin/signincurrency" title="Currency Declaration Module" class="oe_app ab_app_descr">
+                        <div class="ab_app_descr">
+                            <div class="oe_app_icon">
+                                <img src="/img/image/currency.png">
+                            </div>
+                        </div>
+                        <div class="oe_app_name">Online Currency Declaration - Admin</div>
                         <div class="oe_app_descr">
                             Currency Declaration
                         </div>
@@ -213,7 +231,7 @@
             </section>
             <section class="oe_container">
                 <div class="row text-center">
-                    <h3>An Innovation of <span style="color:red;font-weight:bold;">Dr. Md. Neyamul Islam</span> and <span style="color:red;font-weight:bold;"><a href="team_info.php">ICT Team</a></span>, NBR.</h3>
+                    <h3>An Innovation of <span style="color:rgb(230, 46, 122);font-weight:bold;">Dr. Md. Neyamul Islam</span> and <span style="color:rgb(0, 183, 255);font-weight:bold;">ICT Team</span>, NBR.</h3>
                 </div>
                 <div class="oe_row oe_centeralign oe_more_spaced">
                     <a id="app-bottom" href="http://www.erp.com.bd" class="ab_footer_freetrial oe_button oe_big">Powered By <span class="oe_emph">ERP.COM.BD</span></a>
