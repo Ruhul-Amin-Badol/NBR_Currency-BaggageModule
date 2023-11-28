@@ -61,6 +61,10 @@ public class HomeController {
     public String loginppm() {
         return "loginppm";
     }
+    @GetMapping("/currencyadmin/signincurrency") 
+    public String logincurrency() {
+        return "loginCurrency";
+    }
 
       @GetMapping("/") 
     public String index(Model model) {
