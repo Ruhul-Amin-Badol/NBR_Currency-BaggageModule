@@ -17,13 +17,12 @@
 
     .oe_slide.oe_website_builder_slide {
         background-color: #f0f0f0;
-        background: url(/img/image/slide1.png) !important;
+        background: url(/img/image/slide2.png) !important;
         color: #404040;
     }
-
     .oe_slide.oe_home_slide {
         background-color: #f0f0f0;
-        background: url(/img/image/slide2.png) !important;
+        background: url(/img/image/slide3.png) !important;
         color: #404040;
     }
 
@@ -46,9 +45,77 @@
           </div>
 
 
+          <section class="oe_hero oe_home_hero oe_container">
+            <div class="oe_slider">
+              <a href="/img/image/slide2.png">
+                <div class="oe_slide oe_home_slide oe_invisible"></div>
+              </a>
+              <a href="/img/image/slide3.png">
+                <div class="oe_slide oe_website_builder_slide"></div>
+              </a>
+            </div>
+            <span class="oe_slider_arrow oe_left"
+              ><i class="icon-chevron-left"></i
+            ></span>
+            <span class="oe_slider_arrow oe_right"
+              ><i class="icon-chevron-right"></i
+            ></span>
+            <script>
+              // Your JavaScript code here
+              $(function () {
+                var cur_slide = 0;
+                var slides = $(".oe_hero .oe_slider .oe_slide");
+                var slide_interval = null;
+      
+                slides.each(function (index) {
+                  if (index === cur_slide) {
+                    $(this).removeClass("oe_invisible");
+                  } else {
+                    $(this).addClass("oe_invisible");
+                  }
+                });
+      
+                function show_slide(index) {
+                  index = index % slides.length;
+                  index = index < 0 ? slides.length + index : index;
+      
+                  var $cur = $(slides.get(cur_slide));
+                  var $nxt = $(slides.get(index));
+      
+                  $nxt.removeClass("oe_invisible");
+                  if (cur_slide !== index) {
+                    $cur.addClass("oe_invisible");
+                  }
+                  cur_slide = index;
+                  slideshow();
+                }
+      
+                $(".oe_slider_arrow.oe_left").click(function () {
+                  show_slide(cur_slide - 1);
+                });
+      
+                $(".oe_slider_arrow.oe_right").click(function () {
+                  show_slide(cur_slide + 1);
+                });
+      
+                // (re)starts the slideshow with 10000 secs between slides
+                function slideshow() {
+                  clearInterval(slide_interval);
+                  slide_interval = setInterval(function () {
+                    show_slide(cur_slide + 1);
+                  }, 10000);
+                }
+                // prevent the slide to disappear just as the user wants to click it
+                $(".oe_slider").mouseover(function () {
+                  slideshow();
+                });
+                slideshow();
+              });
+            </script>
+          </section>
 
 
-        <section class="oe_hero oe_home_hero oe_container" th:if="${airport.officeCode == null or #strings.isEmpty(airport.officeCode)} or airport.officeCode == '' ">
+        <!-- <section class="oe_hero oe_home_hero oe_container" th:if="${airport.officeCode == null or #strings.isEmpty(airport.officeCode)} or airport.officeCode == '' ">
             <div class="oe_slider">
                 <a href="/img/image/slide2.png">
                     <div class="oe_slide oe_website_builder_slide text-lg-center">
@@ -117,10 +184,10 @@
             </script>
         </section>
         <section class="oe_hero oe_home_hero oe_container" th:unless="${airport.officeCode == null or #strings.isEmpty(airport.officeCode)}">
-            <!-- Content when officeCode is not null -->
+            Content when officeCode is not null -->
             <!-- ... -->
   
-            <img alt="" th:src="${airport.image}" style="height: 245px; width: 992px;">
+            <!-- <img alt="" th:src="${airport.image}" style="height: 245px; width: 992px;"> -->
             <!-- ... --> 
         <article class="oe_page">
             <section class="oe_container">

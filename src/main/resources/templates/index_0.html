@@ -11,7 +11,7 @@
 
   .oe_slide.oe_website_builder_slide {
     background-color: #f0f0f0;
-    background: url(/img/image/slide1.png) !important;
+    background: url(/img/image/slide3.png) !important;
     color: #404040;
   }
 
@@ -63,7 +63,7 @@
 
     <section class="oe_hero oe_home_hero oe_container">
       <div class="oe_slider">
-        <a href="/img/image/slide2.png">
+        <a href="/img/image/slide3.png">
           <div class="oe_slide oe_home_slide oe_invisible"></div>
         </a>
         <a href="/img/image/slide1.png">
@@ -208,7 +208,7 @@
                 
               </div>
             </div>
-            <div class="col">
+            <!-- <div class="col">
               <div class="btn-group">
                 <button
                   type="button"
@@ -225,9 +225,25 @@
                 </div>
 
               </div>
-            </div>
+            </div> -->
+
+
 
             <div class="col">
+              <div class="btn-group">
+                <a th:href="@{'/index1'}">
+                <button
+                  type="button"
+                  class="btn btn-success button"
+                >
+                  NBR Internal
+                </button>
+              </a>
+
+                
+              </div>
+            </div>
+            <!-- <div class="col">
               <div class="btn-group">
                 <button
                   type="button"
@@ -242,7 +258,23 @@
               </div>
 
               </div>
-            </div>
+            </div> -->
+            <!-- <div class="col">
+              <div class="btn-group">
+                <button
+                  type="button"
+                  class="btn btn-success dropdown-toggle button"
+                  data-toggle="dropdown"
+                >
+                 NBR Online Baggage Form
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" th:href="@{'baggagestart/show'}">Baggage Application Form</a>
+                  <a class="dropdown-item" href="/baggage-search">Baggage Search</a>
+              </div>
+
+              </div>
+            </div> -->
 
           </div>
         </div>
