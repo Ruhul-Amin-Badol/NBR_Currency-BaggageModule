@@ -38,6 +38,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.currency.currency_module.AirportInformation;
+import com.currency.currency_module.model.PaymentHistory;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -48,7 +49,7 @@ import org.thymeleaf.context.Context;
 
 
 import com.currency.currency_module.services.EmailService;
-
+import com.currency.currency_module.services.PaymentHistoryService;
 import com.currency.currency_module.services.PdfGenerationService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -75,6 +76,8 @@ public class baggageController {
 
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private PaymentHistoryService paymentHistoryService;
 
    @Autowired
 
@@ -878,7 +881,27 @@ public class baggageController {
             Model model,
             @RequestParam("session_token") String Sessiontoken,
             @RequestParam("status") String status,
+            @RequestParam String msg,
+            @RequestParam String transactionId,
+            @RequestParam String transactionDate,
+            @RequestParam String invoiceNo,
+            @RequestParam String invoiceDate,
+            @RequestParam String brCode,
+            @RequestParam String applicantName,
+            @RequestParam String applicantContactNo,
+            @RequestParam String totalAmount,
+            @RequestParam String paymentStatus,
+            @RequestParam String payMode,
+            @RequestParam String payAmount,
+            @RequestParam String vat,
+            @RequestParam String commission,
+            @RequestParam String scrollNo,
             Principal principal) {
+
+
+
+            
+
 
             System.out.println("===============/insert-payment-history-record============");
             String baggageSql= "SELECT * FROM baggage WHERE id =?";
@@ -911,24 +934,53 @@ public class baggageController {
             String officeCode= (String)requestParameters.get("office_code");
             LocalDateTime currentDateTime = LocalDateTime.now();
 
-            System.out.println("currentDateTime=============================="+currentDateTime);
-            try (Connection connection = jdbcTemplate.getDataSource().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "INSERT INTO payment_history (baggage_id,paid_amount, payment_id,payment_date,session_token,status,office_code) VALUES (?,?,?,?,?,?,?)"
-            )) {
-            //System.out.println("totalTaxAmount=============================================="+totalTaxAmount);
-           preparedStatement.setInt(1, baggage_id);
-           preparedStatement.setDouble(2, totalTaxAmount);
-           preparedStatement.setString(3, payment_id);
-           preparedStatement.setTimestamp(4, Timestamp.valueOf(currentDateTime));
-           preparedStatement.setString(5,Sessiontoken );
-           preparedStatement.setString(6, status);
-           preparedStatement.setString(7, officeCode);
 
-           preparedStatement.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+
+            PaymentHistory paymentHistory=new PaymentHistory();
+            
+            paymentHistory.setSessionToken(Sessiontoken);
+            paymentHistory.setStatus(status);
+            paymentHistory.setMsg(msg);
+            paymentHistory.setTransactionId(transactionId);
+            paymentHistory.setTransactionDate(transactionDate);
+            paymentHistory.setInvoiceNo(invoiceNo);
+            paymentHistory.setInvoiceDate(invoiceDate);
+            paymentHistory.setBrCode(brCode);
+            paymentHistory.setApplicantName(applicantName);
+            paymentHistory.setApplicantContactNo(applicantContactNo);
+            paymentHistory.setTotalAmount(totalAmount);
+            paymentHistory.setPaymentStatus(paymentStatus);
+            paymentHistory.setPayMode(payMode);
+            paymentHistory.setPayAmount(payAmount);
+            paymentHistory.setVat(vat);
+            paymentHistory.setCommission(commission);
+            paymentHistory.setScrollNo(scrollNo);
+            paymentHistory.setBaggageId(id);
+            paymentHistory.setPaymentId(payment_id);
+            paymentHistory.setOfficeCode(officeCode);
+           
+            paymentHistoryService.insertPaymehistory(paymentHistory);
+
+            
+
+        //     System.out.println("currentDateTime=============================="+currentDateTime);
+        //     try (Connection connection = jdbcTemplate.getDataSource().getConnection();
+        //     PreparedStatement preparedStatement = connection.prepareStatement(
+        //             "INSERT INTO payment_history (baggage_id,paid_amount, payment_id,payment_date,session_token,status,office_code) VALUES (?,?,?,?,?,?,?)"
+        //     )) {
+        //     //System.out.println("totalTaxAmount=============================================="+totalTaxAmount);
+        //    preparedStatement.setInt(1, baggage_id);
+        //    preparedStatement.setDouble(2, totalTaxAmount);
+        //    preparedStatement.setString(3, payment_id);
+        //    preparedStatement.setTimestamp(4, Timestamp.valueOf(currentDateTime));
+        //    preparedStatement.setString(5,Sessiontoken );
+        //    preparedStatement.setString(6, status);
+        //    preparedStatement.setString(7, officeCode);
+
+        //    preparedStatement.executeUpdate();
+        //     } catch (SQLException e) {
+        //         e.printStackTrace();
+        //     }
 
             String link="/baggagestart/confrimPage?id="+id;
            
@@ -971,7 +1023,101 @@ public class baggageController {
     @GetMapping("/takePaymentRequest/{id}/")
     public String takePaymentRequest(@PathVariable Long id,@RequestParam("session_token") String Sessiontoken,@RequestParam("status") String status,Model model){
         if(status.equalsIgnoreCase("success")){
-    return "redirect:/baggagestart/insert-payment-history-record?id="+id+"&session_token="+Sessiontoken+"&status="+status;
+
+            String url = "https://spg.sblesheba.com:6314/api/v2/SpgService/TransactionVerificationWithToken";
+            String username = "duUser2014";
+            String password = "duUserPayment2014";
+            String auth = Base64.getEncoder().encodeToString((username + ":" + password).getBytes());
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", "Basic " + auth);
+            Map<String, Object> requestData = new HashMap<>();
+             requestData.put("session_Token",Sessiontoken);
+
+        HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestData,headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.exchange(
+                url,
+                HttpMethod.POST,
+                request,
+                String.class
+        );
+
+        if (response.getStatusCode() == HttpStatus.OK) {
+            // Process the successful response
+            String responseBody = response.getBody();
+                  try {
+                // Parse JSON response
+                ObjectMapper objectMapper = new ObjectMapper();
+               JsonNode jsonNode = objectMapper.readTree(responseBody);
+                
+// Extracting the desired information
+String status1 = jsonNode.get("status").asText();
+String msg = jsonNode.get("msg").asText();
+String transactionId = jsonNode.get("TransactionId").asText();
+String transactionDate = jsonNode.get("TransactionDate").asText();
+String invoiceNo = jsonNode.get("InvoiceNo").asText();
+String invoiceDate = jsonNode.get("InvoiceDate").asText();
+String brCode = jsonNode.get("BrCode").asText();
+String applicantName = jsonNode.get("ApplicantName").asText();
+String applicantContactNo = jsonNode.get("ApplicantContactNo").asText();
+String totalAmount = jsonNode.get("TotalAmount").asText();
+String paymentStatus = jsonNode.get("PaymentStatus").asText();
+String payMode = jsonNode.get("PayMode").asText();
+String payAmount = jsonNode.get("PayAmount").asText();
+String vat = jsonNode.get("Vat").asText();
+String commission = jsonNode.get("Commission").asText();
+String scrollNo = jsonNode.get("ScrollNo").asText();
+
+
+                if(status1.equalsIgnoreCase("200")&&paymentStatus.equals("200")){
+                // Now you can use these extracted values as needed, for example, in redirecting
+                // Assuming you are using a Spring MVC controller method for redirection
+                String redirectUrl = "redirect:/baggagestart/insert-payment-history-record?id="+id+"&session_token="+Sessiontoken+"&status=" + status1 +
+                        "&msg=" + msg +
+                        "&transactionId=" + transactionId +
+                        "&transactionDate=" + transactionDate +
+                        "&invoiceNo=" + invoiceNo +
+                        "&invoiceDate=" + invoiceDate +
+                        "&brCode=" + brCode +
+                        "&applicantName=" + applicantName +
+                        "&applicantContactNo=" + applicantContactNo +
+                        "&totalAmount=" + totalAmount +
+                        "&paymentStatus=" + paymentStatus +
+                        "&payMode=" + payMode +
+                        "&payAmount=" + payAmount +
+                        "&vat=" + vat +
+                        "&commission=" + commission +
+                        "&scrollNo=" + scrollNo;
+
+                        System.out.println("==============================");
+                        
+                            return redirectUrl;
+
+                    }else{
+
+                        System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                        return null;
+
+                    }
+        } catch (Exception e) {
+                // Handle parsing exception
+                e.printStackTrace();
+                return null;
+               
+ }
+           
+        } else {
+            // Handle other status codes or errors
+            System.out.println("Request failed with status: " + response.getStatusCode());
+            return null;
+        }
+
+
+
+   
         }
         else{
             model.addAttribute("status", HttpStatus.BAD_GATEWAY.value());
