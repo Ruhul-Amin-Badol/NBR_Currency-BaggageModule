@@ -218,7 +218,7 @@ public class baggageController {
         return "baggage_approve";
     }
 
-
+ 
     // -----> baggage insert <-----//
     @PostMapping("/baggageInsert")
     public String insertBaggage(
@@ -652,7 +652,6 @@ public class baggageController {
             e.printStackTrace();
             return "error"; // You can customize this based on your error handling logic.
         }
-      
     }
 
 
@@ -810,12 +809,6 @@ public class baggageController {
             String emailId = (String) requestParameters.get("email");
             model.addAttribute("reportShow", requestParameters);
 
-            // String paymentStatus = "Processing";
-            // if(!status.equals("success")){
-            //     paymentStatus=status;
-            // }
-            // String sqlBaggage = "UPDATE baggage SET payment_status=? WHERE id=?";
-            // jdbcTemplate.update(sqlBaggage,paymentStatus,id);
 
 
             String sql1="SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
@@ -855,10 +848,7 @@ public class baggageController {
 
             String link="/baggagestart/confrimPage?id="+id;
            
-            Context context = new Context();
-            context.setVariable("passengerName", requestParameters.get("passenger_name"));
-            context.setVariable("totalTaxAmount", totalTaxAmount);
-            context.setVariable("link", link);  
+
             try {
                 // Double totalPaidAmount = 0.0;
                  String gmail = (String) requestParameters.get("email");
@@ -871,7 +861,6 @@ public class baggageController {
                  List<Map<String, Object>> allProductQuery = jdbcTemplate.queryForList(baggageProductAddJoin, id);
              
                  List<String> includedFields = Arrays.asList("passenger_name","entry_point","flight_no","passport_number");
-               //  List<String> includedFields = Arrays.asList("id","item_id","payment_id"); // Replace with your actual field names
                  List<Object> rowData = new ArrayList<>(allProductQuery);
                  rowData.add(baggageQuery);
              
@@ -938,7 +927,7 @@ public class baggageController {
         requestData.put("referenceInfo", Map.of(
                 "InvoiceNo", payment_id,
                 "invoiceDate", formattedDate,
-                "returnUrl", "http://localhost:8080/baggagestart/takePaymentRequest/"+id+"/",
+                "returnUrl", "/baggagestart/takePaymentRequest/"+id+"/",
                 "totalAmount", total_tax,
                 "applicentName", passenger_name,
                 "applicentContactNo", cellular_phone,
