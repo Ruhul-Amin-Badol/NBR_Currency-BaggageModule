@@ -961,26 +961,6 @@ public class baggageController {
            
             paymentHistoryService.insertPaymehistory(paymentHistory);
 
-            
-
-        //     System.out.println("currentDateTime=============================="+currentDateTime);
-        //     try (Connection connection = jdbcTemplate.getDataSource().getConnection();
-        //     PreparedStatement preparedStatement = connection.prepareStatement(
-        //             "INSERT INTO payment_history (baggage_id,paid_amount, payment_id,payment_date,session_token,status,office_code) VALUES (?,?,?,?,?,?,?)"
-        //     )) {
-        //     //System.out.println("totalTaxAmount=============================================="+totalTaxAmount);
-        //    preparedStatement.setInt(1, baggage_id);
-        //    preparedStatement.setDouble(2, totalTaxAmount);
-        //    preparedStatement.setString(3, payment_id);
-        //    preparedStatement.setTimestamp(4, Timestamp.valueOf(currentDateTime));
-        //    preparedStatement.setString(5,Sessiontoken );
-        //    preparedStatement.setString(6, status);
-        //    preparedStatement.setString(7, officeCode);
-
-        //    preparedStatement.executeUpdate();
-        //     } catch (SQLException e) {
-        //         e.printStackTrace();
-        //     }
 
             String link="/baggagestart/confrimPage?id="+id;
            
@@ -1004,7 +984,7 @@ public class baggageController {
                  List<Object> rowData = new ArrayList<>(allProductQuery);
                  rowData.add(baggageQuery);
              
-                 byte[] pdfData = pdfGenerationService.generatePdf(allProductQuery,rowData, includedFields,totalTaxAmount,Sessiontoken,status,id);
+                 byte[] pdfData = pdfGenerationService.generatePdf(allProductQuery,rowData, includedFields,totalTaxAmount,id);
              
                  HttpHeaders headers = new HttpHeaders();
                  headers.setContentType(MediaType.APPLICATION_PDF);

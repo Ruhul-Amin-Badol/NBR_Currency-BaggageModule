@@ -261,7 +261,7 @@ public byte[] firebaselogo(String name){
 
 
 
-    public byte[] generatePdf(List<Map<String, Object>>allProductQuery,List<?> rowData, List<String> includedFields, Double totalPaidAmount,String sessionToken, String status,Long id) throws IOException {
+    public byte[] generatePdf(List<Map<String, Object>>allProductQuery,List<?> rowData, List<String> includedFields, Double totalPaidAmount,Long id) throws IOException {
 
         byte[] logo  = firebaselogo("nbr_logo.png");
         try (PDDocument document = new PDDocument()) {
@@ -373,7 +373,7 @@ public byte[] firebaselogo(String name){
                 float heightQRCode = 100;  // Adjust this value based on your QR code image size
 
                 // Draw the QR code on the page
-                String qrCodeData = "http://13.232.110.60:8080/baggagestart/confrimPage?id="+id+"&session_token="+sessionToken+"&status=success";
+                String qrCodeData = "http://13.232.110.60:8080/baggagestart/confrimPage?id="+id;
                 ByteArrayOutputStream qrCodeStream = generateQRCode(qrCodeData);
                 contentStream.drawImage(PDImageXObject.createFromByteArray(document, qrCodeStream.toByteArray(), "QR Code"), xQRCode, yQRCode, widthQRCode, heightQRCode);
 
