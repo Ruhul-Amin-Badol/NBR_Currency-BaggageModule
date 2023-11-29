@@ -15,11 +15,11 @@
     }
 </style>
 
-<span id="print_id" >
+<!-- <span id="print_id" >
     <a href="/dashboard"><input type="button" class="btn btn-success btn-sm" value="Go Back" id="go_back" style="margin: 20px !important;"></a>
-</span>
+</span> -->
 <div class="sr-main-content-heading">
-    <i class="fa fa-server" style="padding-right: 10px"></i>Total
+    <i class="fa fa-server" style="padding-right: 10px"></i>All
     Currency Application
   </div>
 <table id="example" class="table table-striped " style="zoom: 70%;">
@@ -42,7 +42,7 @@
     </thead>
     <tbody >
 
-        <tr th:each="show,sl : ${unapproveCurrency}" th:object="${'unapproveCurrency'}">
+        <tr th:each="show,sl : ${currencyTotal}" th:object="${'currencyTotal'}">
             
             <td th:text="${sl.count}"></td>
             <td th:text="${show.passengerName}"></td>
@@ -57,7 +57,7 @@
             <td th:text="${show.email}"></td>
 
             <td >
-                <a th:href="@{/currencystart/show-currency-details(id=${show.id})}">View Application</a>
+                <a th:href="@{/currencystart/show-currency-details(id=${show.id}, page='allCurrencyList')}">View Application</a>
 
             </td>
         </tr>

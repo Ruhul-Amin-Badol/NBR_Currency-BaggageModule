@@ -189,12 +189,12 @@ public class currencyController {
 
     @GetMapping("/unapprove-currency")
     public String unapproveCurrency(Model model,Principal principal){
-        String totolunapprove= airportInformation.getAirport(principal);
-        if(totolunapprove.equalsIgnoreCase("all")){
+        String officeCode= airportInformation.getAirport(principal);
+        if(officeCode.equalsIgnoreCase("all")){
         List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatus("unchecked");      
         model.addAttribute("unapproveCurrency",listCurrencyDeclaration);
         }else{
-        List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatusAndEntryPoint("unchecked",totolunapprove);      
+        List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatusAndEntryPoint("unchecked",officeCode);      
         model.addAttribute("unapproveCurrency",listCurrencyDeclaration);
         }
         return "currency_unapprove";
@@ -202,12 +202,12 @@ public class currencyController {
 
     @GetMapping("/approve-currency")
     public String approveCurrency(Model model, Principal principal){
-        String totalapprove= airportInformation.getAirport(principal);
-        if(totalapprove.equalsIgnoreCase("all")){
+        String officeCode= airportInformation.getAirport(principal);
+        if(officeCode.equalsIgnoreCase("all")){
             List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatus("checked");
             model.addAttribute("approveCurrency",listCurrencyDeclaration);
         }else{
-            List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatusAndEntryPoint("checked",totalapprove);
+            List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatusAndEntryPoint("checked",officeCode);
             model.addAttribute("approveCurrency",listCurrencyDeclaration);
         }
         
@@ -215,27 +215,27 @@ public class currencyController {
     }
     @GetMapping("/reject-currency")
     public String rejectCurrency(Model model,Principal principal){
-        String totalreject= airportInformation.getAirport(principal);
-        if(totalreject.equalsIgnoreCase("all")){
+        String officeCode= airportInformation.getAirport(principal);
+        if(officeCode.equalsIgnoreCase("all")){
         List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatus("rejected");
-        model.addAttribute("unapproveCurrency",listCurrencyDeclaration);
+        model.addAttribute("currecnyReject",listCurrencyDeclaration);
         }else{
-        List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatusAndEntryPoint("rejected",totalreject);
-        model.addAttribute("unapproveCurrency",listCurrencyDeclaration);
+        List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatusAndEntryPoint("rejected",officeCode);
+        model.addAttribute("currecnyReject",listCurrencyDeclaration);
         }
         return "currency_reject";
     }
 
     @GetMapping("/total-currency-application")
     public String totalCurrency(Model model, Principal principal){
-        String totalairport=airportInformation.getAirport(principal);
-        System.out.println(totalairport);
-        if(totalairport.equalsIgnoreCase("all")){
+        String officeCode=airportInformation.getAirport(principal);
+
+        if(officeCode.equalsIgnoreCase("all")){
             List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findAll();
-             model.addAttribute("unapproveCurrency",listCurrencyDeclaration);
+            model.addAttribute("currencyTotal",listCurrencyDeclaration);
         }else{
-             List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findAllByEntryPoint(totalairport);
-              model.addAttribute("unapproveCurrency",listCurrencyDeclaration); 
+            List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findAllByEntryPoint(officeCode);
+            model.addAttribute("currencyTotal",listCurrencyDeclaration); 
         }
         return "currency_total";
     }
@@ -254,7 +254,7 @@ public class currencyController {
 
 
         @GetMapping("/show-currency-details")
-    public String showCurrencyDetails( @RequestParam Long id,Model model){
+    public String showCurrencyDetails( @RequestParam Long id, @RequestParam String page,Model model){
        
 
 
@@ -262,38 +262,59 @@ public class currencyController {
          List<BaggageCurrencyAdd> listcurrency= currencyServices.baggagecurrecylist(id);
          model.addAttribute("Currency",currencydata);
         model.addAttribute("Baggagecurrency",listcurrency);
-       
+        model.addAttribute("page", page);
+
       return "currencyApprovalPage";
 
 
     }
 
- @GetMapping("/show-unapprove-currency-details")
-    public String showUnApproveCurrencyDetails( @RequestParam Long id,Model model){
-        CurrencyDeclaration currencydata=currencyServices.findcurrency(id);
-        List<BaggageCurrencyAdd> listcurrency= currencyServices.baggagecurrecylist(id);
-        model.addAttribute("Currency",currencydata);
-        model.addAttribute("Baggagecurrency",listcurrency);
+//  @GetMapping("/show-unapprove-currency-details")
+//     public String showUnApproveCurrencyDetails( @RequestParam Long id, @RequestParam String page,Model model){
+//         CurrencyDeclaration currencydata=currencyServices.findcurrency(id);
+//         List<BaggageCurrencyAdd> listcurrency= currencyServices.baggagecurrecylist(id);
+//         model.addAttribute("Currency",currencydata);
+//         model.addAttribute("Baggagecurrency",listcurrency);
+//         model.addAttribute("page", page);
        
-      return "currencyApprovalPage";
-    }
+//       return "currencyApprovalPage";
+//     }
 
     @PostMapping("/currenc_approve_update")
-    public String currencApproveUpdate( CurrencyDeclaration updatedApproveCurrencyDeclaration, Principal principal) {
+    public String currencApproveUpdate( CurrencyDeclaration updatedApproveCurrencyDeclaration,@RequestParam String page, Principal principal) {
         String usernameSession=principal.getName();
     currencyServices.approveCurrencyUpdate(updatedApproveCurrencyDeclaration,usernameSession);
 
 
     // Redirect to the edit page with a success message
     //redirectAttributes.addFlashAttribute("currencyDeclaration", updatedCurrencyDeclaration);
+
+
+
+if ("allCurrencyList".equals(page)) {
+    return "redirect:/currencystart/total-currency-application";
+} else if ("currencyApprove".equals(page)) {
+    return "redirect:/currencystart/approve-currency";
+} else if ("currencyUnapprove".equals(page)) {
+    return "redirect:/currencystart/unapprove-currency";
+}
+
+
     return "redirect:/currencystart/unapprove-currency";
 }
 
     @PostMapping("/currency_unapprove_update")
-    public String currencyUnapproveUpdate( CurrencyDeclaration updatedUnapproveCurrencyDeclaration,Principal principal) {
+    public String currencyUnapproveUpdate( CurrencyDeclaration updatedUnapproveCurrencyDeclaration,@RequestParam String page,Principal principal) {
         // Perform the update operation using currencyServices
          String usernameSession=principal.getName();
         currencyServices.unapproveCurrencyUpdate(updatedUnapproveCurrencyDeclaration,usernameSession);
+if ("allCurrencyList".equals(page)) {
+    return "redirect:/currencystart/total-currency-application";
+} else if ("currencyApprove".equals(page)) {
+    return "redirect:/currencystart/approve-currency";
+} else if ("currencyUnapprove".equals(page)) {
+    return "redirect:/currencystart/unapprove-currency";
+}
 
         return "redirect:/currencystart/unapprove-currency";
     }
@@ -352,7 +373,7 @@ public class currencyController {
        }else{
         return currencyDeclarationRepository.countByStatusAndEntryPoint("rejected",airportreject);
        }
-       
+        
         
 
     }
