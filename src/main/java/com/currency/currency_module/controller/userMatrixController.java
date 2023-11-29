@@ -69,12 +69,12 @@ public class userMatrixController {
                 return "editUser"; 
     }
             @PostMapping("/updateuser/{userId}")
-            public String updateUser(@PathVariable Long userId, @ModelAttribute UserActivityManagement user) {
+            public String updateUser(@PathVariable Long userId, @ModelAttribute UserActivityManagement user, MultipartFile image) {
                 System.out.println(user);
                 // Set the user ID from the path variable
                 user.setUserId(userId);
 
-                // userActivityManagementService.saveUserActivityManagement(user);
+                userActivityManagementService.saveUserActivityManagement(user,image);
                 return "redirect:/usermatrix/rollcreate";
     }
 

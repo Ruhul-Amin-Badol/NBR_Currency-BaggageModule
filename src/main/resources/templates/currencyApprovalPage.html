@@ -319,6 +319,7 @@
             <form th:action="@{/currencystart/currency_unapprove_update}"  method="post" id="myForm">
                 <div class="input-group">
                     <div class="">
+                        <input th:value="${page}" type="hidden" name="page">
                         <input th:value="${Currency.id}" type="hidden" name="id">
                         <input th:value="rejected" type="hidden" name="status">
                         <!-- <label style="font-weight: bold;" for="confNote" class="form-label" >Give the Reason of Rejection</label>
@@ -345,6 +346,7 @@
                 <div style="display:flex; justify-content: right; margin-right: 165px; margin-top: -95px;">
                 <form th:action="@{/currencystart/currenc_approve_update}"  method="post" id="myForm">
                     <div class="input-group">
+                        <input th:value="${page}" type="hidden" name="page">
                         <input th:value="${Currency.id}" type="hidden" name="id">
                         <input th:value="approved" type="hidden" name="status">
                         <textarea name="confNote" class="form-control" id="exampleFormControlTextarea1" placeholder="Write your comment" rows="2" style="width:100%; display: none;"></textarea>
