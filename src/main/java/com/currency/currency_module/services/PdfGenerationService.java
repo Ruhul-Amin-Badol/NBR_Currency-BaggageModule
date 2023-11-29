@@ -1,5 +1,9 @@
 package com.currency.currency_module.services;
 
+
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.cloud.storage.Blob;
@@ -18,6 +22,7 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
@@ -39,6 +44,9 @@ public class PdfGenerationService {
 //for baggage approve 
 public byte[] generatePdf(List<Map<String, Object>>allProductQuery,List<?> rowData, List<String> includedFields, Double totalPaidAmount,Integer id,Principal principal) throws IOException {
     byte[] imageData = firebaseImage(principal);
+    byte[] logo  = firebaselogo("nbr_logo.png");
+
+    
     try (PDDocument document = new PDDocument()) {
         PDPage page = new PDPage();
         document.addPage(page);
@@ -56,8 +64,13 @@ public byte[] generatePdf(List<Map<String, Object>>allProductQuery,List<?> rowDa
             float xPosition = margin;
 
             // Load image from resources/static/image
-            File imageFile = ResourceUtils.getFile("classpath:static/img/logo/nbr.png");
-            PDImageXObject image = PDImageXObject.createFromFileByContent(imageFile, document);
+            try {
+            //     Resource resource = new ClassPathResource("static/img/logo/nbr.png");
+            //     File imageFile = resource.getFile();
+            //     // Use the imageFile as needed
+            
+            // PDImageXObject image = PDImageXObject.createFromFileByContent(imageFile, document);
+        PDImageXObject logo1 = PDImageXObject.createFromByteArray(document, logo, "Firebase logo");
             
            
             // Set the position and size of the image
@@ -67,8 +80,8 @@ public byte[] generatePdf(List<Map<String, Object>>allProductQuery,List<?> rowDa
             float heightImage = 70;  // Adjust this value based on your image size
 
             // Draw the image on the page
-            contentStream.drawImage(image, xImage, yImage, widthImage, heightImage);
-
+            contentStream.drawImage(logo1, xImage, yImage, widthImage, heightImage);
+       
             // Adjust the Y-coordinate after adding the image
             yPosition -= heightImage;
 
@@ -191,6 +204,12 @@ public byte[] generatePdf(List<Map<String, Object>>allProductQuery,List<?> rowDa
                 contentStream.endText();
                 yPosition -= rowHeight; // Adjust the Y-coordinate
             }
+
+            
+            }catch (IOException e) {
+                // Handle the exception
+            }
+            
         }
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -222,10 +241,29 @@ public byte[] firebaseImage(Principal principal){
             return imageData;
 }
 
+public byte[] firebaselogo(String name){
+                    var storage = StorageClient.getInstance().bucket();
+                
+                String usernameSession = name;
+            // Fetch image data from Firebase Storage
+            String imageName = "nbrassests/"+usernameSession; // Adjust this to the actual image name
+            Blob blob = storage.get(imageName);
+
+            // Check if the blob (image) exists
+            if (blob == null) {
+                throw new RuntimeException("Image not found in Firebase Storage: " + imageName);
+            }
+
+            byte[] imageData = blob.getContent();
+            return imageData;
+}
+
 
 
 
     public byte[] generatePdf(List<Map<String, Object>>allProductQuery,List<?> rowData, List<String> includedFields, Double totalPaidAmount,String sessionToken, String status,Long id) throws IOException {
+
+        byte[] logo  = firebaselogo("nbr_logo.png");
         try (PDDocument document = new PDDocument()) {
             PDPage page = new PDPage();
             document.addPage(page);
@@ -243,8 +281,9 @@ public byte[] firebaseImage(Principal principal){
                 float xPosition = margin;
 
                 // Load image from resources/static/image
-                File imageFile = ResourceUtils.getFile("classpath:static/img/logo/nbr.png");
-                PDImageXObject image = PDImageXObject.createFromFileByContent(imageFile, document);
+                // File imageFile = ResourceUtils.getFile("classpath:static/img/logo/nbr.png");
+                // PDImageXObject image = PDImageXObject.createFromFileByContent(imageFile, document);
+            PDImageXObject logo1 = PDImageXObject.createFromByteArray(document, logo, "Firebase logo");
 
                 // Set the position and size of the image
                 float xImage = 200;
@@ -253,7 +292,7 @@ public byte[] firebaseImage(Principal principal){
                 float heightImage = 70;  // Adjust this value based on your image size
 
                 // Draw the image on the page
-                contentStream.drawImage(image, xImage, yImage, widthImage, heightImage);
+                contentStream.drawImage(logo1, xImage, yImage, widthImage, heightImage);
 
                 // Adjust the Y-coordinate after adding the image
                 // yPosition -= heightImage;
