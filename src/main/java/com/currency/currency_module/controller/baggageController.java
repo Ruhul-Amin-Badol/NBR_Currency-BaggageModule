@@ -640,7 +640,6 @@ public class baggageController {
              System.out.println("emptyPaymentHistory ================================  return not data==");
         }
 
-
         model.addAttribute("mostRecentBaggageList", mostRecentBaggageList);
         model.addAttribute("showProduct", productshow);
         
@@ -1369,12 +1368,5 @@ public String currencApproveUpdate(@RequestParam int id, @RequestParam String st
         // Handle the case where page_route doesn't match any of the conditions.
        return "redirect:/baggageshow/baggagetotal";
 }
-
-
-
-
-
-
-
 
 }

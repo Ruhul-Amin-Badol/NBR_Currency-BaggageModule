@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("hi i am baggage");
 
     // Count All baggage 
-    const totalShowApplicationId = document.getElementById("totalShowApplication").value;
+   // const totalShowApplicationId = document.getElementById("totalShowApplication").value;
   
     $.ajax({
       url: "/baggagestart/countAllBaggage", 
@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     //---> Count approve baggage <--//
-    const totalBaggageapproveapplicationId = document.getElementById("totalBaggageapproveapplication").value;
+   // const totalBaggageapproveapplicationId = document.getElementById("totalBaggageapproveapplication").value;
   
     $.ajax({
       url: "/baggagestart/countApprovedBaggage", 
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     //---> Count unapprove baggage <--//
-    const totalBaggageunapproveapplicationId = document.getElementById("totalBaggageUnapprove").value;
+    //const totalBaggageunapproveapplicationId = document.getElementById("totalBaggageUnapprove").value;
   
     $.ajax({
       url: "/baggagestart/countunApprovedBaggage", 
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
         //---> Count RejectBaggageapplication <--//
-        const totalRejectBaggageapplicationId = document.getElementById("totalRejectBaggage").value;
+        //const totalRejectBaggageapplicationId = document.getElementById("totalRejectBaggage").value;
   
         $.ajax({
           url: "/baggagestart/countrejectedBaggage", 
@@ -72,16 +72,16 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error(error);
           },
         });
-
+       // console.log("====================================================");
          //---> Count currency uncheckedstatuscount  <--//
-         const totaluncheckedstatuscountapplication = document.getElementById("uncheckedstatuscount").value;
+        // const totaluncheckedstatuscountapplication = document.getElementById("currencyUnapproveCountId").value;
   
          $.ajax({
            url: "/currencystart/uncheckedstatuscount", 
            type: "GET",
            success: function (data) {
              console.log(data);
-             document.getElementById("uncheckedstatuscount").innerText=data;
+             document.getElementById("currencyUnapproveCountId").innerText=data;
      
            },
            error: function (error) {
@@ -90,14 +90,14 @@ document.addEventListener("DOMContentLoaded", function () {
          });
 
             //---> Count checkedstatuscount <--//
-            const totalcheckedstatuscountapplication = document.getElementById("Currencycheckedstatuscount").value;
+           // const totalcheckedstatuscountapplication = document.getElementById("currencyApproveCountId").value;
   
             $.ajax({
               url: "/currencystart/checkedstatuscount", 
               type: "GET",
               success: function (data) {
                 console.log(data);
-                document.getElementById("Currencycheckedstatuscount").innerText=data;
+                document.getElementById("currencyApproveCountId").innerText=data;
         
               },
               error: function (error) {
@@ -106,14 +106,14 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
                         //---> Count checkedstatuscount <--//
-                        const totalAllcheckedstatuscountapplication = document.getElementById("Currencyallcheckedstatuscount").value;
+                      //  const totalAllcheckedstatuscountapplication = document.getElementById("currencyAllCountId").value;
   
                         $.ajax({
                           url: "/currencystart/allstatuscount", 
                           type: "GET",
                           success: function (data) {
                             console.log(data);
-                            document.getElementById("Currencyallcheckedstatuscount").innerText=data;
+                            document.getElementById("currencyAllCountId").innerText=data;
                     
                           },
                           error: function (error) {
@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         });
    
       //---> Count checkedstatuscount <--//
-      const totalrejectedstatuscountapplication = document.getElementById("rejectedCurrencystatuscount").value;
+     // const totalrejectedstatuscountapplication = document.getElementById("rejectedCurrencystatuscount").value;
   
       $.ajax({
         url: "/currencystart/rejectedstatuscount", 
