@@ -4,7 +4,8 @@
         <div class="card-body">
             <h3 class="card-title fw-bold mb-5 text-warning">User Management Edit</h3>
 
-            <form th:action="@{/usermatrix/updateuser/{userId}(userId=${user.userId})}" method="post" enctype="multipart/form-data" >
+            <form th:action="@{/usermatrix/updateuser/{userId}(userId=${user.userId})}" method="post" enctype="multipart/image" >
+                <input type="hidden" name="userId" th:value="${user.userId}">
 
                 <div class="form-group row">
                     <label for="username" class="col-sm-2 col-form-label">User Name:</label>
