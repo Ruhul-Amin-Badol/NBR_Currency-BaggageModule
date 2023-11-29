@@ -15,9 +15,9 @@
     }
 </style>
 
-<span id="print_id" >
+<!-- <span id="print_id" >
     <a href="/dashboard"><input type="button" class="btn btn-success btn-sm" value="Go Back" id="go_back" style="margin: 20px !important;"></a>
-</span>
+</span> -->
 <div class="sr-main-content-heading">
     <i class="fa fa-server" style="padding-right: 10px"></i>Approved
     Currency Application
@@ -60,7 +60,7 @@
             <td th:text="${show.email}"></td>
 
             <td >
-                <a th:href="@{/currencystart/show-currency-details(id=${show.id})}">View Application</a>
+                <a th:href="@{/currencystart/show-currency-details(id=${show.id}, page='currencyApprove')}">View Application</a>
 
             </td>
         </tr>

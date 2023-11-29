@@ -15,9 +15,9 @@
     }
 </style>
 
-<span id="print_id" >
+<!-- <span id="print_id" >
     <a href="/dashboard"><input type="button" class="btn btn-success btn-sm" value="Go Back" id="go_back" style="margin: 20px !important;"></a>
-</span>
+</span> -->
 <div class="sr-main-content-heading">
     <i class="fa fa-server" style="padding-right: 10px"></i>Unapproved
     Currency Application
@@ -44,7 +44,7 @@
             <td th:text="${show.nationality}"></td>
             <td th:text="${show.passportNumber}"></td>
             <td >
-                <a th:href="@{/currencystart/show-unapprove-currency-details(id=${show.id})}">View Application</a>
+                <a th:href="@{/currencystart/show-currency-details(id=${show.id}, page='currencyUnapprove')}">View Application</a>
 
             </td>
         </tr>
