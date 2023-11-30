@@ -584,6 +584,8 @@ public class baggageController {
             // Store the fetched data in the map
             productData.put("unit", result.get("unit_name"));
             productData.put("taxPercentage", result.get("tax_percentage"));
+            productData.put("perunitvalue", result.get("per_unite_value"));
+        
 
             productData.put("cd", result.get("cd"));
             productData.put("rd", result.get("rd"));
@@ -848,30 +850,45 @@ public class baggageController {
     }
 
     @GetMapping("/confrimPage")
+    // @ResponseBody
          public String confrimPage(
             @RequestParam Long id, // Add a parameter for the unique identifier (id)
             Model model,
             Principal principal) {
-            String baggageSql= "SELECT * FROM baggage WHERE id =?";
-            
-            Map<String, Object>requestParameters= jdbcTemplate.queryForMap(baggageSql, id);
-            model.addAttribute("reportShow", requestParameters);
 
-            String sql1="SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
-            List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,id);
-            Double totalTaxAmount = 0.0;
-            for (Map<String, Object> row : productshow) {
-                String taxAmount = (String) row.get("tax_amount");
-
-                if (taxAmount != null) {
-                    totalTaxAmount += Double.parseDouble(taxAmount);
-                }
-               
-            }
-            String link="/baggagestart/confrimPage?id="+id;
-            model.addAttribute("showProduct", productshow);
-            
-            return "confirmPage";
+                // // try{
+                    if(principal != null){
+                        
+                   
+        
+                    return "redirect:/baggageshow/baggagetotalid?id="+id+"&status=total_baggage";
+                     }
+                     else{
+     
+                       
+                   
+                 String baggageSql= "SELECT * FROM baggage WHERE id =?";
+                 
+                 Map<String, Object>requestParameters= jdbcTemplate.queryForMap(baggageSql, id);
+                 model.addAttribute("reportShow", requestParameters);
+     
+                 String sql1="SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
+                 List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,id);
+                 Double totalTaxAmount = 0.0;
+                 for (Map<String, Object> row : productshow) {
+                     String taxAmount = (String) row.get("tax_amount");
+     
+                     if (taxAmount != null) {
+                         totalTaxAmount += Double.parseDouble(taxAmount);
+                     }
+                    
+                 }
+                 String link="/baggagestart/confrimPage?id="+id;
+                 model.addAttribute("showProduct", productshow);
+                 
+                 return "confirmPage";
+             }
+  
         }
     @GetMapping("/insert-payment-history-record")
          public String insertPaymentHistoryRecord(
@@ -943,7 +960,7 @@ public class baggageController {
             paymentHistory.setTotalAmount(totalAmount);
             paymentHistory.setPaymentStatus(paymentStatus);
             paymentHistory.setPayMode(payMode);
-            paymentHistory.setPayAmount(payAmount);
+            paymentHistory.setPayAmount(totalAmount);
             paymentHistory.setVat(vat);
             paymentHistory.setCommission(commission);
             paymentHistory.setScrollNo(scrollNo);
@@ -953,26 +970,6 @@ public class baggageController {
            
             paymentHistoryService.insertPaymehistory(paymentHistory);
 
-            
-
-        //     System.out.println("currentDateTime=============================="+currentDateTime);
-        //     try (Connection connection = jdbcTemplate.getDataSource().getConnection();
-        //     PreparedStatement preparedStatement = connection.prepareStatement(
-        //             "INSERT INTO payment_history (baggage_id,paid_amount, payment_id,payment_date,session_token,status,office_code) VALUES (?,?,?,?,?,?,?)"
-        //     )) {
-        //     //System.out.println("totalTaxAmount=============================================="+totalTaxAmount);
-        //    preparedStatement.setInt(1, baggage_id);
-        //    preparedStatement.setDouble(2, totalTaxAmount);
-        //    preparedStatement.setString(3, payment_id);
-        //    preparedStatement.setTimestamp(4, Timestamp.valueOf(currentDateTime));
-        //    preparedStatement.setString(5,Sessiontoken );
-        //    preparedStatement.setString(6, status);
-        //    preparedStatement.setString(7, officeCode);
-
-        //    preparedStatement.executeUpdate();
-        //     } catch (SQLException e) {
-        //         e.printStackTrace();
-        //     }
 
             String link="/baggagestart/confrimPage?id="+id;
            
@@ -992,7 +989,7 @@ public class baggageController {
                  List<Object> rowData = new ArrayList<>(allProductQuery);
                  rowData.add(baggageQuery);
              
-                 byte[] pdfData = pdfGenerationService.generatePdf(allProductQuery,rowData, includedFields,totalTaxAmount,Sessiontoken,status,id);
+                 byte[] pdfData = pdfGenerationService.generatePdf(allProductQuery,rowData, includedFields,totalTaxAmount,id);
              
                  HttpHeaders headers = new HttpHeaders();
                  headers.setContentType(MediaType.APPLICATION_PDF);
@@ -1149,7 +1146,7 @@ String scrollNo = jsonNode.get("ScrollNo").asText();
         requestData.put("referenceInfo", Map.of(
                 "InvoiceNo", payment_id,
                 "invoiceDate", formattedDate,
-                "returnUrl", "http://localhost:8080/baggagestart/takePaymentRequest/"+id+"/",
+                "returnUrl", "http://13.232.110.60:8080/baggagestart/takePaymentRequest/"+id+"/",
                 "totalAmount", total_tax,
                 "applicentName", passenger_name,
                 "applicentContactNo", cellular_phone,

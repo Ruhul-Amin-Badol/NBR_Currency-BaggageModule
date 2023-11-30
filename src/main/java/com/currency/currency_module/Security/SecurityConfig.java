@@ -174,6 +174,7 @@ public static class App4ConfigurationAdapter {
             //    .requestMatchers(HttpMethod.GET, "/usermatrix/rollcreate").permitAll()
                .requestMatchers(HttpMethod.POST, "/currencystart/addCurrency").permitAll()
                .requestMatchers(HttpMethod.POST, "/currencystart/finalsubmit").permitAll()
+               .requestMatchers(HttpMethod.POST, "/api/DataUpdate").permitAll()
 
                .requestMatchers(HttpMethod.GET, "/currencystart/currencyEdit").permitAll()
                .requestMatchers(HttpMethod.POST, "/currencystart/showunapprovedcurrency").permitAll()

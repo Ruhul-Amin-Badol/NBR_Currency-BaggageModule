@@ -89,6 +89,9 @@ public class CurrencyDeclaration {
 
     private String entryBy;
 
+    // private String officeCode;
+
+
 
     
     @Transient
