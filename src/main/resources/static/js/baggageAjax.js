@@ -45,14 +45,14 @@ function populateTable() {
      newRow.append(`<td >${item.quantity}</td>`);
      newRow.append(`<td class="d-none" >${item.perUnitValue}</td>`);
      newRow.append(`<td>${item.totalValue}</td>`);
-     newRow.append(`<td>${item.tax}</td>`);
-
-     newRow.append(`<td>${item.cd}</td>`);
-     newRow.append(`<td>${item.rd}</td>`);
-     newRow.append(`<td>${item.sd}</td>`);
-     newRow.append(`<td>${item.vat}</td>`);
-     newRow.append(`<td>${item.ait}</td>`);
-     newRow.append(`<td>${item.at}</td>`);
+     newRow.append(`<td class="d-none">${item.tax}</td>`);
+ 
+     newRow.append(`<td class="d-none" >${item.cd}</td>`);
+     newRow.append(`<td class="d-none" >${item.rd}</td>`);
+     newRow.append(`<td class="d-none" >${item.sd}</td>`);
+     newRow.append(`<td class="d-none" >${item.vat}</td>`);
+     newRow.append(`<td class="d-none" >${item.ait}</td>`);
+     newRow.append(`<td class="d-none" >${item.at}</td>`);
      newRow.append(`<td>${item.taxAmount}</td>`);
     // }
 
@@ -487,9 +487,14 @@ function fetchProductData() {
       data: { productString: selectedProductName },
       dataType: "json",
       success: function (data) {
+        // if(!data.per_unite_value=='0'){
+
+        // }
+        document.getElementById("perUnitValue").value=data.perunitvalue;
+        console.log(data);
         $("#unit").val(data.unit); // Update unit field
         $("#tax").val(data.taxPercentage);
-
+        
         $("#cd").val(data.cd);
         $("#rd").val(data.rd);
         $("#sd").val(data.sd);
@@ -507,7 +512,7 @@ function fetchProductData() {
    
     });
     document.getElementById("quantity").value="0";
-    document.getElementById("perUnitValue").value="0";
+    
     document.getElementById("totalValue").value="0";
     document.getElementById("tax").value="0";
   } else {
@@ -539,11 +544,11 @@ function calculateTotalValue() {
 
 //For gold calculation 
 
-// if ( (productnameforgold=="স্বর্ণবার বা স্বর্ণপিন্ড(সর্বোচ্চ ২০০ গ্রাম)" || productnameforgold=="রৌপ্যবার বা রৌপ্যপিন্ড (সর্বোচ্চ ২০০ গ্রাম)") && !isNaN(quantity) && quantity>200) {
+// if ( (productnameforgold=="Gold Bar" && quantity>117) && !isNaN(quantity) && quantity>200) {
 
 //   // Calculate the total value
  
-//   const payblequantity=quantity-200;
+//   const payblequantity=117;
 
   
 //   var totalValue = payblequantity * 12.8600823;
@@ -776,6 +781,7 @@ function tax_calc(){
      if(inchi >=30 && inchi <=36){
      var tax_amount=(qty*10000);
      }
+
      else if(inchi >=37 && inchi <=42){
      var tax_amount=(qty*20000);
      }

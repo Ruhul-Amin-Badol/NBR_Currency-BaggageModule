@@ -172,7 +172,7 @@ public byte[] generatePdf(List<Map<String, Object>>allProductQuery,List<?> rowDa
             float heightQRCode = 100;  // Adjust this value based on your QR code image size
 
             // Draw the QR code on the page
-            String qrCodeData = "http:/13.232.110.60:8080/baggagestart/confrimPage?id="+id;
+            String qrCodeData = "http://13.232.110.60:8080/baggagestart/confrimPage?id="+id;
             ByteArrayOutputStream qrCodeStream = generateQRCode(qrCodeData);
             contentStream.drawImage(PDImageXObject.createFromByteArray(document, qrCodeStream.toByteArray(), "QR Code"), xQRCode, yQRCode, widthQRCode, heightQRCode);
 
@@ -367,10 +367,10 @@ public byte[] firebaselogo(String name){
 
 
                 // Set the position and size of the QR code image
-                float xQRCode = 80;
+                float xQRCode = 240;
                 float yQRCode = 50;
-                float widthQRCode = 100;  // Adjust this value based on your QR code image size
-                float heightQRCode = 100;  // Adjust this value based on your QR code image size
+                float widthQRCode = 150;  // Adjust this value based on your QR code image size
+                float heightQRCode = 150;  // Adjust this value based on your QR code image size
 
                 // Draw the QR code on the page
                 String qrCodeData = "http://13.232.110.60:8080/baggagestart/confrimPage?id="+id;
@@ -386,22 +386,22 @@ public byte[] firebaselogo(String name){
 
 
 
-                float xQRCode1 = 500;
-                float yQRCode1= 50;
-                float widthQRCode1 = 100;  // Adjust this value based on your QR code image size
-                float heightQRCode1 = 100;  // Adjust this value based on your QR code image size
+                // float xQRCode1 = 500;
+                // float yQRCode1= 50;
+                // float widthQRCode1 = 100;  // Adjust this value based on your QR code image size
+                // float heightQRCode1 = 100;  // Adjust this value based on your QR code image size
 
-                // Draw the QR code on the page
-                String qrCodeData1 = "http://13.232.110.60:8080/baggageshow/baggagetotalid?id="+id+"&status=total_baggage";
-                ByteArrayOutputStream qrCodeStream1 = generateQRCode(qrCodeData1);
-                contentStream.drawImage(PDImageXObject.createFromByteArray(document, qrCodeStream1.toByteArray(), "QR Code"), xQRCode1, yQRCode1, widthQRCode1, heightQRCode1);
+                // // Draw the QR code on the page
+                // String qrCodeData1 = "http://13.232.110.60:8080/baggageshow/baggagetotalid?id="+id+"&status=total_baggage";
+                // ByteArrayOutputStream qrCodeStream1 = generateQRCode(qrCodeData1);
+                // contentStream.drawImage(PDImageXObject.createFromByteArray(document, qrCodeStream1.toByteArray(), "QR Code"), xQRCode1, yQRCode1, widthQRCode1, heightQRCode1);
 
-                String qrCodeText1 = "(Scan to confirm)";
-                contentStream.beginText();
-                contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 10); // Adjust font size if needed
-                contentStream.newLineAtOffset(xQRCode1, yQRCode1-8); // Adjust the Y-coordinate for the text
-                contentStream.showText(qrCodeText1);
-                contentStream.endText();
+                // String qrCodeText1 = "(Scan to confirm)";
+                // contentStream.beginText();
+                // contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 10); // Adjust font size if needed
+                // contentStream.newLineAtOffset(xQRCode1, yQRCode1-8); // Adjust the Y-coordinate for the text
+                // contentStream.showText(qrCodeText1);
+                // contentStream.endText();
 
                 // Adjust the Y-coordinate after adding the QR code
                 yPosition -= heightQRCode;
