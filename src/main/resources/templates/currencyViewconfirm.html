@@ -96,8 +96,8 @@
                 <p class="p ft-25" align="center" style="margin-right:-30%;">(Foreign Exchange Declaration Form)</p>
             </td>
 
-            <td colspan="4">
-                <div align="center" style="border:1px solid #333; padding-top:5px; padding-bottom:5px; font-size:16px;">
+            <td colspan="6">
+                <div align="center" style="border:1px solid #333; padding-top:5px; padding-bottom:5px; font-size:16px; margin-left: 15px;">
                     <P class="p b" style="font-size:15px;"> এফএমজে ফরম</P>
                     <p class="p b" style="font-size:15px;">FMJ FORM</p>
                 </div>
@@ -129,8 +129,12 @@
 
             <tr>
                 <td colspan="6" class="pt">
-                    <p class="p b" align="left">পূর্ণ নামঃ</p>
+                    <p class="p b" align="left">পূর্ণ নামঃ </p>
                     <p class="p" align="left" >(Full Name): <span th:text="${Currency.passengerName}"></span></p>
+                </td>
+                <td colspan="6" class="pt">
+                    <p class="p b" align="left">প্রবেশস্থল:</p>
+                    <p class="p" align="left">(Entry Point): <span th:text="${Currency.entryPoint}"></span></p>
                 </td>
                 <td colspan="6" class="pt">
                     <p class="p b" align="left">জাতীয়তাঃ</p>
@@ -139,20 +143,19 @@
             </tr>
 
             <tr>
-                <td colspan="4" class="pt">
+                <td colspan="6" class="pt">
                     <p class="p b" align="left">পাসপের্ট নংঃ</p>
                     <p class="p" align="left">(Passport No): <span th:text="${Currency.passportNumber}"></span></p>
                 </td>
-                <td colspan="4" class="pt">
+                <td colspan="6" class="pt">
                     <p class="p b" align="left">ইস্যুর তারিখঃ</p>
                     <p class="p" align="left">(Date of Issue): <span th:text="${Currency.passportIssueDate}"></span></p>
                 </td>
-                <td colspan="4" class="pt">
+                <td colspan="6" class="pt">
                     <p class="p b" align="left">ইস্যুর স্থানঃ</p>
                     <p class="p" align="left">(Place of Issue): <span th:text="${Currency.passportIssuePlace}"></span></p>
                 </td>
             </tr>
-
             <tr>
                 <td colspan="6" class="pt">
                     <p class="p b" align="left">আগমনের তারিখ ও সময়ঃ</p>
@@ -221,6 +224,18 @@
                             <p class="p1 b" align="center" >(Description of Currency)</p>
                             </th>
                             <th style="border: 1px solid black;">
+                                <p class="p b" align="center" >
+                                মুদ্রা নোটের ধরন 
+                                </p>
+                                <p class="p1 b" align="center" >(Currency Note Type)</p>
+                            </th>
+                            <th style="border: 1px solid black;">
+                                <p class="p b" align="center" >
+                                নোটের সংখ্যা 
+                                </p>
+                                <p class="p1 b" align="center" >(Number of Note)</p>
+                            </th>
+                            <th style="border: 1px solid black;">
                             <p class="p1 b" align="center" >
                             পরিমাণ
                             </p>
@@ -238,6 +253,8 @@
                        
                             <tr>
                                 <td style="border: 1px solid black;" th:text="${customer.currencyName}"> USD </td>
+                                <td style="border: 1px solid black;" th:text="${customer.currencyNoteType}" > USD </td>
+                                <td style="border: 1px solid black;" th:text="${customer.numberOfNote}" > USD </td>
                                 <td style="border: 1px solid black;" th:text="${customer.currencyAmount}" class="currency-amount"> USD </td>
                                 <td style="border: 1px solid black;" class="currency-words" ></td>
                             </tr>
@@ -343,6 +360,9 @@ function inWords (num) {
 function convertCurrencyToWords() {
     const currencyAmounts = document.querySelectorAll(".currency-amount");
     const currencyWords = document.querySelectorAll(".currency-words");
+
+
+    console.log("sdsfgdshg-----------------------------------"+currencyAmounts)
 
     currencyAmounts.forEach((amount, index) => {
         const amountValue = parseInt(amount.textContent);

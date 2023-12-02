@@ -264,10 +264,42 @@
                                               </select>
                                           </div>
 
-                                          <div class="mb-3">
+                                          <!-- <div class="mb-3">
                                             <label for="profession" class="form-label" id="professionLabel">Profession</label>
                                             <input type="text" class="form-control"  id="example1" name="profession" th:value="${currencyDeclaration.profession}"placeholder="Enter Profession" >
+                                        </div> -->
+                                        <div class="mb-3">
+                                            <label for="profession" class="form-label" id="professionLabel">Profession</label>
+                                            <select class="form-select" name="profession" id="profession" required>
+                                            <option th:selected="${currencyDeclaration.profession == 'immigrant'}" value="immigrant">Immigrant</option>
+                                            <option th:selected="${currencyDeclaration.profession == 'Export-Import Managers'}" value="Export-Import Managers">Export-Import Managers</option>
+                                            <option th:selected="${currencyDeclaration.profession == 'Textile and Garment Industry Workers'}" value="Textile and Garment Industry Workers">Textile and Garment Industry Workers</option>
+                                            <option th:selected="${currencyDeclaration.profession == 'Software Developers'}" value="Software Developers">Software Developers</option>
+                                            <option th:selected="${currencyDeclaration.profession == 'Tour Guides'}" value="Tour Guides">Tour Guides</option>
+                                            <option th:selected="${currencyDeclaration.profession == 'Agricultural Export Coordinators'}" value="Agricultural Export Coordinators">Agricultural Export Coordinators</option>
+                                            <option th:selected="${currencyDeclaration.profession == 'Remittance Service Providers'}" value="Remittance Service Providers">Remittance Service Providers</option>
+                                            <option th:selected="${currencyDeclaration.profession == 'Financial Analysts'}" value="Financial Analysts">Financial Analysts</option>
+                                            <option th:selected="${currencyDeclaration.profession == 'Renewable Energy Engineers'}" value="Renewable Energy Engineers">Renewable Energy Engineers</option>
+                                            <option th:selected="${currencyDeclaration.profession == 'Call Center Representatives'}" value="Call Center Representatives">Call Center Representatives</option>
+                                            <option th:selected="${currencyDeclaration.profession == 'E-commerce Professionals'}" value="E-commerce Professionals">E-commerce Professionals</option>
+                                            <option th:selected="${currencyDeclaration.profession == 'Medical Professionals in Medical Tourism'}" value="Medical Professionals in Medical Tourism">Medical Professionals in Medical Tourism</option>
+                                            <option th:selected="${currencyDeclaration.profession == 'Manufacturing Workers'}" value="Manufacturing Workers">Manufacturing Workers</option>
+                                            <option th:selected="${currencyDeclaration.profession == 'Tour Operators'}" value="Tour Operators">Tour Operators</option>
+                                            <option th:selected="${currencyDeclaration.profession == 'Infrastructure Development Engineers'}" value="Infrastructure Development Engineers">Infrastructure Development Engineers</option>
+                                            <option th:selected="${currencyDeclaration.profession == 'Other'}" value="Other">Other</option>
+                                            </select>
                                         </div>
+                                        <div class="mb-3" id="otherprofession" style="display: none">
+                                            <label
+                                              for="otherprofession"
+                                              class="form-label"
+                                              id="otherprofessionLabel">Other profession</label>
+                                              <input type="text" id="otherprofessionInput" th:value="${currencyDeclaration.otherProfession}" class="form-control" name="otherProfession">
+                                          </div>
+                                        <!-- <div class="mb-3" id="otherprofession" th:if="${currencyDeclaration.profession == 'Other'}">
+                                            <label for="otherprofession" class="form-label" id="otherprofessionLabel">Other profession</label>
+                                            <input type="text" id="otherprofessionInput" class="form-control" name="otherProfession" th:value="${currencyDeclaration.otherProfession}"selected>
+                                        </div> -->
                                     </div>
 
                                     <div class="col-sm-6">

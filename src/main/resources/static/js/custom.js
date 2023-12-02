@@ -78,11 +78,29 @@ $(document).ready(function() {
     }
   }
 
+   // Function to toggle the visibility of the additional input box
+ function toggleOthercurrncyInput() {
+    const professionSelect = document.getElementById('profession');
+    const otherInput = document.getElementById('otherprofession');
+
+    if (professionSelect.value === 'Other') {
+      otherInput.style.display = 'block';
+    } else {
+      otherInput.style.display = 'none';
+    }
+  }
+
   // Add an event listener to the select element to trigger the toggle function
   document.addEventListener('DOMContentLoaded', function() {
     const nationalitySelect = document.getElementById('nationality');
     nationalitySelect.addEventListener('change', toggleOtherInput);
     toggleOtherInput(); // Initially check the state
+  });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const nationalitySelect = document.getElementById('profession');
+    nationalitySelect.addEventListener('change', toggleOthercurrncyInput);
+    toggleOthercurrncyInput(); // Initially check the state
   });
 
    // JavaScript/jQuery to show/hide tables based on dropdown selection

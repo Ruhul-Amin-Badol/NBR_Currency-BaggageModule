@@ -306,7 +306,7 @@
                   </select>
                 </div>
 
-                <div class="mb-3">
+                <!-- <div class="mb-3">
                   <label
                     for="profession"
                     class="form-label"
@@ -317,8 +317,44 @@
                     id="example1"
                     name="profession"
                     placeholder="Enter Profession" />
+                </div> -->
+                <div class="mb-3">
+                  <label
+                    for="profession"
+                    class="form-label"
+                    id="professionLabel">Profession</label>
+                  <select
+                    class="form-select"
+                    name="profession"
+                    id="profession"
+                    required>
+                    <option value="immigrant">Immigrant</option>
+                    <option value="Export-Import Managers">Export-Import Managers</option>
+                    <option value="Textile and Garment Industry Workers">Textile and Garment Industry Workers</option>
+                    <option value="Software Developers">Software Developers</option>
+                    <option value="Tour Guides">Tour Guides</option>
+                    <option value="Agricultural Export Coordinators">Agricultural Export Coordinators</option>
+                    <option value="Remittance Service Providers">Remittance Service Providers</option>
+                    <option value="Financial Analysts">Financial Analysts</option>
+                    <option value="Renewable Energy Engineers">Renewable Energy Engineers</option>
+                    <option value="Call Center Representatives">Call Center Representatives</option>
+                    <option value="E-commerce Professionals">E-commerce Professionals</option>
+                    <option value="Medical Professionals in Medical Tourism">Medical Professionals in Medical Tourism</option>
+                    <option value="Manufacturing Workers">Manufacturing Workers</option>
+                    <option value="Tour Operators">Tour Operators</option>
+                    <option value="Infrastructure Development Engineers">Infrastructure Development Engineers</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div> 
+                <div class="mb-3" id="otherprofession" style="display: none">
+                  <label
+                    for="otherprofession"
+                    class="form-label"
+                    id="otherprofessionLabel">Other profession</label>
+                    <input type="text" id="otherprofessionInput" class="form-control" name="otherProfession">
                 </div>
               </div>
+
 
               <div class="col-sm-6">
                 <div class="mb-3">
@@ -333,9 +369,8 @@
                     id="previousCountry"
                     required>
                     <option value>---Select Country----</option>
-                    <option value="Bangladesh">Bangladesh</option>
-                    <option value="India">India</option>
                     <option value="USA">USA</option>
+                    <option value="India">India</option>
                     <option value="Canada">Canada</option>
                     <option value="United Kingdom">United Kingdom</option>
                     <option value="Australia">Australia</option>

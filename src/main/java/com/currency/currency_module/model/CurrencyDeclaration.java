@@ -97,7 +97,16 @@ public class CurrencyDeclaration {
     @Transient
 
     private String otherNationality;
+    private String otherProfession;
 
+
+    public String getOtherProfession() {
+        return this.otherProfession;
+    }
+
+    public void setOtherProfession(String otherProfession) {
+        this.otherProfession = otherProfession;
+    }
 
 
     public Long getId() {

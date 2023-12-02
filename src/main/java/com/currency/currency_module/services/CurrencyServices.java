@@ -65,6 +65,7 @@ public class CurrencyServices {
         existingCurrencyDeclaration.setEmail(updatedCurrencyDeclaration.getEmail());
         existingCurrencyDeclaration.setAddressInBangladesh(updatedCurrencyDeclaration.getAddressInBangladesh());
         existingCurrencyDeclaration.setDateOfArrival(updatedCurrencyDeclaration.getDateOfArrival());
+        existingCurrencyDeclaration.setOtherProfession(updatedCurrencyDeclaration.getOtherProfession());
         existingCurrencyDeclaration.setFlightNo(updatedCurrencyDeclaration.getFlightNo());
         existingCurrencyDeclaration.setPreviousCountry(updatedCurrencyDeclaration.getPreviousCountry());
         existingCurrencyDeclaration.setStayTimeAbroad(updatedCurrencyDeclaration.getStayTimeAbroad());
