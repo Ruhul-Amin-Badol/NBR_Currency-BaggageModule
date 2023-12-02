@@ -14,7 +14,21 @@
 
   <!-- Include custom CSS file -->
   <link rel="stylesheet" th:href="@{/css/style.css}" />
+  <style>
+    .select2-results__option:nth-child(ODD){
+      BACKGROUND-COLOR: #CDF5F6 !important;
 
+    }
+    .select2-results__option:nth-child(EVEN){
+      BACKGROUND-COLOR: white !important;
+
+    }
+
+    .select2-container--default .select2-results__option--highlighted[aria-selected] {
+        background-color:black !important;
+        color:white !important;
+    }
+</style>
   <!-- search box cdn -->
   <link href='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css' rel='stylesheet' type='text/css'>
 
