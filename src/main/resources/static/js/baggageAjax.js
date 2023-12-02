@@ -79,7 +79,7 @@ function populateTable() {
   });
   newRow1.append(`<th colspan="6" class="text-end"> Total Tax Amount:</th>`);
   newRow1.append(`<td>${totalTax.toFixed(2)}</td>`);
-  newRow1.append(`<td></td>`);
+  newRow1.append(`<td colspan="2"></td>`);
   tbody.append(newRow1);
 }
 

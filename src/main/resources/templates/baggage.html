@@ -7,7 +7,7 @@
                     </div>
                     <div class='card'>
                         <div class='card-body'>
-                            <h1 class="fw-bold text-center text-success">Baggage Declaration Form</h1>
+                            <h1 class="fw-bold text-center text-success">Online Baggage Declaration Form</h1>
                  <div th:if="${InsertMode}" >
                         <form th:action="@{/baggagestart/baggageInsert}" method="post">
                             <div class="container p-3 bg-light">
@@ -33,7 +33,7 @@
                                             </div> -->
 
                                             <!-- <input type="text" class="form-select" name="entryPoint" th:value="${airportByOfficeCodes[0]['air_port_names']}" placeholder="Airport Name" readonly> -->
-
+                                            <label for="entryPoint" class="form-label" id="entryPointLabel">Select Entry Point</label><span class="astrick">*</span>
                                             <select class="form-select" name="entryPoint" aria-label="Default select example" required>
                                                 <option value="">--Please Select--</option>
 
@@ -278,9 +278,9 @@
                                             <label for="countryFrom" class="form-label" id="countryFromLabel">Country from where coming</label><span class="astrick">*</span>
                                             <select class="form-select" name="countryFrom" id="previous_country" required>
                                                 <option value="">---Select Country----</option>
-                                                <option value="Bangladesh">Bangladesh</option>
-                                                <option value="India">India</option>
+                                                <!-- <option value="Bangladesh">Bangladesh</option> -->
                                                 <option value="USA">USA</option>
+                                                <option value="India">India</option>
                                                 <option value="Canada">Canada</option>
                                                 <option value="United Kingdom">United Kingdom</option>
                                                 <option value="Australia">Australia</option>
@@ -848,9 +848,9 @@
                                 <label for="countryFrom" class="form-label" id="countryFromLabel">Country from where coming</label><span class="astrick">*</span>
                                 <select class="form-select" name="countryFrom" id="previous_country" th:value="${baggageDetails['previous_country']}" required>
                                     <option value="">---Select Country----</option>
-                                    <option value="Bangladesh" th:selected="${baggageDetails['previous_country'] == 'Bangladesh'}">Bangladesh</option>
-                                    <option value="India" th:selected="${baggageDetails['previous_country'] == 'India'}">India</option>
+                                    <!-- <option value="Bangladesh" th:selected="${baggageDetails['previous_country'] == 'Bangladesh'}">Bangladesh</option> -->
                                     <option value="USA" th:selected="${baggageDetails['previous_country'] == 'USA'}">USA</option>
+                                    <option value="India" th:selected="${baggageDetails['previous_country'] == 'India'}">India</option>
                                     <option value="Canada" th:selected="${baggageDetails['previous_country'] == 'Canada'}">Canada</option>
                                     <option value="United Kingdom" th:selected="${baggageDetails['previous_country'] == 'United Kingdom'}">United Kingdom</option>
                                     <option value="Australia" th:selected="${baggageDetails['previous_country'] == 'Australia'}">Australia</option>
@@ -1067,7 +1067,7 @@
                 <form action="" method="">
 
                             <div class="container p-3 mt-3 bg-light">
-                                <p class="fw-bold">More than one of any goods (More than two for cellular phone) which are duty free including Gold<span class="astrick">*</span> <button type="button" class="btn btn-success" id="openFileButton" target="baggageRule.html">View Goods List on Baggage Rule</button></p>
+                                <p class="fw-bold">More than one of any goods (Schedule 3) which are duty free including Gold<span class="astrick">*</span> <button type="button" class="btn btn-success" id="openFileButton" target="baggageRule.html">View Goods List on Baggage Rule</button></p>
                                 <div class="d-flex justify-content-start mb-3">
                                     <div class="col-sm-6">
                                             <select class="form-select" aria-label="Default select example"  id="dropdownSelect" required>
@@ -1141,8 +1141,8 @@
                                 </div>
                                 <!-- table 2nd start -->
                                 <div id="table2" style="display: none;">
-                                <table id="ajaxtable"class="table table-bordered " style="zoom: 75%;">
-                                    <thead class="bg-danger">
+                                <table id="ajaxtable"class="table table-bordered  table-striped" >
+                                    <thead style="background-color: rgba(96, 204, 69, 0.952);">
                                         <tr>
                                             <th scope="col">Product Name</th>
                                             <th scope="col" >Other Item</th>
@@ -1163,7 +1163,7 @@
                                             <th scope="col">Delete</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody >
                                         
                                         
 

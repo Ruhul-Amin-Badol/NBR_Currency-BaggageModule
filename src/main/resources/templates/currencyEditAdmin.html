@@ -94,6 +94,7 @@
     $(document).ready(function () {
     var table = $('#example').DataTable({
         lengthChange: false,
+        
     });
 
     // Initialize the Date Range Filter
@@ -101,7 +102,7 @@
         function (settings, data, dataIndex) {
             var min = $('#start-date').val();
             var max = $('#end-date').val();
-            var date = data[5]; // Change this index to match your date column
+            var date = data[1]; // Change this index to match your date column
 
             if ((min === '' && max === '') || (min <= date && max >= date)) {
                 return true;

@@ -15,13 +15,13 @@
                 </tr>
 
                 <tr>
-                    <td><span class="fw-bold">Payment Id: </span><span th:text="${mostRecentBaggageList['payment_id']}"></span></td>
+                    <td><span class="fw-bold">Payment Id: </span><span  th:text="${mostRecentBaggageList['payment_id']}"></span></td>
                 </tr>
                 <!-- <tr>
                     <td><span class="fw-bold">Date of Issue: </span><span>.........</span></td>
                 </tr> -->
                 <tr>
-                   <td><span><span class="fw-bold">Entry Point: </span><span th:text="${reportShow['entry_point']}"></span></span></td>
+                   <td><span><span class="fw-bold">Entry Point: </span><span th:object="${mostRecentBaggageList}" th:text="${mostRecentBaggageList['entry_point']}"></span></span></td>
                 </tr>
 
                 <tr>
@@ -60,22 +60,22 @@
 
         <!-- table 2nd start -->
         <table id="ajaxtable"
-            class="table table-bordered  mt-3">
-            <thead class="bg-danger">
+            class="table table-bordered table-striped  mt-3">
+            <thead style="background-color: rgba(96, 204, 69, 0.952);" >
                 <tr>
                     <th scope="col">Product Name</th>
                     <th scope="col">Unit</th>
                     <th scope="col">Inchi(For Telivision)</th>
                     <th scope="col">Quantity</th>
                     <th scope="col">Value</th>
-                    <th scope="col">Tax(%)</th>
+                    <!-- <th scope="col">Tax(%)</th>
 
                     <th scope="col">CD(%)</th>
                     <th scope="col">RD(%)</th>
                     <th scope="col">SD(%)</th>
                     <th scope="col">VAT(%)</th>
                     <th scope="col">AIT(%)</th>
-                    <th scope="col">AT(%)</th>
+                    <th scope="col">AT(%)</th> -->
 
 
                     <th scope="col">Tax Amount</th>
@@ -91,7 +91,7 @@
                     <td th:text="${reportShow['inchi']}"></td>
                     <td th:text="${reportShow['qty']}"></td>
                     <td th:text="${reportShow['value']}"></td>
-                    <td th:text="${reportShow['tax_percentage']}"></td>
+                    <!-- <td th:text="${reportShow['tax_percentage']}"></td>
 
 
                     <td th:text="${reportShow['cd']}"></td>
@@ -99,14 +99,14 @@
                     <td th:text="${reportShow['sd']}"></td>
                     <td th:text="${reportShow['vat']}"></td>
                     <td th:text="${reportShow['ait']}"></td>
-                    <td th:text="${reportShow['at']}"></td>
+                    <td th:text="${reportShow['at']}"></td> -->
 
                     <td class="tax-amount" th:text="${reportShow['tax_amount']}"></td>
                    
                 </tr> 
 
                 <tr>
-                        <th colspan="6" class="text-end"> Total Tax Amount</th>
+                        <th colspan="5" class="text-end"> Total Tax Amount</th>
                        <td><span id="totalTaxAmount"></span></td>
                     </tr>
             </tbody>

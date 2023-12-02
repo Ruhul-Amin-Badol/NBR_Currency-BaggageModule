@@ -66,8 +66,8 @@
 
         <!-- table 2nd start -->
         <table id="ajaxtable"
-            class="table table-bordered mt-5">
-            <thead class=" bg-danger">
+            class="table table-bordered table-striped mt-5">
+            <thead style="background-color: rgba(96, 204, 69, 0.952);">
                 <tr>
                    
                     <th scope="col">Product Name</th>
@@ -75,14 +75,13 @@
                     <th scope="col">Inchi(For Telivision)</th>
                     <th scope="col">Quantity</th>
                     <th scope="col">Value</th>
-                    <th scope="col">Tax(%)</th>
-zz
+                    <!-- <th scope="col">Tax(%)</th>
                     <th scope="col">CD(%)</th>
                     <th scope="col">RD(%)</th>
                     <th scope="col">SD(%)</th>
                     <th scope="col">VAT(%)</th>
                     <th scope="col">AIT(%)</th>
-                    <th scope="col">AT(%)</th>
+                    <th scope="col">AT(%)</th> -->
                     <th scope="col">Tax Amount</th>
                 
                 </tr>
@@ -96,14 +95,14 @@ zz
                     <td th:text="${reportShow['inchi']}"></td>
                     <td th:text="${reportShow['qty']}"></td>
                     <td th:text="${reportShow['value']}"></td>
-                    <td th:text="${reportShow['tax_percentage']}"></td>
+                    <!-- <td th:text="${reportShow['tax_percentage']}"></td>
 
                     <td th:text="${reportShow['cd']}"></td>
                     <td th:text="${reportShow['rd']}"></td>
                     <td th:text="${reportShow['sd']}"></td>
                     <td th:text="${reportShow['vat']}"></td>
                     <td th:text="${reportShow['ait']}"></td>
-                    <td th:text="${reportShow['at']}"></td>
+                    <td th:text="${reportShow['at']}"></td> -->
 
 
                     <td class="tax-amount" th:text="${reportShow['tax_amount']}"></td>
@@ -111,8 +110,8 @@ zz
                 </tr> 
 
                 <tr>
-                        <th colspan="6" class="text-end"> Total Paid</th>
-                        <td>
+                        <th colspan="5" class="text-end"> Total Paid</th>
+                        <td >
                             <span id="totalTaxAmount"></span>
                         </td>
                     </td>
