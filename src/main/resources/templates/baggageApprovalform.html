@@ -120,19 +120,20 @@
             <div class="button-container" >
                 <a id="editDiv" th:href="@{/baggagestart/edit-baggage(generatedId=${baggageView.ID})}" class="btn btn-primary print-button">Edit</a>
             </div>
-            <div class="button-container" >
-                    <button id="hideDiv" onclick="examshow()" class="btn btn-warning print-button">On Examination</button>
-            </div>
-            <div class="button-container">
-                <div th:if="${baggageView['status'] != 'rejected'}">
-                    <button id="toggleButton1" onclick="showDiv1()" class="btn btn-danger print-button">Rejected</button>
-                </div>
-            </div>
             <div class="button-container">
                 <div th:if="${baggageView['status'] != 'approved'}">
                     <button id="toggleButton" onclick="showDiv()" class="btn btn-success print-button">Approved</button>
                 </div>
             </div>
+            <!-- <div class="button-container" >
+                    <button id="hideDiv" onclick="examshow()" class="btn btn-warning print-button">On Examination</button>
+            </div> -->
+            <!-- <div class="button-container">
+                <div th:if="${baggageView['status'] != 'rejected'}">
+                    <button id="toggleButton1" onclick="showDiv1()" class="btn btn-danger print-button">Rejected</button>
+                </div>
+            </div> -->
+
         </div>
         <br><br><br>
 

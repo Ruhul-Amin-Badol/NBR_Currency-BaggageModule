@@ -120,9 +120,22 @@
   .zoom {
     zoom: 90%;
   }
+  .makecenterbutton{
+
+width: 100px;
+height: 50px;
+border: 2px solid black;
+border-radius: 10px;
+
+}
 </style>
 
 <div class="container zoom h-100">
+  <p class=" justify-content-start">
+    <form action="/index1" method="GET">
+      <button class="makecenterbutton" type="submit">Go To Home</button>
+  </form>
+  </p>
   <div class="row h-100 justify-content-center align-items-center">
     <form class="login-form" method="post" action="/pvt/loginpvt">
       <div class="AppForm shadow-lg">

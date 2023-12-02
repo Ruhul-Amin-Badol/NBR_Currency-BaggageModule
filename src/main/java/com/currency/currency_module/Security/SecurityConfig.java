@@ -58,37 +58,17 @@ public static class App1ConfigurationAdapter {
                        // Redirect to /otherDashboard after successful login for the second form
                        .defaultSuccessUrl("/pvt/pvt-dashboard", true)
                        .permitAll())
+                       .logout(logout -> logout
+                       .logoutUrl("/pvt/logout")  // Specify the logout URL for the first form
+                       .logoutSuccessUrl("/pvt/signinpvt")  // Specify the logout success URL for the first form
+                       .permitAll())
                .rememberMe(withDefaults());     
                 return httpSecurity.build();
     }
 
 }
-
 @Configuration
 @Order(2)
-public static class App2ConfigurationAdapter {
-   @Bean
-    SecurityFilterChain securityFilterChain2(HttpSecurity httpSecurity) throws Exception {
-
-       httpSecurity.csrf(csrf -> csrf.disable())
-               .securityMatcher("/ppm/*")
-               .authorizeHttpRequests()
-               .anyRequest()
-               .authenticated()
-               .and()
-               .formLogin(login -> login
-                       .loginPage("/ppm/signinppm")  // Specify the login page for the second form
-                       .loginProcessingUrl("/ppm/loginppm")  // Specify the login processing URL for the second form
-                       .defaultSuccessUrl("/ppm/ppm-dashboard", true)
-                       .permitAll())
-               .rememberMe(withDefaults());
-                return httpSecurity.build();
-    }
-
-}
-
-@Configuration
-@Order(3)
 public static class App3ConfigurationAdapter {
    @Bean
     SecurityFilterChain securityFilterChain3(HttpSecurity httpSecurity) throws Exception {
@@ -104,11 +84,44 @@ public static class App3ConfigurationAdapter {
                        .loginProcessingUrl("/currencyadmin/logincurrency")  // Specify the login processing URL for the second form
                        .defaultSuccessUrl("/currencyadmin/currencyDashboard", true)
                        .permitAll())
+                       .logout(logout -> logout
+                       .logoutUrl("/currencyadmin/logout")  // Specify the logout URL for the first form
+                       .logoutSuccessUrl("/currencyadmin/signincurrency")  // Specify the logout success URL for the first form
+                       .permitAll())
                .rememberMe(withDefaults());
                 return httpSecurity.build();
     }
 
 }
+
+@Configuration
+@Order(3)
+public static class App2ConfigurationAdapter {
+   @Bean
+    SecurityFilterChain securityFilterChain2(HttpSecurity httpSecurity) throws Exception {
+
+       httpSecurity.csrf(csrf -> csrf.disable())
+               .securityMatcher("/ppm/*")
+               .authorizeHttpRequests()
+               .anyRequest()
+               .authenticated()
+               .and()
+               .formLogin(login -> login
+                       .loginPage("/ppm/signinppm")  // Specify the login page for the second form
+                       .loginProcessingUrl("/ppm/loginppm")  // Specify the login processing URL for the second form
+                       .defaultSuccessUrl("/ppm/ppm-dashboard", true)
+                       .permitAll())
+                       .logout(logout -> logout
+                       .logoutUrl("/ppm/logout")  // Specify the logout URL for the second form
+                       .logoutSuccessUrl("/ppm/signinppm")  // Specify the logout success URL for the second form
+                       .permitAll())
+               .rememberMe(withDefaults());
+                return httpSecurity.build();
+    }
+
+}
+
+
 
 
 
@@ -167,8 +180,8 @@ public static class App4ConfigurationAdapter {
                .requestMatchers(HttpMethod.POST, "/baggagestart/makePaymentRequest/{id}").permitAll()
                .requestMatchers(HttpMethod.GET, "/baggagestart/makePaymentRequest2/{accessToken}").permitAll()
                .requestMatchers(HttpMethod.GET, "/baggagestart/takePaymentRequest/{id}/*").permitAll()
-                .requestMatchers(HttpMethod.GET, "/baggage-search").permitAll()
-                .requestMatchers(HttpMethod.POST, "/passenger-baggage-search").permitAll()
+               .requestMatchers(HttpMethod.GET, "/baggage-search").permitAll()
+               .requestMatchers(HttpMethod.POST, "/passenger-baggage-search").permitAll()
               
                .requestMatchers(HttpMethod.POST, "/currencystart/currenc_approve_update").permitAll()
                .requestMatchers(HttpMethod.GET, "/currencystart/show-currency-details").permitAll()

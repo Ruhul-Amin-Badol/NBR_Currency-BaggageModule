@@ -60,8 +60,8 @@ public class adminController {
         String officeCode=airportInformation.getAirport(principal);
       
           if(officeCode.equalsIgnoreCase("all")){
-            String sql = "SELECT * FROM baggage WHERE status = 'unapproved' and office_code =?";
-            List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql,officeCode);
+            String sql = "SELECT * FROM baggage WHERE status = 'unapproved'";
+            List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql);
             model.addAttribute("baggageshow", baggageshow);
           }
           else{

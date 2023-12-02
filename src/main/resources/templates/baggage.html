@@ -1105,7 +1105,7 @@
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <select class="form-select" style="width: 200px;" id="productName" name="productName" aria-label="Default select example" onchange="fetchProductData()">
+                                                    <select  class="form-select" style="width: 200px;" id="productName" name="productName" aria-label="Default select example" onchange="fetchProductData()">
                                                         <option > --Please Select-- </option>
                                                         <th:block th:each="productName : ${productshow}">
                                                             <option th:text="${productName['item_name']}" th:value="${productName['item_name']}"></option>
