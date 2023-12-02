@@ -33,13 +33,14 @@
                                             </div> -->
 
                                             <!-- <input type="text" class="form-select" name="entryPoint" th:value="${airportByOfficeCodes[0]['air_port_names']}" placeholder="Airport Name" readonly> -->
-                                            <label for="entryPoint" class="form-label" id="entryPointLabel">Select Entry Point</label><span class="astrick">*</span>
+
+                                            <label for="entryPoint" class="form-label" id="entryPointLabel">Select Entry Point view</label><span class="astrick">*</span>
                                             <select class="form-select" name="entryPoint" aria-label="Default select example" required>
                                                 <option value="">--Please Select--</option>
 
                                                 <option th:each="allAirport : ${allAirportList}" th:value="${allAirport.office_code}" th:text="${allAirport.air_port_names}"  th:unless="${allAirport.air_port_names == 'all'}"></option>
 
-                                            </select> 
+                                            </select>
 
                                         </div>
 

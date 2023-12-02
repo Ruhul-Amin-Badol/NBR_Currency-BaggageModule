@@ -170,8 +170,10 @@ public static class App4ConfigurationAdapter {
                 .requestMatchers(HttpMethod.GET, "/baggage-search").permitAll()
                 .requestMatchers(HttpMethod.POST, "/passenger-baggage-search").permitAll()
               
-            //    .requestMatchers(HttpMethod.POST, "/usermatrix/userinsert").permitAll()
-            //    .requestMatchers(HttpMethod.GET, "/usermatrix/rollcreate").permitAll()
+               .requestMatchers(HttpMethod.POST, "/currencystart/currenc_approve_update").permitAll()
+               .requestMatchers(HttpMethod.GET, "/currencystart/show-currency-details").permitAll()
+
+
                .requestMatchers(HttpMethod.POST, "/currencystart/addCurrency").permitAll()
                .requestMatchers(HttpMethod.POST, "/currencystart/finalsubmit").permitAll()
                .requestMatchers(HttpMethod.POST, "/api/DataUpdate").permitAll()

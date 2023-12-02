@@ -418,6 +418,7 @@ function fetchProductDataAdmin() {
       data: { productString: selectedProductName },
       dataType: "json",
       success: function (data) {
+        document.getElementById("perUnitValue").value=data.perunitvalue;
         $("#unit").val(data.unit); // Update unit field
         $("#tax").val(data.taxPercentage);
 
