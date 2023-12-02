@@ -3,6 +3,7 @@ package com.currency.currency_module.controller;
 
 
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -189,7 +190,7 @@ public class currencyController {
 
     @GetMapping("/unapprove-currency")
     public String unapproveCurrency(Model model,Principal principal){
-        String officeCode= airportInformation.getAirport(principal);
+        String officeCode= airportInformation.getEntryPoint(principal);
         if(officeCode.equalsIgnoreCase("all")){
         List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatus("unchecked");      
         model.addAttribute("unapproveCurrency",listCurrencyDeclaration);
@@ -202,7 +203,7 @@ public class currencyController {
 
     @GetMapping("/approve-currency")
     public String approveCurrency(Model model, Principal principal){
-        String officeCode= airportInformation.getAirport(principal);
+        String officeCode= airportInformation.getEntryPoint(principal);
         if(officeCode.equalsIgnoreCase("all")){
             List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatus("checked");
             model.addAttribute("approveCurrency",listCurrencyDeclaration);
@@ -215,7 +216,7 @@ public class currencyController {
     }
     @GetMapping("/reject-currency")
     public String rejectCurrency(Model model,Principal principal){
-        String officeCode= airportInformation.getAirport(principal);
+        String officeCode= airportInformation.getEntryPoint(principal);
         if(officeCode.equalsIgnoreCase("all")){
         List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatus("rejected");
         model.addAttribute("currecnyReject",listCurrencyDeclaration);
@@ -228,7 +229,7 @@ public class currencyController {
 
     @GetMapping("/total-currency-application")
     public String totalCurrency(Model model, Principal principal){
-        String officeCode=airportInformation.getAirport(principal);
+        String officeCode=airportInformation.getEntryPoint(principal);
 
         if(officeCode.equalsIgnoreCase("all")){
             List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findAll();
@@ -281,9 +282,9 @@ public class currencyController {
 //     }
 
     @PostMapping("/currenc_approve_update")
-    public String currencApproveUpdate( CurrencyDeclaration updatedApproveCurrencyDeclaration,@RequestParam String page, Principal principal) {
+    public String currencApproveUpdate( CurrencyDeclaration updatedApproveCurrencyDeclaration,@RequestParam String page, Principal principal) throws IOException {
         String usernameSession=principal.getName();
-    currencyServices.approveCurrencyUpdate(updatedApproveCurrencyDeclaration,usernameSession);
+        currencyServices.approveCurrencyUpdate(updatedApproveCurrencyDeclaration,usernameSession);
 
 
     // Redirect to the edit page with a success message
@@ -339,7 +340,7 @@ if ("allCurrencyList".equals(page)) {
     @ResponseBody
     public long uncheckedstatuscount(Principal principal){
          
-        String airportname=airportInformation.getAirport(principal);
+        String airportname=airportInformation.getEntryPoint(principal);
         if(airportname.equalsIgnoreCase("all")){
              return currencyDeclarationRepository.countByStatus("unchecked");
         }else{
@@ -355,7 +356,7 @@ if ("allCurrencyList".equals(page)) {
     @ResponseBody
     public long checkedstatuscount(Principal principal){
 
-        String airportname=airportInformation.getAirport(principal);
+        String airportname=airportInformation.getEntryPoint(principal);
         if(airportname.equalsIgnoreCase("all")){
             return currencyDeclarationRepository.countByStatus("checked");
         }else{
@@ -367,7 +368,7 @@ if ("allCurrencyList".equals(page)) {
     @GetMapping("/rejectedstatuscount")
     @ResponseBody
     public long rejectedstatuscount(Principal principal){
-       String airportreject=airportInformation.getAirport(principal);
+       String airportreject=airportInformation.getEntryPoint(principal);
        if(airportreject.equalsIgnoreCase("all")){
         return currencyDeclarationRepository.countByStatus("rejected");
        }else{
@@ -380,7 +381,7 @@ if ("allCurrencyList".equals(page)) {
     @GetMapping("/allstatuscount")
     @ResponseBody
     public long allstatuscount(Principal principal){
-        String totalairport=airportInformation.getAirport(principal);
+        String totalairport=airportInformation.getEntryPoint(principal);
         if(totalairport.equalsIgnoreCase("all")){
             return currencyDeclarationRepository.count();
         }else{

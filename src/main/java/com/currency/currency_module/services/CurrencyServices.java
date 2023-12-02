@@ -1,9 +1,14 @@
 package com.currency.currency_module.services;
 
+import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import com.currency.currency_module.ResourceNotFound.ResourceNotFound;
@@ -21,6 +26,14 @@ public class CurrencyServices {
    CurrencyDeclarationRepository currencyDeclarationRepository;
    @Autowired
    CurrencyAddRepository currencyAddRepository;
+
+  //   @Autowired
+  //  private JavaMailSender mailSender;
+    @Autowired
+    private PdfGenerationService pdfGenerationService;
+
+    @Autowired
+    private EmailService emailService;
     
    public CurrencyDeclaration  currencyInsert(CurrencyDeclaration currencyDeclcuaration){
     // currencyDeclcuaration.setContactNo(" ");
@@ -61,7 +74,10 @@ public class CurrencyServices {
         currencyDeclarationRepository.save(existingCurrencyDeclaration);
     }
 
-    public void  approveCurrencyUpdate(CurrencyDeclaration updatedapproveCurrencyDeclaration,String usernameSession) {
+
+    
+    
+    public void  approveCurrencyUpdate(CurrencyDeclaration updatedapproveCurrencyDeclaration,String usernameSession) throws IOException {
       System.out.println("===================================="+updatedapproveCurrencyDeclaration.getId());
         // Retrieve the existing currency declaration by its ID or any unique identifier
         CurrencyDeclaration existingCurrencyDeclaration = currencyDeclarationRepository.findById(updatedapproveCurrencyDeclaration.getId())
@@ -74,6 +90,31 @@ public class CurrencyServices {
         existingCurrencyDeclaration.setStatus("checked");
     
         // Save the updated entity back to the database
+       
+       List<BaggageCurrencyAdd> baggagecurrecylist=currencyAddRepository.findAllByCurrencyId(existingCurrencyDeclaration.getId());
+      
+       byte[] pdfData = pdfGenerationService.generatePdfCurrency(existingCurrencyDeclaration,baggagecurrecylist,usernameSession);
+                     HttpHeaders headers = new HttpHeaders();
+                 headers.setContentType(MediaType.APPLICATION_PDF);
+                 headers.setContentDispositionFormData("inline", "NBR_baggage_declaration.pdf");
+
+                 emailService.sendEmailWithAttachment(existingCurrencyDeclaration.getEmail(), "NBR Baggage Declaration", "Body", pdfData, "nbr_baggage_application.pdf");
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         currencyDeclarationRepository.save(existingCurrencyDeclaration);
     }//
 
