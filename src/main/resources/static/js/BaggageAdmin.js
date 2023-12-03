@@ -65,13 +65,19 @@ function populateTableAdmin() {
       
     }
     newRow.append(`<td>${item.additional_payment}</td>`);
- 
+   if(item.paymentStatus=="Paid"){
+    
+    newRow.append(`<td></td>`);
+    newRow.append(`<td></td>`);
+   }else{
     newRow.append(
       `<td  class="text-center text-danger"><button onClick="EditProductAdmin(${item.id})" type="button" class="btn btn-primary" id="addButtonAdmin"><i class="fa-solid fa-pen-to-square"></i></button></td>`
     );
     newRow.append(
       `<td  class="text-center text-danger"><button onClick="DeleteProductAdmin(${item.id})" type="button" class="btn btn-danger" id="addButtonAdmin"><i class="fa-solid fa-trash"></i></button></td>`
     );
+   }
+
     let toatal=item.taxAmount
     totalTax += parseFloat(toatal);
     
@@ -86,8 +92,10 @@ function populateTableAdmin() {
     // Append the new row to the table body
     tbody.append(newRow);
   });
-  previousPaidAmount=document.getElementById("totalPaidAmountId").value
+  var previousPaidAmount=document.getElementById("totalPaidAmountId").value
   var parsedPreviousPaidAmount = parseFloat(previousPaidAmount);
+
+  console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhjjjjjjjjjjjjj"+parsedPreviousPaidAmount);
 
   let totalPayableAmount = totalTax + totalAdditionalPayment;
   totalPayableAmount = totalPayableAmount-parsedPreviousPaidAmount
@@ -210,7 +218,7 @@ function adminadd() {
         console.log(item);
         // data.id = response;
       
-      
+      console.log(item);
         var extractedData = {
           id: item.id,
           item_id:item.item_id,
@@ -234,9 +242,9 @@ function adminadd() {
           at: item.at,
           additional_payment: item.additional_payment,
          taxAmount: item.tax_amount,
+         paymentStatus:item.payment_status,
         };
-        console.log("ggggggggggggggggg")
-        console.log(extractedData);
+        
         addDataAdmin.push(extractedData);
         
         populateTableAdmin();
@@ -671,6 +679,7 @@ document.addEventListener("DOMContentLoaded", function () {
           at: item.at,
           additional_payment: item.additional_payment,
           taxAmount: item.tax_amount,
+          paymentStatus:item.payment_status,
         };
 
 

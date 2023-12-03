@@ -306,7 +306,7 @@
                                         <div class="mb-3">
                                             <label for="previousCountry" class="form-label" id="previousCountry">Country from where coming</label><span class="astrick">*</span>
                                             <select class="form-select" name="previousCountry" th:if="${currencyDeclaration != null}" id="previousCountry" th:value="${currencyDeclaration.previousCountry}" required>
-                                                <option value="Bangladesh" th:selected="${currencyDeclaration.previousCountry == 'Bangladesh'}">Bangladesh</option>
+                                                <!-- <option value="Bangladesh" th:selected="${currencyDeclaration.previousCountry == 'Bangladesh'}">Bangladesh</option> -->
                                                 <option value="India" th:selected="${currencyDeclaration.previousCountry == 'India'}">India</option>
                                                 <option value="USA" th:selected="${currencyDeclaration.previousCountry == 'USA'}">USA</option>
                                                 <option value="Canada" th:selected="${currencyDeclaration.previousCountry == 'Canada'}">Canada</option>
