@@ -192,10 +192,10 @@ public class currencyController {
     public String unapproveCurrency(Model model,Principal principal){
         String officeCode= airportInformation.getEntryPoint(principal);
         if(officeCode.equalsIgnoreCase("all")){
-        List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatus("unchecked");      
+        List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatusOrderByIdDesc("unchecked");      
         model.addAttribute("unapproveCurrency",listCurrencyDeclaration);
         }else{
-        List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatusAndEntryPoint("unchecked",officeCode);      
+        List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatusAndEntryPointOrderByIdDesc("unchecked",officeCode);      
         model.addAttribute("unapproveCurrency",listCurrencyDeclaration);
         }
         return "currency_unapprove";
@@ -205,10 +205,10 @@ public class currencyController {
     public String approveCurrency(Model model, Principal principal){
         String officeCode= airportInformation.getEntryPoint(principal);
         if(officeCode.equalsIgnoreCase("all")){
-            List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatus("checked");
+            List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatusOrderByIdDesc("checked");
             model.addAttribute("approveCurrency",listCurrencyDeclaration);
         }else{
-            List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatusAndEntryPoint("checked",officeCode);
+            List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatusAndEntryPointOrderByIdDesc("checked",officeCode);
             model.addAttribute("approveCurrency",listCurrencyDeclaration);
         }
         
@@ -232,10 +232,10 @@ public class currencyController {
         String officeCode=airportInformation.getEntryPoint(principal);
 
         if(officeCode.equalsIgnoreCase("all")){
-            List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findAll();
+            List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findAllByOrderByIdDesc();
             model.addAttribute("currencyTotal",listCurrencyDeclaration);
         }else{
-            List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findAllByEntryPoint(officeCode);
+            List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findAllByEntryPointOrderByIdDesc(officeCode);
             model.addAttribute("currencyTotal",listCurrencyDeclaration); 
         }
         return "currency_total";

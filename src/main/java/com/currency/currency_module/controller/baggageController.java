@@ -1398,11 +1398,23 @@ public String currencApproveUpdate(@RequestParam int id, @RequestParam String st
                  String baggageProductAddJoin = "SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
                  List<Map<String, Object>> allProductQuery = jdbcTemplate.queryForList(baggageProductAddJoin, id);
 
+
+            Double totalTaxAmount = 0.0;
+            for (Map<String, Object> row : allProductQuery) {
+                String taxAmount = (String) row.get("tax_amount");
+
+                if (taxAmount != null) {
+                    totalTaxAmount += Double.parseDouble(taxAmount);
+                }
+
+            }
+           
+            System.out.println("uuuuuuuuuuuuuuuuuuuuuoooooooooo"+totalTaxAmount);
                  List<String> includedFields = Arrays.asList("passenger_name","entry_point","flight_no","passport_number");
                //  List<String> includedFields = Arrays.asList("id","item_id","payment_id"); // Replace with your actual field names
                  List<Object> rowData = new ArrayList<>(allProductQuery);
                  rowData.add(baggageQuery);
-                 Double totalTaxAmount = 2.2;
+                
                 String  sessionToken="ddd";
                  byte[] pdfData = pdfGenerationService.generatePdf(allProductQuery,rowData, includedFields,totalTaxAmount,id,principal);
 
