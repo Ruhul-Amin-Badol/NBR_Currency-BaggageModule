@@ -44,6 +44,7 @@
                 <div class="col-4">
                     <label for="productName">Product Name</label>
                     <select class="form-control" id="productName" name="productName">
+                        <option value="all">all</option>
                         <option th:each="productName : ${productshow}" th:text="${productName['item_name']}"
                          th:value="${productName['item_name']}"></option>
                         
