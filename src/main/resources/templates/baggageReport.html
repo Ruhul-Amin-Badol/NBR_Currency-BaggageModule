@@ -160,7 +160,7 @@
         var formattedToDate = moment(toDate, 'YYYY-MM-DD').format('MM-DD-YYYY');
 
         table.search('').draw();
-        table.column(1).search(formattedFromDate + '|' + formattedToDate, true, false).draw();
+        table.column(1).search(formattedFromDate + '|' + formattedToDate, true, false).draw();z
         table.column(0).search(airportName).draw();
         table.column(2).search(productName).draw();
     });

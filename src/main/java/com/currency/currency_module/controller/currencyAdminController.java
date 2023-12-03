@@ -49,20 +49,39 @@ public class currencyAdminController {
         return "currencyDashboard";
     }
      @GetMapping("/currencyeditadmin")
-    public String currencyadminedit(Model model){
+    public String currencyadminedit(Model model,Principal principal){
+        String officeCode= airportInformation.getEntryPoint(principal);
+        if(officeCode.equalsIgnoreCase("all")){
+             List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findAllByOrderByIdDesc();
+                    model.addAttribute("unapproveCurrency",listCurrencyDeclaration);
+                    return "currencyEditAdmin";
+        }else{
+            List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findAllByEntryPointOrderByIdDesc(officeCode);
+                   model.addAttribute("unapproveCurrency",listCurrencyDeclaration);
+                   return "currencyEditAdmin";
+        }
         //System.out.println();
-        List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findAll();
-         model.addAttribute("unapproveCurrency",listCurrencyDeclaration);
-      return "currencyEditAdmin";
+       
+  
 }
 
     @GetMapping("/adminunapprovedcurrency")
-    public String showunapprovedcurrency(Model model){
-        //System.out.println();
-        List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatus("unchecked");
+    public String showunapprovedcurrency(Model model,Principal principal){
+        String officeCode= airportInformation.getEntryPoint(principal);
+        if(officeCode.equalsIgnoreCase("all")){
+                    List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatusOrderByIdDesc("unchecked");
         model.addAttribute("unapproveCurrency",listCurrencyDeclaration);
     return "currencyAdminUnapprove";
+        }else{
+            List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatusAndEntryPointOrderByIdDesc("unchecked",officeCode);
+        model.addAttribute("unapproveCurrency",listCurrencyDeclaration);
+    return "currencyAdminUnapprove";
+        }
 
+
+
+        //System.out.println();
+   
     }
 }
 
