@@ -21,7 +21,7 @@ public class PaymentHistoryController {
 
     @GetMapping("/payment-record")
     public String paymentRecord(Model model) {
-        String sql1 = "SELECT * FROM baggage";
+        String sql1 = "SELECT * FROM baggage order by id DESC";
         List<Map<String, Object>> baggageappshow = jdbcTemplate.queryForList(sql1);
         model.addAttribute("baggageappshow", baggageappshow); // Add the data to the model
         return "payment_record"; // Return the name of your Thymeleaf template
@@ -47,11 +47,11 @@ public class PaymentHistoryController {
         String airportOfficeCode=airportInformation.getAirport(principal);
 
         if(airportOfficeCode.equalsIgnoreCase("all")){
-            String sql = "SELECT * FROM payment_history";
+            String sql = "SELECT * FROM payment_history order by id DESC";
           List<Map<String, Object>> tranjectionHistory =  jdbcTemplate.queryForList(sql);
           model.addAttribute("tranjectionHistories", tranjectionHistory);
         }else{
-          String sql = "SELECT * FROM payment_history where office_code = ?";
+          String sql = "SELECT * FROM payment_history where office_code = ? order by id DESC";
           List<Map<String, Object>> tranjectionHistory =  jdbcTemplate.queryForList(sql, airportOfficeCode);
           model.addAttribute("tranjectionHistories", tranjectionHistory);
         }

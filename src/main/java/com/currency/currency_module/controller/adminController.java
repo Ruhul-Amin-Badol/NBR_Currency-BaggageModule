@@ -36,22 +36,20 @@ public class adminController {
     public String baggagetotal( Model model ,Principal principal) {
         String airportname=airportInformation.getAirport(principal);
         if(airportname.equalsIgnoreCase("all")){
-        String sql1 = "SELECT * FROM baggage ";
+        String sql1 = "SELECT * FROM baggage ORDER BY id DESC";
         List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql1);
         model.addAttribute("baggageshow", baggageshow);
         }
         else{
 
-        String sql1 = "SELECT * FROM baggage WHERE office_code = ?";
+        String sql1 = "SELECT * FROM baggage WHERE office_code = ? ORDER BY id DESC";
         List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql1,airportname);
         model.addAttribute("baggageshow", baggageshow);
         }
 
-       
-        
+    
         return "baggageTotalApplication";
        
-
     }
 
 
@@ -60,12 +58,12 @@ public class adminController {
         String officeCode=airportInformation.getAirport(principal);
       
           if(officeCode.equalsIgnoreCase("all")){
-            String sql = "SELECT * FROM baggage WHERE status = 'unapproved'";
+            String sql = "SELECT * FROM baggage WHERE STATUS = 'unapproved' ORDER BY id DESC";
             List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql);
             model.addAttribute("baggageshow", baggageshow);
           }
           else{
-             String sql = "SELECT * FROM baggage WHERE status = 'unapproved' AND office_code=?";
+             String sql = "SELECT * FROM baggage WHERE status = 'unapproved' AND office_code=? order by id DESC";
              List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql,officeCode);
             model.addAttribute("baggageshow", baggageshow);
           }
@@ -125,11 +123,11 @@ public class adminController {
         public String baggageReport(Model model ){ 
             model.addAttribute("allAirportList", airportService.getAllAirports());
 
-            String sql1 = "SELECT item_name FROM baggage_item_info";
+            String sql1 = "SELECT item_name FROM baggage_item_info order by id DESC";
             List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1);
             model.addAttribute("productshow", productshow);
 
-            String sql2 ="SELECT * FROM baggage JOIN baggage_product_add ON baggage.id = baggage_product_add.baggage_id JOIN baggage_item_info ON baggage_item_info. id = baggage_product_add.item_id";
+            String sql2 ="SELECT * FROM baggage JOIN baggage_product_add ON baggage.id = baggage_product_add.baggage_id JOIN baggage_item_info ON baggage_item_info. id = baggage_product_add.item_id order by baggage_product_add.id DESC";
             List<Map<String, Object>> product = jdbcTemplate.queryForList(sql2);
             model.addAttribute("product", product);
             
