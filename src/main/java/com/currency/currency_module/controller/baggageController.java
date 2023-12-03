@@ -1262,7 +1262,7 @@ public class baggageController {
             model.addAttribute("reportShow", requestParameters);  
             model.addAttribute("showProduct", productshow);
 
-             return "confirmPageAdmin";
+             return "redirect:/baggageshow/baggagetotalid?id="+id+"&status=unapproved";
          }
 
 
