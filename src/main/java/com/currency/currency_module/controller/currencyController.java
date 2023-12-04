@@ -5,6 +5,8 @@ package com.currency.currency_module.controller;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -52,6 +54,18 @@ public class currencyController {
     public String index( Model model) {
         model.addAttribute("allAirportList", airportService.getAllAirports());
         return "currency";
+    }
+
+    @GetMapping("/currency-edit-admin")
+    public String editCurrencyAdmin(@RequestParam Long id, Model model) {
+        // Retrieve the currencyDeclaration object from flash attributes
+      //  System.out.println(id);
+
+
+        model.addAttribute("allAirportList", airportService.getAllAirports());
+        // Add the currencyDeclaration to the model for your edit view
+        model.addAttribute("currencyDeclaration", currencyServices.findcurrency(id));
+        return "currency_edit_form_admin"; // The name of your edit view
     }
 
     
@@ -122,6 +136,21 @@ public class currencyController {
         return "redirect:/currencystart/finalsubmiform?id="+id;
     }
 
+
+    @PostMapping("/finalsubmit-form-admin")
+    public String currencyFinalSubmitformAdmin( @RequestParam Long id,Model model){
+     
+       
+       List<BaggageCurrencyAdd> listcurrency= currencyServices.baggagecurrecylist(id);
+       System.out.println(listcurrency);
+        model.addAttribute("Currency",currencyServices.findcurrency(id));
+        model.addAttribute("Baggagecurrency",listcurrency);
+        return "currencyViewAdmin";
+
+    }
+
+
+
     @GetMapping("/finalsubmiform")
     public String currencyFinalSubmitform( @RequestParam Long id,Model model){
      
@@ -141,16 +170,68 @@ public class currencyController {
        // System.out.println("Success");
     }
 
+
+    
+   
+    // @PostMapping("/currencyConfirmInvoice")
+    // public String updateStatusCurrency(@RequestParam Long id, Model model) {
+    //     CurrencyDeclaration currencyDeclaration = currencyServices.findcurrency(id);
+    
+    //     Long currencyId = currencyDeclaration.getId();
+    //     String passportId = currencyDeclaration.getPassportNumber();
+    //     int length = passportId.length();
+    
+    //     // Extract the last four digits
+    //     String passportFourDigits = "";
+    //     if (length >= 4) {
+    //         passportFourDigits = passportId.substring(length - 4);
+    //     }
+    
+    //     String autoincrementIdAsString = String.format("%07d", currencyId);
+    //     SimpleDateFormat yearFormat = new SimpleDateFormat("yy");
+    //     String currentYear = yearFormat.format(new Date());
+    //     String invoiceId = currentYear + passportFourDigits + autoincrementIdAsString;
+    
+    //     currencyDeclaration.setStatus("unchecked");
+    //     currencyDeclarationRepository.save(currencyDeclaration);
+    //     List<BaggageCurrencyAdd> listCurrency = currencyServices.baggageCurrencyList(id);
+    //     model.addAttribute("CurrencyShow", listCurrency);
+    //     model.addAttribute("Currency", currencyServices.findcurrency(id));
+    //     model.addAttribute("invoiceNo", invoiceId);
+    
+    //     return "currencyViewconfirm";
+    // }
+
+
     @GetMapping("/confirmgenaral")
    
     public String updatestatuscurrency(@RequestParam Long id, Model model){
         CurrencyDeclaration currencyDeclaration= currencyServices.findcurrency(id);
+
+            Long currencyId = currencyDeclaration.getId();
+            String passportId = currencyDeclaration.getPassportNumber();
+            int length = passportId.length();
+
+            // Extract the last four digits
+            String passportFourDigits = "";
+            if (length >= 4) {
+                passportFourDigits = passportId.substring(length - 4);
+            }
+
+           // int incrementId = autoincrementId.intValue();
+            String autoincrementIdAsString = String.format("%07d", currencyId);
+            SimpleDateFormat yearFormat = new SimpleDateFormat("yy");
+            String currentYear = yearFormat.format(new Date());
+            String invoiceId = currentYear + passportFourDigits + autoincrementIdAsString;
+
+       
 
         currencyDeclaration.setStatus("unchecked");
         currencyDeclarationRepository.save(currencyDeclaration);
          List<BaggageCurrencyAdd> listcurrency= currencyServices.baggagecurrecylist(id);
          model.addAttribute("CurrencyShow", listcurrency);
          model.addAttribute("Currency",currencyServices.findcurrency(id));
+          model.addAttribute("invoiceNo",invoiceId);
         
 
        return "currencyViewconfirm";

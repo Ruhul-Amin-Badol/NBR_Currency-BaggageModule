@@ -3,7 +3,7 @@ package com.currency.currency_module.services;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
-
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -97,9 +97,9 @@ public class CurrencyServices {
        byte[] pdfData = pdfGenerationService.generatePdfCurrency(existingCurrencyDeclaration,baggagecurrecylist,usernameSession);
                      HttpHeaders headers = new HttpHeaders();
                  headers.setContentType(MediaType.APPLICATION_PDF);
-                 headers.setContentDispositionFormData("inline", "NBR_baggage_declaration.pdf");
+                 headers.setContentDispositionFormData("inline", "NBR_Currency_declaration.pdf");
 
-                 emailService.sendEmailWithAttachment(existingCurrencyDeclaration.getEmail(), "NBR Baggage Declaration", "Body", pdfData, "nbr_baggage_application.pdf");
+                 emailService.sendEmailWithAttachment(existingCurrencyDeclaration.getEmail(), "NBR Currency Declaration", "Body", pdfData, "nbr_Currency_application.pdf");
         
 
 
@@ -134,7 +134,7 @@ public class CurrencyServices {
         // Save the updated entity back to the database
         currencyDeclarationRepository.save(existingCurrencyDeclaration);
     }
-
+    
     public BaggageCurrencyAdd addCurrency(BaggageCurrencyAdd addCurrency) {
       return currencyAddRepository.save(addCurrency);
     }
@@ -143,6 +143,12 @@ public class CurrencyServices {
     
       return currencyAddRepository.findAllByCurrencyId(id);
    }
+
+   public Optional<CurrencyDeclaration> currencyDeclarationById(Long id) {
+    
+      return currencyDeclarationRepository.findById(id);
+   }
+
 
   public List<CurrencyDeclaration> unapprovedcurrency() {
     return currencyDeclarationRepository.findByStatus("unchecked");
