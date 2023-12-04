@@ -52,10 +52,13 @@ public class HomeController {
 
  
     @PostMapping("/testpdf")
+    @ResponseBody
     public String handlePDFUpload(@RequestParam("pdf") MultipartFile pdfFile) {
         // You can now access the uploaded PDF file using the pdfFile parameter
         if (!pdfFile.isEmpty()) {
             try {
+
+                
                 // Process or save the PDF file as needed
                 // For example, you can save it to a file on the server
                 // Replace "/path/to/save/uploaded/pdfs" with your desired file path

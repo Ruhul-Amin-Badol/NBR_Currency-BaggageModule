@@ -58,7 +58,7 @@ public class PdfGenerationService {
 
 
 //for baggage approve 
-public byte[] generatePdf(List<Map<String, Object>>allProductQuery,List<?> rowData, List<String> includedFields, Double totalPaidAmount,Integer id,Principal principal) throws IOException {
+public byte[] generatePdf(List<Map<String, Object>>allProductQuery,List<?> rowData, List<String> includedFields, Double totalPaidAmount,Integer id,Principal principal,String passangerName) throws IOException {
     byte[] imageData = firebaseImage(principal);
     byte[] logo  = firebaselogo("nbr_logo.png");
 
@@ -121,6 +121,57 @@ public byte[] generatePdf(List<Map<String, Object>>allProductQuery,List<?> rowDa
             // Draw the image on the page
             contentStream.drawImage(signature, xSignature, ySignature, widthSignature, heightSignature);
 
+            float xadmin= 60;
+            float yadmin = 90;
+            float widthAdmin= 90;  // Adjust this value based on your image size
+            float heightAdmin = 90; 
+
+           String adminNameText = principal.getName();
+            contentStream.beginText();
+            contentStream.newLineAtOffset(xadmin, yadmin);
+            contentStream.showText(adminNameText);
+            contentStream.endText();
+            widthAdmin = heightAdmin; 
+
+            float xSign= 60;
+            float ySign = 70;
+            float widthSign= 80;  // Adjust this value based on your image size
+            float heightSign = 70; 
+
+           String signatureText = "Signature";
+            contentStream.beginText();
+            contentStream.newLineAtOffset(xSign, ySign);
+            contentStream.showText(signatureText);
+            contentStream.endText();
+            widthSign = heightSign; 
+           
+            float xusersign= 500;
+            float yusersign = 90;
+            float widthUserSign= 90;  // Adjust this value based on your image size
+            float heightUserSign = 90; 
+
+           String userSignNameText = passangerName;
+            contentStream.beginText();
+            contentStream.newLineAtOffset(xusersign, yusersign);
+            contentStream.showText(userSignNameText);
+            contentStream.endText();
+            widthUserSign = heightUserSign; 
+
+
+            float xuser= 500;
+            float yuser = 70;
+            float widthUser= 90;  // Adjust this value based on your image size
+            float heightUser = 90; 
+
+           String userNameText = "Signature";
+            contentStream.beginText();
+            contentStream.newLineAtOffset(xuser, yuser);
+            contentStream.showText(userNameText);
+            contentStream.endText();
+            widthUser = heightUser; 
+
+
+            
             // Generate QR code
 
             

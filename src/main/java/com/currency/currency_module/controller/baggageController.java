@@ -1202,7 +1202,7 @@ public class baggageController {
         requestData.put("referenceInfo", Map.of(
                 "InvoiceNo", payment_id,
                 "invoiceDate", formattedDate,
-                "returnUrl", "http://13.232.110.60:8080/baggagestart/takePaymentRequest/"+id+"/",
+                "returnUrl", "http://localhost:8080/baggagestart/takePaymentRequest/"+id+"/",
                 "totalAmount", total_tax,
                 "applicentName", passenger_name,
                 "applicentContactNo", cellular_phone,
@@ -1570,7 +1570,7 @@ public String currencApproveUpdate(@RequestParam int id, @RequestParam String st
                 }
 
             }
-           
+             String passangerName = (String) requestParameters.get("passenger_name");
             System.out.println("uuuuuuuuuuuuuuuuuuuuuoooooooooo"+totalTaxAmount);
                  List<String> includedFields = Arrays.asList("passenger_name","entry_point","flight_no","passport_number");
                //  List<String> includedFields = Arrays.asList("id","item_id","payment_id"); // Replace with your actual field names
@@ -1578,7 +1578,7 @@ public String currencApproveUpdate(@RequestParam int id, @RequestParam String st
                  rowData.add(baggageQuery);
                 
                 String  sessionToken="ddd";
-                 byte[] pdfData = pdfGenerationService.generatePdf(allProductQuery,rowData, includedFields,totalTaxAmount,id,principal);
+                 byte[] pdfData = pdfGenerationService.generatePdf(allProductQuery,rowData, includedFields,totalTaxAmount,id,principal,passangerName);
 
                  HttpHeaders headers = new HttpHeaders();
                  headers.setContentType(MediaType.APPLICATION_PDF);

@@ -102,8 +102,8 @@
                 <p class="p ft-25" align="center" style="margin-right:-30%;">(Foreign Exchange Declaration Form)</p>
             </td>
 
-            <td colspan="4">
-                <div align="center" style="border:1px solid #333; padding-top:5px; padding-bottom:5px; font-size:16px;">
+            <td colspan="6"  >
+                <div align="center"  style="border:1px solid #333; padding-top:5px; padding-bottom:5px; font-size:16px; margin-left: 25px;">
                     <P class="p b" style="font-size:15px;"> এফএমজে ফরম</P>
                     <p class="p b" style="font-size:15px;">FMJ FORM</p>
                 </div>
@@ -139,21 +139,25 @@
                     <p class="p" align="left" >(Full Name): <span th:text="${Currency.passengerName}"></span></p>
                 </td>
                 <td colspan="6" class="pt">
+                    <p class="p b" align="left">প্রবেশস্থল:</p>
+                    <p class="p" align="left" >(Entry Point): <span th:text="${Currency.entryPoint}"></span></p>
+                </td>
+                <td colspan="6" class="pt">
                     <p class="p b" align="left">জাতীয়তাঃ</p>
                     <p class="p" align="left">(Nationality): <span th:text="${Currency.nationality}"></span></p>
                 </td>
             </tr>
 
             <tr>
-                <td colspan="4" class="pt">
+                <td colspan="6" class="pt">
                     <p class="p b" align="left">পাসপের্ট নংঃ</p>
                     <p class="p" align="left">(Passport No): <span th:text="${Currency.passportNumber}"></span></p>
                 </td>
-                <td colspan="4" class="pt">
+                <td colspan="6" class="pt">
                     <p class="p b" align="left">ইস্যুর তারিখঃ</p>
                     <p class="p" align="left">(Date of Issue): <span th:text="${Currency.passportIssueDate}"></span></p>
                 </td>
-                <td colspan="4" class="pt">
+                <td colspan="6" class="pt">
                     <p class="p b" align="left">ইস্যুর স্থানঃ</p>
                     <p class="p" align="left">(Place of Issue): <span th:text="${Currency.passportIssuePlace}"></span></p>
                 </td>
@@ -292,9 +296,9 @@
                     <p class="p" align="left">[Date]</p>
                 </td>
                 <td colspan="6" class="pt">
-                    <p class="p b" align="left">[Signature of Declarant]</p>
-                    <p class="p" align="left">Signature of Declarant:</p>
-                    <p class="p" align="left">[Date]</p>
+                    <p class="p b" align="right">[Signature of Declarant]</p>
+                    <p class="p" align="right">Signature of Declarant:</p>
+                    <p class="p" align="right">[Date]</p>
                 </td>
             </tr>
 
@@ -302,7 +306,7 @@
 
     </table>
     
-    <div class="d-flex justify-content-center mt-2 mb-5" id="qrcode"> </div>
+    <div class="d-flex justify-content-center" id="qrcode"> </div>
     
  
  
@@ -320,11 +324,11 @@
                     <button id="toggleButton" onclick="showDiv()" class="btn btn-success">Approved</button>
                 </div>
             </div>
-            <!-- <div class="button-container">
+            <div class="button-container">
                 <div >
-                    <button id="toggleButton" onclick="generateAndSendPDF()" class="btn btn-success">Approved</button>
+                    <button class="btn btn-warning" onclick="generateAndSendPDF()">PDF</button>
                 </div>
-            </div> -->
+            </div>
         </div>
         <br><br><br>
 
@@ -388,35 +392,45 @@
 
 <script>
 
+function generateAndSendPDF() {
+    const element = document.getElementById("pagebrack");
+    const options = {
+        margin: 20, // Set the margin value here
+        filename: 'result.pdf',
+        image: { type: 'jpeg', quality: 1 },
+        html2canvas: {
+            backgroundColor: "#fff",
+            scale: 0.6,
+            y: 0,
+            x: 0,
+            scrollY: 0,
+            scrollX: 0,
+            windowWidth: 800,
+        },
+        jsPDF: { unit: 'px', format: [1200, 1200], orientation: 'portrait', precision: 32 }
+    };
 
-//    function generateAndSendPDF() {
-//     const element = document.getElementById("pagebrack");
-//     const options = {
-//         // ... other options
-//         filename: 'generated.pdf',
-//         // ... other options
-//     };
+    // Generate PDF on the client side
+    html2pdf(element, options).then(pdf => {
+        // Convert the PDF Blob to a FormData object
+        const formData = new FormData();
+        formData.append('pdf', new File([pdf], 'generated.pdf'));
 
-//     // Generate PDF on the client side
-//     html2pdf(element, options).then(pdf => {
-//         // Convert the PDF Blob to a FormData object
-//         const formData = new FormData();
-//         formData.append('pdf', new File([pdf], 'generated.pdf'));
+        // Send the PDF to the server using fetch
+        fetch('your-server-endpoint', {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => {
+            // Handle the server response
+            console.log(response);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+}
 
-//         // Send the PDF to the server using fetch
-//         fetch('your-server-endpoint', {
-//             method: 'POST',
-//             body: formData,
-//         })
-//         .then(response => {
-//             // Handle the server response
-//             console.log(response);
-//         })
-//         .catch(error => {
-//             console.error('Error:', error);
-//         });
-//     });
-// }
 
 
 
