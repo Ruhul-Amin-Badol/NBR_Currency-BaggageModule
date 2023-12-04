@@ -100,6 +100,8 @@
             <td colspan="8" ‍align="center">
                 <p class="p b ft-30" align="center" style="margin-right:-30%;">বৈদেশিক মুদ্রা ঘোষণা ফরম</p>
                 <p class="p ft-25" align="center" style="margin-right:-30%;">(Foreign Exchange Declaration Form)</p>
+
+                <p class="b"> Invoice Id : <span th:text="${Currency.invoice}"></span></p>
             </td>
 
             <td colspan="4">
@@ -134,11 +136,15 @@
             </tr>
 
             <tr>
-                <td colspan="6" class="pt">
+                <td colspan="4" class="pt">
                     <p class="p b" align="left">পূর্ণ নামঃ</p>
                     <p class="p" align="left" >(Full Name): <span th:text="${Currency.passengerName}"></span></p>
                 </td>
-                <td colspan="6" class="pt">
+                <td colspan="4" class="pt">
+                    <p class="p b" align="left">প্রবেশস্থল :</p>
+                    <p class="p" align="left" >(Entry Point): <span th:text="${Currency.entryPoint}"></span></p>
+                </td>   
+                <td colspan="4" class="pt">
                     <p class="p b" align="left">জাতীয়তাঃ</p>
                     <p class="p" align="left">(Nationality): <span th:text="${Currency.nationality}"></span></p>
                 </td>

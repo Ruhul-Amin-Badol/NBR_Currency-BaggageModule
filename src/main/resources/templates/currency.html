@@ -18,13 +18,15 @@
               <div class="col-sm-6">
                 <div class="mb-3">
                   <label for="entryPoint" class="form-label"
-                    id="nationalityLabel">Select Entry Point</label>
-                  <select class="form-select" name="entryPoint" id="entryPoint"
+                    id="nationalityLabel">Select Entry Point</label><span
+                    class="astrick">*</span>
+                  <select class="form-select" name="officeCode" id="entryPoint"
                     required>
                     <option value>--Please Select--</option>
-                    <option th:each="airport : ${allAirportList}"
-                      th:value="${airport.airPortNames}" th:text="${airport.airPortNames}" th:unless="${airport.airPortNames == 'all'}"></option>
-
+                    <!-- <option th:each="airport : ${allAirportList}"
+                      th:value="${airport.airPortNames}" th:text="${airport.airPortNames}" th:unless="${airport.airPortNames == 'all'}"></option> -->
+                      <option th:each="airport : ${allAirportList}"
+                      th:value="${airport.officeCode}" th:text="${airport.airPortNames}" th:unless="${airport.airPortNames == 'all'}"></option>
                   </select>
                 </div>
                 <div class="mb-3">
