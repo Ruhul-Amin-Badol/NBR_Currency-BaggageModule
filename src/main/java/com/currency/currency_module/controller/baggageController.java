@@ -212,12 +212,12 @@ public class baggageController {
         // List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,"approved");
         // model.addAttribute("baggageshow", productshow);
         if(officeCode.equalsIgnoreCase("all")){
-             String sql1 = "SELECT * FROM baggage where status=? and office_code =?";
-        List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql1,"approved",officeCode);
+             String sql1 = "SELECT * FROM baggage where status=? ORDER BY id DESC";
+        List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql1,"approved");
         model.addAttribute("baggageshow", baggageshow);
         }
         else{
-        String sql1 = "SELECT * FROM baggage where status=? AND office_code=?";
+        String sql1 = "SELECT * FROM baggage where status=? AND office_code=? ORDER BY id DESC";
         List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql1,"approved",officeCode);
         model.addAttribute("baggageshow", baggageshow);
         }

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.currency.currency_module.AirportInformation;
-import com.currency.currency_module.model.AirportList;
+
 import com.currency.currency_module.services.AirportService;
 
 @Component
@@ -58,12 +58,12 @@ public class adminController {
         String officeCode=airportInformation.getAirport(principal);
       
           if(officeCode.equalsIgnoreCase("all")){
-            String sql = "SELECT * FROM baggage WHERE STATUS = 'unapproved' ORDER BY id DESC";
+            String sql = "SELECT * FROM baggage WHERE status = 'unapproved' ORDER BY id DESC";
             List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql);
             model.addAttribute("baggageshow", baggageshow);
           }
           else{
-             String sql = "SELECT * FROM baggage WHERE status = 'unapproved' AND office_code=? order by id DESC";
+             String sql = "SELECT * FROM baggage WHERE status = 'unapproved' AND office_code=? ORDER BY id DESC";
              List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql,officeCode);
             model.addAttribute("baggageshow", baggageshow);
           }
@@ -134,24 +134,5 @@ public class adminController {
             return "baggageReport";
         }
 
-
-
-
-
-    
-  
-
-
-
-        // @PostMapping("/baggagefilterReport")
-        // @ResponseBody
-        // public String baggagefilterReport(Model model ){ 
-           
-        //     String sql2 ="SELECT * FROM baggage JOIN baggage_item_info ON baggage.id = baggage_item_info.id JOIN baggage_product_add ON baggage_item_info. id = baggage_product_add.baggage_id";
-        //     List<Map<String, Object>> product = jdbcTemplate.queryForList(sql2);
-        //     model.addAttribute("product", product);
-            
-        //     return "baggageReport";
-        // }
 
 }

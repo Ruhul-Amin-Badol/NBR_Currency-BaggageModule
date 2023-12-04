@@ -411,8 +411,8 @@ public byte[] firebaseImageSignature(String usernameSession){
 
                 // String qrCodeText = "(Scan to View all)";
                 // contentStream.beginText();
-                // contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 10); // Adjust font size if needed
-                // contentStream.newLineAtOffset(xQRCode, yQRCode-8); // Adjust the Y-coordinate for the text
+                // contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 10); 
+                // contentStream.newLineAtOffset(xQRCode, yQRCode-8); 
                 // contentStream.showText(qrCodeText);
                 // contentStream.endText();
 
@@ -671,12 +671,9 @@ public byte[] generatePdfCurrency(CurrencyDeclaration currencyDeclaration, List<
                     yTable -= tableHeight; // Adjust the Y-coordinate for the next row
                 }
                 
-
-
-
             // Set the position and size of the QR code image
             float xQRCode = 280;
-            float yQRCode = 50;
+            float yQRCode = 45;
             float widthQRCode = 100;  // Adjust this value based on your QR code image size
             float heightQRCode = 100;  // Adjust this value based on your QR code image size
 
