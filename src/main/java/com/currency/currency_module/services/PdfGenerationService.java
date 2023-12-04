@@ -138,14 +138,19 @@ public byte[] generatePdf(List<Map<String, Object>>allProductQuery,List<?> rowDa
             float widthSign= 80;  // Adjust this value based on your image size
             float heightSign = 70; 
 
-           String signatureText = "Signature";
+           String signatureText = "[Signature of Customs Official]";
+            contentStream.setLineWidth(2.5f);  
+            contentStream.moveTo(xSign, ySign + 13);  
+            contentStream.lineTo(xSign + widthSign, ySign + 13); 
+            contentStream.stroke();
+
             contentStream.beginText();
             contentStream.newLineAtOffset(xSign, ySign);
             contentStream.showText(signatureText);
             contentStream.endText();
             widthSign = heightSign; 
            
-            float xusersign= 500;
+            float xusersign= 450;
             float yusersign = 90;
             float widthUserSign= 90;  // Adjust this value based on your image size
             float heightUserSign = 90; 
@@ -158,12 +163,18 @@ public byte[] generatePdf(List<Map<String, Object>>allProductQuery,List<?> rowDa
             widthUserSign = heightUserSign; 
 
 
-            float xuser= 500;
+            float xuser= 450;
             float yuser = 70;
             float widthUser= 90;  // Adjust this value based on your image size
             float heightUser = 90; 
 
-           String userNameText = "Signature";
+           String userNameText = "[Signature of Declarant]";
+
+            contentStream.setLineWidth(2.5f);  
+            contentStream.moveTo(xuser, yuser + 13);  
+            contentStream.lineTo(xuser + widthUser, yuser + 13); 
+            contentStream.stroke();
+
             contentStream.beginText();
             contentStream.newLineAtOffset(xuser, yuser);
             contentStream.showText(userNameText);

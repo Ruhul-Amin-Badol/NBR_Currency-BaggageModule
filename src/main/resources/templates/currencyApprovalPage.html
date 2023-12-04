@@ -327,9 +327,6 @@
                 </div>
             </div>
             <div class="button-container">
-                <div >
-                    <button class="btn btn-warning" onclick="generateAndSendPDF()">PDF</button>
-                </div>
             </div>
         </div>
         <br><br><br>
@@ -393,50 +390,6 @@
 
 
 <script>
-
-function generateAndSendPDF() {
-    const element = document.getElementById("pagebrack");
-    const options = {
-        margin: 20, // Set the margin value here
-        filename: 'result.pdf',
-        image: { type: 'jpeg', quality: 1 },
-        html2canvas: {
-            backgroundColor: "#fff",
-            scale: 0.6,
-            y: 0,
-            x: 0,
-            scrollY: 0,
-            scrollX: 0,
-            windowWidth: 800,
-        },
-        jsPDF: { unit: 'px', format: [1200, 1200], orientation: 'portrait', precision: 32 }
-    };
-
-    // Generate PDF on the client side
-    html2pdf(element, options).then(pdf => {
-        // Convert the PDF Blob to a FormData object
-        const formData = new FormData();
-        formData.append('pdf', new File([pdf], 'generated.pdf'));
-
-        // Send the PDF to the server using fetch
-        fetch('your-server-endpoint', {
-            method: 'POST',
-            body: formData,
-        })
-        .then(response => {
-            // Handle the server response
-            console.log(response);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    });
-}
-
-
-
-
-
 
 function qrcode() {
           console.log("fahim");
