@@ -5,12 +5,12 @@
         <img src="/img/logo/nbr.png" alt="nbr_logo">
 
     </div>
-    <div class="container">
+    <div class="container-fluid">
         <div class="d-flex gap-2 py-3">
             <button type="button" class="btn btn-primary print-button" onclick="printPage()">Print</button>
         <a href="/baggageshow/baggageApplicationShow"><button type="button" class="btn btn-primary print-button" >Go Back</button></a>
         </div>
-        <table>
+        <table >
             <tbody th:object="${reportShow}">
                 <input type="hidden" id="reportShow" name="id" th:value="${reportShow['ID']}" />
 
@@ -63,8 +63,8 @@
 
         <!-- table 2nd start -->
         <table id="ajaxtable"
-            class="table table-bordered mt-5">
-            <thead class=" bg-danger">
+            class="table table-bordered mt-5" style="zoom: 80%;">
+            <thead style="background-color: rgba(96, 204, 69, 0.952);">
                 <tr>
                    
                     <th scope="col">Product Name</th>
@@ -112,7 +112,7 @@
                 </tr> 
 
                 <tr>
-                        <th colspan="6" class="text-end"> Total Paid</th>
+                        <th colspan="5" class="text-end"> Total Paid</th>
                         <td>
                             <span id="totalTaxAmount"></span>
                         </td>
@@ -172,7 +172,6 @@
             $("#qrcode").html('<img src="' + qrCodeUrl + '" alt="QR Code" />');
         };
 function generateBarcode() {
-    console.log("Fahim");
     // Get the value from the hidden input field
     var idValue = document.getElementById("reportShow").value*1000;
 
