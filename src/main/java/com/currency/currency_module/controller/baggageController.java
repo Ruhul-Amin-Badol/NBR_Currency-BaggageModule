@@ -93,7 +93,7 @@ public class baggageController {
     //------> From show and hide mode<------//
     @GetMapping("/show")
     public String baggageFrom(@RequestParam(required = false, defaultValue = "") String generatedId, Model model) {
-        String sql1 = "SELECT item_name FROM baggage_item_info";
+        String sql1 = "SELECT * FROM baggage_item_info";
         List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1);
         model.addAttribute("productshow", productshow);
 
