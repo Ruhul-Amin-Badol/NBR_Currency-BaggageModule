@@ -36,13 +36,13 @@ public class adminController {
     public String baggagetotal( Model model ,Principal principal) {
         String airportname=airportInformation.getAirport(principal);
         if(airportname.equalsIgnoreCase("all")){
-        String sql1 = "SELECT * FROM baggage ";
+        String sql1 = "SELECT * FROM baggage ORDER BY id DESC";
         List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql1);
         model.addAttribute("baggageshow", baggageshow);
         }
         else{
 
-        String sql1 = "SELECT * FROM baggage WHERE office_code = ?";
+        String sql1 = "SELECT * FROM baggage WHERE office_code = ? ORDER BY id DESC";
         List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql1,airportname);
         model.addAttribute("baggageshow", baggageshow);
         }
@@ -60,12 +60,12 @@ public class adminController {
         String officeCode=airportInformation.getAirport(principal);
       
           if(officeCode.equalsIgnoreCase("all")){
-            String sql = "SELECT * FROM baggage WHERE status = 'unapproved'";
+            String sql = "SELECT * FROM baggage WHERE status = 'unapproved' ORDER BY id DESC";
             List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql);
             model.addAttribute("baggageshow", baggageshow);
           }
           else{
-             String sql = "SELECT * FROM baggage WHERE status = 'unapproved' AND office_code=?";
+             String sql = "SELECT * FROM baggage WHERE status = 'unapproved' AND office_code=? ORDER BY id DESC";
              List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql,officeCode);
             model.addAttribute("baggageshow", baggageshow);
           }
@@ -136,15 +136,5 @@ public class adminController {
             return "baggageReport";
         }
 
-        // @PostMapping("/baggagefilterReport")
-        // @ResponseBody
-        // public String baggagefilterReport(Model model ){ 
-           
-        //     String sql2 ="SELECT * FROM baggage JOIN baggage_item_info ON baggage.id = baggage_item_info.id JOIN baggage_product_add ON baggage_item_info. id = baggage_product_add.baggage_id";
-        //     List<Map<String, Object>> product = jdbcTemplate.queryForList(sql2);
-        //     model.addAttribute("product", product);
-            
-        //     return "baggageReport";
-        // }
 
 }

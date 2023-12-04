@@ -118,7 +118,9 @@
 
         <div style="text-align: right; margin-right: 30px;">
             <div class="button-container" >
+                <div th:if="${baggageView['status'] != 'approved'}">
                 <a id="editDiv" th:href="@{/baggagestart/edit-baggage(generatedId=${baggageView.ID})}" class="btn btn-primary print-button">Edit</a>
+            </div>
             </div>
             <div class="button-container">
                 <div th:if="${baggageView['status'] != 'approved'}">

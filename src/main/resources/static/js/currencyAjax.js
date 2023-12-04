@@ -124,6 +124,15 @@ function finalsubmitcurrency(){
 
 }
 
+function finalsubmitcurrencyAdmin(){
+  const currencyId=$("#id").val();
+  var form = document.getElementById("myForm");
+  form.action = "/currencystart/finalsubmit-form-admin";
+  form.submit();
+
+}
+
+
 function DeleteCurrencyProduct(id){
   console.log(id)
   const delete1 = {

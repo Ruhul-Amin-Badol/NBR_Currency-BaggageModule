@@ -205,12 +205,12 @@ public class baggageController {
         // List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,"approved");
         // model.addAttribute("baggageshow", productshow);
         if(officeCode.equalsIgnoreCase("all")){
-             String sql1 = "SELECT * FROM baggage where status=? and office_code =?";
-        List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql1,"approved",officeCode);
+             String sql1 = "SELECT * FROM baggage where status=? ORDER BY id DESC";
+        List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql1,"approved");
         model.addAttribute("baggageshow", baggageshow);
         }
         else{
-        String sql1 = "SELECT * FROM baggage where status=? AND office_code=?";
+        String sql1 = "SELECT * FROM baggage where status=? AND office_code=? ORDER BY id DESC";
         List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql1,"approved",officeCode);
         model.addAttribute("baggageshow", baggageshow);
         }
@@ -1040,7 +1040,8 @@ public class baggageController {
         requestData.put("referenceInfo", Map.of(
                 "InvoiceNo", payment_id,
                 "invoiceDate", formattedDate,
-                "returnUrl", "http://13.232.110.60:8080/baggagestart/takePaymentRequest/"+id+"/",
+                //"returnUrl", "http://13.232.110.60:8080/baggagestart/takePaymentRequest/"+id+"/",
+                "returnUrl", "http://localhost:8080/baggagestart/takePaymentRequest/"+id+"/",
                 "totalAmount", total_tax,
                 "applicentName", passenger_name,
                 "applicentContactNo", cellular_phone,

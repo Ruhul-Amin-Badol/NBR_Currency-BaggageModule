@@ -77,14 +77,14 @@
     }
 </style>
 </head>
-<body style="font-family: Tahoma, Geneva, sans-serif; background: #fff;">
+<body style="font-family: Tahoma, Geneva, sans-serif; background: #fff; ">
 
 <div class="page_brack" >
 
-    <div class="d-flex gap-2 py-3 px-3">
+    <!-- <div class="d-flex gap-2 py-3">
         <button type="button" class="btn btn-primary print-button" onclick="printPage()">Print</button>
     <a href="/currencystart/show"><button type="button" class="btn btn-primary print-button" >Go Back</button></a>
-    </div>
+    </div> -->
 
 
     <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center" >
@@ -94,11 +94,9 @@
             <td colspan="8" ‍align="center">
                 <p class="p b ft-30" align="center" style="margin-right:-30%;">বৈদেশিক মুদ্রা ঘোষণা ফরম</p>
                 <p class="p ft-25" align="center" style="margin-right:-30%;">(Foreign Exchange Declaration Form)</p>
-                <br>
-                <p class="b">    Invoice No :    <span th:text="${invoiceNo}"></span></p>
             </td>
 
-            <td colspan="6">
+            <td colspan="7">
                 <div align="center" style="border:1px solid #333; padding-top:5px; padding-bottom:5px; font-size:16px; margin-left: 15px;">
                     <P class="p b" style="font-size:15px;"> এফএমজে ফরম</P>
                     <p class="p b" style="font-size:15px;">FMJ FORM</p>
@@ -158,6 +156,7 @@
                     <p class="p" align="left">(Place of Issue): <span th:text="${Currency.passportIssuePlace}"></span></p>
                 </td>
             </tr>
+
             <tr>
                 <td colspan="6" class="pt">
                     <p class="p b" align="left">আগমনের তারিখ ও সময়ঃ</p>
@@ -237,6 +236,7 @@
                                 </p>
                                 <p class="p1 b" align="center" >(Number of Note)</p>
                             </th>
+                                
                             <th style="border: 1px solid black;">
                             <p class="p1 b" align="center" >
                             পরিমাণ
@@ -251,7 +251,7 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody th:each="customer : ${CurrencyShow}">
+                    <tbody th:each="customer : ${Baggagecurrency}">
                        
                             <tr>
                                 <td style="border: 1px solid black;" th:text="${customer.currencyName}"> USD </td>
@@ -293,10 +293,10 @@
                     <p class="p" align="left">[Date]</p>
                 </td>
                 <td colspan="6" class="pt">
-                    <span class="fw-bold" th:text="${Currency.passengerName}"></span>
-                    <p class="p b" align="left">[Signature of Declarant]</p>
-                    <p class="p" align="left">Signature of Declarant:</p>
-                    <p class="p" align="left">[Date]</p>
+                    <p class="p b" align="right"><span class="fw-bold" th:text="${Currency.passengerName}"></span></p>
+                    <p class="p b" align="right">[Signature of Declarant]</p>
+                    <p class="p" align="right">Signature of Declarant:</p>
+                    <p class="p" align="right">[Date]</p>
                 </td>
             </tr>
 
@@ -306,47 +306,23 @@
 
     <table style="width:100%;">
      <tr>
-        <!-- <td style="text-align:center;">
-        <img alt="testing" style="width: 200px; margin-top: 20px;height:80px;" src="sr-bar_code/barcode/barcode.php?codetype=Code39&amp;size=40&amp;text=1234567890&amp;print=true">
-        </td> -->
-        <div class="d-flex justify-content-center my-4" id="qrcode">
+     
            
         </div>
-        <!-- <div class="d-flex justify-content-center">
-            <div id="barcode-value" class="fw-bold"></div>
-        </div> -->
      </tr>
 
      </table>
-     <!-- <div class="d-flex justify-content-around">
-        <button class="btn btn-danger gap-2"  type="button">Edit</button>
-        <button class="btn btn-primary" type="button" onclick="confirm()">Confirm</button>
-     </div> -->
 </div>
-<!-- <div class="d-flex justify-content-center" >
+<div class="d-flex justify-content-center" >
     <button type="button" class="btn btn-danger btn-lg my-2 mx-3 print-button" th:onclick="'redirectToCurrencyEditPage(' + ${Currency.id} + ')'">Edit</button>
     <button type="button" id="toggleButton1" class="btn btn-primary btn-lg my-2 print-button" onclick="confirm()">Confirm</button>
-</div> -->
+</div>
 <script>
 
-function qrcode() {
-          
-            // Get the current page's URL
-            var currentURL = window.location.href;
-             convertCurrencyToWords() 
+    var a = ['','One ','Two ','Three ','Four ', 'Five ','Six ','Seven ','Eight ','Nine ','Ten ','Eleven ','Twelve ','Thirteen ','Fourteen ','Fifteen ','Sixteen ','Seventeen ','Eighteen ','Nineteen '];
+    var b = ['', '', 'Twenty','Thirty','Forty','Fifty', 'Sixty','Seventy','Eighty','Ninety'];
 
-
-            // Generate the QR code using an online service (qr.js)
-            var qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?data=" + encodeURIComponent(currentURL) + "&size=128x128";
-            
-            // Display the QR code image
-            $("#qrcode").html('<img src="' + qrCodeUrl + '" alt="QR Code" />');
-        };
-
-        var a = ['','One ','Two ','Three ','Four ', 'Five ','Six ','Seven ','Eight ','Nine ','Ten ','Eleven ','Twelve ','Thirteen ','Fourteen ','Fifteen ','Sixteen ','Seventeen ','Eighteen ','Nineteen '];
-        var b = ['', '', 'Twenty','Thirty','Forty','Fifty', 'Sixty','Seventy','Eighty','Ninety'];
-
-function inWords (num) {
+    function inWords (num) {
 
     if ((num = num.toString()).length > 9) return 'overflow';
     n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
@@ -362,9 +338,6 @@ function inWords (num) {
 function convertCurrencyToWords() {
     const currencyAmounts = document.querySelectorAll(".currency-amount");
     const currencyWords = document.querySelectorAll(".currency-words");
-
-
-    console.log("sdsfgdshg-----------------------------------"+currencyAmounts)
 
     currencyAmounts.forEach((amount, index) => {
         const amountValue = parseInt(amount.textContent);
@@ -393,18 +366,32 @@ function convertCurrencyToWords() {
         window.print();
     }
 
+    function confirm(){
+       
+        event.preventDefault();
+    var id=document.getElementById('CurrencyIdGeneral').value;
+    console.log(id);
+       
+       window.location.href="/currencystart/show-currency-details?id="+id+"&page=currencyUnapprove"
 
+       
+         
+    }
 
     function redirectToHomePage() {
 
             // Get the id value from the hidden input field
             var id = document.getElementById("go_back").value;
-            var url = "/currencystart/show";
+            var url = "http://localhost:8080/currencystart/show";
             window.location.href = url;
         }
+
+        function redirectToCurrencyEditPage(id) {
+    // Redirect to the URL with the 'id' parameter
+        window.location.href = '/currencystart/currencyEdit?id=' + id;
+        }
         
-   
-window.onload = qrcode;
+window.onload = convertCurrencyToWords;
 </script> 
 
 <div th:replace="~{layout/footer}"></div>
