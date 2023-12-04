@@ -121,7 +121,7 @@
         </tr>
         </thead>
         <tbody  th:object="${Currency}">
-            <input th:value="${Currency.id}" type="hidden">
+            <input th:value="${Currency.id}" id="currencyid" type="hidden">
             <tr>
                 <td colspan="12"> &nbsp</td>
             </tr>
@@ -310,11 +310,11 @@
 
         <div style="text-align: right; margin-right: 200px;">
             
-            <!-- <div class="button-container">
-                <div th:if="${Currency.status != 'rejected'}">
-                    <button id="toggleButton1" onclick="showDiv1()" class="btn btn-danger">Rejected</button>
+            <div class="button-container">
+                <div th:if="${Currency.status != 'checked'}">
+                    <button id="toggleButton1" onclick="showDiv170()" class="btn btn-danger">Edit</button>
                 </div>
-            </div> -->
+            </div>
             <div class="button-container">
                 <div th:if="${Currency.status != 'checked'}">
                     <button id="toggleButton" onclick="showDiv()" class="btn btn-success">Approved</button>
@@ -333,7 +333,7 @@
             <form th:action="@{/currencystart/currency_unapprove_update}"  method="post" id="myForm">
                 <div class="input-group">
                     <div class="">
-                        <input th:value="${page}" type="hidden" name="page">
+                        <input th:value="${page}" id="page" type="hidden" name="page">
                         <input th:value="${Currency.id}" type="hidden" name="id">
                         <input th:value="rejected" type="hidden" name="status">
                         <!-- <label style="font-weight: bold;" for="confNote" class="form-label" >Give the Reason of Rejection</label>
@@ -434,12 +434,16 @@ function showDiv1() {
 	function showDiv() {
         document.getElementById('welcomeDiv').style.display = "block";
 
-        // var button = document.getElementById("toggleButton");
-        // button.style.display = "none";
+        var button = document.getElementById("toggleButton");
+        button.style.display = "none";
         var reject_button = document.getElementById("toggleButton1");
         var approved_button = document.getElementById("toggleButton");
         reject_button.style.display = "none";
         approved_button.style.display = "none";
+    }
+    function showDiv170(){
+
+        window.location.href="/currencystart/currency-edit-admin?id="+document.getElementById("currencyid").value;
     }
     
     

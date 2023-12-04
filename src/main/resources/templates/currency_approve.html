@@ -27,11 +27,12 @@
         <tr>
             <th>sl</th>
             <th>Name</th>
+            <th>Passport Number</th>
             <th>Passport Issue Date</th>
             <th>Passport Issue Place</th>
             <th>Nationality</th>
             <th>Date Of Arrival</th>
-            <th>Profession</th>
+            <th>Status</th>
             <th>Flight No</th>
             <th>Address In Bangladesh</th>
             <th>Stay Time Abroad</th>
@@ -48,12 +49,10 @@
             <td th:text="${show.passengerName}"></td>
             <td th:text="${show.passportNumber}"></td>
             <td th:text="${show.passportIssueDate}"></td>
+            <td th:text="${show.passportIssuePlace}"></td>
             <td th:text="${show.nationality}"></td>
             <td th:text="${show.dateOfArrival}"></td>
-            <td th:text="${show.profession}"></td>
-
-
-
+            <td th:text="${show.status}"></td>
             <td th:text="${show.flightNo}"></td>
             <td th:text="${show.addressInBangladesh}"></td>
             <td th:text="${show.stayTimeAbroad}"></td>
@@ -73,6 +72,7 @@
         <tr>
             <th>sl</th>
             <th>Name</th>
+            <th>Passport Number</th>
             <th>Passport Issue Date</th>
             <th>Passport Issue Place</th>
             <th>Nationality</th>
@@ -82,7 +82,7 @@
             <th>Address In Bangladesh</th>
             <th>Stay Time Abroad</th>
             <th>Email</th>
-            <th>Action</th>
+            <td style="font-weight: bold;">Action</td>
         </tr>
     </tfoot>
 </table>
