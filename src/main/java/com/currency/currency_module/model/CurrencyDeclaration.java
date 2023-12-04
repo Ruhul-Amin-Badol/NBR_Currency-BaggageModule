@@ -90,6 +90,13 @@ public class CurrencyDeclaration {
     private String entryBy;
 
 
+    @Column(name = "office_code")
+
+    private String officeCode;
+
+
+
+
 
     @Column(name = "invoice")
     private String invoice;
@@ -121,6 +128,13 @@ public class CurrencyDeclaration {
 
     public void setOtherProfession(String otherProfession) {
         this.otherProfession = otherProfession;
+    }
+    public String getOfficeCode() {
+        return this.officeCode;
+    }
+
+    public void setOfficeCode(String officeCode) {
+        this.officeCode = officeCode;
     }
 
 
