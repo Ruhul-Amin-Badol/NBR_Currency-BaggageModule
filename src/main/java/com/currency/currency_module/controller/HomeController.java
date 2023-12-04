@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -49,6 +50,28 @@ public class HomeController {
    @Autowired
    HttpSession httpSession;
 
+ 
+    @PostMapping("/testpdf")
+    public String handlePDFUpload(@RequestParam("pdf") MultipartFile pdfFile) {
+        // You can now access the uploaded PDF file using the pdfFile parameter
+        if (!pdfFile.isEmpty()) {
+            try {
+                // Process or save the PDF file as needed
+                // For example, you can save it to a file on the server
+                // Replace "/path/to/save/uploaded/pdfs" with your desired file path
+                // String filePath = "/path/to/save/uploaded/pdfs/" + pdfFile.getOriginalFilename();
+                // pdfFile.transferTo(new File(filePath));
+
+                // Optionally, you can return a success message or perform other actions
+                return "PDF uploaded successfully.";
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "Error uploading PDF.";
+            }
+        } else {
+            return "PDF file is empty.";
+        }
+    }
     @GetMapping("/signin") 
     public String login() {
         return "login";

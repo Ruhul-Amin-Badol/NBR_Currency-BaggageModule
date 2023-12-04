@@ -86,7 +86,7 @@
 </head>
 <body style="font-family: Tahoma, Geneva, sans-serif; background-color: white !important;">
 
-<div class="page_brack" >
+<div class="page_brack" id="pagebrack" >
 
     <div class="d-flex gap-2 py-3">
         <button type="button" class="btn btn-primary print-button" onclick="printPage()">Print</button>
@@ -320,6 +320,11 @@
                     <button id="toggleButton" onclick="showDiv()" class="btn btn-success">Approved</button>
                 </div>
             </div>
+            <!-- <div class="button-container">
+                <div >
+                    <button id="toggleButton" onclick="generateAndSendPDF()" class="btn btn-success">Approved</button>
+                </div>
+            </div> -->
         </div>
         <br><br><br>
 
@@ -382,6 +387,40 @@
 
 
 <script>
+
+
+//    function generateAndSendPDF() {
+//     const element = document.getElementById("pagebrack");
+//     const options = {
+//         // ... other options
+//         filename: 'generated.pdf',
+//         // ... other options
+//     };
+
+//     // Generate PDF on the client side
+//     html2pdf(element, options).then(pdf => {
+//         // Convert the PDF Blob to a FormData object
+//         const formData = new FormData();
+//         formData.append('pdf', new File([pdf], 'generated.pdf'));
+
+//         // Send the PDF to the server using fetch
+//         fetch('your-server-endpoint', {
+//             method: 'POST',
+//             body: formData,
+//         })
+//         .then(response => {
+//             // Handle the server response
+//             console.log(response);
+//         })
+//         .catch(error => {
+//             console.error('Error:', error);
+//         });
+//     });
+// }
+
+
+
+
 
 function qrcode() {
           console.log("fahim");

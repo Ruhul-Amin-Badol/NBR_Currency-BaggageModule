@@ -15,12 +15,15 @@
   <!-- Include custom CSS file -->
   <link rel="stylesheet" th:href="@{/css/style.css}" />
   <style>
-    .select2-results__option:nth-child(ODD){
+
+    .customproductclass:nth-child(ODD){
       BACKGROUND-COLOR: #CDF5F6 !important;
+      width: 200px;
 
     }
-    .select2-results__option:nth-child(EVEN){
+    .customproductclass:nth-child(EVEN){
       BACKGROUND-COLOR: white !important;
+      width: 200px;
 
     }
 
@@ -28,11 +31,21 @@
         background-color:black !important;
         color:white !important;
     }
+  .customproductcolor{
+      color: green;
+    }
+    /* .select2-results__option{
+      background-color: blue !important;
+    } */
+    .select2 .yyyyy{
+     background: red;
+}
 </style>
   <!-- search box cdn -->
   <link href='https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css' rel='stylesheet' type='text/css'>
 
   <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
   <!--home tamplate css---->
   <link rel="stylesheet" th:href="@{/css/common.css}" />
@@ -40,7 +53,7 @@
   <link rel="stylesheet" th:href="@{/css/normalize.css}" />
   <link rel="stylesheet" th:href="@{/css/website.css}" />
 
-
+ 
 </head>
 
 <body>
