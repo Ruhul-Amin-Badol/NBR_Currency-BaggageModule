@@ -583,7 +583,7 @@
 
 
                             <div class="mb-3">
-                                <label for="entryPoint" class="form-label" id="entryPointLabel">Select Entry Point</label><span class="astrick">*</span>
+                                <label for="entryPoint" class="form-label" id="entryPointLabel" >Select Entry Point</label><span class="astrick">*</span>
                                 <select class="form-select" name="entryPoint" aria-label="Default select example" required>
                                     <option value="">--Please Select--</option>
                                     <option   th:each="allAirport : ${allAirportList}" th:value="${allAirport.office_code}" th:text="${allAirport.air_port_names}" th:selected="${baggageDetails['entry_point'] == allAirport.air_port_names}"  th:unless="${allAirport.air_port_names == 'all'}"></option>
@@ -1105,7 +1105,7 @@
                 <form action="" method="">
 
                             <div class="container p-3 mt-3 bg-light">
-                                <p class="fw-bold">More than one of any goods (Schedule 3) which are duty free including Gold<span class="astrick">*</span> <button type="button" class="btn btn-success" id="openFileButton" target="baggageRule.html">View Goods List on Baggage Rule</button></p>
+                                <p class="fw-bold ">More than one of any goods (Schedule 3) which are duty free including Gold<span class="astrick">*</span> <button type="button" class="btn btn-success" id="openFileButton" target="baggageRule.html">View Goods List on Baggage Rule</button></p>
                                 <div class="d-flex justify-content-start mb-3">
                                     <div class="col-sm-6">
                                             <select class="form-select" aria-label="Default select example"  id="dropdownSelect" required>
@@ -1141,10 +1141,10 @@
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <select  class="form-select " style="width: 200px;" id="productName" name="productName" aria-label="Default select example" onchange="fetchProductData()">
-                                                        <option > --Please Select-- </option>
+                                                    <select  class="form-select " style="width: 200px; background-color: brown;" id="productName" name="productName" aria-label="Default select example" onchange="fetchProductData()">
+                                                        <option class="customproductcolor"> --Please Select-- </option>
                                                         <th:block th:each="productName : ${productshow}">
-                                                            <option th:text="${productName['item_name']}" th:value="${productName['item_name']}"></option>
+                                                            <option th:text="${productName['item_name']}" th:value="${productName['item_name']}" class="customproductclass" th:style="${productName['color_status'] == '1' ? 'color: red;' : ''}"></option>
                                                         </th:block>
                                                     </select>
                                                     <input style="display: none; margin-top: 10px; padding: 2px;" type="text" class="form-control" id="otherItem" name="other_item" placeholder=" Enter Other Product Name">

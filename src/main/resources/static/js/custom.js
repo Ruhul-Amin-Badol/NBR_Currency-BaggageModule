@@ -63,7 +63,7 @@ $(document).ready(function() {
 
 $(document).ready(function() {
     // Initialize Select2 on the "previous_country" select element
-    $("#productName").select2();
+    // $("#productName").select2();
 });
 
  // Function to toggle the visibility of the additional input box
@@ -239,7 +239,7 @@ $(document).ready(function() {
 
 $(document).ready(function() {
     // Initialize Select2 on the "previous_country" select element
-    $("#productName").select2();
+    // $("#productName").select2();
 });
 
  // Function to toggle the visibility of the additional input box

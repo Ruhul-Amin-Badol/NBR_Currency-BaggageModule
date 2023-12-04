@@ -93,7 +93,7 @@ public class baggageController {
     //------> From show and hide mode<------//
     @GetMapping("/show")
     public String baggageFrom(@RequestParam(required = false, defaultValue = "") String generatedId, Model model) {
-        String sql1 = "SELECT * FROM baggage_item_info";
+        String sql1 = "SELECT * FROM baggage_item_info ORDER BY item_name";
         List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1);
         model.addAttribute("productshow", productshow);
 
@@ -212,12 +212,12 @@ public class baggageController {
         // List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,"approved");
         // model.addAttribute("baggageshow", productshow);
         if(officeCode.equalsIgnoreCase("all")){
-             String sql1 = "SELECT * FROM baggage where status=? ORDER BY id DESC";
-        List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql1,"approved");
+             String sql1 = "SELECT * FROM baggage where status=? and office_code =?";
+        List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql1,"approved",officeCode);
         model.addAttribute("baggageshow", baggageshow);
         }
         else{
-        String sql1 = "SELECT * FROM baggage where status=? AND office_code=? ORDER BY id DESC";
+        String sql1 = "SELECT * FROM baggage where status=? AND office_code=?";
         List<Map<String, Object>> baggageshow = jdbcTemplate.queryForList(sql1,"approved",officeCode);
         model.addAttribute("baggageshow", baggageshow);
         }
@@ -915,149 +915,149 @@ public class baggageController {
              }
     }
     @GetMapping("/insert-payment-history-record")
-         public String insertPaymentHistoryRecord(
-            @RequestParam Long id, // Add a parameter for the unique identifier (id)
-            Model model,
-            @RequestParam("session_token") String Sessiontoken,
-            @RequestParam("status") String status,
-            @RequestParam String msg,
-            @RequestParam String transactionId,
-            @RequestParam String transactionDate,
-            @RequestParam String invoiceNo,
-            @RequestParam String invoiceDate,
-            @RequestParam String brCode,
-            @RequestParam String applicantName,
-            @RequestParam String applicantContactNo,
-            @RequestParam String totalAmount,
-            @RequestParam String paymentStatus,
-            @RequestParam String payMode,
-            @RequestParam String payAmount,
-            @RequestParam String vat,
-            @RequestParam String commission,
-            @RequestParam String scrollNo,
-            Principal principal) {
-
-   
+    public String insertPaymentHistoryRecord(
+       @RequestParam Long id, // Add a parameter for the unique identifier (id)
+       Model model,
+       @RequestParam("session_token") String Sessiontoken,
+       @RequestParam("status") String status,
+       @RequestParam String msg,
+       @RequestParam String transactionId,
+       @RequestParam String transactionDate,
+       @RequestParam String invoiceNo,
+       @RequestParam String invoiceDate,
+       @RequestParam String brCode,
+       @RequestParam String applicantName,
+       @RequestParam String applicantContactNo,
+       @RequestParam String totalAmount,
+       @RequestParam String paymentStatus,
+       @RequestParam String payMode,
+       @RequestParam String payAmount,
+       @RequestParam String vat,
+       @RequestParam String commission,
+       @RequestParam String scrollNo,
+       Principal principal) {
 
 
 
 
-            System.out.println("===============/insert-payment-history-record============");
-            String baggageSql= "SELECT * FROM baggage WHERE id =?";
-
-            Map<String, Object>requestParameters= jdbcTemplate.queryForMap(baggageSql, id);
-            String emailId = (String) requestParameters.get("email");
-            model.addAttribute("reportShow", requestParameters);
-            // String paymentStatus = "Processing";
-            // if(!status.equals("success")){
-            //     paymentStatus=status;
-            // }
-            // String sqlBaggage = "UPDATE baggage SET payment_status=? WHERE id=?";
-            // jdbcTemplate.update(sqlBaggage,paymentStatus,id);
-            String sql1="SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
-            List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,id);
-            Double totalTaxAmount = 0.0;
-            for (Map<String, Object> row : productshow) {
-                String taxAmount = (String) row.get("tax_amount");
-                if (taxAmount != null) {
-                    totalTaxAmount += Double.parseDouble(taxAmount);
-                }
-               
-            }
-            String payment_id= (String)requestParameters.get("payment_id");
-            Integer baggage_id= (Integer)requestParameters.get("id");
-            String officeCode= (String)requestParameters.get("office_code");
-            LocalDateTime currentDateTime = LocalDateTime.now();
 
 
-            PaymentHistory paymentHistory=new PaymentHistory();
+       System.out.println("===============/insert-payment-history-record============");
+       String baggageSql= "SELECT * FROM baggage WHERE id =?";
 
-            paymentHistory.setSessionToken(Sessiontoken);
-            paymentHistory.setStatus(status);
-            paymentHistory.setMsg(msg);
-            paymentHistory.setTransactionId(transactionId);
-            paymentHistory.setTransactionDate(transactionDate);
-            paymentHistory.setInvoiceNo(invoiceNo);
-            paymentHistory.setInvoiceDate(invoiceDate);
-            paymentHistory.setBrCode(brCode);
-            paymentHistory.setApplicantName(applicantName);
-            paymentHistory.setApplicantContactNo(applicantContactNo);
-            paymentHistory.setTotalAmount(totalAmount);
-            paymentHistory.setPaymentStatus(paymentStatus);
-            paymentHistory.setPayMode(payMode);
-            paymentHistory.setPayAmount(payAmount);
-            paymentHistory.setVat(vat);
-            paymentHistory.setCommission(commission);
-            paymentHistory.setScrollNo(scrollNo);
-            paymentHistory.setBaggageId(id);
-            paymentHistory.setPaymentId(payment_id);
-            paymentHistory.setOfficeCode(officeCode);
-            paymentHistory.setPaidAmount(Double.parseDouble(totalAmount));
+       Map<String, Object>requestParameters= jdbcTemplate.queryForMap(baggageSql, id);
+       String emailId = (String) requestParameters.get("email");
+       model.addAttribute("reportShow", requestParameters);
+       // String paymentStatus = "Processing";
+       // if(!status.equals("success")){
+       //     paymentStatus=status;
+       // }
+       // String sqlBaggage = "UPDATE baggage SET payment_status=? WHERE id=?";
+       // jdbcTemplate.update(sqlBaggage,paymentStatus,id);
+       String sql1="SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
+       List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,id);
+       Double totalTaxAmount = 0.0;
+       for (Map<String, Object> row : productshow) {
+           String taxAmount = (String) row.get("tax_amount");
+           if (taxAmount != null) {
+               totalTaxAmount += Double.parseDouble(taxAmount);
+           }
+          
+       }
+       String payment_id= (String)requestParameters.get("payment_id");
+       Integer baggage_id= (Integer)requestParameters.get("id");
+       String officeCode= (String)requestParameters.get("office_code");
+       LocalDateTime currentDateTime = LocalDateTime.now();
 
-            paymentHistoryService.insertPaymehistory(paymentHistory);
+
+       PaymentHistory paymentHistory=new PaymentHistory();
+
+       paymentHistory.setSessionToken(Sessiontoken);
+       paymentHistory.setStatus(status);
+       paymentHistory.setMsg(msg);
+       paymentHistory.setTransactionId(transactionId);
+       paymentHistory.setTransactionDate(transactionDate);
+       paymentHistory.setInvoiceNo(invoiceNo);
+       paymentHistory.setInvoiceDate(invoiceDate);
+       paymentHistory.setBrCode(brCode);
+       paymentHistory.setApplicantName(applicantName);
+       paymentHistory.setApplicantContactNo(applicantContactNo);
+       paymentHistory.setTotalAmount(totalAmount);
+       paymentHistory.setPaymentStatus(paymentStatus);
+       paymentHistory.setPayMode(payMode);
+       paymentHistory.setPayAmount(payAmount);
+       paymentHistory.setVat(vat);
+       paymentHistory.setCommission(commission);
+       paymentHistory.setScrollNo(scrollNo);
+       paymentHistory.setBaggageId(id);
+       paymentHistory.setPaymentId(payment_id);
+       paymentHistory.setOfficeCode(officeCode);
+       paymentHistory.setPaidAmount(Double.parseDouble(totalAmount));
+
+       paymentHistoryService.insertPaymehistory(paymentHistory);
 
 
 
-        //     System.out.println("currentDateTime=============================="+currentDateTime);
-        //     try (Connection connection = jdbcTemplate.getDataSource().getConnection();
-        //     PreparedStatement preparedStatement = connection.prepareStatement(
-        //             "INSERT INTO payment_history (baggage_id,paid_amount, payment_id,payment_date,session_token,status,office_code) VALUES (?,?,?,?,?,?,?)"
-        //     )) {
-        //     //System.out.println("totalTaxAmount=============================================="+totalTaxAmount);
-        //    preparedStatement.setInt(1, baggage_id);
-        //    preparedStatement.setDouble(2, totalTaxAmount);
-        //    preparedStatement.setString(3, payment_id);
-        //    preparedStatement.setTimestamp(4, Timestamp.valueOf(currentDateTime));
-        //    preparedStatement.setString(5,Sessiontoken );
-        //    preparedStatement.setString(6, status);
-        //    preparedStatement.setString(7, officeCode);
+   //     System.out.println("currentDateTime=============================="+currentDateTime);
+   //     try (Connection connection = jdbcTemplate.getDataSource().getConnection();
+   //     PreparedStatement preparedStatement = connection.prepareStatement(
+   //             "INSERT INTO payment_history (baggage_id,paid_amount, payment_id,payment_date,session_token,status,office_code) VALUES (?,?,?,?,?,?,?)"
+   //     )) {
+   //     //System.out.println("totalTaxAmount=============================================="+totalTaxAmount);
+   //    preparedStatement.setInt(1, baggage_id);
+   //    preparedStatement.setDouble(2, totalTaxAmount);
+   //    preparedStatement.setString(3, payment_id);
+   //    preparedStatement.setTimestamp(4, Timestamp.valueOf(currentDateTime));
+   //    preparedStatement.setString(5,Sessiontoken );
+   //    preparedStatement.setString(6, status);
+   //    preparedStatement.setString(7, officeCode);
 
-        //    preparedStatement.executeUpdate();
-        //     } catch (SQLException e) {
-        //         e.printStackTrace();
-        //     }
+   //    preparedStatement.executeUpdate();
+   //     } catch (SQLException e) {
+   //         e.printStackTrace();
+   //     }
 
-        String paymentStatus1 = "Paid";
-        String sqlBaggage = "UPDATE baggage_product_add SET payment_status=? WHERE payment_id=?";
-        jdbcTemplate.update(sqlBaggage,paymentStatus1,payment_id);
+   String paymentStatus1 = "Paid";
+   String sqlBaggage = "UPDATE baggage_product_add SET payment_status=? WHERE payment_id=?";
+   jdbcTemplate.update(sqlBaggage,paymentStatus1,payment_id);
 
-            String link="/baggagestart/confrimPage?id="+id;
+       String link="/baggagestart/confrimPage?id="+id;
 
-            Context context = new Context();
-            context.setVariable("passengerName", requestParameters.get("passenger_name"));
-            context.setVariable("totalTaxAmount", totalTaxAmount);
-            context.setVariable("link", link);  
-            try {
-                // Double totalPaidAmount = 0.0;
-                 String gmail = (String) requestParameters.get("email");
-             
-                 String baggage_Sql = "SELECT * FROM baggage WHERE id =?";
-                 Map<String, Object> baggageQuery = jdbcTemplate.queryForMap(baggage_Sql, id);
-             
- 
-                 String baggageProductAddJoin = "SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
-                 List<Map<String, Object>> allProductQuery = jdbcTemplate.queryForList(baggageProductAddJoin, id);
-             
-                 List<String> includedFields = Arrays.asList("passenger_name","entry_point","flight_no","passport_number");
-               //  List<String> includedFields = Arrays.asList("id","item_id","payment_id"); // Replace with your actual field names
-                 List<Object> rowData = new ArrayList<>(allProductQuery);
-                 rowData.add(baggageQuery);
-             
-                 byte[] pdfData = pdfGenerationService.generatePdf(allProductQuery,rowData, includedFields,totalTaxAmount,id);
-             
-                 HttpHeaders headers = new HttpHeaders();
-                 headers.setContentType(MediaType.APPLICATION_PDF);
-                 headers.setContentDispositionFormData("inline", "NBR_baggage_declaration.pdf");
-             
-                 emailService.sendEmailWithAttachment(gmail, "NBR Baggage Declaration", "Body", pdfData, "nbr_baggage_application.pdf");
-             } catch (IOException e) {
-                 e.printStackTrace();
-             }
-  
-            model.addAttribute("showProduct", productshow);
-            
-              return "redirect:/baggagestart/confrimPage?id="+id;
+       Context context = new Context();
+       context.setVariable("passengerName", requestParameters.get("passenger_name"));
+       context.setVariable("totalTaxAmount", totalTaxAmount);
+       context.setVariable("link", link);  
+       try {
+           // Double totalPaidAmount = 0.0;
+            String gmail = (String) requestParameters.get("email");
+        
+            String baggage_Sql = "SELECT * FROM baggage WHERE id =?";
+            Map<String, Object> baggageQuery = jdbcTemplate.queryForMap(baggage_Sql, id);
+        
+
+            String baggageProductAddJoin = "SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
+            List<Map<String, Object>> allProductQuery = jdbcTemplate.queryForList(baggageProductAddJoin, id);
+        
+            List<String> includedFields = Arrays.asList("passenger_name","entry_point","flight_no","passport_number");
+          //  List<String> includedFields = Arrays.asList("id","item_id","payment_id"); // Replace with your actual field names
+            List<Object> rowData = new ArrayList<>(allProductQuery);
+            rowData.add(baggageQuery);
+        
+            byte[] pdfData = pdfGenerationService.generatePdf(allProductQuery,rowData, includedFields,totalTaxAmount,id);
+        
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_PDF);
+            headers.setContentDispositionFormData("inline", "NBR_baggage_declaration.pdf");
+        
+            emailService.sendEmailWithAttachment(gmail, "NBR Baggage Declaration", "Body", pdfData, "nbr_baggage_application.pdf");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
+       model.addAttribute("showProduct", productshow);
+       
+         return "redirect:/baggagestart/confrimPage?id="+id;
+   }
         
 
         @GetMapping("/takePaymentRequest/{id}/")
@@ -1202,7 +1202,7 @@ public class baggageController {
         requestData.put("referenceInfo", Map.of(
                 "InvoiceNo", payment_id,
                 "invoiceDate", formattedDate,
-                "returnUrl", "http://localhost:8080/baggagestart/takePaymentRequest/"+id+"/",
+                "returnUrl", "http://13.232.110.60:8080/baggagestart/takePaymentRequest/"+id+"/",
                 "totalAmount", total_tax,
                 "applicentName", passenger_name,
                 "applicentContactNo", cellular_phone,
@@ -1606,10 +1606,13 @@ public String currencApproveUpdate(@RequestParam int id, @RequestParam String st
 
 
        return "redirect:/baggageshow/baggagetotal";
-}
+}   //for baggage reject list 
+  
 
-    //for baggage reject list 
-    @PostMapping("/baggage_reject_update")
+
+
+
+@PostMapping("/baggage_reject_update")
     public String currencRejectUpdate(@RequestParam int id, @RequestParam String status, @RequestParam String confNote, @RequestParam String page_route, Principal principal) {
 
         String username = principal.getName();
