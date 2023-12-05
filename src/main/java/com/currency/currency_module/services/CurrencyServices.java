@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -145,10 +147,26 @@ public class CurrencyServices {
                 .orElseThrow(() -> new EntityNotFoundException("Currency Declaration not found"));
     
         // Update the properties of the existing entity with the updated data
+
+        Long currencyId = updatedapproveCurrencyDeclaration.getId();
+        SimpleDateFormat dateFormatForInvoice = new SimpleDateFormat("ddMMYY");
+        String invoiceDate = dateFormatForInvoice.format(new Date());
+  
+        String autoincrementIdAsString = String.format("%07d", currencyId);
+        String invoiceId = invoiceDate + autoincrementIdAsString;
+
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Adjust format as needed
+        String approveDate = dateFormat.format(new Date());
+
+
         existingCurrencyDeclaration.setEntryBy(usernameSession);
 
         existingCurrencyDeclaration.setConfNote(updatedapproveCurrencyDeclaration.getConfNote());
         existingCurrencyDeclaration.setStatus("checked");
+        existingCurrencyDeclaration.setApproveDate(approveDate);
+        existingCurrencyDeclaration.setInvoice(invoiceId);
+
     
         // Save the updated entity back to the database
        
@@ -161,21 +179,6 @@ public class CurrencyServices {
                  headers.setContentDispositionFormData("inline", "NBR_Currency_declaration.pdf");
 
                  emailService.sendEmailWithAttachment(existingCurrencyDeclaration.getEmail(), "NBR Currency Declaration", "Body", pdfData, "nbr_Currency_application.pdf");
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         currencyDeclarationRepository.save(existingCurrencyDeclaration);
     }//

@@ -94,8 +94,8 @@
             <td colspan="8" ‍align="center">
                 <p class="p b ft-30" align="center" style="margin-right:-30%;">বৈদেশিক মুদ্রা ঘোষণা ফরম</p>
                 <p class="p ft-25" align="center" style="margin-right:-30%;">(Foreign Exchange Declaration Form)</p>
-                <br>
-                <p class="b">    Invoice No :    <span th:text="${invoiceNo}"></span></p>
+              
+               
             </td>
 
             <td colspan="6">
@@ -289,14 +289,14 @@
             <tr>
                 <td colspan="6" class="pt">
                     <p class="p b" align="left">[Signature of Customs Official]</p>
-                    <p class="p" align="left">(Signature of Customs Official): </p>
-                    <p class="p" align="left">[Date]</p>
+                 
+                    <p class="p" align="left">Approve Date</p>
                 </td>
                 <td colspan="6" class="pt">
-                    <p class="fw-bold p b" align="right" th:text="${Currency.passengerName}"></p>
-                    <p class="p b" align="right">[Signature of Declarant]</p>
-                    <p class="p" align="right">Signature of Declarant:</p>
-                    <p class="p" align="right">[Date]</p>
+                    <span class="fw-bold" th:text="${Currency.passengerName}"></span>
+                    <p class="p b" align="left">[Signature of Declarant]</p>
+                  
+                    <p class="b">    Submit Date :    <span th:text="${Currency.applicationSubmitDate}"></span></p>
                 </td>
             </tr>
 

@@ -330,21 +330,22 @@
                     name="profession"
                     id="profession"
                     required>
+                    <option value ="">--Please Select--</option>
                     <option value="immigrant">Immigrant</option>
-                    <option value="Export-Import Managers">Export-Import Managers</option>
-                    <option value="Textile and Garment Industry Workers">Textile and Garment Industry Workers</option>
+                    <option value="Banker">Banker</option>
+                    <option value="Professor/Teacher">Professor/Teacher</option>
                     <option value="Software Developers">Software Developers</option>
-                    <option value="Tour Guides">Tour Guides</option>
-                    <option value="Agricultural Export Coordinators">Agricultural Export Coordinators</option>
-                    <option value="Remittance Service Providers">Remittance Service Providers</option>
+                    <option value="NRB">NRB</option>
+                    <option value="Gov service">Gov service</option>
+                    <option value="Doctor">Doctor</option>
                     <option value="Financial Analysts">Financial Analysts</option>
-                    <option value="Renewable Energy Engineers">Renewable Energy Engineers</option>
-                    <option value="Call Center Representatives">Call Center Representatives</option>
-                    <option value="E-commerce Professionals">E-commerce Professionals</option>
-                    <option value="Medical Professionals in Medical Tourism">Medical Professionals in Medical Tourism</option>
-                    <option value="Manufacturing Workers">Manufacturing Workers</option>
-                    <option value="Tour Operators">Tour Operators</option>
-                    <option value="Infrastructure Development Engineers">Infrastructure Development Engineers</option>
+                    <option value="Engineers">Engineers</option>
+                    <option value="Journalists">Journalists</option>
+                    <option value="Student">Student</option>
+                    <option value="Medical Professionals">Medical Professionals </option>
+                    <option value="Pilot">Pilot</option>
+                    <option value="Business man">Business man</option>
+                    <option value="Celebrities">Celebrities</option>
                     <option value="Other">Other</option>
                   </select>
                 </div> 
@@ -464,12 +465,13 @@
                   <label
                     for="stayTimeAbroad"
                     class="form-label"
-                    id="stayTimeAbroad">Duration Of Stay In Abroad</label>
+                    id="stayTimeAbroad">Duration Of Stay In Abroad(Days)</label><span
+                    class="astrick">*</span>
                   <input
-                    type="text"
+                    type="number"
                     class="form-control"
                     id="stayTimeAbroad"
-                    name="stayTimeAbroad" />
+                    name="stayTimeAbroad" placeholder="number of days" required/>
                 </div>
 
                 <div class="mb-3">
@@ -638,13 +640,14 @@
                 </div>
 
                 <div class="mb-3">
-                  <label for="email" class="form-label" id="emailLabel">Email</label>
+                  <label for="email" class="form-label" id="emailLabel">Email</label><span
+                  class="astrick">*</span>
                   <input
                     type="email"
                     class="form-control"
                     id="example1"
                     name="email"
-                    placeholder="Enter Your Email" />
+                    placeholder="Enter Your Email" required/>
                 </div>
               </div>
               <div class="d-flex justify-content-center" id="unaccompaniedDiv">
