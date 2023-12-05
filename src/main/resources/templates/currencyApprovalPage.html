@@ -6,6 +6,31 @@
     margin-right: 10px; /* Add some spacing between the buttons */
     text-align: right;
 }
+.loader {
+    
+    /* visibility: hidden; */
+   
+    z-index: 40;
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    border: 5px solid #FFF;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+    scale: 0.5;
+    }
+
+    @keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+    } 
 </style>
 
 <style type="text/css">
@@ -83,14 +108,16 @@
         font-size: 14px;
     }
 </style>
+<script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
 </head>
 <body style="font-family: Tahoma, Geneva, sans-serif; background-color: white !important;">
+<div id="loaderselect" style="display: none; position:fixed; border-radius: 13px; height: 300px; width: 300px; background-color: rgb(216, 197, 197); z-index: 30; top:50%; left: 50%; transform: translate(-50%,-50%);"><span class="loader" style="top:40%; left: 43%; transform: translate(-50%,-50%);"></span></div>
 
 <div class="page_brack" id="pagebrack" >
 
     <div class="d-flex gap-2 py-3">
-        <button type="button" class="btn btn-primary print-button" onclick="printPage()">Print</button>
-    <a href="/baggagestart/show"><button type="button" class="btn btn-primary print-button" >Go Back</button></a>
+        <button id="printbutton" type="button" class="btn btn-primary print-button" onclick="printPage()">Print</button>
+    <a href="/baggagestart/show"><button id="gobackbutton" type="button" class="btn btn-primary print-button" >Go Back</button></a>
     </div>
 
     <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center">
@@ -308,7 +335,9 @@
 
     </table>
     
-    <div class="d-flex justify-content-center" id="qrcode"> </div>
+    
+    <div style="margin-left: 45%; margin-top: 5%;" id="qrcode"></div>
+
     
  
  
@@ -321,12 +350,16 @@
                     <button id="toggleButton1" onclick="showDiv170()" class="btn btn-danger">Edit</button>
                 </div>
             </div>
-            <div class="button-container">
+            <!-- <div class="button-container">
                 <div th:if="${Currency.status != 'checked'}">
                     <button id="toggleButton" onclick="showDiv()" class="btn btn-success">Approved</button>
                 </div>
-            </div>
+            </div> -->
             <div class="button-container">
+                <div >
+                    <!-- <span class="loader"></span> -->
+                    <button id="toggleButtorrrn" onclick="generateAndSendPDF()" class="btn btn-success">Approved</button>
+                </div>
             </div>
         </div>
         <br><br><br>
@@ -342,7 +375,7 @@
                 <div class="input-group">
                     <div class="">
                         <input th:value="${page}" id="page" type="hidden" name="page">
-                        <input th:value="${Currency.id}" type="hidden" name="id">
+                        <input th:value="${Currency.id}"  type="hidden" name="id">
                         <input th:value="rejected" type="hidden" name="status">
                         <!-- <label style="font-weight: bold;" for="confNote" class="form-label" >Give the Reason of Rejection</label>
                         <select name="confNote" class="form-control" id="confNote">
@@ -369,7 +402,7 @@
                 <form th:action="@{/currencystart/currenc_approve_update}"  method="post" id="myForm">
                     <div class="input-group">
                         <input th:value="${page}" type="hidden" name="page">
-                        <input th:value="${Currency.id}" type="hidden" name="id">
+                        <input th:value="${Currency.id}" type="hidden" id="cccccccureencyid" name="id">
                         <input th:value="approved" type="hidden" name="status">
                         <textarea name="confNote" class="form-control" id="exampleFormControlTextarea1" placeholder="Write your comment" rows="2" style="width:100%; display: none;"></textarea>
                         <p style="font-weight: bold;">Are you confirm ??</p>
@@ -391,17 +424,143 @@
 
 <script>
 
+
+   
+   function generateAndSendPDF() {
+    document.getElementById("toggleButton1").style.display="none";
+    document.getElementById("loaderselect").style.display="block";
+    document.getElementById("toggleButtorrrn").style.display="none";
+    // document.getElementById("toggleButton").style.display="none";
+    document.getElementById("gobackbutton").style.display="none";
+    document.getElementById("printbutton").style.display="none";
+    const element = document.getElementById("pagebrack");
+            const options = {
+            margin: 0,
+            filename: 'result.pdf',
+            image: { type: 'jpeg', quality: 1 },
+            html2canvas: {
+                backgroundColor: "#fff",
+                scale: window.devicePixelRatio,
+                y: 0,
+                x: 0,
+                scrollY: 0,
+                scrollX: 0,
+                windowWidth: 800,
+            },
+            jsPDF: { unit: 'px', format: [1200, 1600], orientation: 'portrait', precision: 32 }
+            };
+
+    // Generate PDF on the client side
+    html2pdf().set(options).from(element).toPdf().output('blob').then((data) => {
+
+        // console.log(data)
+        // let fileURL = URL.createObjectURL(data);
+        // window.open(fileURL);
+        // Convert the PDF Blob to a FormData object
+        const formData = new FormData();
+        formData.append('pdf', data, 'result.pdf');
+        formData.append('page', 'currencyUnapprove');
+        formData.append('id', document.getElementById("cccccccureencyid").value);
+        formData.append('status', "approved");
+        formData.append('confNote', "ok");
+
+
+
+        // Send the PDF to the server using fetch
+        fetch('/currencystart/currenc_approve_update', {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => {
+            // Handle the server response
+            window.location.href=response.url
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
+// Send the PDF to the server using fetch
+
+});
+}
+
+
+// function generateAndSendPDF() {
+//     document.getElementById("toggleButton1").style.display = "none";
+//     document.getElementById("toggleButton").style.display = "none";
+//     document.getElementById("gobackbutton").style.display = "none";
+//     document.getElementById("printbutton").style.display = "none";
+//     const element = document.getElementById("pagebrack");
+//     const options = {
+//         margin: 0,
+//         filename: 'result.pdf',
+//         image: { type: 'jpeg', quality: 1 },
+//         html2canvas: {
+//             backgroundColor: "#fff",
+//             scale: window.devicePixelRatio,
+//             y: 0,
+//             x: 0,
+//             scrollY: 0,
+//             scrollX: 0,
+//             windowWidth: 800,
+//         },
+//         jsPDF: { unit: 'px', format: [1200, 1600], orientation: 'portrait', precision: 32 }
+//     };
+
+//     // Generate PDF on the client side
+//     html2pdf().set(options).from(element).toPdf().output('blob').then((data) => {
+//         console.log(data);
+
+//         // Create a form element dynamically
+//         const form = document.createElement('form');
+//         form.method = 'POST';
+//         form.action = '/testpdf'; // Replace with your form action URL
+
+//         // Append a hidden input field with the FormData
+//         const formDataInput = document.createElement('input');
+//         formDataInput.type = 'hidden';
+//         formDataInput.name = 'pdf';
+//         formDataInput.value = data; // Assuming data is the FormData
+
+//         form.appendChild(formDataInput);
+
+//         // Append the form to the document
+//         document.body.appendChild(form);
+
+//         // Submit the form
+//         form.submit();
+
+//         // Remove the form from the document (optional)
+//         document.body.removeChild(form);
+
+//         // Note: The page will reload or navigate to the form's action URL
+//     });
+// }
+
+
+
 function qrcode() {
+
+    var currentURL = window.location.href;
+
+    var qrcode = new QRCode(document.getElementById("qrcode"), {
+	text: currentURL,
+	width: 128,
+	height: 128,
+	colorDark : "#000",
+	colorLight : "#ffffff",
+	correctLevel : QRCode.CorrectLevel.H
+});
           console.log("fahim");
           convertCurrencyToWords();
             // Get the current page's URL
-            var currentURL = window.location.href;
+            // 
 
-            // Generate the QR code using an online service (qr.js)
-            var qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?data=" + encodeURIComponent(currentURL) + "&size=128x128";
+            // // Generate the QR code using an online service (qr.js)
+            // var qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?data=" + encodeURIComponent(currentURL) + "&size=128x128";
             
-            // Display the QR code image
-            $("#qrcode").html('<img src="' + qrCodeUrl + '" alt="QR Code" />');
+            // // Display the QR code image
+            // $("#qrcode").html('<img src="' + qrCodeUrl + '" alt="QR Code" />');
         };
 
     var a = ['','One ','Two ','Three ','Four ', 'Five ','Six ','Seven ','Eight ','Nine ','Ten ','Eleven ','Twelve ','Thirteen ','Fourteen ','Fifteen ','Sixteen ','Seventeen ','Eighteen ','Nineteen '];
