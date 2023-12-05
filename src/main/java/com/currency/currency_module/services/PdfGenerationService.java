@@ -58,7 +58,7 @@ public class PdfGenerationService {
 
 
 //for baggage approve 
-public byte[] generatePdf(List<Map<String, Object>>allProductQuery,List<?> rowData, List<String> includedFields, Double totalPaidAmount,Integer id,Principal principal) throws IOException {
+public byte[] generatePdf(List<Map<String, Object>>allProductQuery,List<?> rowData, List<String> includedFields, Double totalPaidAmount,Integer id,Principal principal,String passangerName) throws IOException {
     byte[] imageData = firebaseImage(principal);
     byte[] logo  = firebaselogo("nbr_logo.png");
 
@@ -121,6 +121,68 @@ public byte[] generatePdf(List<Map<String, Object>>allProductQuery,List<?> rowDa
             // Draw the image on the page
             contentStream.drawImage(signature, xSignature, ySignature, widthSignature, heightSignature);
 
+            float xadmin= 60;
+            float yadmin = 90;
+            float widthAdmin= 90;  // Adjust this value based on your image size
+            float heightAdmin = 90; 
+
+           String adminNameText = principal.getName();
+            contentStream.beginText();
+            contentStream.newLineAtOffset(xadmin, yadmin);
+            contentStream.showText(adminNameText);
+            contentStream.endText();
+            widthAdmin = heightAdmin; 
+
+            float xSign= 60;
+            float ySign = 70;
+            float widthSign= 80;  // Adjust this value based on your image size
+            float heightSign = 70; 
+
+           String signatureText = "[Signature of Customs Official]";
+            contentStream.setLineWidth(2.5f);  
+            contentStream.moveTo(xSign, ySign + 13);  
+            contentStream.lineTo(xSign + widthSign, ySign + 13); 
+            contentStream.stroke();
+
+            contentStream.beginText();
+            contentStream.newLineAtOffset(xSign, ySign);
+            contentStream.showText(signatureText);
+            contentStream.endText();
+            widthSign = heightSign; 
+           
+            float xusersign= 450;
+            float yusersign = 90;
+            float widthUserSign= 90;  // Adjust this value based on your image size
+            float heightUserSign = 90; 
+
+           String userSignNameText = passangerName;
+            contentStream.beginText();
+            contentStream.newLineAtOffset(xusersign, yusersign);
+            contentStream.showText(userSignNameText);
+            contentStream.endText();
+            widthUserSign = heightUserSign; 
+
+
+            float xuser= 450;
+            float yuser = 70;
+            float widthUser= 90;  // Adjust this value based on your image size
+            float heightUser = 90; 
+
+           String userNameText = "[Signature of Declarant]";
+
+            contentStream.setLineWidth(2.5f);  
+            contentStream.moveTo(xuser, yuser + 13);  
+            contentStream.lineTo(xuser + widthUser, yuser + 13); 
+            contentStream.stroke();
+
+            contentStream.beginText();
+            contentStream.newLineAtOffset(xuser, yuser);
+            contentStream.showText(userNameText);
+            contentStream.endText();
+            widthUser = heightUser; 
+
+
+            
             // Generate QR code
 
             
@@ -411,8 +473,8 @@ public byte[] firebaseImageSignature(String usernameSession){
 
                 // String qrCodeText = "(Scan to View all)";
                 // contentStream.beginText();
-                // contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 10); 
-                // contentStream.newLineAtOffset(xQRCode, yQRCode-8); 
+                // contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 10); // Adjust font size if needed
+                // contentStream.newLineAtOffset(xQRCode, yQRCode-8); // Adjust the Y-coordinate for the text
                 // contentStream.showText(qrCodeText);
                 // contentStream.endText();
 
@@ -671,9 +733,12 @@ public byte[] generatePdfCurrency(CurrencyDeclaration currencyDeclaration, List<
                     yTable -= tableHeight; // Adjust the Y-coordinate for the next row
                 }
                 
+
+
+
             // Set the position and size of the QR code image
             float xQRCode = 280;
-            float yQRCode = 45;
+            float yQRCode = 50;
             float widthQRCode = 100;  // Adjust this value based on your QR code image size
             float heightQRCode = 100;  // Adjust this value based on your QR code image size
 

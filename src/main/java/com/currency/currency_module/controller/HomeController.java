@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,12 +23,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.currency.currency_module.AirportInformation;
 import com.currency.currency_module.model.UserActivityManagement;
 import com.currency.currency_module.services.AirportService;
+import com.currency.currency_module.services.EmailService;
 import com.currency.currency_module.services.UserActivityManagementService;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -44,11 +48,44 @@ public class HomeController {
    AirportInformation airportInformation;
     @Autowired
     AirportService airportService;
+    @Autowired
+    EmailService emailService;
    
    
    @Autowired
    HttpSession httpSession;
 
+ 
+   @PostMapping("/testpdf")
+  
+   public String handlePDFUpload(@RequestParam("pdf") MultipartFile pdfFile) {
+
+    String filename = pdfFile.getOriginalFilename();
+    System.out.println("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"+pdfFile.getSize() );
+       // You can now access the uploaded PDF file using the pdfFile parameter
+       if (!pdfFile.isEmpty()) {
+           try {
+               HttpHeaders headers = new HttpHeaders();
+               headers.setContentType(MediaType.APPLICATION_PDF);
+               headers.setContentDispositionFormData("inline", "NBR_baggage_declaration.pdf");
+   
+               // Convert MultipartFile to byte[]
+               byte[] pdfData = pdfFile.getBytes();
+   
+               // Replace "YOUR_EMAIL_HERE" with the actual recipient email address
+               emailService.sendEmailWithAttachment("fahimfoysal177@gmail.com", "NBR Baggage Declaration", "Body", pdfData, "nbr_baggage_application.pdf");
+               
+   
+               return "redirect:/index1";
+           } catch (Exception e) {
+               e.printStackTrace();
+               return "Error uploading PDF.";
+           }
+       } else {
+           return "PDF file is empty.";
+       }
+   }
+   
     @GetMapping("/signin") 
     public String login() {
         return "login";

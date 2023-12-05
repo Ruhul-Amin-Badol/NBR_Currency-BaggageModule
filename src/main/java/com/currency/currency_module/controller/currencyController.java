@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
@@ -233,7 +234,7 @@ public class currencyController {
          model.addAttribute("Currency",currencyServices.findcurrency(id));
           model.addAttribute("invoiceNo",invoiceId);
         
-
+            
        return "currencyViewconfirm";
     }
 
@@ -273,10 +274,10 @@ public class currencyController {
     public String unapproveCurrency(Model model,Principal principal){
         String officeCode= airportInformation.getEntryPoint(principal);
         if(officeCode.equalsIgnoreCase("all")){
-        List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatus("unchecked");      
+        List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatusOrderByIdDesc("unchecked");      
         model.addAttribute("unapproveCurrency",listCurrencyDeclaration);
         }else{
-        List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatusAndEntryPoint("unchecked",officeCode);      
+        List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatusAndEntryPointOrderByIdDesc("unchecked",officeCode);      
         model.addAttribute("unapproveCurrency",listCurrencyDeclaration);
         }
         return "currency_unapprove";
@@ -286,10 +287,10 @@ public class currencyController {
     public String approveCurrency(Model model, Principal principal){
         String officeCode= airportInformation.getEntryPoint(principal);
         if(officeCode.equalsIgnoreCase("all")){
-            List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatus("checked");
+            List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatusOrderByIdDesc("checked");
             model.addAttribute("approveCurrency",listCurrencyDeclaration);
         }else{
-            List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatusAndEntryPoint("checked",officeCode);
+            List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findByStatusAndEntryPointOrderByIdDesc("checked",officeCode);
             model.addAttribute("approveCurrency",listCurrencyDeclaration);
         }
         
@@ -313,10 +314,10 @@ public class currencyController {
         String officeCode=airportInformation.getEntryPoint(principal);
 
         if(officeCode.equalsIgnoreCase("all")){
-            List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findAll();
+            List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findAllByOrderByIdDesc();
             model.addAttribute("currencyTotal",listCurrencyDeclaration);
         }else{
-            List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findAllByEntryPoint(officeCode);
+            List<CurrencyDeclaration> listCurrencyDeclaration = currencyDeclarationRepository.findAllByEntryPointOrderByIdDesc(officeCode);
             model.addAttribute("currencyTotal",listCurrencyDeclaration); 
         }
         return "currency_total";
@@ -377,12 +378,10 @@ public class currencyController {
 //     }
 
     @PostMapping("/currenc_approve_update")
-    public String currencApproveUpdate( Model model,CurrencyDeclaration updatedApproveCurrencyDeclaration,@RequestParam String page, Principal principal) throws IOException {
+    public String currencApproveUpdate( @RequestParam("pdf") MultipartFile pdfFile,CurrencyDeclaration updatedApproveCurrencyDeclaration,@RequestParam String page, Principal principal) throws IOException {
+        System.out.println("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"+pdfFile.getSize() );
         String usernameSession=principal.getName();
-        //String currencyId=principal.getId();
-
-
-        currencyServices.approveCurrencyUpdate(updatedApproveCurrencyDeclaration,usernameSession);
+        currencyServices.approveCurrencyUpdate(updatedApproveCurrencyDeclaration,usernameSession,pdfFile);
 
 
     // Redirect to the edit page with a success message

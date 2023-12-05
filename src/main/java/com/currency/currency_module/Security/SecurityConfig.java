@@ -152,6 +152,7 @@ public static class App4ConfigurationAdapter {
                .requestMatchers(HttpMethod.GET, "/baggagestart/confrimPage").permitAll()
                .requestMatchers(HttpMethod.POST, "/baggagestart/baggageUpdate").permitAll()
                .requestMatchers(HttpMethod.POST, "/baggagestart/finalsubmitadmin").permitAll()
+               .requestMatchers(HttpMethod.POST, "/testpdf").permitAll()
                .requestMatchers(HttpMethod.GET, "/baggagestart/baggageRule").permitAll()
 
 
