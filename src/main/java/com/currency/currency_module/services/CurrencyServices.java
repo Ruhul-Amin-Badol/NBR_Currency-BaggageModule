@@ -46,7 +46,7 @@ public class CurrencyServices {
 
    }
 
-    public void currencyUpdate(CurrencyDeclaration updatedCurrencyDeclaration) {
+    public void currencyUpdate(CurrencyDeclaration updatedCurrencyDeclaration,String airportName) {
       System.out.println(updatedCurrencyDeclaration.getId());
         // Retrieve the existing currency declaration by its ID or any unique identifier
         CurrencyDeclaration existingCurrencyDeclaration = currencyDeclarationRepository.findById(updatedCurrencyDeclaration.getId())
@@ -70,11 +70,70 @@ public class CurrencyServices {
         existingCurrencyDeclaration.setFlightNo(updatedCurrencyDeclaration.getFlightNo());
         existingCurrencyDeclaration.setPreviousCountry(updatedCurrencyDeclaration.getPreviousCountry());
         existingCurrencyDeclaration.setStayTimeAbroad(updatedCurrencyDeclaration.getStayTimeAbroad());
+        existingCurrencyDeclaration.setOfficeCode(updatedCurrencyDeclaration.getOfficeCode());
+        existingCurrencyDeclaration.setEntryPoint(airportName);
         existingCurrencyDeclaration.setStatus("processing");
     
         // Save the updated entity back to the database
         currencyDeclarationRepository.save(existingCurrencyDeclaration);
     }
+
+
+    //for final submit   @PostMapping("/finalsubmit")
+    public void currencyUpdate(CurrencyDeclaration updatedCurrencyDeclaration) {
+        // Retrieve the existing currency declaration by its ID or any unique identifier
+        CurrencyDeclaration existingCurrencyDeclaration = currencyDeclarationRepository.findById(updatedCurrencyDeclaration.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Currency Declaration not found"));
+    
+        // Update the properties of the existing entity with the updated data
+         if(updatedCurrencyDeclaration.getNationality().equals("Other")){
+        updatedCurrencyDeclaration.setNationality(updatedCurrencyDeclaration.getOtherNationality());
+           }
+        existingCurrencyDeclaration.setPassengerName(updatedCurrencyDeclaration.getPassengerName());
+        existingCurrencyDeclaration.setPassportNumber(updatedCurrencyDeclaration.getPassportNumber());
+        existingCurrencyDeclaration.setPassportIssueDate(updatedCurrencyDeclaration.getPassportIssueDate());
+        existingCurrencyDeclaration.setPassportIssuePlace(updatedCurrencyDeclaration.getPassportIssuePlace());
+        existingCurrencyDeclaration.setNationality(updatedCurrencyDeclaration.getNationality());
+        existingCurrencyDeclaration.setProfession(updatedCurrencyDeclaration.getProfession());
+        existingCurrencyDeclaration.setContactNo(updatedCurrencyDeclaration.getContactNo());
+        existingCurrencyDeclaration.setEmail(updatedCurrencyDeclaration.getEmail());
+        existingCurrencyDeclaration.setAddressInBangladesh(updatedCurrencyDeclaration.getAddressInBangladesh());
+        existingCurrencyDeclaration.setDateOfArrival(updatedCurrencyDeclaration.getDateOfArrival());
+        existingCurrencyDeclaration.setOtherProfession(updatedCurrencyDeclaration.getOtherProfession());
+        existingCurrencyDeclaration.setFlightNo(updatedCurrencyDeclaration.getFlightNo());
+        existingCurrencyDeclaration.setPreviousCountry(updatedCurrencyDeclaration.getPreviousCountry());
+        existingCurrencyDeclaration.setStayTimeAbroad(updatedCurrencyDeclaration.getStayTimeAbroad());
+        existingCurrencyDeclaration.setOfficeCode(updatedCurrencyDeclaration.getOfficeCode());
+        // existingCurrencyDeclaration.setEntryPoint(airportName);
+        existingCurrencyDeclaration.setStatus("processing");
+    
+        // Save the updated entity back to the database
+        currencyDeclarationRepository.save(existingCurrencyDeclaration);
+    }
+
+
+    
+
+    //for For update invoice and status   @PostMapping("/currencystart/currencyConfirmInvoice")
+
+    public void currencyStatusInvoiceUpdate(CurrencyDeclaration updatedCurrencyDeclaration,String invoiceId) {
+      System.out.println(updatedCurrencyDeclaration.getId());
+        // Retrieve the existing currency declaration by its ID or any unique identifier
+        CurrencyDeclaration existingCurrencyDeclaration = currencyDeclarationRepository.findById(updatedCurrencyDeclaration.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Currency Declaration not found"));
+    
+        // Update the properties of the existing entity with the updated data
+         if(updatedCurrencyDeclaration.getNationality().equals("Other")){
+        updatedCurrencyDeclaration.setNationality(updatedCurrencyDeclaration.getOtherNationality());
+           }
+        existingCurrencyDeclaration.setInvoice(invoiceId);
+        existingCurrencyDeclaration.setStatus("processing");
+    
+        // Save the updated entity back to the database
+        currencyDeclarationRepository.save(existingCurrencyDeclaration);
+    }
+
+
 
 
     

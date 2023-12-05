@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +29,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  
 
 import com.currency.currency_module.AirportInformation;
+import com.currency.currency_module.model.AirportList;
 import com.currency.currency_module.model.BaggageCurrencyAdd;
 import com.currency.currency_module.model.CurrencyDeclaration;
 import com.currency.currency_module.repository.CurrencyAddRepository;
@@ -84,10 +86,15 @@ public class currencyController {
     
 
     @PostMapping("/currencyinsert")
-    public String insert(CurrencyDeclaration currencyDeclcuaration) {
-    System.out.println("currencyDeclcuaration======================"+currencyDeclcuaration);
-    Long id=currencyServices.currencyInsert(currencyDeclcuaration).getId();
-    
+    public String insert(@ModelAttribute("currencyDeclaration") CurrencyDeclaration currencyDeclaration) {
+   
+    String officeCode = currencyDeclaration.getOfficeCode();
+
+    AirportList airport =airportService.findAirportByOfficeCode(officeCode);
+    String airportName = airport.getAirPortNames();
+    currencyDeclaration.setEntryPoint(airportName);
+
+    Long id=currencyServices.currencyInsert(currencyDeclaration).getId();
       
         return "redirect:/currencystart/currencyEdit?id="+id;
     }
@@ -95,7 +102,16 @@ public class currencyController {
     @PostMapping("/currencyUpdate")
     public String updateCurrency( CurrencyDeclaration updatedCurrencyDeclaration, RedirectAttributes redirectAttributes) {
     // Perform the update operation using currencyServices
-    currencyServices.currencyUpdate(updatedCurrencyDeclaration);
+
+    String officeCode = updatedCurrencyDeclaration.getOfficeCode();
+    AirportList airport = airportService.findAirportByOfficeCode(officeCode);
+
+    String airportName = airport.getAirPortNames();
+    updatedCurrencyDeclaration.setEntryPoint(airportName);
+
+
+
+    currencyServices.currencyUpdate(updatedCurrencyDeclaration,airportName);
     Long id=updatedCurrencyDeclaration.getId();
  
       
@@ -126,7 +142,6 @@ public class currencyController {
     public String currencyFinalSubmit( CurrencyDeclaration updatedCurrencyDeclaration,Model model){
        currencyServices.currencyUpdate(updatedCurrencyDeclaration);
         
-
        //System.out.println(updatedCurrencyDeclaration.getPassportIssueDate());
         Long id=updatedCurrencyDeclaration.getId();
        // System.out.println(id);
@@ -171,38 +186,51 @@ public class currencyController {
        // System.out.println("Success");
     }
 
+    @PostMapping("/currencyConfirmInvoice")
+    public String confirmInvoice(@RequestParam("CurrencyIdGeneral") Long currencyIdGeneral, Model model) {
+        // Use currencyIdGeneral as needed
+        // For example, perform operations with the provided ID
+    System.out.println("currencyIdGeneral============================"+currencyIdGeneral);
 
-    
-   
-    // @PostMapping("/currencyConfirmInvoice")
-    // public String updateStatusCurrency(@RequestParam Long id, Model model) {
-    //     CurrencyDeclaration currencyDeclaration = currencyServices.findcurrency(id);
-    
-    //     Long currencyId = currencyDeclaration.getId();
-    //     String passportId = currencyDeclaration.getPassportNumber();
-    //     int length = passportId.length();
-    
-    //     // Extract the last four digits
-    //     String passportFourDigits = "";
-    //     if (length >= 4) {
-    //         passportFourDigits = passportId.substring(length - 4);
-    //     }
-    
-    //     String autoincrementIdAsString = String.format("%07d", currencyId);
-    //     SimpleDateFormat yearFormat = new SimpleDateFormat("yy");
-    //     String currentYear = yearFormat.format(new Date());
-    //     String invoiceId = currentYear + passportFourDigits + autoincrementIdAsString;
-    
-    //     currencyDeclaration.setStatus("unchecked");
-    //     currencyDeclarationRepository.save(currencyDeclaration);
-    //     List<BaggageCurrencyAdd> listCurrency = currencyServices.baggageCurrencyList(id);
-    //     model.addAttribute("CurrencyShow", listCurrency);
-    //     model.addAttribute("Currency", currencyServices.findcurrency(id));
-    //     model.addAttribute("invoiceNo", invoiceId);
-    
-    //     return "currencyViewconfirm";
-    // }
 
+    CurrencyDeclaration currencyDeclaration = currencyServices.findcurrency(currencyIdGeneral);
+
+    if (currencyDeclaration != null) {
+        Long currencyId = currencyDeclaration.getId();
+        String passportId = currencyDeclaration.getPassportNumber();
+        int length = passportId.length();
+
+
+        String passportFourDigits = "";
+        if (length >= 4) {
+            passportFourDigits = passportId.substring(length - 4);
+        }
+
+  
+        String autoincrementIdAsString = String.format("%07d", currencyId);
+
+
+        SimpleDateFormat yearFormat = new SimpleDateFormat("yy");
+        String currentYear = yearFormat.format(new Date());
+
+        String invoiceId = currentYear + passportFourDigits + autoincrementIdAsString;
+        currencyDeclaration.setInvoice(invoiceId);
+
+
+       currencyDeclaration.setStatus("unchecked");
+
+        currencyServices.currencyStatusInvoiceUpdate(currencyDeclaration,invoiceId);
+        List<BaggageCurrencyAdd> listcurrency = currencyServices.baggagecurrecylist(currencyIdGeneral);
+
+        // Add attributes to the model
+        model.addAttribute("CurrencyShow", listcurrency);
+        model.addAttribute("Currency", currencyDeclaration);
+        model.addAttribute("invoiceNo", invoiceId);
+
+
+        }
+        return "currencyViewconfirm";
+    }
 
     @GetMapping("/confirmgenaral")
    
@@ -224,8 +252,6 @@ public class currencyController {
             SimpleDateFormat yearFormat = new SimpleDateFormat("yy");
             String currentYear = yearFormat.format(new Date());
             String invoiceId = currentYear + passportFourDigits + autoincrementIdAsString;
-
-       
 
         currencyDeclaration.setStatus("unchecked");
         currencyDeclarationRepository.save(currencyDeclaration);
