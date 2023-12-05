@@ -1467,7 +1467,7 @@ public class baggageController {
                  List<Object> rowData = new ArrayList<>(allProductQuery);
                  rowData.add(baggageQuery);
 
-                 byte[] pdfData = pdfGenerationService.generatePdf(allProductQuery,rowData, includedFields,totalTaxAmount,id);
+                 byte[] pdfData = pdfGenerationService.generatePdfPaymentNotAtThisTime(allProductQuery,rowData, includedFields,totalTaxAmount,id);
 
                  HttpHeaders headers = new HttpHeaders();
                  headers.setContentType(MediaType.APPLICATION_PDF);
