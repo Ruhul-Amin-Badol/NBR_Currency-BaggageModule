@@ -271,22 +271,23 @@
                                         <div class="mb-3">
                                             <label for="profession" class="form-label" id="professionLabel">Profession</label>
                                             <select class="form-select" name="profession" id="profession" required>
-                                            <option th:selected="${currencyDeclaration.profession == 'immigrant'}" value="immigrant">Immigrant</option>
-                                            <option th:selected="${currencyDeclaration.profession == 'Export-Import Managers'}" value="Export-Import Managers">Export-Import Managers</option>
-                                            <option th:selected="${currencyDeclaration.profession == 'Textile and Garment Industry Workers'}" value="Textile and Garment Industry Workers">Textile and Garment Industry Workers</option>
-                                            <option th:selected="${currencyDeclaration.profession == 'Software Developers'}" value="Software Developers">Software Developers</option>
-                                            <option th:selected="${currencyDeclaration.profession == 'Tour Guides'}" value="Tour Guides">Tour Guides</option>
-                                            <option th:selected="${currencyDeclaration.profession == 'Agricultural Export Coordinators'}" value="Agricultural Export Coordinators">Agricultural Export Coordinators</option>
-                                            <option th:selected="${currencyDeclaration.profession == 'Remittance Service Providers'}" value="Remittance Service Providers">Remittance Service Providers</option>
-                                            <option th:selected="${currencyDeclaration.profession == 'Financial Analysts'}" value="Financial Analysts">Financial Analysts</option>
-                                            <option th:selected="${currencyDeclaration.profession == 'Renewable Energy Engineers'}" value="Renewable Energy Engineers">Renewable Energy Engineers</option>
-                                            <option th:selected="${currencyDeclaration.profession == 'Call Center Representatives'}" value="Call Center Representatives">Call Center Representatives</option>
-                                            <option th:selected="${currencyDeclaration.profession == 'E-commerce Professionals'}" value="E-commerce Professionals">E-commerce Professionals</option>
-                                            <option th:selected="${currencyDeclaration.profession == 'Medical Professionals in Medical Tourism'}" value="Medical Professionals in Medical Tourism">Medical Professionals in Medical Tourism</option>
-                                            <option th:selected="${currencyDeclaration.profession == 'Manufacturing Workers'}" value="Manufacturing Workers">Manufacturing Workers</option>
-                                            <option th:selected="${currencyDeclaration.profession == 'Tour Operators'}" value="Tour Operators">Tour Operators</option>
-                                            <option th:selected="${currencyDeclaration.profession == 'Infrastructure Development Engineers'}" value="Infrastructure Development Engineers">Infrastructure Development Engineers</option>
-                                            <option th:selected="${currencyDeclaration.profession == 'Other'}" value="Other">Other</option>
+                                                <option value="">--Please Select--</option>
+                                                <option th:selected="${currencyDeclaration.profession == 'immigrant'}" value="immigrant">Immigrant</option>
+                                                <option th:selected="${currencyDeclaration.profession == 'Banker'}" value="Banker">Banker</option>
+                                                <option th:selected="${currencyDeclaration.profession == 'Professor/Teacher'}" value="Professor/Teacher">Professor/Teacher</option>
+                                                <option th:selected="${currencyDeclaration.profession == 'Software Developers'}" value="Software Developers">Software Developers</option>
+                                                <option th:selected="${currencyDeclaration.profession == 'NRB'}" value="NRB">NRB</option>
+                                                <option th:selected="${currencyDeclaration.profession == 'Gov service'}" value="Gov service">Gov service</option>
+                                                <option th:selected="${currencyDeclaration.profession == 'Doctor'}" value="Doctor">Doctor</option>
+                                                <option th:selected="${currencyDeclaration.profession == 'Financial Analysts'}" value="Financial Analysts">Financial Analysts</option>
+                                                <option th:selected="${currencyDeclaration.profession == 'Engineers'}" value="Engineers">Engineers</option>
+                                                <option th:selected="${currencyDeclaration.profession == 'Journalists'}" value="Journalists">Journalists</option>
+                                                <option th:selected="${currencyDeclaration.profession == 'Student'}" value="Student">Student</option>
+                                                <option th:selected="${currencyDeclaration.profession == 'Medical Professionals'}" value="Medical Professionals">Medical Professionals</option>
+                                                <option th:selected="${currencyDeclaration.profession == 'Pilot'}" value="Pilot">Pilot</option>
+                                                <option th:selected="${currencyDeclaration.profession == 'Business man'}" value="Business man">Business man</option>
+                                                <option th:selected="${currencyDeclaration.profession == 'Celebrities'}" value="Celebrities">Celebrities</option>
+                                                <option th:selected="${currencyDeclaration.profession == 'Other'}"value="Other">Other</option>
                                             </select>
                                         </div>
                                         <div class="mb-3" id="otherprofession" style="display: none">
@@ -781,7 +782,7 @@
                                 <!-- table 2nd start table2currency -->
                                 <div id="table2currency">
                                 <table id="currencyajaxtable"class="table table-bordered ">
-                                    <thead class="bg-danger">
+                                    <thead style="background-color: rgba(96, 204, 69, 0.952);">
                                         <tr>
                                             <th scope="col">Description Of Currency</th>
                                             <th scope="col">Note Type</th>                                    
