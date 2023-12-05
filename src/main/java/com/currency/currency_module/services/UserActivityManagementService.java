@@ -118,7 +118,10 @@ public class UserActivityManagementService {
         return userActivityManagementRepository.findById(userId)
         .orElseThrow(() -> new ResourceNotFound("User not found with id: " + userId));
     }
-
+    public UserActivityManagement getUserByUserName(String userName) {
+        return userActivityManagementRepository.findByUsername(userName)
+        .orElseThrow(() -> new ResourceNotFound("User not found with id: " + userName));
+    }
     public void deleteUserById(Long userId) {
         if (!userActivityManagementRepository.existsById(userId)) {
             throw new ResourceNotFound("User not found with id: " + userId);

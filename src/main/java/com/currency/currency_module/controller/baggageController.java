@@ -248,10 +248,11 @@ public class baggageController {
             System.out.println(airportname);
 
 
-
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Adjust format as needed
+            String applicationSubmitDate = dateFormat.format(new Date());
 
 // paymentId,
-        String sql = "INSERT INTO baggage (entry_point, passenger_name, passport_number, passport_validity_date,nationality, previous_country, dateofarrival, flight_no, mobile_no, email, accom_no, unaccom_no,meat_products,foreign_currency,office_code) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)";
+        String sql = "INSERT INTO baggage (entry_point, passenger_name, passport_number, passport_validity_date,nationality, previous_country, dateofarrival, flight_no, mobile_no, email, accom_no, unaccom_no,meat_products,foreign_currency,office_code,application_submit_date) VALUES (?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)";
         long generatedId = -1;
         // Use a try-with-resources block to ensure the resources are properly closed
         try (Connection connection = jdbcTemplate.getDataSource().getConnection();
@@ -280,6 +281,7 @@ public class baggageController {
             preparedStatement.setString(13, " ");
             preparedStatement.setString(14, " ");
             preparedStatement.setString(15, entryPoint);
+            preparedStatement.setString(16, applicationSubmitDate);
 
             // Execute the insert statement
             preparedStatement.executeUpdate();
@@ -877,18 +879,16 @@ public class baggageController {
                 // // try{
                     if(principal != null){
                        
-                   
-       
                     return "redirect:/baggageshow/baggagetotalid?id="+id+"&status=total_baggage";
                      }
                      else{
      
                        
-                   
-                 String baggageSql= "SELECT * FROM baggage WHERE id =?";
-                 
+     
+                 String baggageSql= "SELECT * FROM baggage WHERE id =?";   
                  Map<String, Object>requestParameters= jdbcTemplate.queryForMap(baggageSql, id);
                  model.addAttribute("reportShow", requestParameters);
+
      
                  String sql1="SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
                  List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,id);
@@ -1291,7 +1291,7 @@ public class baggageController {
             }
             
             try {
-                
+
                 // Double totalPaidAmount = 0.0;
                 String gmail = (String) requestParameters.get("email");
 
@@ -1387,10 +1387,16 @@ if(airportname.equalsIgnoreCase("all")){
 @PostMapping("/baggage_approve_update")
 public String currencApproveUpdate(@RequestParam int id, @RequestParam String status, @RequestParam String confNote, @RequestParam String page_route, Principal principal) {
     String paymentStatus = "Paid";
-    String username = principal.getName();
-    String sql = "UPDATE baggage SET status=?, payment_status=?, entry_by=? WHERE id=?";
 
-    jdbcTemplate.update(sql, status, paymentStatus, username, id);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Adjust format as needed
+            String approveDate = dateFormat.format(new Date());
+
+
+
+    String username = principal.getName();
+    String sql = "UPDATE baggage SET status=?, payment_status=?, entry_by=?,approve_date=? WHERE id=?";
+
+    jdbcTemplate.update(sql, status, paymentStatus, username,approveDate, id);
 
         // Handle the case where page_route doesn't match any of the conditions.
             String baggageSql= "SELECT * FROM baggage WHERE id =?";

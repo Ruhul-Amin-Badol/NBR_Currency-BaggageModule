@@ -72,7 +72,19 @@ public class adminController {
     }
 
     @GetMapping("/baggagetotalid")
-    public String baggageById(Model model, @RequestParam("id") Integer id, @RequestParam("status") String page_route) {
+    public String baggageById(Model model, @RequestParam("id") Integer id, @RequestParam("status") String page_route,Principal principal) {
+
+
+
+        String username = principal.getName();  
+
+        String userInfoSql= "SELECT * FROM user_activity_management WHERE username =?";
+       Map<String, Object>userInfo= jdbcTemplate.queryForMap(userInfoSql, username);
+
+       System.out.println("userInfo=================================="+userInfo);
+        model.addAttribute("adminUserInfo", userInfo);
+
+
 
         String sql = "SELECT * FROM baggage WHERE id = ?";
         Map<String, Object> baggageView = jdbcTemplate.queryForMap(sql,id);

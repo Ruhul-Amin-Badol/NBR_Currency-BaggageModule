@@ -114,6 +114,31 @@
          </tbody>
      </table>
 
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" >
+    <tr>
+        <td colspan="6" class="pt">
+           <p th:if="${baggageView.status == 'approved'}"> <img th:src="${adminUserInfo['signature']}"   alt="Signature Image" height="80" width="150"></p>
+            <p class="p" align="left" th:text="${adminUserInfo['fname']}"></p>
+            <p class="p b" align="left">[Signature of Customs Official]</p>
+            <p class="p" align="left" th:if="${baggageView.status == 'approved'}">Approve Date:<span th:text="${baggageView.approve_date}"></span></p>
+        </td>
+        <td colspan="6" class="pt mt-5">
+            <p class="p" align="right" th:text="${baggageView['passenger_name']}"></p>
+            <p class="p b" align="right">[Signature of Declarant]</p>
+            <p class="p" align="right" >Submit date: <span th:text="${baggageView['application_submit_date']}"></span></p>
+        </td>
+    </tr>
+</table>
+
+
+
+
+
+
+
+
+
      <div class="d-flex justify-content-center" id="qrcode"></div>
 
         <div style="text-align: right; margin-right: 30px;">
@@ -198,6 +223,13 @@
             </form>
             </div>
         </div>
+
+
+
+
+
+
+        
 
         <div  id="welcomeDiv"  style="display:none;">
                 <div style="display:flex; justify-content: right; margin-right: 165px; margin-top: -95px;">
