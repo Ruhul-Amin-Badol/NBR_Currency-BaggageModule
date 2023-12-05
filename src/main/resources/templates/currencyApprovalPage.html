@@ -128,7 +128,7 @@
                 <p class="p b ft-30" align="center" style="margin-right:-30%;">বৈদেশিক মুদ্রা ঘোষণা ফরম</p>
                 <p class="p ft-25" align="center" style="margin-right:-30%;">(Foreign Exchange Declaration Form)</p>
 
-                <p class="b"> Invoice Id : <span th:text="${Currency.invoice}"></span></p>
+                <p id="invoiceid" style="display: none;" class="b"> Invoice Id : <span th:text="${Currency.invoice}"></span></p>
             </td>
 
             <td colspan="6"  >
@@ -320,7 +320,7 @@
             </tr>
             <tr>
                 <td colspan="6" class="pt">
-                   <p th:if="${Currency.status == 'checked'}"> <img th:src="${Signature}"   alt="Signature Image" height="80" width="150"></p>
+                   <p id="signatureId" style="display: none;"> <img th:src="${Signature}"   alt="Signature Image" height="80" width="150"></p>
                     <p class="p" align="left" th:text="${UserfullName}"></p>
                     <p class="p b" align="left">[Signature of Customs Official]</p>
                     <p class="p" align="left" th:if="${Currency.status == 'checked'}">Approve Date:<span th:text="${Currency.approveDate}"></span></p>
@@ -328,7 +328,7 @@
                 <td colspan="6" class="pt mt-5">
                     <p class="p" align="right" th:text="${Currency.passengerName}"></p>
                     <p class="p b" align="right">[Signature of Declarant]</p>
-                    <p class="p" align="right" >Submit date: <span th:text="${Currency.applicationSubmitDate}"></span></p>
+                    <p class="p" align="right" >Submit date: <span id="timesubmitid" th:text="${Currency.applicationSubmitDate}"></span></p>
                 </td>
             </tr>
 
@@ -430,7 +430,10 @@
    function generateAndSendPDF() {
     document.getElementById("toggleButton1").style.display="none";
     document.getElementById("loaderselect").style.display="block";
+    document.getElementById("signatureId").style.display="block";
+    document.getElementById("invoiceid").style.display="block";
     document.getElementById("toggleButtorrrn").style.display="none";
+
     // document.getElementById("toggleButton").style.display="none";
     document.getElementById("gobackbutton").style.display="none";
     document.getElementById("printbutton").style.display="none";
@@ -447,6 +450,7 @@
                 scrollY: 0,
                 scrollX: 0,
                 windowWidth: 800,
+                useCORS: true
             },
             jsPDF: { unit: 'px', format: [1200, 1600], orientation: 'portrait', precision: 32 }
             };
