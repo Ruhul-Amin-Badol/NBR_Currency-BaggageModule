@@ -148,12 +148,13 @@ public class CurrencyServices {
     
         // Update the properties of the existing entity with the updated data
 
-        Long currencyId = updatedapproveCurrencyDeclaration.getId();
-        SimpleDateFormat dateFormatForInvoice = new SimpleDateFormat("ddMMYY");
-        String invoiceDate = dateFormatForInvoice.format(new Date());
+        // Long currencyId = updatedapproveCurrencyDeclaration.getId();
+        // SimpleDateFormat dateFormatForInvoice = new SimpleDateFormat("ddMMYY");
+        // String invoiceDate = dateFormatForInvoice.format(new Date());
   
-        String autoincrementIdAsString = String.format("%07d", currencyId);
-        String invoiceId = invoiceDate + autoincrementIdAsString;
+        // String autoincrementIdAsString = String.format("%07d", currencyId);
+        // String invoiceId = invoiceDate + autoincrementIdAsString;
+        // existingCurrencyDeclaration.setInvoice(invoiceId);
 
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Adjust format as needed
@@ -165,7 +166,7 @@ public class CurrencyServices {
         existingCurrencyDeclaration.setConfNote(updatedapproveCurrencyDeclaration.getConfNote());
         existingCurrencyDeclaration.setStatus("checked");
         existingCurrencyDeclaration.setApproveDate(approveDate);
-        existingCurrencyDeclaration.setInvoice(invoiceId);
+
 
     
         // Save the updated entity back to the database
