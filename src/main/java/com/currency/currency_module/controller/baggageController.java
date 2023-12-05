@@ -260,7 +260,7 @@ public class baggageController {
 
 // paymentId,
         String sql = "INSERT INTO baggage (entry_point, passenger_name, passport_number, passport_validity_date,nationality, previous_country, dateofarrival, flight_no, mobile_no, email, accom_no, unaccom_no,meat_products,foreign_currency,office_code,application_submit_date) VALUES (?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)";
-        long generatedId = -1;
+        long generatedId = 1;
         // Use a try-with-resources block to ensure the resources are properly closed
         try (Connection connection = jdbcTemplate.getDataSource().getConnection();
                 PreparedStatement preparedStatement = connection.prepareStatement(sql,
@@ -1467,7 +1467,7 @@ public class baggageController {
                  List<Object> rowData = new ArrayList<>(allProductQuery);
                  rowData.add(baggageQuery);
 
-                 byte[] pdfData = pdfGenerationService.generatePdf(allProductQuery,rowData, includedFields,totalTaxAmount,id);
+                 byte[] pdfData = pdfGenerationService.generatePdfPaymentNotAtThisTime(allProductQuery,rowData, includedFields,totalTaxAmount,id);
 
                  HttpHeaders headers = new HttpHeaders();
                  headers.setContentType(MediaType.APPLICATION_PDF);
