@@ -321,7 +321,7 @@
             <tr>
                 <td colspan="6" class="pt">
                    <p th:if="${Currency.status == 'checked'}"> <img th:src="${Signature}"   alt="Signature Image" height="80" width="150"></p>
-                    <p class="p" align="left" th:text="${adminUserInfo['fname']}"></p>
+                    <p class="p" align="left" th:text="${UserfullName}"></p>
                     <p class="p b" align="left">[Signature of Customs Official]</p>
                     <p class="p" align="left" th:if="${Currency.status == 'checked'}">Approve Date:<span th:text="${Currency.approveDate}"></span></p>
                 </td>
@@ -359,7 +359,7 @@
             <div class="button-container">
                 <div >
                     <!-- <span class="loader"></span> -->
-                    <button id="toggleButtorrrn" onclick="generateAndSendPDF()" class="btn btn-success">Approved</button>
+                    <button th:if="${Currency.status != 'checked'}" id="toggleButtorrrn" onclick="generateAndSendPDF()" class="btn btn-success">Approved</button>
                 </div>
             </div>
         </div>
@@ -410,7 +410,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="input-group">
-                            <button type="submit" class="btn btn-success">Approved</button>
+                            <button type="submit"  class="btn btn-success">Approved</button>
                         </div>
                     </div>
                     <br><br><br>
