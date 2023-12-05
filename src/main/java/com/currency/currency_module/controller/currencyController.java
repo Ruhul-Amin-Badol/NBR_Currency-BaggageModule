@@ -220,13 +220,15 @@ public class currencyController {
             if (length >= 4) {
                 passportFourDigits = passportId.substring(length - 4);
             }
-
+ 
            // int incrementId = autoincrementId.intValue();
-            String autoincrementIdAsString = String.format("%07d", currencyId);
-            SimpleDateFormat yearFormat = new SimpleDateFormat("yy");
-            String currentYear = yearFormat.format(new Date());
-            String invoiceId = currentYear + passportFourDigits + autoincrementIdAsString;
+        SimpleDateFormat dateFormatForInvoice = new SimpleDateFormat("ddMMYY");
+        String invoiceDate = dateFormatForInvoice.format(new Date());
+  
+        String autoincrementIdAsString = String.format("%07d", currencyId);
+        String invoiceId = invoiceDate + autoincrementIdAsString;
 
+        currencyDeclaration.setInvoice(invoiceId);
         currencyDeclaration.setStatus("unchecked");
         currencyDeclarationRepository.save(currencyDeclaration);
          List<BaggageCurrencyAdd> listcurrency= currencyServices.baggagecurrecylist(id);

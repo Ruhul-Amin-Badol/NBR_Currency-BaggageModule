@@ -302,6 +302,9 @@ public byte[] generatePdf(List<Map<String, Object>>allProductQuery,List<?> rowDa
 
 
 
+
+
+
 public byte[] firebaseImage(Principal principal){
    var storage = StorageClient.getInstance().bucket();
                 
@@ -352,7 +355,189 @@ public byte[] firebaseImageSignature(String usernameSession){
             byte[] imageData = blob.getContent();
             return imageData;
 }
+//payment not at this time
+    public byte[] generatePdfPaymentNotAtThisTime(List<Map<String, Object>>allProductQuery,List<?> rowData, List<String> includedFields, Double totalPaidAmount,Long id) throws IOException {
 
+        byte[] logo  = firebaselogo("nbr_logo.png");
+        try (PDDocument document = new PDDocument()) {
+            PDPage page = new PDPage();
+            document.addPage(page);
+
+            try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
+                contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 14);
+
+                float margin = 35;
+                float yStart = page.getMediaBox().getHeight() - margin;
+                System.out.println(page.getMediaBox().getHeight());
+                float tableWidth = page.getMediaBox().getWidth() - 2 * margin;
+                float yPosition = yStart;
+                float rowHeight = 20f;
+
+                float xPosition = margin;
+
+                // Load image from resources/static/image
+                // File imageFile = ResourceUtils.getFile("classpath:static/img/logo/nbr.png");
+                // PDImageXObject image = PDImageXObject.createFromFileByContent(imageFile, document);
+            PDImageXObject logo1 = PDImageXObject.createFromByteArray(document, logo, "Firebase logo");
+
+                // Set the position and size of the image
+                float xImage = 200;
+                float yImage = 700;
+                float widthImage = 200;  // Adjust this value based on your image size
+                float heightImage = 70;  // Adjust this value based on your image size
+
+                // Draw the image on the page
+                contentStream.drawImage(logo1, xImage, yImage, widthImage, heightImage);
+
+                // Adjust the Y-coordinate after adding the image
+                // yPosition -= heightImage;
+
+
+                float xTable = 100;
+                float yTable = page.getMediaBox().getHeight()-7*margin-100; 
+                // Adjust the Y-coordinate for the start of the table
+                float tableWidth1 = page.getMediaBox().getWidth() - 2 * margin;
+                float tableHeight = 20f;
+                
+                float red = 220 / 255f;
+                float green = 76 / 255f;
+                float blue = 100 / 255f;
+                // Draw table header
+                contentStream.setLineWidth(1f);
+                contentStream.setNonStrokingColor(red,green,blue); 
+                contentStream.addRect(xTable-39, yTable-7, 500,22);
+                contentStream.fill();
+                contentStream.setNonStrokingColor(0,0,0); 
+                contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA_BOLD), 10); // Adjust font and size if needed
+                contentStream.beginText();
+                contentStream.newLineAtOffset(xTable, yTable);
+                contentStream.showText("Product Name");
+                contentStream.newLineAtOffset(130, 0);
+                contentStream.showText("Unit");
+                contentStream.newLineAtOffset(86, 0);
+                contentStream.showText("Quantity");
+                contentStream.newLineAtOffset(86, 0);
+                contentStream.showText("Value");
+                contentStream.newLineAtOffset(86, 0);
+                contentStream.showText("Tax Amount");
+                contentStream.endText();
+                yTable -= 20; // Adjust the Y-coordinate for the table content
+                contentStream.setNonStrokingColor(0,0,0);
+
+
+
+                for (Map<String, Object> row : allProductQuery) {
+                    contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 10); // Adjust font size if needed
+                
+                    // Draw each column in the row
+                    contentStream.beginText();
+                    contentStream.newLineAtOffset(xTable-5, yTable);
+                    contentStream.showText(row.get("item_name").toString());
+                    contentStream.newLineAtOffset(140, 0);
+                    contentStream.showText(row.get("unit_name").toString());
+                    contentStream.newLineAtOffset(90, 0);
+                    contentStream.showText(row.get("qty").toString());
+                    contentStream.newLineAtOffset(90, 0);
+                    contentStream.showText(row.get("value").toString());
+                    contentStream.newLineAtOffset(90, 0);
+                    contentStream.showText(row.get("tax_amount").toString());
+                    contentStream.endText();
+                
+                    yTable -= tableHeight; // Adjust the Y-coordinate for the next row
+                }
+                
+
+
+                // Display header text
+                // String headerText = "National Board Of Revenue, Bangladesh";
+                // contentStream.beginText();
+                // contentStream.newLineAtOffset(xPosition, yPosition);
+                // contentStream.showText(headerText);
+                // contentStream.endText();
+                // yPosition -= rowHeight; // Adjust the Y-coordinate
+
+
+
+                // Generate QR code
+
+
+                // Set the position and size of the QR code image
+                float xQRCode = 240;
+                float yQRCode = 50;
+                float widthQRCode = 150;  // Adjust this value based on your QR code image size
+                float heightQRCode = 150;  // Adjust this value based on your QR code image size
+
+                // Draw the QR code on the page
+                String qrCodeData = "http://13.232.110.60:8080/baggagestart/confrimPage?id="+id;
+                ByteArrayOutputStream qrCodeStream = generateQRCode(qrCodeData);
+                contentStream.drawImage(PDImageXObject.createFromByteArray(document, qrCodeStream.toByteArray(), "QR Code"), xQRCode, yQRCode, widthQRCode, heightQRCode);
+
+                // String qrCodeText = "(Scan to View all)";
+                // contentStream.beginText();
+                // contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 10); // Adjust font size if needed
+                // contentStream.newLineAtOffset(xQRCode, yQRCode-8); // Adjust the Y-coordinate for the text
+                // contentStream.showText(qrCodeText);
+                // contentStream.endText();
+
+
+
+                // float xQRCode1 = 500;
+                // float yQRCode1= 50;
+                // float widthQRCode1 = 100;  // Adjust this value based on your QR code image size
+                // float heightQRCode1 = 100;  // Adjust this value based on your QR code image size
+
+                // // Draw the QR code on the page
+                // String qrCodeData1 = "http://13.232.110.60:8080/baggageshow/baggagetotalid?id="+id+"&status=total_baggage";
+                // ByteArrayOutputStream qrCodeStream1 = generateQRCode(qrCodeData1);
+                // contentStream.drawImage(PDImageXObject.createFromByteArray(document, qrCodeStream1.toByteArray(), "QR Code"), xQRCode1, yQRCode1, widthQRCode1, heightQRCode1);
+
+                // String qrCodeText1 = "(Scan to confirm)";
+                // contentStream.beginText();
+                // contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 10); // Adjust font size if needed
+                // contentStream.newLineAtOffset(xQRCode1, yQRCode1-8); // Adjust the Y-coordinate for the text
+                // contentStream.showText(qrCodeText1);
+                // contentStream.endText();
+
+                // Adjust the Y-coordinate after adding the QR code
+                yPosition -= heightQRCode;
+
+
+           
+
+                for (Object row : rowData) {
+                    if (row instanceof Map) {
+                        Map<String, Object> mapRow = (Map<String, Object>) row;
+
+                        for (String fieldName : includedFields) {
+                            if (mapRow.containsKey(fieldName)) {
+                                Object value = mapRow.get(fieldName);
+                                yPosition = drawField(contentStream, xPosition, yPosition, rowHeight, fieldName, value.toString());
+                            } else {
+                                System.err.println("Field not found: " + fieldName);
+                            }
+                        }
+
+                        // Reset x-coordinate for the next row
+                        xPosition = margin;
+                    }
+                }
+                // Display total paid amount
+                if (totalPaidAmount != null) {
+                    contentStream.beginText();
+                    contentStream.newLineAtOffset(xPosition, yPosition);
+                    contentStream.showText("Total Due Amount: " + totalPaidAmount);
+                    contentStream.endText();
+                    yPosition -= rowHeight; // Adjust the Y-coordinate
+                }
+            }
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            document.save(baos);
+            return baos.toByteArray();
+        } catch (Exception e) {
+            throw new EmailServiceException("Failed to generate PDF", e);
+        }
+    } 
 
 
     public byte[] generatePdf(List<Map<String, Object>>allProductQuery,List<?> rowData, List<String> includedFields, Double totalPaidAmount,Long id) throws IOException {
@@ -536,7 +721,7 @@ public byte[] firebaseImageSignature(String usernameSession){
         } catch (Exception e) {
             throw new EmailServiceException("Failed to generate PDF", e);
         }
-    }
+    } 
 
     private ByteArrayOutputStream generateQRCode(String data) throws IOException, WriterException {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
