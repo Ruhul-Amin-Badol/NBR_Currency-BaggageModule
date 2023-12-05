@@ -94,13 +94,18 @@ public class CurrencyDeclaration {
 
     private String officeCode;
 
-
-
-
-
     @Column(name = "invoice")
     private String invoice;
-    // private String officeCode;
+
+
+
+    @Column(name = "application_submit_date")
+    private String applicationSubmitDate;
+
+
+
+    @Column(name = "approve_date")
+    private String approveDate;
 
 
 
@@ -112,6 +117,21 @@ public class CurrencyDeclaration {
     private String otherNationality;
     private String otherProfession;
 
+    public String getApplicationSubmitDate() {
+        return this.applicationSubmitDate;
+    }
+
+    public void setApplicationSubmitDate(String applicationSubmitDate) {
+        this.applicationSubmitDate = applicationSubmitDate;
+    }
+
+    public String getApproveDate() {
+        return this.approveDate;
+    }
+
+    public void setApproveDate(String approveDate) {
+        this.approveDate = approveDate;
+    }
 
 
         public String getInvoice() {

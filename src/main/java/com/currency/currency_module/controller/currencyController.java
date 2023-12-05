@@ -32,10 +32,12 @@ import com.currency.currency_module.AirportInformation;
 import com.currency.currency_module.model.AirportList;
 import com.currency.currency_module.model.BaggageCurrencyAdd;
 import com.currency.currency_module.model.CurrencyDeclaration;
+import com.currency.currency_module.model.UserActivityManagement;
 import com.currency.currency_module.repository.CurrencyAddRepository;
 import com.currency.currency_module.repository.CurrencyDeclarationRepository;
 import com.currency.currency_module.services.CurrencyServices;
 import com.currency.currency_module.services.AirportService;
+import com.currency.currency_module.services.UserActivityManagementService;
 
 @Controller
 
@@ -53,6 +55,9 @@ public class currencyController {
    @Autowired
    AirportInformation airportInformation;
 
+   @Autowired
+   UserActivityManagementService userActivityManagementService;
+  
     @GetMapping("/show")
     public String index( Model model) {
         model.addAttribute("allAirportList", airportService.getAllAirports());
@@ -92,12 +97,19 @@ public class currencyController {
 
     AirportList airport =airportService.findAirportByOfficeCode(officeCode);
     String airportName = airport.getAirPortNames();
+
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Adjust format as needed
+    String applicationSubmitDate = dateFormat.format(new Date());
+
+
+    currencyDeclaration.setApplicationSubmitDate(applicationSubmitDate);
     currencyDeclaration.setEntryPoint(airportName);
 
     Long id=currencyServices.currencyInsert(currencyDeclaration).getId();
       
         return "redirect:/currencystart/currencyEdit?id="+id;
-    }
+
+    } 
 
     @PostMapping("/currencyUpdate")
     public String updateCurrency( CurrencyDeclaration updatedCurrencyDeclaration, RedirectAttributes redirectAttributes) {
@@ -191,44 +203,6 @@ public class currencyController {
         // Use currencyIdGeneral as needed
         // For example, perform operations with the provided ID
     System.out.println("currencyIdGeneral============================"+currencyIdGeneral);
-
-
-    CurrencyDeclaration currencyDeclaration = currencyServices.findcurrency(currencyIdGeneral);
-
-    if (currencyDeclaration != null) {
-        Long currencyId = currencyDeclaration.getId();
-        String passportId = currencyDeclaration.getPassportNumber();
-        int length = passportId.length();
-
-
-        String passportFourDigits = "";
-        if (length >= 4) {
-            passportFourDigits = passportId.substring(length - 4);
-        }
-
-  
-        String autoincrementIdAsString = String.format("%07d", currencyId);
-
-
-        SimpleDateFormat yearFormat = new SimpleDateFormat("yy");
-        String currentYear = yearFormat.format(new Date());
-
-        String invoiceId = currentYear + passportFourDigits + autoincrementIdAsString;
-        currencyDeclaration.setInvoice(invoiceId);
-
-
-       currencyDeclaration.setStatus("unchecked");
-
-        currencyServices.currencyStatusInvoiceUpdate(currencyDeclaration,invoiceId);
-        List<BaggageCurrencyAdd> listcurrency = currencyServices.baggagecurrecylist(currencyIdGeneral);
-
-        // Add attributes to the model
-        model.addAttribute("CurrencyShow", listcurrency);
-        model.addAttribute("Currency", currencyDeclaration);
-        model.addAttribute("invoiceNo", invoiceId);
-
-
-        }
         return "currencyViewconfirm";
     }
 
@@ -363,12 +337,26 @@ public class currencyController {
 
 
         @GetMapping("/show-currency-details")
-    public String showCurrencyDetails( @RequestParam Long id, @RequestParam String page,Model model){
+    public String showCurrencyDetails( @RequestParam Long id, @RequestParam String page,Model model,Principal principal){
        
 
 
         CurrencyDeclaration currencydata=currencyServices.findcurrency(id);
          List<BaggageCurrencyAdd> listcurrency= currencyServices.baggagecurrecylist(id);
+
+        String usernameSession=principal.getName();
+        //String currencyId=principal.getId();
+
+       UserActivityManagement  userActivityManagement  = userActivityManagementService.getUserByUserName(usernameSession);
+       String fullName = userActivityManagement.getFname();
+
+       System.out.println("fullName================================="+fullName);
+    String getSignature = userActivityManagement.getSignature();
+
+        model.addAttribute("UserfullName",fullName);
+        model.addAttribute("Signature",getSignature);
+
+
          model.addAttribute("Currency",currencydata);
         model.addAttribute("Baggagecurrency",listcurrency);
         model.addAttribute("page", page);

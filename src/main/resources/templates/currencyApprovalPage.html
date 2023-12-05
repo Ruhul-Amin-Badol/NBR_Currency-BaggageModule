@@ -320,14 +320,15 @@
             </tr>
             <tr>
                 <td colspan="6" class="pt">
+                   <p th:if="${Currency.status == 'checked'}"> <img th:src="${Signature}"   alt="Signature Image" height="80" width="150"></p>
+                    <p class="p" align="left" th:text="${adminUserInfo['fname']}"></p>
                     <p class="p b" align="left">[Signature of Customs Official]</p>
-                    <p class="p" align="left">(Signature of Customs Official): </p>
-                    <p class="p" align="left">[Date]</p>
+                    <p class="p" align="left" th:if="${Currency.status == 'checked'}">Approve Date:<span th:text="${Currency.approveDate}"></span></p>
                 </td>
-                <td colspan="6" class="pt">
+                <td colspan="6" class="pt mt-5">
+                    <p class="p" align="right" th:text="${Currency.passengerName}"></p>
                     <p class="p b" align="right">[Signature of Declarant]</p>
-                    <p class="p" align="right">Signature of Declarant:</p>
-                    <p class="p" align="right">[Date]</p>
+                    <p class="p" align="right" >Submit date: <span th:text="${Currency.applicationSubmitDate}"></span></p>
                 </td>
             </tr>
 
