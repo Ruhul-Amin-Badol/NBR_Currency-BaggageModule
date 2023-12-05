@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.currency.currency_module.ResourceNotFound.ResourceNotFound;
 import com.currency.currency_module.model.BaggageCurrencyAdd;
@@ -78,7 +79,7 @@ public class CurrencyServices {
 
     
     
-    public void  approveCurrencyUpdate(CurrencyDeclaration updatedapproveCurrencyDeclaration,String usernameSession) throws IOException {
+    public void  approveCurrencyUpdate(CurrencyDeclaration updatedapproveCurrencyDeclaration,String usernameSession,MultipartFile pdffile) throws IOException {
       System.out.println("===================================="+updatedapproveCurrencyDeclaration.getId());
         // Retrieve the existing currency declaration by its ID or any unique identifier
         CurrencyDeclaration existingCurrencyDeclaration = currencyDeclarationRepository.findById(updatedapproveCurrencyDeclaration.getId())
@@ -92,9 +93,10 @@ public class CurrencyServices {
     
         // Save the updated entity back to the database
        
-       List<BaggageCurrencyAdd> baggagecurrecylist=currencyAddRepository.findAllByCurrencyId(existingCurrencyDeclaration.getId());
+      //  List<BaggageCurrencyAdd> baggagecurrecylist=currencyAddRepository.findAllByCurrencyId(existingCurrencyDeclaration.getId());
       
-       byte[] pdfData = pdfGenerationService.generatePdfCurrency(existingCurrencyDeclaration,baggagecurrecylist,usernameSession);
+      //  byte[] pdfData = pdfGenerationService.generatePdfCurrency(existingCurrencyDeclaration,baggagecurrecylist,usernameSession);
+                   byte[] pdfData = pdffile.getBytes();
                      HttpHeaders headers = new HttpHeaders();
                  headers.setContentType(MediaType.APPLICATION_PDF);
                  headers.setContentDispositionFormData("inline", "NBR_Currency_declaration.pdf");
