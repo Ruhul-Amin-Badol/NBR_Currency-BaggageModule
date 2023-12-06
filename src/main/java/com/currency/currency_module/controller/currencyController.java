@@ -234,7 +234,7 @@ public class currencyController {
          List<BaggageCurrencyAdd> listcurrency= currencyServices.baggagecurrecylist(id);
          model.addAttribute("CurrencyShow", listcurrency);
          model.addAttribute("Currency",currencyServices.findcurrency(id));
-          model.addAttribute("invoiceNo",invoiceId);
+         model.addAttribute("invoiceNo",invoiceId);
         
             
        return "currencyViewconfirm";
