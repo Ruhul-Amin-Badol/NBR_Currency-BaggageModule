@@ -111,15 +111,15 @@
             </tbody>
         </table>
         <div class="d-flex justify-content-center">
-            <button type="button" class="btn btn-warning btn-lg my-2 mx-3" onclick="redirectToBaggagePage()">Edit</button>
-
+            <!-- <button type="button" class="btn btn-warning btn-lg my-2 mx-3" onclick="redirectToBaggagePage()">Edit</button> -->
+            <button type="button" class="btn btn-warning btn-lg my-2 mx-3" onclick="redirectToBack()">Back</button>
             <form th:action="@{/baggagestart/confirm-pay-by-admin}" method="post">
                 <input type="hidden" id="baggageId" name="id" th:value="${reportShow['ID']}" />
                 <input type="hidden" id="payableAmountId" name="payableAmount" />
-                <button type="submit" class="btn btn-success btn-lg my-2 mx-5">Pay</button>
+                <button type="submit" id="pay_button_id" class="btn btn-success btn-lg my-2 mx-5">Pay</button>
             </form>
 
-
+            <button type="button" id="next_button_id" class="btn btn-info btn-lg my-2 mx-3" onclick="redirectToConfirmPage()">Next</button>
         </div>
 
     </div>
@@ -141,14 +141,26 @@ function redirectToConfirmPage() {
        window.location.href = url;
        //alert(url)
    }
-
+   function redirectToBack() {
+       
+       // Get the id value from the hidden input field
+       var id = document.getElementById("reportShow").value;
+       var url = "/baggagestart/edit-baggage?generatedId=" + id;
+       window.location.href = url;
+       //alert(url)
+   }
 function paymentNotAtThisTime(){
     var id = document.getElementById("reportShow").value;
        var url = "/baggagestart/payment-not-at-this-time?id=" + id;
        window.location.href = url;
 
 }
+function redirectToConfirmPage(){
+    var id = document.getElementById("reportShow").value;
+       var url = "/baggagestart/confrimPage?id="+id;
+       window.location.href = url;
 
+}
 
    function calculateTotalTaxAmount() {
             // Get all the tax amount elements using a class selector
@@ -180,8 +192,22 @@ function paymentNotAtThisTime(){
             document.getElementById("totaladditionPayment").textContent = additionalAmount.toFixed(2);
             document.getElementById("totalPayableAmount").textContent = totalPayable.toFixed(2);
             document.getElementById("payableAmountId").value = totalPayable.toFixed(2);
+
+
+
+           // alert(totalPayable)
+            if(!totalPayable){
+                document.getElementById("pay_button_id").style.display = "none";
+            }
+            
+
+            if(totalPayable){
+                document.getElementById("next_button_id").style.display = "none";
+            }
             
         }
+
+
         window.addEventListener("load", calculateTotalTaxAmount);
     </script>
 

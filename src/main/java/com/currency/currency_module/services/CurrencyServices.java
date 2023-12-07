@@ -148,13 +148,20 @@ public class CurrencyServices {
     
         // Update the properties of the existing entity with the updated data
 
-        // Long currencyId = updatedapproveCurrencyDeclaration.getId();
-        // SimpleDateFormat dateFormatForInvoice = new SimpleDateFormat("ddMMYY");
-        // String invoiceDate = dateFormatForInvoice.format(new Date());
+
+
+        // Get the count of distinct invoices
+        Long invoiceCount = currencyDeclarationRepository.countDistinctInvoices();
+       // System.out.println("Total distinct invoices: " + invoiceCount);
+
+        invoiceCount=invoiceCount+1;
+       // Long currencyId = updatedapproveCurrencyDeclaration.getId();
+        SimpleDateFormat dateFormatForInvoice = new SimpleDateFormat("ddMMYY");
+        String invoiceDate = dateFormatForInvoice.format(new Date());
   
-        // String autoincrementIdAsString = String.format("%07d", currencyId);
-        // String invoiceId = invoiceDate + autoincrementIdAsString;
-        // existingCurrencyDeclaration.setInvoice(invoiceId);
+        String autoincrementIdAsString = String.format("%07d", invoiceCount);
+        String invoiceId = invoiceDate + autoincrementIdAsString;
+        existingCurrencyDeclaration.setInvoice(invoiceId);
 
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Adjust format as needed

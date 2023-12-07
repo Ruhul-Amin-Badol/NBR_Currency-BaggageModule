@@ -211,32 +211,31 @@ public class currencyController {
     public String updatestatuscurrency(@RequestParam Long id, Model model){
         CurrencyDeclaration currencyDeclaration= currencyServices.findcurrency(id);
 
-            Long currencyId = currencyDeclaration.getId();
-            String passportId = currencyDeclaration.getPassportNumber();
-            int length = passportId.length();
+        //    Long currencyId = currencyDeclaration.getId();
+        //     String passportId = currencyDeclaration.getPassportNumber();
+        //     int length = passportId.length();
 
-            // Extract the last four digits
-            String passportFourDigits = "";
-            if (length >= 4) {
-                passportFourDigits = passportId.substring(length - 4);
-            }
+        //     // Extract the last four digits
+        //     String passportFourDigits = "";
+        //     if (length >= 4) {
+        //         passportFourDigits = passportId.substring(length - 4);
+        //     }
  
-           // int incrementId = autoincrementId.intValue();
-        SimpleDateFormat dateFormatForInvoice = new SimpleDateFormat("ddMMYY");
-        String invoiceDate = dateFormatForInvoice.format(new Date());
+        //    // int incrementId = autoincrementId.intValue();
+        // SimpleDateFormat dateFormatForInvoice = new SimpleDateFormat("ddMMYY");
+        // String invoiceDate = dateFormatForInvoice.format(new Date());
   
-        String autoincrementIdAsString = String.format("%07d", currencyId);
-        String invoiceId = invoiceDate + autoincrementIdAsString;
+        // String autoincrementIdAsString = String.format("%07d", currencyId);
+        // String invoiceId = invoiceDate + autoincrementIdAsString;
 
-        currencyDeclaration.setInvoice(invoiceId);
+        // currencyDeclaration.setInvoice(invoiceId);
         currencyDeclaration.setStatus("unchecked");
         currencyDeclarationRepository.save(currencyDeclaration);
          List<BaggageCurrencyAdd> listcurrency= currencyServices.baggagecurrecylist(id);
          model.addAttribute("CurrencyShow", listcurrency);
          model.addAttribute("Currency",currencyServices.findcurrency(id));
-         model.addAttribute("invoiceNo",invoiceId);
-        
-            
+     //   model.addAttribute("invoiceNo",invoiceId);
+
        return "currencyViewconfirm";
     }
 
