@@ -237,7 +237,7 @@ public class baggageController {
             @RequestParam String countryFrom,
             @RequestParam String dateOfArrival,
             @RequestParam String flightNo,
-            // @RequestParam String countryCode,
+            @RequestParam String countryCode,
             @RequestParam String mobileNo,
             @RequestParam String email,
             @RequestParam int accompaniedBaggageCount,
@@ -258,7 +258,7 @@ public class baggageController {
             String applicationSubmitDate = dateFormat.format(new Date());
 
 // paymentId,
-        String sql = "INSERT INTO baggage (entry_point, passenger_name, passport_number, passport_validity_date,nationality, previous_country, dateofarrival, flight_no, mobile_no, email, accom_no, unaccom_no,meat_products,foreign_currency,office_code,application_submit_date) VALUES (?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)";
+        String sql = "INSERT INTO baggage (entry_point, passenger_name, passport_number, passport_validity_date,nationality, previous_country, dateofarrival, flight_no, country_code, mobile_no, email, accom_no, unaccom_no,meat_products,foreign_currency,office_code,application_submit_date) VALUES (?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)";
         long generatedId = 1;
         // Use a try-with-resources block to ensure the resources are properly closed
         try (Connection connection = jdbcTemplate.getDataSource().getConnection();
@@ -279,15 +279,15 @@ public class baggageController {
             preparedStatement.setString(6, countryFrom);
             preparedStatement.setString(7, dateOfArrival);
             preparedStatement.setString(8, flightNo);
-            // preparedStatement.setString(9, countryCode);
-            preparedStatement.setString(9, mobileNo);
-            preparedStatement.setString(10, email);
-            preparedStatement.setInt(11, accompaniedBaggageCount);
-            preparedStatement.setInt(12, unaccompaniedBaggageCount);
-            preparedStatement.setString(13, " ");
+            preparedStatement.setString(9, countryCode);
+            preparedStatement.setString(10, mobileNo);
+            preparedStatement.setString(11, email);
+            preparedStatement.setInt(12, accompaniedBaggageCount);
+            preparedStatement.setInt(13, unaccompaniedBaggageCount);
             preparedStatement.setString(14, " ");
-            preparedStatement.setString(15, entryPoint);
-            preparedStatement.setString(16, applicationSubmitDate);
+            preparedStatement.setString(15, " ");
+            preparedStatement.setString(16, entryPoint);
+            preparedStatement.setString(17, applicationSubmitDate);
 
             // Execute the insert statement
             preparedStatement.executeUpdate();
@@ -346,6 +346,7 @@ public class baggageController {
             @RequestParam String dateOfArrival,
             @RequestParam String flightNo,
             @RequestParam String mobileNo,
+            @RequestParam String countryCode,
             @RequestParam String email,
             @RequestParam int accompaniedBaggageCount,
             @RequestParam int unaccompaniedBaggageCount,
@@ -363,7 +364,7 @@ public class baggageController {
 
             System.out.println("======================"+airportname);
       
-            String sql = "UPDATE baggage SET entry_point=?, office_code=?, passenger_name=?, passport_number=?, passport_validity_date=?, nationality=?, previous_country=?, dateofarrival=?, flight_no=?, mobile_no=?, email=?, accom_no=?, unaccom_no=?,meat_products=?,foreign_currency=? WHERE id=?";
+            String sql = "UPDATE baggage SET entry_point=?, office_code=?, passenger_name=?, passport_number=?, passport_validity_date=?, nationality=?, previous_country=?, dateofarrival=?, flight_no=?,country_code=?, mobile_no=?, email=?, accom_no=?, unaccom_no=?,meat_products=?,foreign_currency=? WHERE id=?";
 
         String otherNationality ="";
          if ("Other".equalsIgnoreCase(nationality)) {
@@ -385,6 +386,7 @@ public class baggageController {
                     countryFrom,
                     dateOfArrival,
                     flightNo,
+                    countryCode,
                     mobileNo,
                     email,
                     accompaniedBaggageCount,
@@ -421,6 +423,7 @@ public class baggageController {
             @RequestParam String countryFrom,
             @RequestParam String dateOfArrival,
             @RequestParam String flightNo,
+            @RequestParam String countryCode,
             @RequestParam String mobileNo,
             @RequestParam String email,
             @RequestParam int accompaniedBaggageCount,
@@ -434,7 +437,7 @@ public class baggageController {
             String sqloffice = "SELECT * FROM airport_list WHERE office_code=?";
             Map<String, Object> airportDetails1 = jdbcTemplate.queryForMap(sqloffice, entryPoint );
             String airportname = (String) airportDetails1.get("air_port_names");
-        String sql = "UPDATE baggage SET entry_point=?, office_code=?, passenger_name=?, passport_number=?, passport_validity_date=?, nationality=?, previous_country=?, dateofarrival=?, flight_no=?, mobile_no=?, email=?, accom_no=?, unaccom_no=?,meat_products=?,foreign_currency=? WHERE id=?";
+        String sql = "UPDATE baggage SET entry_point=?, office_code=?, passenger_name=?, passport_number=?, passport_validity_date=?, nationality=?, previous_country=?, dateofarrival=?, flight_no=?,country_code=?, mobile_no=?, email=?, accom_no=?, unaccom_no=?,meat_products=?,foreign_currency=? WHERE id=?";
 
         String otherNationality ="";
          if ("Other".equalsIgnoreCase(nationality)) {
@@ -456,6 +459,7 @@ public class baggageController {
                     countryFrom,
                     dateOfArrival,
                     flightNo,
+                    countryCode,
                     mobileNo,
                     email,
                     accompaniedBaggageCount,
@@ -822,6 +826,7 @@ public class baggageController {
           //report show object pass    
         Map<String, Object> requestParameters = new HashMap<>();
         requestParameters.put("ID", id);
+        requestParameters.put("office_code", entryPoint);
         requestParameters.put("entry_point", entryPoint);
         requestParameters.put("passenger_name", passengerName);
         requestParameters.put("passport_number", passportNumber);
