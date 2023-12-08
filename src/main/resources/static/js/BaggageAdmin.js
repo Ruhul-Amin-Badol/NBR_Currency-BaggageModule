@@ -230,7 +230,7 @@ function adminadd() {
           inchi: item.inchi,
           quantity: item.qty,
           perUnitValue: item.value,
-          totalValue: item.tax_amount,
+          totalValue: item.qty * item.value,
           tax: item.tax_percentage,
   
           cd: item.cd,
@@ -667,7 +667,7 @@ document.addEventListener("DOMContentLoaded", function () {
           inchi: item.inchi,
           quantity: item.qty,
           perUnitValue: item.value,
-          totalValue: item.tax_amount,
+          totalValue: item.qty * item.value,
           tax: item.tax_percentage,
 
           cd: item.cd,
