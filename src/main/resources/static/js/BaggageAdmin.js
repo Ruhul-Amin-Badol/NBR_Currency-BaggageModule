@@ -444,6 +444,8 @@ function fetchProductDataAdmin() {
         if(data.tofsilPercentage !='0'){
           
           document.getElementById("perUnitValue").readOnly = true;
+        }else{
+          document.getElementById("perUnitValue").readOnly = false;
         }
         
         $("#unit").val(data.unit); // Update unit field
@@ -830,7 +832,6 @@ function tax_calcAdmin(){
    }
    else{
    if(tofsilcal!="0"){
-    console.log("yhyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy")
     var tax_amount=((tot_value*tofsilcal)/100).toFixed(2);
    }else{
     var tax_amount=((tot_value*tax_perc)/100).toFixed(2);
