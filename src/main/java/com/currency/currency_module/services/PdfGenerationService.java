@@ -60,7 +60,218 @@ public class PdfGenerationService {
     UserActivityManagementService userActivityManagementService;
     
 
+//payment by admin 
+public byte[] generatePdfPayByAdmin(List<Map<String, Object>>allProductQuery,List<?> rowData, List<String> includedFields, Double totalPaidAmount,Double paidAmount,Long id, String passangerName,String applicationSubmitDate,String paymentId) throws IOException {
 
+    byte[] logo  = firebaselogo("nbr_logo.png");
+    try (PDDocument document = new PDDocument()) {
+        PDPage page = new PDPage();
+        document.addPage(page);
+
+        try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
+            contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 14);
+
+            float margin = 40;
+            float yStart = page.getMediaBox().getHeight() - margin;
+            System.out.println(page.getMediaBox().getHeight());
+            float tableWidth = page.getMediaBox().getWidth() - 2 * margin;
+            float yPosition = yStart;
+            float rowHeight = 13f;
+
+            float xPosition = margin;
+
+        PDImageXObject logo1 = PDImageXObject.createFromByteArray(document, logo, "Firebase logo");
+
+            // Set the position and size of the image
+            float xImage = 200;
+            float yImage = 700;
+            float widthImage = 200;  // Adjust this value based on your image size
+            float heightImage = 70;  // Adjust this value based on your image size
+
+            // Draw the image on the page
+            contentStream.drawImage(logo1, xImage, yImage, widthImage, heightImage);
+
+            float xTable = 100;
+            float yTable = page.getMediaBox().getHeight()-7*margin-100; 
+            // Adjust the Y-coordinate for the start of the table
+            float tableWidth1 = page.getMediaBox().getWidth() - 2 * margin;
+            float tableHeight = 20f;
+            
+            float red = 220 / 255f;
+            float green = 76 / 255f;
+            float blue = 100 / 255f;
+            // Draw table header
+            contentStream.setLineWidth(1f);
+            contentStream.setNonStrokingColor(red,green,blue); 
+            contentStream.addRect(xTable-39, yTable-7, 500,22);
+            contentStream.fill();
+            contentStream.setNonStrokingColor(0,0,0); 
+            contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA_BOLD), 10); // Adjust font and size if needed
+            contentStream.beginText();
+            contentStream.newLineAtOffset(xTable, yTable);
+            contentStream.showText("Product Name");
+            contentStream.newLineAtOffset(130, 0);
+            contentStream.showText("Unit");
+            contentStream.newLineAtOffset(86, 0);
+            contentStream.showText("Quantity");
+            contentStream.newLineAtOffset(86, 0);
+            contentStream.showText("Value");
+            contentStream.newLineAtOffset(86, 0);
+            contentStream.showText("Tax Amount");
+            contentStream.endText();
+            yTable -= 20; // Adjust the Y-coordinate for the table content
+            contentStream.setNonStrokingColor(0,0,0);
+
+
+
+            for (Map<String, Object> row : allProductQuery) {
+                contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 10); // Adjust font size if needed
+            
+                // Draw each column in the row
+                contentStream.beginText();
+                contentStream.newLineAtOffset(xTable-5, yTable);
+                contentStream.showText(row.get("item_name").toString());
+                contentStream.newLineAtOffset(140, 0);
+                contentStream.showText(row.get("unit_name").toString());
+                contentStream.newLineAtOffset(90, 0);
+                contentStream.showText(row.get("qty").toString());
+                contentStream.newLineAtOffset(90, 0);
+                contentStream.showText(row.get("value").toString());
+                contentStream.newLineAtOffset(90, 0);
+                contentStream.showText(row.get("tax_amount").toString());
+                contentStream.endText();
+            
+                yTable -= tableHeight; // Adjust the Y-coordinate for the next row
+            }
+            
+
+
+
+
+            // Generate QR code
+
+
+            // Set the position and size of the QR code image
+            float xQRCode = 240;
+            float yQRCode = 50;
+            float widthQRCode = 150;  // Adjust this value based on your QR code image size
+            float heightQRCode = 150;  // Adjust this value based on your QR code image size
+
+            // Draw the QR code on the page
+            String qrCodeData = "http://13.232.110.60:8080/baggagestart/confrimPage?id="+id;
+            ByteArrayOutputStream qrCodeStream = generateQRCode(qrCodeData);
+            contentStream.drawImage(PDImageXObject.createFromByteArray(document, qrCodeStream.toByteArray(), "QR Code"), xQRCode, yQRCode, widthQRCode, heightQRCode);
+
+            // Adjust the Y-coordinate after adding the QR code
+            yPosition -= heightQRCode;
+
+
+       
+
+            for (Object row : rowData) {
+                if (row instanceof Map) {
+                    Map<String, Object> mapRow = (Map<String, Object>) row;
+
+                    for (String fieldName : includedFields) {
+                        if (mapRow.containsKey(fieldName)) {
+                            Object value = mapRow.get(fieldName);
+                            yPosition = drawField(contentStream, xPosition, yPosition, rowHeight, fieldName, value.toString());
+                        } else {
+                            System.err.println("Field not found: " + fieldName);
+                        }
+                    }
+
+                    // Reset x-coordinate for the next row
+                    xPosition = margin;
+                }
+            }
+                contentStream.beginText();
+                contentStream.newLineAtOffset(xPosition, yPosition);
+                contentStream.showText("Payment id: " + paymentId);
+                contentStream.endText();
+                yPosition -= rowHeight; // Adjust the Y-coordinate
+
+
+            // Display total paid amount
+            if (totalPaidAmount != null) {
+                contentStream.beginText();
+                contentStream.newLineAtOffset(xPosition, yPosition);
+                contentStream.showText("Total Paid Amount: " + totalPaidAmount);
+                contentStream.endText();
+                yPosition -= rowHeight; // Adjust the Y-coordinate
+            }
+            
+            if (paidAmount < 0){
+                double creditAmount = Math.abs(paidAmount);
+                contentStream.beginText();
+                contentStream.newLineAtOffset(xPosition, yPosition);
+                contentStream.showText("Your return amount is: " + creditAmount);
+                contentStream.endText();
+                yPosition -= rowHeight; // Adjust the Y-coordinate
+              }else{
+                contentStream.beginText();
+                contentStream.newLineAtOffset(xPosition, yPosition);
+                contentStream.showText("You have now paid : " + paidAmount);
+                contentStream.endText();
+                yPosition -= rowHeight; // Adjust the Y-coordinate
+
+             }
+        float xusersign= 450;
+        float yusersign = 160;
+        float widthUserSign= 90;  // Adjust this value based on your image size
+        float heightUserSign = 90; 
+
+       String userSignNameText = passangerName;
+        contentStream.beginText();
+        contentStream.newLineAtOffset(xusersign, yusersign);
+        contentStream.showText(userSignNameText);
+        contentStream.endText();
+        widthUserSign = heightUserSign; 
+
+
+
+
+
+
+        float xuser= 450;
+        float yuser = 140;
+        float widthUser= 90;  // Adjust this value based on your image size
+        float heightUser = 90; 
+
+       String userNameText = "[Signature of Declarant]";
+
+        contentStream.setLineWidth(2.5f);  
+        contentStream.moveTo(xuser, yuser + 13);  
+        contentStream.lineTo(xuser + widthUser, yuser + 13); 
+        contentStream.stroke();
+
+        contentStream.beginText();
+        contentStream.newLineAtOffset(xuser, yuser);
+        contentStream.showText(userNameText);
+        contentStream.endText();
+        widthUser = heightUser; 
+
+        float xSubmitDate=450;
+        float ySubmitDate = 120;
+        float widthSubmitDate= 90;  // Adjust this value based on your image size
+        float heightSubmitDate = 90; 
+
+        contentStream.beginText();
+        contentStream.newLineAtOffset(xSubmitDate, ySubmitDate);
+        contentStream.showText("Submit date: "+applicationSubmitDate);
+        contentStream.endText();
+        widthSubmitDate = heightSubmitDate; 
+
+
+        }
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        document.save(baos);
+        return baos.toByteArray();
+    } catch (Exception e) {
+        throw new EmailServiceException("Failed to generate PDF", e);
+    }
+}
 
 
 

@@ -77,18 +77,19 @@ function populateTableAdmin() {
       
     }
     newRow.append(`<td>${item.additional_payment}</td>`);
-   if(item.paymentStatus=="Paid"){
+  //  if(item.paymentStatus=="Paid"){
     
-    newRow.append(`<td></td>`);
-    newRow.append(`<td></td>`);
-   }else{
-    newRow.append(
-      `<td  class="text-center text-danger"><button onClick="EditProductAdmin(${item.id})" type="button" class="btn btn-primary" id="addButtonAdmin"><i class="fa-solid fa-pen-to-square"></i></button></td>`
-    );
-    newRow.append(
-      `<td  class="text-center text-danger"><button onClick="DeleteProductAdmin(${item.id})" type="button" class="btn btn-danger" id="addButtonAdmin"><i class="fa-solid fa-trash"></i></button></td>`
-    );
-   }
+  //   newRow.append(`<td></td>`);
+  //   newRow.append(`<td></td>`);
+  //  }else{
+
+  //  }
+  newRow.append(
+    `<td  class="text-center text-danger"><button onClick="EditProductAdmin(${item.id})" type="button" class="btn btn-primary" id="addButtonAdmin"><i class="fa-solid fa-pen-to-square"></i></button></td>`
+  );
+  newRow.append(
+    `<td  class="text-center text-danger"><button onClick="DeleteProductAdmin(${item.id})" type="button" class="btn btn-danger" id="addButtonAdmin"><i class="fa-solid fa-trash"></i></button></td>`
+  );
 
     let toatal=item.taxAmount
     totalTax += parseFloat(toatal);
