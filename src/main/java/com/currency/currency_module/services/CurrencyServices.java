@@ -134,11 +134,6 @@ public class CurrencyServices {
         // Save the updated entity back to the database
         currencyDeclarationRepository.save(existingCurrencyDeclaration);
     }
-
-
-
-
-    
     
     public void  approveCurrencyUpdate(CurrencyDeclaration updatedapproveCurrencyDeclaration,String usernameSession,MultipartFile pdffile) throws IOException {
       System.out.println("===================================="+updatedapproveCurrencyDeclaration.getId());

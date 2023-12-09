@@ -14,7 +14,7 @@
                 </tr>
 
                 <tr>
-                   <td><span><span class="fw-bold">Entry Point:</span><span th:text="${reportShow['office_code']}"></span></span></td>
+                   <td><span><span class="fw-bold">Entry Point: </span><span th:text="${reportShow['entry_point']}"></span></span></td>
                 </tr>
 
                 <tr>
@@ -105,7 +105,7 @@
 
                     <input type="hidden" id="previousPaidAmountId" th:value="${totalPaidAmount}" readonly="readonly" />
                     <th colspan="3" class="text-end"> Payable Amount:</th>
-                    <td colspan="4"><span id="totalPayableAmount"></span></td>
+                    <td><span id="totalPayableAmount"></span></td>
 
                 </tr>
             </tbody>
