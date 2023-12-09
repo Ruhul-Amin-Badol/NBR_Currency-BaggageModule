@@ -128,7 +128,7 @@
                 <p class="p b ft-30" align="center" style="margin-right:-30%;">বৈদেশিক মুদ্রা ঘোষণা ফরম</p>
                 <p class="p ft-25" align="center" style="margin-right:-30%;">(Foreign Exchange Declaration Form)</p>
 
-                <p id="invoiceid" style="display: none;" class="b"> Invoice Id : <span th:text="${Currency.invoice}"></span></p>
+                <p   class="b"> Invoice Id : <span id="invoiceid"></span></p>
             </td>
 
             <td colspan="6"  >
@@ -320,10 +320,10 @@
             </tr>
             <tr>
                 <td colspan="6" class="pt">
-                   <p id="signatureId" style="display: none;"> <img th:src="${Signature}"   alt="Signature Image" height="80" width="150"></p>
+                   <p id="signatureId"> <img id="signatureImage" th:src="${Signature}"   alt="Signature Image" height="80" width="150"></p>
                     <p class="p" align="left" th:text="${UserfullName}"></p>
                     <p class="p b" align="left">[Signature of Customs Official]</p>
-                    <p class="p" align="left" th:if="${Currency.status == 'checked'}">Approve Date:<span th:text="${Currency.approveDate}"></span></p>
+                    <p class="p" align="left" >Approve Date:<span id="timeapproveid"></span></p>
                 </td>
                 <td colspan="6" class="pt mt-5">
                     <p class="p" align="right" th:text="${Currency.passengerName}"></p>
@@ -359,13 +359,13 @@
             <div class="button-container">
                 <div >
                     <!-- <span class="loader"></span> -->
-                    <button th:if="${Currency.status != 'checked'}" id="toggleButtorrrn" onclick="generateAndSendPDF()" class="btn btn-success">Approved</button>
+                    <button th:if="${Currency.status != 'checked'}" id="toggleButtorrrn" onclick="generateInvoice()" class="btn btn-success">Approved</button>
                 </div>
             </div>
         </div>
         <br><br><br>
 
-    </div>
+ </div>
     
 
 
@@ -426,12 +426,43 @@
 <script>
 
 
+function generateInvoice() {
+    // Get the value of the "cccccccureencyid" element
+    var currencyId = $('#cccccccureencyid').val();
+
+    // Make an Ajax request
+    $.ajax({
+        url: '/currencystart/currency_approve_invoice?id=' + currencyId,
+        type: 'GET',
+        success: function(data) {
+            // Handle the successful response
+
+           
+            document.getElementById("invoiceid").innerText=data.invoice;
+            document.getElementById("timeapproveid").innerText=data.approveDate;
+           
+            console.log(data.approveDate);
+            console.log(data.invoice);
+            generateAndSendPDF(data.approveDate,data.invoice)
+            // Do whatever you need with the data here
+        },
+        error: function(error) {
+            // Handle the error
+            console.error('Error:', error);
+        }
+    });
+}
+
+
+
    
-   function generateAndSendPDF() {
+   function generateAndSendPDF(approveDate,invoice) {
+
+
     document.getElementById("toggleButton1").style.display="none";
     document.getElementById("loaderselect").style.display="block";
     document.getElementById("signatureId").style.display="block";
-    document.getElementById("invoiceid").style.display="block";
+   
     document.getElementById("toggleButtorrrn").style.display="none";
 
     // document.getElementById("toggleButton").style.display="none";
@@ -566,7 +597,7 @@ function qrcode() {
             
             // // Display the QR code image
             // $("#qrcode").html('<img src="' + qrCodeUrl + '" alt="QR Code" />');
-        };
+};
 
     var a = ['','One ','Two ','Three ','Four ', 'Five ','Six ','Seven ','Eight ','Nine ','Ten ','Eleven ','Twelve ','Thirteen ','Fourteen ','Fifteen ','Sixteen ','Seventeen ','Eighteen ','Nineteen '];
     var b = ['', '', 'Twenty','Thirty','Forty','Fifty', 'Sixty','Seventy','Eighty','Ninety'];

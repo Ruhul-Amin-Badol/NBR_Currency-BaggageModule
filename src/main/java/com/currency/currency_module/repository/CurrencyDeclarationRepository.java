@@ -3,6 +3,7 @@ package com.currency.currency_module.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.currency.currency_module.model.CurrencyDeclaration;
 
@@ -43,7 +44,9 @@ public interface CurrencyDeclarationRepository extends JpaRepository<CurrencyDec
 
 
     List<CurrencyDeclaration> findByStatusAndEntryPointOrderByIdDesc(String string, String officeCode);
-
+    
+    @Query("SELECT COUNT(DISTINCT c.invoice) FROM CurrencyDeclaration c")
+    long countDistinctInvoices();
     
 }
 

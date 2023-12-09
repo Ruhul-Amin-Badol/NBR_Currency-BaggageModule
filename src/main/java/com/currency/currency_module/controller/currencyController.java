@@ -184,6 +184,8 @@ public class currencyController {
      
        
        List<BaggageCurrencyAdd> listcurrency= currencyServices.baggagecurrecylist(id);
+
+        
        System.out.println(listcurrency);
         model.addAttribute("Currency",currencyServices.findcurrency(id));
         model.addAttribute("Baggagecurrency",listcurrency);
@@ -205,39 +207,76 @@ public class currencyController {
     System.out.println("currencyIdGeneral============================"+currencyIdGeneral);
         return "currencyViewconfirm";
     }
+     @GetMapping("/confirmgenaral2")
+     public String ffffffffffff(@RequestParam Long id,Model model) {
+          CurrencyDeclaration currencyDeclaration= currencyServices.findcurrency(id);
 
-    @GetMapping("/confirmgenaral")
-   
-    public String updatestatuscurrency(@RequestParam Long id, Model model){
-        CurrencyDeclaration currencyDeclaration= currencyServices.findcurrency(id);
+            // Long currencyId = currencyDeclaration.getId();
+            // String passportId = currencyDeclaration.getPassportNumber();
+            // int length = passportId.length();
 
-            Long currencyId = currencyDeclaration.getId();
-            String passportId = currencyDeclaration.getPassportNumber();
-            int length = passportId.length();
-
-            // Extract the last four digits
-            String passportFourDigits = "";
-            if (length >= 4) {
-                passportFourDigits = passportId.substring(length - 4);
-            }
+        //     // Extract the last four digits
+        //     String passportFourDigits = "";
+        //     if (length >= 4) {
+        //         passportFourDigits = passportId.substring(length - 4);
+        //     }
  
-           // int incrementId = autoincrementId.intValue();
-        SimpleDateFormat dateFormatForInvoice = new SimpleDateFormat("ddMMYY");
-        String invoiceDate = dateFormatForInvoice.format(new Date());
+        //    // int incrementId = autoincrementId.intValue();
+        // SimpleDateFormat dateFormatForInvoice = new SimpleDateFormat("ddMMYY");
+        // String invoiceDate = dateFormatForInvoice.format(new Date());
   
-        String autoincrementIdAsString = String.format("%07d", currencyId);
-        String invoiceId = invoiceDate + autoincrementIdAsString;
+        // String autoincrementIdAsString = String.format("%07d", currencyId);
+        // String invoiceId = invoiceDate + autoincrementIdAsString;
 
-        currencyDeclaration.setInvoice(invoiceId);
+        // currencyDeclaration.setInvoice(invoiceId);
         currencyDeclaration.setStatus("unchecked");
         currencyDeclarationRepository.save(currencyDeclaration);
          List<BaggageCurrencyAdd> listcurrency= currencyServices.baggagecurrecylist(id);
          model.addAttribute("CurrencyShow", listcurrency);
          model.addAttribute("Currency",currencyServices.findcurrency(id));
-          model.addAttribute("invoiceNo",invoiceId);
+        //   model.addAttribute("invoiceNo",invoiceId);
         
             
        return "currencyViewconfirm";
+        
+     }
+     
+     
+
+     
+
+    @PostMapping("/confirmgenaral")
+   
+    public String updatestatuscurrency(@RequestParam("pdf") MultipartFile pdfFile,@RequestParam Long id, Model model) throws IOException{
+        CurrencyDeclaration currencyDeclaration= currencyServices.findcurrency4(id,pdfFile);
+
+        //     Long currencyId = currencyDeclaration.getId();
+        //     String passportId = currencyDeclaration.getPassportNumber();
+        //     int length = passportId.length();
+
+        //     // Extract the last four digits
+        //     String passportFourDigits = "";
+        //     if (length >= 4) {
+        //         passportFourDigits = passportId.substring(length - 4);
+        //     }
+ 
+        //    // int incrementId = autoincrementId.intValue();
+        // SimpleDateFormat dateFormatForInvoice = new SimpleDateFormat("ddMMYY");
+        // String invoiceDate = dateFormatForInvoice.format(new Date());
+  
+        // String autoincrementIdAsString = String.format("%07d", currencyId);
+        // String invoiceId = invoiceDate + autoincrementIdAsString;
+
+        // currencyDeclaration.setInvoice(invoiceId);
+        currencyDeclaration.setStatus("unchecked");
+        currencyDeclarationRepository.save(currencyDeclaration);
+         List<BaggageCurrencyAdd> listcurrency= currencyServices.baggagecurrecylist(id);
+         model.addAttribute("CurrencyShow", listcurrency);
+         model.addAttribute("Currency",currencyServices.findcurrency(id));
+        //   model.addAttribute("invoiceNo",invoiceId);
+        
+            
+       return "redirect:/currencystart/confirmgenaral2?id="+id;
     }
 
 
@@ -403,6 +442,16 @@ if ("allCurrencyList".equals(page)) {
     return "redirect:/currencystart/unapprove-currency";
 }
 
+
+    @GetMapping("/currency_approve_invoice")
+    @ResponseBody
+    public CurrencyDeclaration currencApproveUpdateInvoiceandDate( @RequestParam Long id) throws IOException {
+        return currencyServices.approveCurrencyUpdateInvoice(id);
+     
+}
+
+
+
     @PostMapping("/currency_unapprove_update")
     public String currencyUnapproveUpdate( CurrencyDeclaration updatedUnapproveCurrencyDeclaration,@RequestParam String page,Principal principal) {
         // Perform the update operation using currencyServices
@@ -413,7 +462,7 @@ if ("allCurrencyList".equals(page)) {
 } else if ("currencyApprove".equals(page)) {
     return "redirect:/currencystart/approve-currency";
 } else if ("currencyUnapprove".equals(page)) {
-    return "redirect:/currencystart/unapprove-currency";
+    return "redirect:/currencystart/unapprove-currency"; 
 }
 
         return "redirect:/currencystart/unapprove-currency";

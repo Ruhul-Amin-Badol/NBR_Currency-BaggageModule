@@ -8,6 +8,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 
 import com.currency.currency_module.model.BaggageCurrencyAdd;
 import com.currency.currency_module.model.CurrencyDeclaration;
+import com.currency.currency_module.model.UserActivityManagement;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.cloud.storage.Blob;
@@ -39,6 +40,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
@@ -51,6 +54,8 @@ public class PdfGenerationService {
 
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private UserActivityManagementService userActivityManagementService;
     
 
 
@@ -305,21 +310,26 @@ public byte[] generatePdf(List<Map<String, Object>>allProductQuery,List<?> rowDa
 
 
 
-public byte[] firebaseImage(Principal principal){
-   var storage = StorageClient.getInstance().bucket();
+public byte[] firebaseImage(Principal principal) throws IOException{
+ UserActivityManagement user=userActivityManagementService.findUserWithUserName(principal.getName());
+
+//    var storage = StorageClient.getInstance().bucket();
                 
-                String usernameSession = principal.getName();
-            // Fetch image data from Firebase Storage
-            String imageName = "signatures/"+usernameSession; // Adjust this to the actual image name
-            Blob blob = storage.get(imageName);
+//                 String usernameSession = principal.getName();
+//             // Fetch image data from Firebase Storage
+//             String imageName = "signatures/"+usernameSession; // Adjust this to the actual image name
+//             Blob blob = storage.get(imageName);
 
-            // Check if the blob (image) exists
-            if (blob == null) {
-                throw new RuntimeException("Image not found in Firebase Storage: " + imageName);
-            }
+//             // Check if the blob (image) exists
+//             if (blob == null) {
+//                 throw new RuntimeException("Image not found in Firebase Storage: " + imageName);
+//             }
 
-            byte[] imageData = blob.getContent();
-            return imageData;
+//             byte[] imageData = blob.getContent();
+//             return imageData;
+  
+ String imageUrl =user.getSignature(); // Replace with the actual URL
+    return getImageFromURL(imageUrl);
 }
 
 public byte[] firebaselogo(String name){
@@ -339,21 +349,46 @@ public byte[] firebaselogo(String name){
             return imageData;
 }
 
-public byte[] firebaseImageSignature(String usernameSession){
-   var storage = StorageClient.getInstance().bucket();
+public byte[] getImageFromURL(String imageUrl) throws IOException {
+    URL url = new URL(imageUrl);
+    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+    connection.setRequestMethod("GET");
+
+    // Check if the request was successful (status code 200)
+    if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+        throw new RuntimeException("Failed to fetch image from URL: " + imageUrl
+                + ", HTTP error code: " + connection.getResponseCode());
+    }
+
+    // Read the image data from the input stream
+    try (InputStream inputStream = connection.getInputStream()) {
+        byte[] imageData = inputStream.readAllBytes();
+        return imageData;
+    } finally {
+        connection.disconnect();
+    }
+}
+
+
+
+public byte[] firebaseImageSignature(String usernameSession) throws IOException{
+    UserActivityManagement user=userActivityManagementService.findUserWithUserName(usernameSession);
+//    var storage = StorageClient.getInstance().bucket();
                 
               
-            // Fetch image data from Firebase Storage
-            String imageName = "signatures/"+usernameSession; // Adjust this to the actual image name
-            Blob blob = storage.get(imageName);
+//             // Fetch image data from Firebase Storage
+//             String imageName = "signatures/"+usernameSession; // Adjust this to the actual image name
+//             Blob blob = storage.get(imageName);
 
-            // Check if the blob (image) exists
-            if (blob == null) {
-                throw new RuntimeException("Image not found in Firebase Storage: " + imageName);
-            }
+//             // Check if the blob (image) exists
+//             if (blob == null) {
+//                 throw new RuntimeException("Image not found in Firebase Storage: " + imageName);
+//             }
 
-            byte[] imageData = blob.getContent();
-            return imageData;
+//             byte[] imageData = blob.getContent();
+//             return imageData;
+ String imageUrl =user.getSignature(); // Replace with the actual URL
+    return getImageFromURL(imageUrl);
 }
 //payment not at this time
     public byte[] generatePdfPaymentNotAtThisTime(List<Map<String, Object>>allProductQuery,List<?> rowData, List<String> includedFields, Double totalPaidAmount,Long id) throws IOException {
