@@ -34,7 +34,7 @@
 
                                         <div class="mb-3">
                                             <label for="passportNumber" class="form-label" id="passportNumberLabel">Passport Number</label><span class="astrick">*</span>
-                                            <input type="text" class="form-control" id="example1" name="passportNumber" placeholder="Enter passport number" required>
+                                            <input type="text" class="form-control" id="passportNumberId" name="passportNumber" placeholder="Enter passport number" required>
                                         </div>
 
                                         <div class="mb-3">
@@ -419,7 +419,7 @@
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="flightNo" class="form-label" id="flightNoLabel">Flight No</label><span class="astrick">*</span>
+                                            <label for="flightNo" class="form-label" id="flightNoLabel">Flight No </label><span class="astrick">*</span>
                                             <input type="text" class="form-control"  id="FlightNoId" name="flightNo" placeholder="Enter Flight  No Ex:BG 805" required>
                                         </div>
 
@@ -1499,7 +1499,6 @@
     const FlightNoElement = document.getElementById("FlightNoId");
                   
     passportNumberElement.addEventListener("keyup", function(event) {
-        alert("===")
         event.preventDefault();
         passportNumberElement.value = passportNumberElement.value.toUpperCase();
     });

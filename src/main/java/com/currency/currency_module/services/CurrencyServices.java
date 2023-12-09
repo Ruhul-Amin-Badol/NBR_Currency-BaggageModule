@@ -118,22 +118,22 @@ public class CurrencyServices {
 
     //for For update invoice and status   @PostMapping("/currencystart/currencyConfirmInvoice")
 
-    public void currencyStatusInvoiceUpdate(CurrencyDeclaration updatedCurrencyDeclaration,String invoiceId) {
-      System.out.println(updatedCurrencyDeclaration.getId());
-        // Retrieve the existing currency declaration by its ID or any unique identifier
-        CurrencyDeclaration existingCurrencyDeclaration = currencyDeclarationRepository.findById(updatedCurrencyDeclaration.getId())
-                .orElseThrow(() -> new EntityNotFoundException("Currency Declaration not found"));
+    // public void currencyStatusInvoiceUpdate(CurrencyDeclaration updatedCurrencyDeclaration,String invoiceId) {
+    //   System.out.println(updatedCurrencyDeclaration.getId());
+    //     // Retrieve the existing currency declaration by its ID or any unique identifier
+    //     CurrencyDeclaration existingCurrencyDeclaration = currencyDeclarationRepository.findById(updatedCurrencyDeclaration.getId())
+    //             .orElseThrow(() -> new EntityNotFoundException("Currency Declaration not found"));
     
-        // Update the properties of the existing entity with the updated data
-         if(updatedCurrencyDeclaration.getNationality().equals("Other")){
-        updatedCurrencyDeclaration.setNationality(updatedCurrencyDeclaration.getOtherNationality());
-           }
-        existingCurrencyDeclaration.setInvoice(invoiceId);
-        existingCurrencyDeclaration.setStatus("processing");
+    //     // Update the properties of the existing entity with the updated data
+    //      if(updatedCurrencyDeclaration.getNationality().equals("Other")){
+    //     updatedCurrencyDeclaration.setNationality(updatedCurrencyDeclaration.getOtherNationality());
+    //        }
+    //     existingCurrencyDeclaration.setInvoice(invoiceId);
+    //     existingCurrencyDeclaration.setStatus("processing");
     
-        // Save the updated entity back to the database
-        currencyDeclarationRepository.save(existingCurrencyDeclaration);
-    }
+    //     // Save the updated entity back to the database
+    //     currencyDeclarationRepository.save(existingCurrencyDeclaration);
+    // }
     
     public void  approveCurrencyUpdate(CurrencyDeclaration updatedapproveCurrencyDeclaration,String usernameSession,MultipartFile pdffile) throws IOException {
       System.out.println("===================================="+updatedapproveCurrencyDeclaration.getId());

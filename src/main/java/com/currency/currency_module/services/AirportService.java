@@ -59,11 +59,11 @@ public class AirportService {
     }
 
     public AirportList findAirport(long id) {
-      return airportRepository.findById(id).orElseThrow(()->new ResourceNotFound("User not found"));
+      return airportRepository.findById(id).orElseThrow(()->new ResourceNotFound("airport not found"));
     }
 
     public AirportList findAirportByOfficeCode(String officeCode) {
-      return airportRepository.findByOfficeCode(officeCode).orElseThrow(()->new ResourceNotFound("User not found"));
+      return airportRepository.findByOfficeCode(officeCode).orElseThrow(()->new ResourceNotFound("Office code not found"));
     }
 
 
