@@ -42,6 +42,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
+
 @Service
 public class PdfGenerationService {
 
@@ -52,7 +53,7 @@ public class PdfGenerationService {
     @Autowired
     private EmailService emailService;
     
-//pay by admin
+//payment by admin 
     public byte[] generatePdfPayByAdmin(List<Map<String, Object>>allProductQuery,List<?> rowData, List<String> includedFields, Double totalPaidAmount,Double paidAmount,Long id, String passangerName,String applicationSubmitDate,String paymentId) throws IOException {
 
         byte[] logo  = firebaselogo("nbr_logo.png");
