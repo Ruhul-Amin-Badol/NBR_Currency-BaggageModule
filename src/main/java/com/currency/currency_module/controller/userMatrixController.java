@@ -69,12 +69,12 @@ public class userMatrixController {
                 return "editUser"; 
     }
             @PostMapping("/updateuser/{userId}")
-            public String updateUser(@PathVariable Long userId, @ModelAttribute UserActivityManagement user, MultipartFile image) {
-                System.out.println(user);
+            public String updateUser(@PathVariable Long userId, @ModelAttribute @Valid UserActivityManagement user,BindingResult result,MultipartFile signature) {
+                System.out.println(signature.getOriginalFilename());
                 // Set the user ID from the path variable
                 user.setUserId(userId);
 
-                userActivityManagementService.saveUserActivityManagement(user,image);
+                userActivityManagementService.saveUserActivityManagement(user,signature);
                 return "redirect:/usermatrix/rollcreate";
     }
 
@@ -110,7 +110,7 @@ public class userMatrixController {
             }
 
             @PostMapping("/rollupdateuser/{userId}")
-            public String rollupdateUser(@PathVariable Long userId, @ModelAttribute UserActivityManagement user) {
+            public String rollupdateUser(@PathVariable Long userId, @ModelAttribute UserActivityManagement user,MultipartFile signature1) {
                 // Set the user ID from the path variable
                 user.setUserId(userId);
 

@@ -38,14 +38,9 @@ public interface CurrencyDeclarationRepository extends JpaRepository<CurrencyDec
 
 
     List<CurrencyDeclaration> findByStatusAndEntryPointOrderByIdDesc(String string, String officeCode);
-
-
+    
     @Query("SELECT COUNT(DISTINCT c.invoice) FROM CurrencyDeclaration c")
     long countDistinctInvoices();
-
-
-    // @Query("SELECT COUNT(DISTINCT c.invoice) FROM CurrencyDeclaration c")
-    // long countDistinctInvoices();
     
 }
 

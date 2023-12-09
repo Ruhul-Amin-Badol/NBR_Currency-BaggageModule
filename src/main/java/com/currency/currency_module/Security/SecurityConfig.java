@@ -174,6 +174,7 @@ public static class App4ConfigurationAdapter {
                .requestMatchers(HttpMethod.POST, "/currencystart/delete").permitAll()
                .requestMatchers(HttpMethod.GET, "/currencystart/showconfirmgenaral").permitAll()
                .requestMatchers(HttpMethod.POST, "/currencystart/confirmgenaral").permitAll()
+               .requestMatchers(HttpMethod.GET, "/currencystart/confirmgenaral").permitAll()
                .requestMatchers(HttpMethod.POST, "/currencystart/currencyConfirmInvoice").permitAll()
 
                
