@@ -55,6 +55,9 @@ public class PdfGenerationService {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    UserActivityManagementService userActivityManagementService;
     
 
 
