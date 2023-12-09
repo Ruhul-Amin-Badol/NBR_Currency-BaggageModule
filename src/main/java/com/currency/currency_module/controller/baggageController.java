@@ -150,7 +150,6 @@ public class baggageController {
                System.out.println("paidAmount======================================="+paidAmount);
             totalPaidAmount= totalPaidAmount+paidAmount;
             }
-
             System.out.println("jjjjjjjjjjjjjjjjjjjjjjjjjjj"+totalPaidAmount);
             model.addAttribute("totalPaidAmount", totalPaidAmount);
             System.out.println("paymentHistoryInfo======================================="+totalPaidAmount);
@@ -1029,6 +1028,9 @@ public class baggageController {
        try {
            // Double totalPaidAmount = 0.0;
             String gmail = (String) requestParameters.get("email");
+             String passangerName = (String) requestParameters.get("passenger_name");
+            String applicationSubmitDate = (String) requestParameters.get("application_submit_date");
+            String paymentId = (String) requestParameters.get("payment_id");
         
             String baggage_Sql = "SELECT * FROM baggage WHERE id =?";
             Map<String, Object> baggageQuery = jdbcTemplate.queryForMap(baggage_Sql, id);
@@ -1037,12 +1039,12 @@ public class baggageController {
             String baggageProductAddJoin = "SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
             List<Map<String, Object>> allProductQuery = jdbcTemplate.queryForList(baggageProductAddJoin, id);
         
-            List<String> includedFields = Arrays.asList("passenger_name","entry_point","flight_no","passport_number");
+                    List<String> includedFields = Arrays.asList("passenger_name","entry_point","flight_no","passport_number","dateofarrival","previous_country","email","mobile_no");
           //  List<String> includedFields = Arrays.asList("id","item_id","payment_id"); // Replace with your actual field names
             List<Object> rowData = new ArrayList<>(allProductQuery);
             rowData.add(baggageQuery);
         
-            byte[] pdfData = pdfGenerationService.generatePdf(allProductQuery,rowData, includedFields,totalTaxAmount,id);
+            byte[] pdfData = pdfGenerationService.generatePdf(allProductQuery,rowData, includedFields,totalTaxAmount,id, applicationSubmitDate, passangerName, paymentId);
         
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_PDF);
@@ -1357,7 +1359,7 @@ public class baggageController {
 
 
     @PostMapping("/confirm-pay-by-admin")
-        public String confrimPayByAdmin(@RequestParam int id, @RequestParam Double payableAmount,Model model){
+        public String confrimPayByAdmin(@RequestParam Long id, @RequestParam Double payableAmount,Model model,Principal principal){
 
             String baggageSql= "SELECT * FROM baggage WHERE id =?";
             Map<String, Object>requestParameters= jdbcTemplate.queryForMap(baggageSql, id);
@@ -1368,14 +1370,7 @@ public class baggageController {
 
             String sql1="SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
             List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,id);
-            Double totalTaxAmount = 0.0;
-            for (Map<String, Object> row : productshow) {
-                String taxAmount = (String) row.get("tax_amount");
 
-                if (taxAmount != null) {
-                    totalTaxAmount += Double.parseDouble(taxAmount);
-                }
-            }
             String mailBody ="";
             String link="/baggagestart/confrimPage?id="+id;
 
@@ -1396,38 +1391,93 @@ public class baggageController {
                     } catch (SQLException e) {
                     e.printStackTrace();
                     }
+                
+                try {
+                // Double totalPaidAmount = 0.0;
+                    Double totalTaxAmount = 0.0;
+                    String passangerName = (String) requestParameters.get("passenger_name");
+                    String applicationSubmitDate = (String) requestParameters.get("application_submit_date");
+                    String paymentId = (String) requestParameters.get("payment_id");
 
-                   mailBody ="Hello Mr/Mrs,"+ requestParameters.get("passenger_name")+
-                ", You are successfully submitted your baggage information."
-                +" You paid "+paidAmount+" only"+"Click <a href='" + link + "'>here</a> to get Details." ;
+                    for (Map<String, Object> row : productshow) {
+                        String taxAmount = (String) row.get("tax_amount");
 
-            }else{
-                 mailBody ="Thank you for you baggage payment" ;
-            }
+                        if (taxAmount != null) {
+                            totalTaxAmount += Double.parseDouble(taxAmount);
+                        }
+                    }
+                    String gmail = (String) requestParameters.get("email");
+                
+                    String baggage_Sql = "SELECT * FROM baggage WHERE id =?";
+                    Map<String, Object> baggageQuery = jdbcTemplate.queryForMap(baggage_Sql, id);
+                
+
+                    String baggageProductAddJoin = "SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
+                    List<Map<String, Object>> allProductQuery = jdbcTemplate.queryForList(baggageProductAddJoin, id);
+                
+                    List<String> includedFields = Arrays.asList("passenger_name","entry_point","flight_no","passport_number","dateofarrival","previous_country","email","mobile_no");
+                //  List<String> includedFields = Arrays.asList("id","item_id","payment_id"); // Replace with your actual field names
+                    List<Object> rowData = new ArrayList<>(allProductQuery);
+                    rowData.add(baggageQuery);
+                
+                    byte[] pdfData = pdfGenerationService.generatePdfPayByAdmin(allProductQuery,rowData, includedFields,totalTaxAmount,paidAmount,id,passangerName,applicationSubmitDate,paymentId);
+                
+                    HttpHeaders headers = new HttpHeaders();
+                    headers.setContentType(MediaType.APPLICATION_PDF);
+                    headers.setContentDispositionFormData("inline", "NBR_baggage_declaration.pdf");
+                
+                    emailService.sendEmailWithAttachment(gmail, "NBR Baggage Declaration", "Body", pdfData, "nbr_baggage_application.pdf");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }   
+
+
+
+
+
+                
+
+
+                }else{
+                    mailBody ="Thank you for you baggage payment" ;
+                }
+
+
+                // if (paidAmount < 0){
+                //   double creditAmount = Math.abs(paidAmount);
+                //    mailBody ="Hello Mr/Mrs,"+ requestParameters.get("passenger_name")+
+                // ", You are successfully submitted your baggage information."
+                // +" Your credit "+creditAmount+" only"+"Click <a href='" + link + "'>here</a> to get Details." ;
+
+                //     }else{
+
+                // mailBody ="Hello Mr/Mrs,"+ requestParameters.get("passenger_name")+
+                // ", You are successfully submitted your baggage information."
+                // +" You paid "+paidAmount+" only"+"Click <a href='" + link + "'>here</a> to get Details." ;
+                //     }
+
+
+            // String gmail = (String) requestParameters.get("email");
+            // SimpleMailMessage message = new SimpleMailMessage();
+            // message.setFrom("nbroffice71@gmail.com");
+            // message.setTo(gmail);
+            // message.setText(mailBody);
+
+            // message.setSubject("NBR Baggage Declaration");
+            // mailSender.send(message);   
 
             String paymentStatus = "Paid";
             String sqlBaggage = "UPDATE baggage SET payment_status=? WHERE id=?";
             jdbcTemplate.update(sqlBaggage,paymentStatus,id);
 
-
-
-            String gmail = (String) requestParameters.get("email");
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setFrom("nbroffice71@gmail.com");
-            message.setTo(gmail);
-            message.setText(mailBody);
-
-            message.setSubject("NBR Baggage Declaration");
-            mailSender.send(message);   
-
-
+            
             model.addAttribute("reportShow", requestParameters);  
             model.addAttribute("showProduct", productshow);
 
              return "redirect:/baggageshow/baggagetotalid?id="+id+"&status=unapproved";
          }
 
-         @GetMapping("/payment-not-at-this-time")
+        @GetMapping("/payment-not-at-this-time")
          public String paymentNotAtThisTime(
             @RequestParam Long id, // Add a parameter for the unique identifier (id)
             Model model,Principal principal) {
@@ -1627,7 +1677,7 @@ public String currencApproveUpdate(@RequestParam int id, @RequestParam String st
 
 
        return "redirect:/baggageshow/baggagetotal";
-}   //for baggage reject list
+}   //for baggage reject list 
   
 
 
