@@ -11,7 +11,7 @@
                         <div class='card-body'>
                             <h1 class="fw-bold text-center text-success">Currency Declaration Form</h1>
                  <div>
-                        <form th:action="@{/currencystart/currencyUpdate}"  method="post" th:object="${currencyDeclaration}" id="myForm">
+                        <form th:action="@{/currencystart/currencyUpdateAdmin}"  method="post" th:object="${currencyDeclaration}" id="myForm">
                             <input type="hidden" id="currencyId" name="id" th:value="${currencyDeclaration.id}"/>
                             <div class="container p-3 bg-light">
                                 <div class="row">
@@ -19,10 +19,10 @@
                                   
                                         <div class="mb-3">
                                             <label for="entryPoint" class="form-label" id="nationalityLabel">Select Entry Point</label>
-                                            <select class="form-select" name="entryPoint" id="entryPoint"  required>
+                                            <select class="form-select" name="officeCode" id="entryPoint"  required>
                                             <option value="">--Please Select--</option>
                                             <option th:each="airport : ${allAirportList}"
-                                            th:value="${airport.airPortNames}" th:text="${airport.airPortNames}" th:unless="${airport.airPortNames == 'all'}" th:selected="${currencyDeclaration.entryPoint == airport.airPortNames}"></option>
+                                            th:value="${airport.officeCode}" th:text="${airport.airPortNames}" th:unless="${airport.airPortNames == 'all'}" th:selected="${currencyDeclaration.entryPoint == airport.airPortNames}"></option>
 
                                             </select> 
                                           </div>
@@ -33,7 +33,7 @@
 
                                         <div class="mb-3">
                                             <label for="passportNumber" class="form-label" id="passportNumberLabel">Passport Number</label><span class="astrick">*</span>
-                                            <input type="text" class="form-control" id="example1"  name="passportNumber" th:value="${currencyDeclaration.passportNumber}" placeholder="Enter passport number" required>
+                                            <input type="text" class="form-control" id="passportNumberId"  name="passportNumber" th:value="${currencyDeclaration.passportNumber}" onkeyup="" placeholder="Enter passport number" required>
                                         </div>
 
                                         <div class="mb-3">
@@ -423,7 +423,7 @@
 
                                         <div class="mb-3">
                                             <label for="flightNo" class="form-label" id="flightNoLabel">Flight No</label><span class="astrick">*</span>
-                                            <input type="text" class="form-control"  id="flightNo" name="flightNo" th:value="${currencyDeclaration.flightNo}"placeholder="Enter Flight  No Ex:BG 805" required >
+                                            <input type="text" class="form-control"  id="FlightNoId" name="flightNo" th:value="${currencyDeclaration.flightNo}"placeholder="Enter Flight  No Ex:BG 805" required >
                                         </div>
 
                                         <div class="mb-3">
@@ -768,10 +768,10 @@
                                                         <option value="ZWB" label="Zimbabwean bonds">ZWB</option>
                                                     </select>
                                                 </td>
-                                                <td><input type="text" placeholder="Ex: 1/10/20/50/100/200/500" class="form-control" id="currencyNoteType" name="currencyNoteType" onKeyUp="Note_calc()"></td>
-                                                <td><input type="text" class="form-control" id="numberOfNote" name="numberOfNote" onKeyUp="Note_calc()"></td>
-                                                <td><input type="number" class="form-control" id="currencyAmount" name="currencyAmount"></td>
-                                                <td class="d-none" ><input type="number" class="form-control" id="currencyeditId" name="currencyeditId"></td>
+                                                <td><input type="number" placeholder="Ex: 1/10/20/50/100/200/500" class="form-control" id="currencyNoteType" name="currencyNoteType" onKeyUp="Note_calc()"></td>
+                                                <td><input type="number" class="form-control" id="numberOfNote" name="numberOfNote" onKeyUp="Note_calc()"></td>
+                                                <td><input type="number" class="form-control" id="currencyAmount" name="currencyAmount" readonly></td>
+                                                <td class="d-none" ><input type="number" class="form-control" id="currencyeditId" name="currencyeditId" ></td>
 
                                                 <td><button type="button" class="btn btn-success" id="addCurrencyButton">Add</button></td>
                                             </tr>
@@ -826,7 +826,26 @@
                     </div>
                 </div>
 
+<script>
+        const passportNumberElement = document.getElementById("passportNumberId");
+    const FlightNoElement = document.getElementById("FlightNoId");
+    
+                  
+    passportNumberElement.addEventListener("keyup", function(event) {
+        event.preventDefault();
+        passportNumberElement.value = passportNumberElement.value.toUpperCase();
+    });
 
+    FlightNoElement.addEventListener("keyup", function(event) {
+       // alert("===")
+        event.preventDefault();
+        FlightNoElement.value = FlightNoElement.value.toUpperCase();
+    });
+
+
+
+
+</script>
 
 
  <div th:replace="~{layout/footer}"></div>

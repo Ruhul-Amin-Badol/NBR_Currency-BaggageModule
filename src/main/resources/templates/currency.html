@@ -46,9 +46,10 @@
                   <input
                     type="text"
                     class="form-control"
-                    id="example1"
+                    id="passportNumberId"
                     name="passportNumber"
                     placeholder="Enter passport number"
+                    onkeyup=""
                     required />
                 </div>
 
@@ -440,7 +441,7 @@
                   <input
                     type="text"
                     class="form-control"
-                    id="flightNo"
+                    id="FlightNoId"
                     name="flightNo"
                     placeholder="Enter Flight  No Ex:BG 805"
                     required />
@@ -666,5 +667,22 @@
 </div>
 
 <script>
+    const passportNumberElement = document.getElementById("passportNumberId");
+    const FlightNoElement = document.getElementById("FlightNoId");
+                  
+    passportNumberElement.addEventListener("keyup", function(event) {
+        event.preventDefault();
+        passportNumberElement.value = passportNumberElement.value.toUpperCase();
+    });
+
+    FlightNoElement.addEventListener("keyup", function(event) {
+        event.preventDefault();
+        FlightNoElement.value = FlightNoElement.value.toUpperCase();
+    });
+
+
+
+
+
     $('.select2').select2();
 </script>

@@ -116,23 +116,45 @@ public class currencyController {
     // Perform the update operation using currencyServices
 
     String officeCode = updatedCurrencyDeclaration.getOfficeCode();
+    System.out.println("officeCode================================================"+officeCode);
     AirportList airport = airportService.findAirportByOfficeCode(officeCode);
 
     String airportName = airport.getAirPortNames();
     updatedCurrencyDeclaration.setEntryPoint(airportName);
 
-
-
     currencyServices.currencyUpdate(updatedCurrencyDeclaration,airportName);
     Long id=updatedCurrencyDeclaration.getId();
  
-      
     // Redirect to the edit page with a success message
 
     return "redirect:/currencystart/currencyEdit?id="+id;
 }
 
-    @ResponseBody
+ 
+
+
+    @PostMapping("/currencyUpdateAdmin")
+    public String updateCurrencyAdmin( CurrencyDeclaration updatedCurrencyDeclaration, RedirectAttributes redirectAttributes) {
+    // Perform the update operation using currencyServices
+
+    String officeCode = updatedCurrencyDeclaration.getOfficeCode();
+    System.out.println("officeCode================================================"+officeCode);
+    AirportList airport = airportService.findAirportByOfficeCode(officeCode);
+
+    String airportName = airport.getAirPortNames();
+    updatedCurrencyDeclaration.setEntryPoint(airportName);
+
+    currencyServices.currencyUpdate(updatedCurrencyDeclaration,airportName);
+    Long id=updatedCurrencyDeclaration.getId();
+ 
+    // Redirect to the edit page with a success message
+
+    return "redirect:/currencystart/currency-edit-admin?id="+id;
+}
+
+ 
+
+@ResponseBody
     @PostMapping("/addCurrency")
     public BaggageCurrencyAdd addCurrency(@RequestBody BaggageCurrencyAdd addCurrency){
         return currencyServices.addCurrency(addCurrency);
@@ -358,10 +380,9 @@ public class currencyController {
         model.addAttribute("Signature",getSignature);
 
 
-         model.addAttribute("Currency",currencydata);
+        model.addAttribute("Currency",currencydata);
         model.addAttribute("Baggagecurrency",listcurrency);
         model.addAttribute("page", page);
-
       return "currencyApprovalPage";
 
 
@@ -380,7 +401,7 @@ public class currencyController {
 
     @PostMapping("/currenc_approve_update")
     public String currencApproveUpdate( @RequestParam("pdf") MultipartFile pdfFile,CurrencyDeclaration updatedApproveCurrencyDeclaration,@RequestParam String page, Principal principal) throws IOException {
-        System.out.println("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"+pdfFile.getSize() );
+        ///System.out.println("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"+pdfFile.getSize() );
         String usernameSession=principal.getName();
         currencyServices.approveCurrencyUpdate(updatedApproveCurrencyDeclaration,usernameSession,pdfFile);
 
