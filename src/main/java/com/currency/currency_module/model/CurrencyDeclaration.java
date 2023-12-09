@@ -55,6 +55,9 @@ public class CurrencyDeclaration {
     @Column(name = "stay_time_abroad")
     private String stayTimeAbroad;
 
+    @Column(name = "country_code")
+    private String countryCode;
+
     @Column(name = "contact_no")
     private String contactNo;
 
@@ -69,6 +72,14 @@ public class CurrencyDeclaration {
 
     @Column(name = "check_by")
     private Long checkBy;
+
+    public String getCountryCode() {
+        return this.countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
 
     @Column(name = "check_at")
     private String checkAt;

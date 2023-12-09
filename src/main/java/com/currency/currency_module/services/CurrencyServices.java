@@ -73,6 +73,7 @@ public class CurrencyServices {
         existingCurrencyDeclaration.setPreviousCountry(updatedCurrencyDeclaration.getPreviousCountry());
         existingCurrencyDeclaration.setStayTimeAbroad(updatedCurrencyDeclaration.getStayTimeAbroad());
         existingCurrencyDeclaration.setOfficeCode(updatedCurrencyDeclaration.getOfficeCode());
+        existingCurrencyDeclaration.setCountryCode(updatedCurrencyDeclaration.getCountryCode());
         existingCurrencyDeclaration.setEntryPoint(airportName);
         existingCurrencyDeclaration.setStatus("processing");
     
