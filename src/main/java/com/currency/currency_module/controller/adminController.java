@@ -115,12 +115,11 @@ public class adminController {
         @GetMapping("/baggageApplicationEdit")
         @ResponseBody
         public List<Map<String, Object>> baggageApplicationEdit(){
-            String sql1 = "SELECT * FROM baggage";
-            List<Map<String, Object>> baggageappshow = jdbcTemplate.queryForList(sql1);
+            String sql3 = "SELECT * FROM baggage ORDER by id DESC";
+            List<Map<String, Object>> baggageappshow = jdbcTemplate.queryForList(sql3);
         
             return baggageappshow;
         }
-
         @GetMapping("/baggageApplicationShow")
      
         public String baggageApplicationShow(){ 

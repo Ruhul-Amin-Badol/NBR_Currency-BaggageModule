@@ -116,23 +116,45 @@ public class currencyController {
     // Perform the update operation using currencyServices
 
     String officeCode = updatedCurrencyDeclaration.getOfficeCode();
+    System.out.println("officeCode================================================"+officeCode);
     AirportList airport = airportService.findAirportByOfficeCode(officeCode);
 
     String airportName = airport.getAirPortNames();
     updatedCurrencyDeclaration.setEntryPoint(airportName);
 
-
-
     currencyServices.currencyUpdate(updatedCurrencyDeclaration,airportName);
     Long id=updatedCurrencyDeclaration.getId();
  
-      
     // Redirect to the edit page with a success message
 
     return "redirect:/currencystart/currencyEdit?id="+id;
 }
 
-    @ResponseBody
+ 
+
+
+    @PostMapping("/currencyUpdateAdmin")
+    public String updateCurrencyAdmin( CurrencyDeclaration updatedCurrencyDeclaration, RedirectAttributes redirectAttributes) {
+    // Perform the update operation using currencyServices
+
+    String officeCode = updatedCurrencyDeclaration.getOfficeCode();
+    System.out.println("officeCode================================================"+officeCode);
+    AirportList airport = airportService.findAirportByOfficeCode(officeCode);
+
+    String airportName = airport.getAirPortNames();
+    updatedCurrencyDeclaration.setEntryPoint(airportName);
+
+    currencyServices.currencyUpdate(updatedCurrencyDeclaration,airportName);
+    Long id=updatedCurrencyDeclaration.getId();
+ 
+    // Redirect to the edit page with a success message
+
+    return "redirect:/currencystart/currency-edit-admin?id="+id;
+}
+
+ 
+
+@ResponseBody
     @PostMapping("/addCurrency")
     public BaggageCurrencyAdd addCurrency(@RequestBody BaggageCurrencyAdd addCurrency){
         return currencyServices.addCurrency(addCurrency);
@@ -211,9 +233,9 @@ public class currencyController {
      public String ffffffffffff(@RequestParam Long id,Model model) {
           CurrencyDeclaration currencyDeclaration= currencyServices.findcurrency(id);
 
-            // Long currencyId = currencyDeclaration.getId();
-            // String passportId = currencyDeclaration.getPassportNumber();
-            // int length = passportId.length();
+            Long currencyId = currencyDeclaration.getId();
+            String passportId = currencyDeclaration.getPassportNumber();
+            int length = passportId.length();
 
         //     // Extract the last four digits
         //     String passportFourDigits = "";
@@ -221,19 +243,21 @@ public class currencyController {
         //         passportFourDigits = passportId.substring(length - 4);
         //     }
  
-        //    // int incrementId = autoincrementId.intValue();
-        // SimpleDateFormat dateFormatForInvoice = new SimpleDateFormat("ddMMYY");
-        // String invoiceDate = dateFormatForInvoice.format(new Date());
+           // int incrementId = autoincrementId.intValue();
+        SimpleDateFormat dateFormatForInvoice = new SimpleDateFormat("ddMMYY");
+        String invoiceDate = dateFormatForInvoice.format(new Date());
   
-        // String autoincrementIdAsString = String.format("%07d", currencyId);
-        // String invoiceId = invoiceDate + autoincrementIdAsString;
+        String autoincrementIdAsString = String.format("%07d", currencyId);
+        String invoiceId = invoiceDate + autoincrementIdAsString;
 
-        // currencyDeclaration.setInvoice(invoiceId);
+        currencyDeclaration.setInvoice(invoiceId);
         currencyDeclaration.setStatus("unchecked");
         currencyDeclarationRepository.save(currencyDeclaration);
          List<BaggageCurrencyAdd> listcurrency= currencyServices.baggagecurrecylist(id);
          model.addAttribute("CurrencyShow", listcurrency);
          model.addAttribute("Currency",currencyServices.findcurrency(id));
+     //   model.addAttribute("invoiceNo",invoiceId);
+
         //   model.addAttribute("invoiceNo",invoiceId);
         
             
@@ -250,30 +274,15 @@ public class currencyController {
     public String updatestatuscurrency(@RequestParam("pdf") MultipartFile pdfFile,@RequestParam Long id, Model model) throws IOException{
         CurrencyDeclaration currencyDeclaration= currencyServices.findcurrency4(id,pdfFile);
 
-        //     Long currencyId = currencyDeclaration.getId();
-        //     String passportId = currencyDeclaration.getPassportNumber();
-        //     int length = passportId.length();
+   
 
-        //     // Extract the last four digits
-        //     String passportFourDigits = "";
-        //     if (length >= 4) {
-        //         passportFourDigits = passportId.substring(length - 4);
-        //     }
- 
-        //    // int incrementId = autoincrementId.intValue();
-        // SimpleDateFormat dateFormatForInvoice = new SimpleDateFormat("ddMMYY");
-        // String invoiceDate = dateFormatForInvoice.format(new Date());
-  
-        // String autoincrementIdAsString = String.format("%07d", currencyId);
-        // String invoiceId = invoiceDate + autoincrementIdAsString;
-
-        // currencyDeclaration.setInvoice(invoiceId);
+       
         currencyDeclaration.setStatus("unchecked");
         currencyDeclarationRepository.save(currencyDeclaration);
          List<BaggageCurrencyAdd> listcurrency= currencyServices.baggagecurrecylist(id);
          model.addAttribute("CurrencyShow", listcurrency);
          model.addAttribute("Currency",currencyServices.findcurrency(id));
-        //   model.addAttribute("invoiceNo",invoiceId);
+        
         
             
        return "redirect:/currencystart/confirmgenaral2?id="+id;
@@ -398,10 +407,9 @@ public class currencyController {
         model.addAttribute("Signature",getSignature);
 
 
-         model.addAttribute("Currency",currencydata);
+        model.addAttribute("Currency",currencydata);
         model.addAttribute("Baggagecurrency",listcurrency);
         model.addAttribute("page", page);
-
       return "currencyApprovalPage";
 
 
@@ -420,7 +428,7 @@ public class currencyController {
 
     @PostMapping("/currenc_approve_update")
     public String currencApproveUpdate( @RequestParam("pdf") MultipartFile pdfFile,CurrencyDeclaration updatedApproveCurrencyDeclaration,@RequestParam String page, Principal principal) throws IOException {
-        System.out.println("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"+pdfFile.getSize() );
+        ///System.out.println("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh"+pdfFile.getSize() );
         String usernameSession=principal.getName();
         currencyServices.approveCurrencyUpdate(updatedApproveCurrencyDeclaration,usernameSession,pdfFile);
 

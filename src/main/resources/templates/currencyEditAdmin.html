@@ -27,9 +27,7 @@
     }
   </style>
   <body>
-    <span id="print_id" >
-      <a href="/dashboard"><input type="button" class="btn btn-success btn-md" value="Go Back" id="go_back" style="margin: 20px !important;"></a>
-  </span>
+
     <div class="sr-main-content-padding">
       <div class="sr-main-content-heading" style="text-align: center;">
         <i class="fa fa-server" style="padding-right: 10px"></i>Currency Information Edit
@@ -64,7 +62,16 @@
                 <td th:text="${show.profession}"></td>
                 <td th:text="${show.flightNo}"></td>
                 <td >
-                    <button type="button" class="btn btn-primary" style="color: white;"><a style="text-decoration: none; color: white;" th:href="@{/currencystart/currency-edit-admin(id=${show.id})}">Edit</a></button>
+
+
+        <div th:if="${show.status == 'checked'}">
+          <span style=" font-weight: bolder; color: forestgreen;">Approved</span>
+        </div>
+        <div th:unless="${show.status == 'checked'}">
+            <button type="button" class="btn btn-primary" style="color: white;">
+                <a style="text-decoration: none; color: white;" th:href="@{/currencystart/currency-edit-admin(id=${show.id})}">Edit</a>
+            </button>
+        </div>
     
                 </td>
             </tr>

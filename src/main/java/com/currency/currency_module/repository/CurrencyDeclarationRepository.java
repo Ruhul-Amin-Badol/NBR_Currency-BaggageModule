@@ -28,12 +28,6 @@ public interface CurrencyDeclarationRepository extends JpaRepository<CurrencyDec
 
     List<CurrencyDeclaration> findByStatusAndEntryPoint(String string, String totalapprove);
 
-
-
-
-
-
-
     List<CurrencyDeclaration> findAllByOrderByIdDesc();
 
 

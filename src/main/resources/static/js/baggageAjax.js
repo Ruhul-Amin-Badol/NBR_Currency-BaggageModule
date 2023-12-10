@@ -44,7 +44,12 @@ function populateTable() {
      newRow.append(`<td>${item.inchi}</td>`);
      newRow.append(`<td >${item.quantity}</td>`);
      newRow.append(`<td class="d-none" >${item.perUnitValue}</td>`);
-     newRow.append(`<td>${item.totalValue}</td>`);
+     if(item.tofsilPercentage !='0'){
+      newRow.append(`<td >0</td>`);
+       
+    }else{
+      newRow.append(`<td >${item.totalValue}</td>`);
+    }
      newRow.append(`<td class="d-none">${item.tax}</td>`);
  
      newRow.append(`<td class="d-none" >${item.cd}</td>`);
@@ -300,6 +305,7 @@ function addProduct(){
           inchi: item.inchi,
           quantity: item.qty,
           perUnitValue: item.value,
+          tofsilPercentage:item.tofsil,
           totalValue: item.qty*item.value,
           tax: item.tax_percentage,
   
@@ -491,6 +497,12 @@ function fetchProductData() {
 
         // }
         document.getElementById("perUnitValue").value=data.perunitvalue;
+        if(data.tofsilPercentage !='0'){
+          
+          document.getElementById("perUnitValue").readOnly = true;
+        }else{
+          document.getElementById("perUnitValue").readOnly = false;
+        }
         console.log(data);
         $("#unit").val(data.unit); // Update unit field
         $("#tax").val(data.taxPercentage);
@@ -501,6 +513,7 @@ function fetchProductData() {
         $("#vat").val(data.vat);
         $("#ait").val(data.ait);
         $("#at").val(data.at);
+        $("#tax_tofsil").val(data.tofsilPercentage);
 
 
         
@@ -600,6 +613,7 @@ function calculateTotalValue() {
     let vat = document.getElementById("vat").value / 100;
     let ait = document.getElementById("ait").value / 100;
     let at = document.getElementById("at").value / 100;
+    let tofsil = document.getElementById("tax_tofsil").value / 100;
 
     
 
@@ -610,8 +624,9 @@ function calculateTotalValue() {
     let totalvat = vat * totalValue.toFixed(2);
     let totalAit = ait * totalValue.toFixed(2);
     let totalAt = at * totalValue.toFixed(2);
+    let tofsilAt = tofsil * totalValue.toFixed(2);
 
-    let additionTaxAmount = totalTax+totalCd+totalRd+totalSd+totalvat+totalAit+totalAt;
+    let additionTaxAmount = tofsilAt+totalTax+totalCd+totalRd+totalSd+totalvat+totalAit+totalAt;
 
 
 
@@ -665,6 +680,7 @@ document.addEventListener("DOMContentLoaded", function () {
           inchi: item.inchi,
           quantity: item.qty,
           perUnitValue: item.value,
+          tofsilPercentage:item.tofsil,
           totalValue: item.qty*item.value,
           tax: item.tax_percentage,
   
@@ -770,6 +786,7 @@ function tax_calc(){
   var inchi=document.getElementById("inchi").value;
    var qty=document.getElementById("quantity").value;
    var per_unit_rate=document.getElementById("perUnitValue").value;
+   var tofsilcal=document.getElementById("tax_tofsil").value;
    
    var tot_value=qty*per_unit_rate;
    
@@ -803,8 +820,11 @@ function tax_calc(){
      document.getElementById("tax").value="0";
    }
    else{
-   
-   var tax_amount=((tot_value*tax_perc)/100).toFixed(2);
+    if(tofsilcal!="0"){
+      var tax_amount=((tot_value*tofsilcal)/100).toFixed(2);
+     }else{
+      var tax_amount=((tot_value*tax_perc)/100).toFixed(2);
+     }
    }
    document.getElementById("taxAmount").value=tax_amount;
   }

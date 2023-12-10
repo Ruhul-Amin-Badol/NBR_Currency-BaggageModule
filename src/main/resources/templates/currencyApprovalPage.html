@@ -117,22 +117,25 @@
 
     <div class="d-flex gap-2 py-3">
         <button id="printbutton" type="button" class="btn btn-primary print-button" onclick="printPage()">Print</button>
-    <a href="/baggagestart/show"><button id="gobackbutton" type="button" class="btn btn-primary print-button" >Go Back</button></a>
+    <a href="/currencyadmin/currencyDashboard"><button id="gobackbutton" type="button" class="btn btn-primary print-button" >Go to Dashboard</button></a>
     </div>
 
     <table width="1000" border="0" cellspacing="0" cellpadding="0" align="center">
 
         <thead style="width:100%">
         <tr>
-            <td colspan="8" ‍align="center">
+            <td>
+                <span class="b"> Invoice Id : <span id="invoiceid"></span></span>
+            </td>
+            <td colspan="6" ‍align="center">
                 <p class="p b ft-30" align="center" style="margin-right:-30%;">বৈদেশিক মুদ্রা ঘোষণা ফরম</p>
                 <p class="p ft-25" align="center" style="margin-right:-30%;">(Foreign Exchange Declaration Form)</p>
 
-                <p   class="b"> Invoice Id : <span id="invoiceid"></span></p>
+                <!-- <p   class="b"> Invoice Id : <span id="invoiceid"></span></p> -->
             </td>
 
-            <td colspan="6"  >
-                <div align="center"  style="border:1px solid #333; padding-top:5px; padding-bottom:5px; font-size:16px; margin-left: 25px;">
+            <td colspan="4"  >
+                <div align="center"  style="border:1px solid #333; padding-top:5px; padding-bottom:5px; font-size:16px; margin-left: 100px;">
                     <P class="p b" style="font-size:15px;"> এফএমজে ফরম</P>
                     <p class="p b" style="font-size:15px;">FMJ FORM</p>
                 </div>
@@ -163,7 +166,7 @@
             </tr>
 
             <tr>
-                <td colspan="4" class="pt">
+                <td colspan="6" class="pt">
                     <p class="p b" align="left">পূর্ণ নামঃ</p>
                     <p class="p" align="left" >(Full Name): <span th:text="${Currency.passengerName}"></span></p>
                 </td>
