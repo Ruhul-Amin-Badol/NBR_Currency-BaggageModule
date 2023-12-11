@@ -2,8 +2,13 @@ package com.currency.currency_module.services;
 
 
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +29,18 @@ public class UserActivityManagementService {
     UserActivityManagementRepository userActivityManagementRepository;
 
     public UserActivityManagement findUserWithUserName(String username) {
+        
         UserActivityManagement userinfo=userActivityManagementRepository.findByUsername(username).orElseThrow(()->new ResourceNotFound("User not found"));
         return userinfo;
 
     }
     //for user data insert
     public void saveUserActivityManagement(UserActivityManagement userActivityManagement,MultipartFile image) {
+
+                String imageName = image.getOriginalFilename();
+                String imageType = image.getContentType();
+                String fileExtension = imageType.substring(imageType.lastIndexOf("/") + 1);
+                String imageurl="http://13.232.110.60/"+userActivityManagement.getUsername()+fileExtension;
         // Check if the user has an ID
         if (userActivityManagement.getUserId() != null) {
             UserActivityManagement existingUser = userActivityManagementRepository.findById(userActivityManagement.getUserId())
@@ -45,32 +56,85 @@ public class UserActivityManagementService {
             existingUser.setExpireDate(userActivityManagement.getExpireDate());
             existingUser.setEmployeeId(userActivityManagement.getEmployeeId());
             existingUser.setAirportList(userActivityManagement.getAirportList());
+
+            try {
+            
+                String saveDirectory = "./signatures"; // specify the directory path
+                File saveFile = new File(saveDirectory);
+
+                if (!saveFile.exists()) {
+                    saveFile.mkdirs(); // create the directory if it doesn't exist
+                }
+
+				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + userActivityManagement.getUsername()+fileExtension);
+				
+				Files.copy(image.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+                String fileLocation = path.toString();
+
+                System.out.println("=============================>=============");
+                System.out.println(fileLocation);
+                System.out.println("=============================>==============");
+                userActivityManagement.setSignature(imageurl);
+             
+            
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+           existingUser.setSignature(userActivityManagement.getSignature());
             
 
             userActivityManagementRepository.save(existingUser);
         } else {
 
-                           try {
-            // Get a reference to the storage service
-            var storage = StorageClient.getInstance().bucket();
+   
 
-            // Generate a unique filename for the uploaded file
+        //                    try {
+        //     // Get a reference to the storage service
+        //     var storage = StorageClient.getInstance().bucket();
+
+        //     // Generate a unique filename for the uploaded file
             
-            String fileName ="signatures/"+userActivityManagement.getUsername();
+        //     String fileName ="signatures/"+userActivityManagement.getUsername();
 
-            // Upload the file to Firebase Storage
-            storage.create(fileName, image.getInputStream(), image.getContentType());
+        //     // Upload the file to Firebase Storage
+        //     storage.create(fileName, image.getInputStream(), image.getContentType());
 
-            String downloadUrl = storage.get(fileName).signUrl(73000, java.util.concurrent.TimeUnit.DAYS).toString();
-            userActivityManagement.setSignature(downloadUrl);
+        //     String downloadUrl = storage.get(fileName).signUrl(73000, java.util.concurrent.TimeUnit.DAYS).toString();
+        //     userActivityManagement.setSignature(downloadUrl);
              
-             userActivityManagementRepository.save(userActivityManagement);
+        //      userActivityManagementRepository.save(userActivityManagement);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Handle the exception
+        // } catch (IOException e) {
+        //     e.printStackTrace();
+        //     // Handle the exception
             
-        }
+        // }
+
+        			try {
+            
+                String saveDirectory = "./signatures"; // specify the directory path
+                File saveFile = new File(saveDirectory);
+
+                if (!saveFile.exists()) {
+                    saveFile.mkdirs(); // create the directory if it doesn't exist
+                }
+
+				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + userActivityManagement.getUsername()+fileExtension);
+				
+				Files.copy(image.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+                String fileLocation = path.toString();
+
+                System.out.println("=============================>=============");
+                System.out.println(fileLocation);
+                System.out.println("=============================>==============");
+                userActivityManagement.setSignature(imageurl);
+                userActivityManagementRepository.save(userActivityManagement);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
             
         }

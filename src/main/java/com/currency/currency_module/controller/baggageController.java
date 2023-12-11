@@ -236,7 +236,7 @@ public class baggageController {
             @RequestParam String countryFrom,
             @RequestParam String dateOfArrival,
             @RequestParam String flightNo,
-            // @RequestParam String countryCode,
+            @RequestParam String countryCode,
             @RequestParam String mobileNo,
             @RequestParam String email,
             @RequestParam int accompaniedBaggageCount,
@@ -257,7 +257,7 @@ public class baggageController {
             String applicationSubmitDate = dateFormat.format(new Date());
 
 // paymentId,
-        String sql = "INSERT INTO baggage (entry_point, passenger_name, passport_number, passport_validity_date,nationality, previous_country, dateofarrival, flight_no, mobile_no, email, accom_no, unaccom_no,meat_products,foreign_currency,office_code,application_submit_date) VALUES (?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)";
+        String sql = "INSERT INTO baggage (entry_point, passenger_name, passport_number, passport_validity_date,nationality, previous_country, dateofarrival, flight_no, country_code, mobile_no, email, accom_no, unaccom_no,meat_products,foreign_currency,office_code,application_submit_date) VALUES (?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?)";
         long generatedId = 1;
         // Use a try-with-resources block to ensure the resources are properly closed
         try (Connection connection = jdbcTemplate.getDataSource().getConnection();
@@ -278,15 +278,15 @@ public class baggageController {
             preparedStatement.setString(6, countryFrom);
             preparedStatement.setString(7, dateOfArrival);
             preparedStatement.setString(8, flightNo);
-            // preparedStatement.setString(9, countryCode);
-            preparedStatement.setString(9, mobileNo);
-            preparedStatement.setString(10, email);
-            preparedStatement.setInt(11, accompaniedBaggageCount);
-            preparedStatement.setInt(12, unaccompaniedBaggageCount);
-            preparedStatement.setString(13, " ");
+            preparedStatement.setString(9, countryCode);
+            preparedStatement.setString(10, mobileNo);
+            preparedStatement.setString(11, email);
+            preparedStatement.setInt(12, accompaniedBaggageCount);
+            preparedStatement.setInt(13, unaccompaniedBaggageCount);
             preparedStatement.setString(14, " ");
-            preparedStatement.setString(15, entryPoint);
-            preparedStatement.setString(16, applicationSubmitDate);
+            preparedStatement.setString(15, " ");
+            preparedStatement.setString(16, entryPoint);
+            preparedStatement.setString(17, applicationSubmitDate);
 
             // Execute the insert statement
             preparedStatement.executeUpdate();
@@ -344,6 +344,7 @@ public class baggageController {
             @RequestParam String countryFrom,
             @RequestParam String dateOfArrival,
             @RequestParam String flightNo,
+            @RequestParam String countryCode,
             @RequestParam String mobileNo,
             @RequestParam String email,
             @RequestParam int accompaniedBaggageCount,
@@ -362,7 +363,7 @@ public class baggageController {
 
             System.out.println("======================"+airportname);
       
-            String sql = "UPDATE baggage SET entry_point=?, office_code=?, passenger_name=?, passport_number=?, passport_validity_date=?, nationality=?, previous_country=?, dateofarrival=?, flight_no=?, mobile_no=?, email=?, accom_no=?, unaccom_no=?,meat_products=?,foreign_currency=? WHERE id=?";
+            String sql = "UPDATE baggage SET entry_point=?, office_code=?, passenger_name=?, passport_number=?, passport_validity_date=?, nationality=?, previous_country=?, dateofarrival=?, flight_no=?, country_code=?, mobile_no=?, email=?, accom_no=?, unaccom_no=?,meat_products=?,foreign_currency=? WHERE id=?";
 
         String otherNationality ="";
          if ("Other".equalsIgnoreCase(nationality)) {
@@ -384,6 +385,7 @@ public class baggageController {
                     countryFrom,
                     dateOfArrival,
                     flightNo,
+                    countryCode,
                     mobileNo,
                     email,
                     accompaniedBaggageCount,
@@ -420,6 +422,7 @@ public class baggageController {
             @RequestParam String countryFrom,
             @RequestParam String dateOfArrival,
             @RequestParam String flightNo,
+            @RequestParam String countryCode,
             @RequestParam String mobileNo,
             @RequestParam String email,
             @RequestParam int accompaniedBaggageCount,
@@ -433,7 +436,7 @@ public class baggageController {
             String sqloffice = "SELECT * FROM airport_list WHERE office_code=?";
             Map<String, Object> airportDetails1 = jdbcTemplate.queryForMap(sqloffice, entryPoint );
             String airportname = (String) airportDetails1.get("air_port_names");
-        String sql = "UPDATE baggage SET entry_point=?, office_code=?, passenger_name=?, passport_number=?, passport_validity_date=?, nationality=?, previous_country=?, dateofarrival=?, flight_no=?, mobile_no=?, email=?, accom_no=?, unaccom_no=?,meat_products=?,foreign_currency=? WHERE id=?";
+        String sql = "UPDATE baggage SET entry_point=?, office_code=?, passenger_name=?, passport_number=?, passport_validity_date=?, nationality=?, previous_country=?, dateofarrival=?, flight_no=?,country_code=?, mobile_no=?, email=?, accom_no=?, unaccom_no=?,meat_products=?,foreign_currency=? WHERE id=?";
 
         String otherNationality ="";
          if ("Other".equalsIgnoreCase(nationality)) {
@@ -455,6 +458,7 @@ public class baggageController {
                     countryFrom,
                     dateOfArrival,
                     flightNo,
+                    countryCode,
                     mobileNo,
                     email,
                     accompaniedBaggageCount,
@@ -492,9 +496,12 @@ public class baggageController {
         // String baggageID = (String) productInfo.get("baggageID");
         String unit = (String) productInfo.get("unit");
         String inchi = (String) productInfo.get("inchi");
+        String per_unit_value = (String) productInfo.get("perUnitValue");
+        String tofsil = (String) productInfo.get("tofsil");
+        String fix_per_unit = (String) productInfo.get("tofsil_fix_per_unit");
 
 
-        Integer quantity = Integer.parseInt((String) productInfo.get("quantity"));
+        Float quantity = Float.parseFloat((String) productInfo.get("quantity"));
         double perUnitValue = Double.parseDouble((String) productInfo.get("perUnitValue"));
         // double totalValue = Double.parseDouble((String) productInfo.get("totalValue"));
         double tax = Double.parseDouble((String) productInfo.get("tax"));
@@ -520,7 +527,7 @@ public class baggageController {
         // Check if itemId is not null (i.e., productName exists in baggage_item_info)
         if (itemId != null) {
             // Define the SQL query to insert data into the baggage_product_add table
-            String insertSql = "INSERT INTO baggage_product_add (baggage_id, item_id, other_item, unit_name, inchi, qty, value, tax_percentage, tax_amount,additional_payment, payment_id, entry_by, entry_at) VALUES (?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?,  NOW())";
+            String insertSql = "INSERT INTO baggage_product_add (baggage_id,per_unite_value,tofsil,fix_per_unit, item_id, other_item, unit_name, inchi, qty, value, tax_percentage, tax_amount,additional_payment, payment_id, entry_by,entry_at) VALUES (?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,NOW())";
 
             // Create a KeyHolder to retrieve the generated key (the ID)
             KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -530,18 +537,22 @@ public class baggageController {
                 PreparedStatement ps = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
 
                 ps.setObject(1, productInfo.get("baggageID"));
-                ps.setObject(2, itemId);
-                ps.setString(3, otherItem);
-                ps.setString(4, unit);
-                ps.setString(5, inchi);
-                ps.setInt(6, quantity);
-                ps.setDouble(7, perUnitValue);
-                ps.setDouble(8, tax);
-                ps.setDouble(9, taxAmount);
-                ps.setDouble(10, additional_payment);
-                ps.setString(11, paymentId);
+                ps.setObject(2, per_unit_value);
+                ps.setObject(3, tofsil);
+                ps.setString(4, fix_per_unit);
+                ps.setObject(5, itemId);
+                ps.setString(6, otherItem);
+                ps.setString(7, unit);
+                ps.setString(8, inchi);
+                ps.setFloat(9, quantity);
+                ps.setDouble(10, perUnitValue);
+                ps.setDouble(11, tax);
+                ps.setDouble(12, taxAmount);
+                ps.setDouble(13, additional_payment);
+                ps.setString(14, paymentId);
+                
 
-                ps.setInt(12, 1); // Replace with the actual entry_by value
+                ps.setInt(15, 1); // Replace with the actual entry_by value
                 return ps;
             }, keyHolder);
 
@@ -604,6 +615,7 @@ public class baggageController {
             productData.put("vat", result.get("vat"));
             productData.put("ait", result.get("ait"));
             productData.put("at", result.get("at"));
+            productData.put("tofsilPercentage", result.get("tofsil"));
             productData.put("additional_payment", result.get("additional_payment"));
             productData.put("duty_free", result.get("duty_free"));
 
@@ -1204,7 +1216,7 @@ public class baggageController {
                 "InvoiceNo", payment_id,
                 "invoiceDate", formattedDate,
                 //"returnUrl", "http://13.232.110.60:8080/baggagestart/takePaymentRequest/"+id+"/",
-                "returnUrl", "http://localhost:8080/baggagestart/takePaymentRequest/"+id+"/",
+                "returnUrl", "http://13.232.110.60:8080/baggagestart/takePaymentRequest/"+id+"/",
                 "totalAmount", total_tax,
                 "applicentName", passenger_name,
                 "applicentContactNo", cellular_phone,

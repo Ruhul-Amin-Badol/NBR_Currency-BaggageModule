@@ -73,6 +73,7 @@ public class CurrencyServices {
         existingCurrencyDeclaration.setPreviousCountry(updatedCurrencyDeclaration.getPreviousCountry());
         existingCurrencyDeclaration.setStayTimeAbroad(updatedCurrencyDeclaration.getStayTimeAbroad());
         existingCurrencyDeclaration.setOfficeCode(updatedCurrencyDeclaration.getOfficeCode());
+        existingCurrencyDeclaration.setCountryCode(updatedCurrencyDeclaration.getCountryCode());
         existingCurrencyDeclaration.setEntryPoint(airportName);
         existingCurrencyDeclaration.setStatus("processing");
     
@@ -224,6 +225,17 @@ public class CurrencyServices {
 public CurrencyDeclaration findcurrency(Long id) {
   return currencyDeclarationRepository.findById(id).orElseThrow(()->new ResourceNotFound("User not found"));
 }
+public CurrencyDeclaration findcurrency4(Long id,MultipartFile pdffile) throws IOException {
+      CurrencyDeclaration user=currencyDeclarationRepository.findById(id).orElseThrow(()->new ResourceNotFound("User not found"));
+                     byte[] pdfData = pdffile.getBytes();
+                     HttpHeaders headers = new HttpHeaders();
+                 headers.setContentType(MediaType.APPLICATION_PDF);
+                 headers.setContentDispositionFormData("inline", "NBR_Currency_declaration.pdf");
+
+                 emailService.sendEmailWithAttachment(user.getEmail(), "NBR Currency Declaration", "Body", pdfData, "nbr_Currency_application.pdf");
+
+  return user;
+}
 // @Transactional
 // public void updateStatusToProcessing(Long id) {
 //   // Fetch the entity by its ID
@@ -246,5 +258,32 @@ public CurrencyDeclaration findcurrency(Long id) {
 //         currencyDeclarationRepository.save(currency);
 // }
 // }
+
+    public CurrencyDeclaration  approveCurrencyUpdateInvoice(Long id) throws IOException {
+    ;
+
+        CurrencyDeclaration existingCurrencyDeclaration = currencyDeclarationRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Currency Declaration not found"));
+
+
+ // Get the count of distinct invoices
+ Long invoiceCount = currencyDeclarationRepository.countDistinctInvoices();
+ // System.out.println("Total distinct invoices: " + invoiceCount);
+
+  invoiceCount=invoiceCount+1;
+ // Long currencyId = updatedapproveCurrencyDeclaration.getId();
+  SimpleDateFormat dateFormatForInvoice = new SimpleDateFormat("ddMMYY");
+  String invoiceDate = dateFormatForInvoice.format(new Date());
+
+  String autoincrementIdAsString = String.format("%07d", invoiceCount);
+  String invoiceId = invoiceDate + autoincrementIdAsString;
+  existingCurrencyDeclaration.setInvoice(invoiceId);
+
+
+  SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Adjust format as needed
+  String approveDate = dateFormat.format(new Date());
+  existingCurrencyDeclaration.setApproveDate(approveDate);
+       return currencyDeclarationRepository.save(existingCurrencyDeclaration);
+    }//
+
 
 }

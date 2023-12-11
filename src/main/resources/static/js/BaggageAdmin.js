@@ -26,6 +26,12 @@ function populateTableAdmin() {
       newRow.append(`<td style="color: red;">${item.inchi}</td>`);
       newRow.append(`<td style="color: red;">${item.quantity}</td>`);
       newRow.append(`<td style="color: red;" class="d-none" >${item.perUnitValue}</td>`);
+      if(item.tofsilPercentage !='0'){
+        newRow.append(`<td style="color: red;">0</td>`);
+         
+      }else{
+        newRow.append(`<td style="color: red;">${item.totalValue}</td>`);
+      }
       newRow.append(`<td style="color: red;">${item.totalValue}</td>`);
       newRow.append(`<td style="color: red;">${item.tax}</td>`);
       newRow.append(`<td style="color: red;">${item.cd}</td>`);
@@ -40,6 +46,7 @@ function populateTableAdmin() {
 
     } else {
 
+
      newRow = $("<tr>");
      newRow.append(`<td>${item.productName}</td>`); // Use the correct field names
      newRow.append(`<td>${item.otherItem}</td>`); // Use the correct field names
@@ -47,7 +54,12 @@ function populateTableAdmin() {
      newRow.append(`<td>${item.inchi}</td>`);
      newRow.append(`<td >${item.quantity}</td>`);
      newRow.append(`<td class="d-none" >${item.perUnitValue}</td>`);
-     newRow.append(`<td>${item.totalValue}</td>`);
+     if(item.tofsilPercentage !='0'){
+      newRow.append(`<td >0</td>`);
+       
+    }else{
+      newRow.append(`<td >${item.totalValue}</td>`);
+    }
      newRow.append(`<td>${item.tax}</td>`);
  
  
@@ -65,28 +77,18 @@ function populateTableAdmin() {
       
     }
     newRow.append(`<td>${item.additional_payment}</td>`);
+   if(item.paymentStatus=="Paid"){
     
-  //  if(item.paymentStatus=="Paid"){
-    
-  //   newRow.append(`<td></td>`);
-  //   newRow.append(`<td></td>`);
-  //  }else{
-  //   newRow.append(
-  //     `<td  class="text-center text-danger"><button onClick="EditProductAdmin(${item.id})" type="button" class="btn btn-primary" id="addButtonAdmin"><i class="fa-solid fa-pen-to-square"></i></button></td>`
-  //   );
-  //   newRow.append(
-  //     `<td  class="text-center text-danger"><button onClick="DeleteProductAdmin(${item.id})" type="button" class="btn btn-danger" id="addButtonAdmin"><i class="fa-solid fa-trash"></i></button></td>`
-  //   );
-  //  }
-
-
+    newRow.append(`<td></td>`);
+    newRow.append(`<td></td>`);
+   }else{
     newRow.append(
       `<td  class="text-center text-danger"><button onClick="EditProductAdmin(${item.id})" type="button" class="btn btn-primary" id="addButtonAdmin"><i class="fa-solid fa-pen-to-square"></i></button></td>`
     );
     newRow.append(
       `<td  class="text-center text-danger"><button onClick="DeleteProductAdmin(${item.id})" type="button" class="btn btn-danger" id="addButtonAdmin"><i class="fa-solid fa-trash"></i></button></td>`
     );
-  
+   }
 
     let toatal=item.taxAmount
     totalTax += parseFloat(toatal);
@@ -114,11 +116,11 @@ function populateTableAdmin() {
   newRow1.append(`<td>${totalTax.toFixed(2)}</td>`);
 
 
-  newRow1.append(`<th colspan="3" class="text-end"> Additional Payment:</th>`);
+  newRow1.append(`<th colspan="4" class="text-end"> Additional Payment:</th>`);
   newRow1.append(`<td>${totalAdditionalPayment.toFixed(2)}</td>`);
 
-  newRow1.append(`<th colspan="3" class="text-end"> Payable Amount:</th>`);
-  newRow1.append(`<td>${totalPayableAmount.toFixed(2)}</td>`);
+  newRow1.append(`<th colspan="4" class="text-end"> Payable Amount:</th>`);
+  newRow1.append(`<td colspan="4">${totalPayableAmount.toFixed(2)}</td>`);
 
 
   // newRow1.append(`<th colspan="6" class="text-end"> Pdditional Payment:</th>`);
@@ -155,6 +157,8 @@ function adminadd() {
   const vat = $("#vat").val();
   const ait = $("#ait").val();
   const at = $("#at").val();
+  const tofsil = $("#tax_tofsil").val();
+  const tofsil_fix_per_unit = $("#tax_tofsil_perUnit").val();
   const additional_payment = $("#additional_payment").val();
   const taxAmount = $("#taxAmount").val();
 
@@ -170,6 +174,8 @@ function adminadd() {
     inchi,
     quantity,
     perUnitValue,
+    tofsil,
+    tofsil_fix_per_unit,
     totalValue,
     tax,
     cd,
@@ -240,7 +246,9 @@ function adminadd() {
           inchi: item.inchi,
           quantity: item.qty,
           perUnitValue: item.value,
-          totalValue: item.tax_amount,
+          tofsilPercentage:item.tofsil,
+          tofsilfixUnit:item.fix_per_unit,
+          totalValue: item.qty * item.value,
           tax: item.tax_percentage,
   
           cd: item.cd,
@@ -376,7 +384,9 @@ function EditProductAdmin(idToDelete) {
       document.getElementById('perUnitValue').value = addDataAdmin[i].perUnitValue;
       document.getElementById('totalValue').value = addDataAdmin[i].totalValue;
       document.getElementById('tax').value = addDataAdmin[i].tax;
-
+      document.getElementById('tax_tofsil').value = addDataAdmin[i].tofsilPercentage;
+      document.getElementById('tax_tofsil_perUnit').value = addDataAdmin[i].tofsilfixUnit;
+      console.log("gggggggggggggggggggggggggggffffff"+addDataAdmin[i].tofsilfixUnit)
 
       document.getElementById('cd').value = addDataAdmin[i].cd;
       document.getElementById('rd').value = addDataAdmin[i].rd;
@@ -436,7 +446,8 @@ function fetchProductDataAdmin() {
       data: { productString: selectedProductName },
       dataType: "json",
       success: function (data) {
-        document.getElementById("perUnitValue").value=data.perunitvalue;
+        document.getElementById("perUnitValue").value="";
+        $("#tax_tofsil_perUnit").val(data.perunitvalue);
         $("#unit").val(data.unit); // Update unit field
         $("#tax").val(data.taxPercentage);
 
@@ -446,6 +457,7 @@ function fetchProductDataAdmin() {
         $("#vat").val(data.vat);
         $("#ait").val(data.ait);
         $("#at").val(data.at);
+        $("#tax_tofsil").val(data.tofsilPercentage);
 
         $("#additional_payment").val(data.additional_payment);
         
@@ -554,52 +566,18 @@ function calculateTotalValueAdmin() {
   const productnameforgold=document.getElementById('productName').value
   var quantity = parseFloat(document.getElementById("quantity").value);
   var perUnitValue = parseFloat(document.getElementById("perUnitValue").value);
+  var perUnitValue_tofsil_amount = parseFloat(document.getElementById("tax_tofsil_perUnit").value);
+  var perUnitValuetofsil = parseFloat(document.getElementById("tax_tofsil").value);
 
   // Check if both values are valid numbers
-  if ( (productnameforgold=="স্বর্ণবার বা স্বর্ণপিন্ড(সর্বোচ্চ ২০০ গ্রাম)" || productnameforgold=="রৌপ্যবার বা রৌপ্যপিন্ড (সর্বোচ্চ ২০০ গ্রাম)") && !isNaN(quantity) && quantity>200) {
-
-    // Calculate the total value
-   
-    const payblequantity=quantity-200;
-  
-    
-    var totalValue = payblequantity * 12.8600823;
-    
-    console.log(totalValue);
-    // Update the totalValue field with the calated result
-    document.getElementById("totalValue").value = totalValue;
-  
-    let tax = document.getElementById("tax").value / 100;
-  
-    let cd = document.getElementById("cd").value / 100;
-    let rd = document.getElementById("rd").value / 100;
-    let sd = document.getElementById("sd").value / 100;
-    let vat = document.getElementById("vat").value / 100;
-    let ait = document.getElementById("ait").value / 100;
-    let at = document.getElementById("at").value / 100;
 
   
-    
   
-    let totalTax =  totalValue.toFixed(2);
-
-    let totalCd = cd * totalValue.toFixed(2);
-    let totalRd= rd * totalValue.toFixed(2);
-    let totalSd = sd * totalValue.toFixed(2);
-    let totalvat = vat * totalValue.toFixed(2);
-    let totalAit = ait * totalValue.toFixed(2);
-    let totalAt = at * totalValue.toFixed(2);
-  
-    let additionTaxAmount = totalTax+totalCd+totalRd+totalSd+totalvat+totalAit+totalAt;
-  
-  
-  
-    document.getElementById("taxAmount").value = additionTaxAmount;
-  }
-  
-  
-    else if (!isNaN(quantity) && !isNaN(perUnitValue)) {
+   if (!isNaN(quantity) && !isNaN(perUnitValue)) {
       
+    if(perUnitValuetofsil==0){
+
+    
       // Calculate the total value
       
       var totalValue = quantity * perUnitValue;
@@ -630,10 +608,15 @@ function calculateTotalValueAdmin() {
   
   
       document.getElementById("taxAmount").value = additionTaxAmount.toFixed(2);
+    }else{
+      document.getElementById("taxAmount").value = (perUnitValue_tofsil_amount*quantity).toFixed(2);
+      document.getElementById("totalValue").value = 0;
+    }
     } 
     else {
       // Handle the case where either quantity or perUnitValue is not a valid number
       document.getElementById("totalValue").value = "";
+      
     }
   
 }
@@ -665,6 +648,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('dropdownSelect').value='YES';
       }
       data.forEach(function (item) {
+        console.log("jjjjjjjjjjjjjjjjjkkkkkkkkkk"+item.tofsil);
         // Extract data from each item and add it to the addDataAdmin array
         var extractedData = {
           id: item.id,
@@ -677,7 +661,9 @@ document.addEventListener("DOMContentLoaded", function () {
           inchi: item.inchi,
           quantity: item.qty,
           perUnitValue: item.value,
-          totalValue: item.tax_amount,
+          tofsilPercentage:item.tofsil,
+          tofsilfixUnit:item.fix_per_unit,
+          totalValue: item.qty * item.value,
           tax: item.tax_percentage,
 
           cd: item.cd,

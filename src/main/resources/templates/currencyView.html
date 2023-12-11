@@ -2,6 +2,32 @@
 
 
 <style type="text/css">
+
+.loader {
+    
+    /* visibility: hidden; */
+   
+    z-index: 40;
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    border: 5px solid #FFF;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+    scale: 0.5;
+    }
+
+    @keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+    } 
     @media print {
         .brack { page-break-after: always; }
     }
@@ -78,8 +104,9 @@
 </style>
 </head>
 <body style="font-family: Tahoma, Geneva, sans-serif; background: #fff; ">
+    <div id="loaderselect" style="display: none; position:fixed; border-radius: 13px; height: 300px; width: 300px; background-color: rgb(216, 197, 197); z-index: 30; top:50%; left: 50%; transform: translate(-50%,-50%);"><span class="loader" style="top:40%; left: 43%; transform: translate(-50%,-50%);"></span></div>
 
-<div class="page_brack" >
+<div id="pagebrack" class="page_brack" >
 
 
     <!-- <div class="d-flex gap-2 py-3">
@@ -306,14 +333,18 @@
 
     </table>
 
-    <table style="width:100%;">
+    <div  style="margin-left: 45%; margin-top: 0%; display: none;" id="qrcode"></div>
+
+
+    <!-- <table style="width:100%;">
      <tr>
+    </tr>
+
+</table> -->
      
            
-        </div>
-     </tr>
-
-     </table>
+</div>
+   
 </div>
 <div class="d-flex justify-content-center" >
     <button type="button" class="btn btn-warning btn-lg my-2 mx-3 print-button" th:onclick="'redirectToCurrencyEditPage(' + ${Currency.id} + ')'">Edit</button>
@@ -321,10 +352,77 @@
         <input type="hidden" name="CurrencyIdGeneral" th:value="${Currency.id}" />
         <button type="submit" class="btn btn-primary btn-lg my-2 print-button">Confirm submit</button>
     </form> -->
-    <button type="button" id="toggleButton1" class="btn btn-success btn-lg my-2 print-button" onclick="confirm()">Submit</button>
+    <!-- <button type="button" id="toggleButton1" class="btn btn-success btn-lg my-2 print-button" onclick="confirm()">Submit</button> -->
+    <button type="button" id="toggleButton1" class="btn btn-success btn-lg my-2 print-button" onclick="generateAndSendPDF()">Submit</button>
 </div>
 
 <script>
+
+    
+   
+   function generateAndSendPDF() {
+    document.getElementById("toggleButton1").style.display="none";
+    document.getElementById("loaderselect").style.display="block";
+    document.getElementById("qrcode").style.display="block";
+    // document.getElementById("invoiceid").style.display="block";
+    // document.getElementById("toggleButtorrrn").style.display="none";
+
+    // document.getElementById("toggleButton").style.display="none";
+    // document.getElementById("gobackbutton").style.display="none";
+    // document.getElementById("printbutton").style.display="none";
+    const element = document.getElementById("pagebrack");
+    console.log("ffdfdfsdddddddddddddd");
+            const options = {
+            margin: 0,
+            filename: 'result.pdf',
+            image: { type: 'jpeg', quality: 1 },
+            html2canvas: {
+                backgroundColor: "#fff",
+                scale: window.devicePixelRatio,
+                y: 0,
+                x: 0,
+                scrollY: 0,
+                scrollX: 0,
+                windowWidth: 800,
+                useCORS: true
+            },
+            jsPDF: { unit: 'px', format: [1200, 1600], orientation: 'portrait', precision: 32 }
+            };
+            console.log("ffdfdfsdddddddddddddd");
+    // Generate PDF on the client side
+    html2pdf().set(options).from(element).toPdf().output('blob').then((data) => {
+
+        console.log(data)
+        // let fileURL = URL.createObjectURL(data);
+        // window.open(fileURL);
+        // Convert the PDF Blob to a FormData object
+        const formData = new FormData();
+        formData.append('pdf', data, 'result.pdf');
+        
+        formData.append('id', document.getElementById('CurrencyIdGeneral').value);
+     
+
+        console.log("ffdfdfsdddddddddddddd");
+          
+        // Send the PDF to the server using fetch
+        fetch('/currencystart/confirmgenaral', {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => {
+            console.log("ffdfdfsdddddddddddddd");
+            // Handle the server response
+            window.location.href=response.url
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
+// Send the PDF to the server using fetch
+
+});
+}
+
 
     var a = ['','One ','Two ','Three ','Four ', 'Five ','Six ','Seven ','Eight ','Nine ','Ten ','Eleven ','Twelve ','Thirteen ','Fourteen ','Fifteen ','Sixteen ','Seventeen ','Eighteen ','Nineteen '];
     var b = ['', '', 'Twenty','Thirty','Forty','Fifty', 'Sixty','Seventy','Eighty','Ninety'];
@@ -398,12 +496,33 @@ function convertCurrencyToWords() {
     // Redirect to the URL with the 'id' parameter
         window.location.href = '/currencystart/currencyEdit?id=' + id;
         }
+        function qrcode() {
+
+var currentURL = "http://13.232.110.60:8080/currencystart/confirmgenaral2?id="+document.getElementById('CurrencyIdGeneral').value;
+
+var qrcode = new QRCode(document.getElementById("qrcode"), {
+text: currentURL,
+width: 128,
+height: 128,
+colorDark : "#000",
+colorLight : "#ffffff",
+correctLevel : QRCode.CorrectLevel.H
+});
+      console.log("fahim");
+      convertCurrencyToWords();
+        // Get the current page's URL
+        // 
+
+        // // Generate the QR code using an online service (qr.js)
+        // var qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?data=" + encodeURIComponent(currentURL) + "&size=128x128";
         
+        // // Display the QR code image
+        // $("#qrcode").html('<img src="' + qrCodeUrl + '" alt="QR Code" />');
+};
+
+
         
-window.onload = convertCurrencyToWords;
+window.onload = qrcode;
 </script> 
 
-
-
-
-<div th:replace="~{layout/footer}"></div> 
+<div th:replace="~{layout/footer}"></div>
