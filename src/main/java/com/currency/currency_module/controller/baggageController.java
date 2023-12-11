@@ -496,9 +496,12 @@ public class baggageController {
         // String baggageID = (String) productInfo.get("baggageID");
         String unit = (String) productInfo.get("unit");
         String inchi = (String) productInfo.get("inchi");
+        String per_unit_value = (String) productInfo.get("perUnitValue");
+        String tofsil = (String) productInfo.get("tofsil");
+        String fix_per_unit = (String) productInfo.get("tofsil_fix_per_unit");
 
 
-        Integer quantity = Integer.parseInt((String) productInfo.get("quantity"));
+        Float quantity = Float.parseFloat((String) productInfo.get("quantity"));
         double perUnitValue = Double.parseDouble((String) productInfo.get("perUnitValue"));
         // double totalValue = Double.parseDouble((String) productInfo.get("totalValue"));
         double tax = Double.parseDouble((String) productInfo.get("tax"));
@@ -524,7 +527,7 @@ public class baggageController {
         // Check if itemId is not null (i.e., productName exists in baggage_item_info)
         if (itemId != null) {
             // Define the SQL query to insert data into the baggage_product_add table
-            String insertSql = "INSERT INTO baggage_product_add (baggage_id, item_id, other_item, unit_name, inchi, qty, value, tax_percentage, tax_amount,additional_payment, payment_id, entry_by, entry_at) VALUES (?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?,  NOW())";
+            String insertSql = "INSERT INTO baggage_product_add (baggage_id,per_unite_value,tofsil,fix_per_unit, item_id, other_item, unit_name, inchi, qty, value, tax_percentage, tax_amount,additional_payment, payment_id, entry_by,entry_at) VALUES (?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,NOW())";
 
             // Create a KeyHolder to retrieve the generated key (the ID)
             KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -534,18 +537,22 @@ public class baggageController {
                 PreparedStatement ps = connection.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
 
                 ps.setObject(1, productInfo.get("baggageID"));
-                ps.setObject(2, itemId);
-                ps.setString(3, otherItem);
-                ps.setString(4, unit);
-                ps.setString(5, inchi);
-                ps.setInt(6, quantity);
-                ps.setDouble(7, perUnitValue);
-                ps.setDouble(8, tax);
-                ps.setDouble(9, taxAmount);
-                ps.setDouble(10, additional_payment);
-                ps.setString(11, paymentId);
+                ps.setObject(2, per_unit_value);
+                ps.setObject(3, tofsil);
+                ps.setString(4, fix_per_unit);
+                ps.setObject(5, itemId);
+                ps.setString(6, otherItem);
+                ps.setString(7, unit);
+                ps.setString(8, inchi);
+                ps.setFloat(9, quantity);
+                ps.setDouble(10, perUnitValue);
+                ps.setDouble(11, tax);
+                ps.setDouble(12, taxAmount);
+                ps.setDouble(13, additional_payment);
+                ps.setString(14, paymentId);
+                
 
-                ps.setInt(12, 1); // Replace with the actual entry_by value
+                ps.setInt(15, 1); // Replace with the actual entry_by value
                 return ps;
             }, keyHolder);
 

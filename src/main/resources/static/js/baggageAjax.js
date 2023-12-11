@@ -497,12 +497,12 @@ function fetchProductData() {
 
         // }
         document.getElementById("perUnitValue").value=data.perunitvalue;
-        if(data.tofsilPercentage !='0'){
+        // if(data.tofsilPercentage !='0'){
           
-          document.getElementById("perUnitValue").readOnly = true;
-        }else{
-          document.getElementById("perUnitValue").readOnly = false;
-        }
+        //   document.getElementById("perUnitValue").readOnly = true;
+        // }else{
+        //   document.getElementById("perUnitValue").readOnly = false;
+        // }
         console.log(data);
         $("#unit").val(data.unit); // Update unit field
         $("#tax").val(data.taxPercentage);
