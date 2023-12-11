@@ -254,6 +254,8 @@ function addProduct(){
   const vat = $("#vat").val();
   const ait = $("#ait").val();
   const at = $("#at").val();
+  const tofsil = $("#tax_tofsil").val();
+  const tofsil_fix_per_unit = $("#tax_tofsil_perUnit").val();
   const additional_payment = $("#additional_payment").val();
   const taxAmount = $("#taxAmount").val();
 
@@ -267,6 +269,8 @@ function addProduct(){
     inchi,
     quantity,
     perUnitValue,
+    tofsil,
+    tofsil_fix_per_unit,
     totalValue,
     tax,
     cd,
@@ -306,6 +310,7 @@ function addProduct(){
           quantity: item.qty,
           perUnitValue: item.value,
           tofsilPercentage:item.tofsil,
+          tofsilfixUnit:item.fix_per_unit,
           totalValue: item.qty*item.value,
           tax: item.tax_percentage,
   
@@ -439,6 +444,8 @@ function EditProduct(idToDelete) {
       document.getElementById('perUnitValue').value = addData[i].perUnitValue;
       document.getElementById('totalValue').value = addData[i].totalValue;
       document.getElementById('tax').value = addData[i].tax;
+      document.getElementById('tax_tofsil').value = addData[i].tofsilPercentage;
+      document.getElementById('tax_tofsil_perUnit').value = addData[i].tofsilfixUnit;
       document.getElementById('cd').value = addData[i].cd;
       document.getElementById('rd').value = addData[i].rd;
       document.getElementById('sd').value = addData[i].sd;
@@ -449,7 +456,6 @@ function EditProduct(idToDelete) {
       document.getElementById('deleteidhidden').value = idToDelete;
       document.getElementById('addButton').innerText = "Update";
       // DeleteAfterEdit(idToDelete);
-    
     
       
       return; // If found, exit the loop
@@ -471,7 +477,7 @@ function fetchProductData() {
     document.getElementById('otherItem').style.display = 'block';
     // $("#inchi").val("");
     // $("#quantity").val("");
-    // $("#perUnitValue").val("");
+    $("#perUnitValue").val(0);
     // $("#totalValue").val("");
     $("#tax").val(0);
 
@@ -496,7 +502,7 @@ function fetchProductData() {
         // if(!data.per_unite_value=='0'){
 
         // }
-        document.getElementById("perUnitValue").value=data.perunitvalue;
+        document.getElementById("perUnitValue").value="";
         // if(data.tofsilPercentage !='0'){
           
         //   document.getElementById("perUnitValue").readOnly = true;
@@ -504,6 +510,8 @@ function fetchProductData() {
         //   document.getElementById("perUnitValue").readOnly = false;
         // }
         console.log(data);
+        document.getElementById("perUnitValue").value="";
+        $("#tax_tofsil_perUnit").val(data.perunitvalue);
         $("#unit").val(data.unit); // Update unit field
         $("#tax").val(data.taxPercentage);
         
@@ -550,7 +558,8 @@ function calculateTotalValue() {
   // Get the values of quantity and perUnitValue fields
   var quantity = parseFloat(document.getElementById("quantity").value);
   var perUnitValue = parseFloat(document.getElementById("perUnitValue").value);
-
+  var perUnitValue_tofsil_amount = parseFloat(document.getElementById("tax_tofsil_perUnit").value);
+  var perUnitValuetofsil = parseFloat(document.getElementById("tax_tofsil").value);
 
 
   // Check if both values are valid numbers
@@ -599,6 +608,7 @@ function calculateTotalValue() {
 
   if (!isNaN(quantity) && !isNaN(perUnitValue)) {
     
+    if(perUnitValuetofsil==0){
     // Calculate the total value
     
     var totalValue = quantity * perUnitValue;
@@ -631,6 +641,10 @@ function calculateTotalValue() {
 
 
     document.getElementById("taxAmount").value = additionTaxAmount.toFixed(2);
+  }else{
+    document.getElementById("taxAmount").value = (perUnitValue_tofsil_amount*quantity).toFixed(2);
+    document.getElementById("totalValue").value = 0;
+  }
   } 
   else {
     // Handle the case where either quantity or perUnitValue is not a valid number
@@ -667,6 +681,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('dropdownSelect').value='YES';
       }
       data.forEach(function (item) {
+
         
         // Extract data from each item and add it to the addData array
         var extractedData = {
@@ -681,6 +696,7 @@ document.addEventListener("DOMContentLoaded", function () {
           quantity: item.qty,
           perUnitValue: item.value,
           tofsilPercentage:item.tofsil,
+          tofsilfixUnit:item.fix_per_unit,
           totalValue: item.qty*item.value,
           tax: item.tax_percentage,
   

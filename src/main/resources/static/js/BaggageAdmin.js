@@ -387,7 +387,6 @@ function EditProductAdmin(idToDelete) {
       document.getElementById('tax_tofsil').value = addDataAdmin[i].tofsilPercentage;
       document.getElementById('tax_tofsil_perUnit').value = addDataAdmin[i].tofsilfixUnit;
       console.log("gggggggggggggggggggggggggggffffff"+addDataAdmin[i].tofsilfixUnit)
-
       document.getElementById('cd').value = addDataAdmin[i].cd;
       document.getElementById('rd').value = addDataAdmin[i].rd;
       document.getElementById('sd').value = addDataAdmin[i].sd;
