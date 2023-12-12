@@ -77,18 +77,18 @@ function populateTableAdmin() {
       
     }
     newRow.append(`<td>${item.additional_payment}</td>`);
-   if(item.paymentStatus=="Paid"){
+  //  if(item.paymentStatus=="Paid"){
     
-    newRow.append(`<td></td>`);
-    newRow.append(`<td></td>`);
-   }else{
+  //   newRow.append(`<td></td>`);
+  //   newRow.append(`<td></td>`);
+  //  }else{
     newRow.append(
       `<td  class="text-center text-danger"><button onClick="EditProductAdmin(${item.id})" type="button" class="btn btn-primary" id="addButtonAdmin"><i class="fa-solid fa-pen-to-square"></i></button></td>`
     );
     newRow.append(
       `<td  class="text-center text-danger"><button onClick="DeleteProductAdmin(${item.id})" type="button" class="btn btn-danger" id="addButtonAdmin"><i class="fa-solid fa-trash"></i></button></td>`
     );
-   }
+  //  }
 
     let toatal=item.taxAmount
     totalTax += parseFloat(toatal);
@@ -120,7 +120,7 @@ function populateTableAdmin() {
   newRow1.append(`<td>${totalAdditionalPayment.toFixed(2)}</td>`);
 
   newRow1.append(`<th colspan="4" class="text-end"> Payable Amount:</th>`);
-  newRow1.append(`<td colspan="4">${totalPayableAmount.toFixed(2)}</td>`);
+  newRow1.append(`<td colspan="4">${totalPayableAmount.toFixed(2)}</td>`);z
 
 
   // newRow1.append(`<th colspan="6" class="text-end"> Pdditional Payment:</th>`);
@@ -185,8 +185,8 @@ function adminadd() {
     ait,
     at,
     additional_payment,
-
     taxAmount,
+    
   };
   if(data.taxAmount != "" & totalValue != ""){
 
@@ -261,6 +261,7 @@ function adminadd() {
           additional_payment: item.additional_payment,
          taxAmount: item.tax_amount,
          paymentStatus:item.payment_status,
+
         };
         
         addDataAdmin.push(extractedData);
@@ -387,7 +388,6 @@ function EditProductAdmin(idToDelete) {
       document.getElementById('tax_tofsil').value = addDataAdmin[i].tofsilPercentage;
       document.getElementById('tax_tofsil_perUnit').value = addDataAdmin[i].tofsilfixUnit;
       console.log("gggggggggggggggggggggggggggffffff"+addDataAdmin[i].tofsilfixUnit)
-
       document.getElementById('cd').value = addDataAdmin[i].cd;
       document.getElementById('rd').value = addDataAdmin[i].rd;
       document.getElementById('sd').value = addDataAdmin[i].sd;
