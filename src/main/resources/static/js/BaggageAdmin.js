@@ -120,7 +120,7 @@ function populateTableAdmin() {
   newRow1.append(`<td>${totalAdditionalPayment.toFixed(2)}</td>`);
 
   newRow1.append(`<th colspan="4" class="text-end"> Payable Amount:</th>`);
-  newRow1.append(`<td colspan="4">${totalPayableAmount.toFixed(2)}</td>`);z
+  newRow1.append(`<td colspan="4">${totalPayableAmount.toFixed(2)}</td>`);
 
 
   // newRow1.append(`<th colspan="6" class="text-end"> Pdditional Payment:</th>`);
