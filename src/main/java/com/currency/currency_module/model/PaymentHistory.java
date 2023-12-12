@@ -30,6 +30,7 @@ public class PaymentHistory {
     private Double paidAmount;
   
         // New fields
+    private String calanNo;
     private String msg;
     private String transactionId;
     private String transactionDate;
@@ -58,7 +59,13 @@ public class PaymentHistory {
     public String getPaymentId() {
         return this.paymentId;
     }
+    public String getCalanNo() {
+        return this.calanNo;
+    }
 
+    public void setCalanNo(String calanNo) {
+        this.calanNo = calanNo;
+    }
     public void setPaymentId(String paymentId) {
         this.paymentId = paymentId;
     }
