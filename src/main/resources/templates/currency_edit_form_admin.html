@@ -38,7 +38,7 @@
 
                                         <div class="mb-3">
                                             <label for="passportIssueDate" class="form-label" id="passportIssueDate">Passport Issue Date</label><span class="astrick">*</span>
-                                            <input type="date" class="form-control" id="example1" name="passportIssueDate" th:value="${currencyDeclaration.passportIssueDate}" required>
+                                            <input type="text" class="form-control datepicker" placeholder="DD/MM/YYYY" id="example1" name="passportIssueDate" th:value="${currencyDeclaration.passportIssueDate}" required>
                                         </div>
 
                                         <div class="mb-3">
@@ -510,7 +510,7 @@
 
                                         <div class="mb-3">
                                             <label for="dateOfArrival" class="form-label" id="dateOfArrivalLabel">Date Of Arrival</label><span class="astrick">*</span>
-                                            <input type="date" class="form-control"  id="dateOfArrival" name="dateOfArrival"th:value="${currencyDeclaration.dateOfArrival}" required>
+                                            <input type="text" class="form-control datepicker" placeholder="DD/MM/YYYY" id="dateOfArrival" name="dateOfArrival"th:value="${currencyDeclaration.dateOfArrival}" required>
                                         </div>
 
                                         <div class="mb-3">
@@ -964,8 +964,6 @@
                     </div>
                         
 
-
-
                         </div>
                     </div>
                 </div>
@@ -986,7 +984,10 @@
         FlightNoElement.value = FlightNoElement.value.toUpperCase();
     });
 
-
+    flatpickr(".datepicker", {
+        dateFormat: "d/m/Y", // Set the desired date format
+        allowInput: true,    // Allow manual input
+    });
 
 
 </script>

@@ -39,7 +39,7 @@
 
                                         <div class="mb-3">
                                             <label for="passportValidityDate" class="form-label" id="passportValidityDateLabel">Passport Validity Date</label><span class="astrick">*</span>
-                                            <input type="date" class="form-control" id="example1" name="passportValidityDate" required>
+                                            <input type="text" class="form-control" id="datepicker" name="passportValidityDate" required>
                                         </div>
 
                                         <div class="mb-3">
@@ -684,7 +684,7 @@
 
                             <div class="mb-3">
                                 <label for="passportValidityDate" class="form-label" id="passportValidityDateLabel">Passport Validity Date</label><span class="astrick">*</span>
-                                <input type="date" class="form-control" name="passportValidityDate" th:value="${baggageDetails['passport_validity_date']}" required>
+                                <input type="text" id="datepicker" class="form-control" name="passportValidityDate" th:value="${baggageDetails['passport_validity_date']}" required>
                             </div>
 
                             <div class="mb-3">
@@ -1102,7 +1102,7 @@
 
                             <div class="mb-3">
                                 <label for="dateOfArrival" class="form-label" id="dateOfArrivalLabel">Date Of Arrival</label><span class="astrick">*</span>
-                                <input type="date" class="form-control" name="dateOfArrival" th:value="${baggageDetails['dateofarrival']}" required>
+                                <input type="text" id="datepicker" class="form-control" name="dateOfArrival" th:value="${baggageDetails['dateofarrival']}" required>
                             </div>
 
                             <div class="mb-3">
@@ -1506,6 +1506,11 @@
     FlightNoElement.addEventListener("keyup", function(event) {
         event.preventDefault();
         FlightNoElement.value = FlightNoElement.value.toUpperCase();
+    });
+
+    flatpickr("#datepicker", {
+        dateFormat: "d/m/Y", // Set the desired date format
+        allowInput: true,    // Allow manual input
     });
 
 </script>

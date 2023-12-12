@@ -152,7 +152,7 @@
                                     
                                         <input th:value="${baggageView['id']}" type="hidden" id="baggage_id" name="baggage_id">
                                     </td>
-                                    <td><input type="date"  class="form-control" id="payment_date" name="payment_date" ></td>
+                                    <td><input type="text"  class="form-control datepicker" id="payment_date" name="payment_date"  placeholder="DD/MM/YYYY"></td>
                                     <td><input type="text" class="form-control" id="calan_no" name="calan_no" ></td>
                                     <td><input type="text" class="form-control" id="paid_amount" name="paid_amount"></td>
 
@@ -459,6 +459,11 @@ function qrcode() {
         window.print();
     }
     window.onload = qrcode;
+
+    flatpickr(".datepicker", {
+        dateFormat: "d/m/Y", // Set the desired date format
+        allowInput: true,    // Allow manual input
+    });
     </script>
      
 

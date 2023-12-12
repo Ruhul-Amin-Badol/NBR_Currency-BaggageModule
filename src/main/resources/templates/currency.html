@@ -60,11 +60,11 @@
                     id="passportIssueDate">Passport Issue Date</label><span
                     class="astrick">*</span>
                   <input
-                    type="date"
-                    class="form-control"
+                    type="text"
+                    class="form-control datepicker"
                     id="passportIssueDate"
                     name="passportIssueDate"
-                    required />
+                    required  placeholder="DD/MM/YYYY"/>
                 </div>
 
                 <div class="mb-3">
@@ -530,11 +530,11 @@
                     id="dateOfArrivalLabel">Date Of Arrival</label><span
                     class="astrick">*</span>
                   <input
-                    type="date"
-                    class="form-control"
+                    type="text"
+                    class="form-control datepicker"
                     id="dateOfArrival"
                     name="dateOfArrival"
-                    required />
+                    required  placeholder="DD/MM/YYYY"/>
                 </div>
 
                 <div class="mb-3">
@@ -780,6 +780,11 @@
     FlightNoElement.addEventListener("keyup", function(event) {
         event.preventDefault();
         FlightNoElement.value = FlightNoElement.value.toUpperCase();
+    });
+
+    flatpickr(".datepicker", {
+        dateFormat: "d/m/Y", // Set the desired date format
+        allowInput: true,    // Allow manual input
     });
 
 
