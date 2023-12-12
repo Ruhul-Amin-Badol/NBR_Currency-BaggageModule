@@ -1,22 +1,37 @@
 package com.currency.currency_module.controller;
 
+import java.io.IOException;
 import java.security.Principal;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.currency.currency_module.AirportInformation;
-
+import com.currency.currency_module.model.PaymentHistory;
 import com.currency.currency_module.services.AirportService;
 
 @Component
@@ -85,7 +100,6 @@ public class adminController {
         model.addAttribute("adminUserInfo", userInfo);
 
 
-
         String sql = "SELECT * FROM baggage WHERE id = ?";
         Map<String, Object> baggageView = jdbcTemplate.queryForMap(sql,id);
         model.addAttribute("baggageView", baggageView);
@@ -98,6 +112,115 @@ public class adminController {
         
         return "baggageApprovalform"; // Replace with the actual template name
     }
+
+@ResponseBody
+@PostMapping("/confirm-pay-by-admin")
+public String confirmPaymentByAdmin(@RequestBody Map<String, Object> data) {
+    System.out.println("data========================================"+data);
+    try {
+        Long baggage_id = Long.parseLong(data.get("baggage_id").toString());
+        Double paid_amount = Double.parseDouble(data.get("paid_amount").toString());
+        String payment_id = data.get("payment_id").toString();
+        String payment_date = data.get("payment_date").toString();
+        String calan_no = data.get("calan_no").toString();
+
+        LocalDateTime currentDateTime = LocalDateTime.now();
+
+        if (paid_amount != null && paid_amount > 0) {
+            jdbcTemplate.update(
+                "INSERT INTO payment_history (baggage_id, paid_amount, payment_id, payment_date, calan_no) VALUES (?, ?, ?, ?, ?)",
+                baggage_id, paid_amount, payment_id, payment_date, calan_no
+            );
+            
+            // Update other status or perform necessary actions
+
+            return "Payment recorded successfully!";
+        } else {
+            return "Invalid paid amount!";
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+        return "Error occurred while processing the payment!";
+    }
+}
+
+
+
+// @GetMapping("/get-payment-history")
+// public ResponseEntity<?> getPaymentHistory(@RequestParam Long baggage_id) {
+//     try {
+//        String sql = "SELECT * FROM payment_history WHERE baggage_id = ?";
+//         List<Map<String, Object>> paymentHistoryList = jdbcTemplate.queryForList(sql, baggage_id);
+
+//         return ResponseEntity.ok(paymentHistoryList);
+//     } catch (Exception e) {
+//         e.printStackTrace(); // Log the exception for debugging purposes
+//         //return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching payment history");
+//         return null;
+//     }
+// }
+
+
+@GetMapping("/get-payment-history")
+public ResponseEntity<?> getPaymentHistory(@RequestParam Long baggage_id) {
+    try {
+
+        List<Map<String, Object>> paymentHistoryList = fetchPaymentHistoryFromDatabase(baggage_id);
+
+        // Calculate total paid amount
+        double totalPaidAmount = calculateTotalPaidAmount(paymentHistoryList);
+        double totalTaxAmount  = calculateTotalTaxAmount(baggage_id);
+
+        Map<String, Object> responseData = new HashMap<>();
+        responseData.put("paymentHistoryList", paymentHistoryList);
+        responseData.put("totalPaidAmount", totalPaidAmount);
+        responseData.put("totalTaxAmount", totalTaxAmount);
+
+        return ResponseEntity.ok(responseData);
+    } catch (Exception e) {
+        e.printStackTrace(); // Log the exception for debugging purposes
+        //return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching payment history");
+        return null;
+    }
+}
+
+
+    private List<Map<String, Object>> fetchPaymentHistoryFromDatabase(Long baggage_id) {
+
+                String sql = "SELECT * FROM payment_history WHERE baggage_id = ?";
+                List<Map<String, Object>> paymentHistoryList = jdbcTemplate.queryForList(sql, baggage_id);
+
+
+                return paymentHistoryList;
+    }
+
+
+    private double calculateTotalTaxAmount(Long baggage_id) {
+        String sql = "SELECT SUM(tax_amount) AS totalTaxAmount FROM baggage_product_add WHERE baggage_id = ?";
+        
+        try {
+            Double totalTaxAmount = jdbcTemplate.queryForObject(sql, Double.class, baggage_id);
+            
+            return totalTaxAmount != null ? totalTaxAmount : 0.0; // If result is null, return 0
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0.0; // Return 0 in case of an error
+        }
+    }
+// Calculate total paid amount
+private double calculateTotalPaidAmount(List<Map<String, Object>> paymentHistoryList) {
+    double totalPaidAmount = 0.0;
+    for (Map<String, Object> payment : paymentHistoryList) {
+        double paidAmount = (double) payment.get("paid_amount");
+        totalPaidAmount += paidAmount;
+    }
+    return totalPaidAmount;
+}
+
+
+
+
+
 
 
     @GetMapping("/payment-review")

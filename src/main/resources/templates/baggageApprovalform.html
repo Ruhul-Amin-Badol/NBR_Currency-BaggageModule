@@ -104,34 +104,109 @@
              </tr> 
 
              <tr>
-                     <td colspan="6" class="text-end"> Total Tax Amount</td>
-                     <td colspan="2">
-                         <span id="totalTaxAmount"></span>
-                     </td>
+                <td colspan="4" class="text-end"> Paid Amount</td>
+                <td colspan="1"> <span id="totalTaxAmount"></span></td>
+
+
+
+                     <td colspan="2" class="text-end"> Payable Amount</td>
+                     <td colspan="1"></td>
+
+
+                     <!-- <td colspan="1" class="text-end"> Total Tax Amount</td>
+                     <td colspan="1"> <span id="totalTaxAmount">33</span></td> -->
                  </td>
-                 </tr>
+            </tr>
                 
          </tbody>
      </table>
 
+   <!-- AJax form -->
+   <div >
+    <form action="" method="" >
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" >
-    <tr>
-        <td colspan="6" class="pt">
-           <p th:if="${baggageView.status == 'approved'}"> <img th:src="${adminUserInfo['signature']}"   alt="Signature Image" height="80" width="150"></p>
-            <p class="p" align="left" th:text="${adminUserInfo['fname']}"></p>
-            <p class="p b" align="left">[Signature of Customs Official]</p>
-            <p class="p" align="left" th:if="${baggageView.status == 'approved'}">Approve Date:<span th:text="${baggageView.approve_date}"></span></p>
-        </td>
-        <td colspan="6" class="pt mt-5">
-            <p class="p" align="right" th:text="${baggageView['passenger_name']}"></p>
-            <p class="p b" align="right">[Signature of Declarant]</p>
-            <p class="p" align="right" >Submit date: <span th:text="${baggageView['application_submit_date']}"></span></p>
-        </td>
-    </tr>
-</table>
+                <div class="container p-3 mt-3 bg-light">
+                    <div class="d-flex justify-content-end mb-3">
+                        <button id="addPaymentButton" class="btn btn-primary" type="button" onclick="showTable()">
+                            <i class="fa fa-plus pulse-icon" aria-hidden="true"></i> Add Payment
+                          </button>
+                    </div>
+                   <!-- Button trigger modal -->
+
+                    <!-- table 1nd start -->
+                    <div id="table1" style="display: none;">
+                        <table class="table table-bordered w-100">
+                            <thead class="">
+                                <tr>
+                                    <th scope="col">Payment Id</th>                                    
+                                    <th scope="col">Date</th>                                    
+                                    <th scope="col">Calan No</th>                                    
+                                    <th scope="col"> Amount</th>
+                                    <th scope="col">Action</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="text" th:value="${baggageView['payment_id']}" class="form-control" id="payment_id" name="payment_id" readonly>
+                                    
+                                        <input th:value="${baggageView['id']}" type="hidden" id="baggage_id" name="baggage_id">
+                                    </td>
+                                    <td><input type="date"  class="form-control" id="payment_date" name="payment_date" ></td>
+                                    <td><input type="text" class="form-control" id="calan_no" name="calan_no" ></td>
+                                    <td><input type="text" class="form-control" id="paid_amount" name="paid_amount"></td>
+
+                                    <td><button type="button" class="btn btn-success" id="addTOPaymenyHistory">Add</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div id="tableForPaymentHistory">
+                    <table id="paymentHistoryAjaxtable"class="table table-bordered ">
+                        <thead style="background-color: rgba(96, 204, 69, 0.952);">
+                            <tr>
+                                <th scope="col">Payment Id</th>
+                                <th scope="col">Date</th>                                    
+                                <th scope="col">Calan No</th>  
+                                <th scope="col">Amount</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                        
+                        </tbody>
+                    </table>
+                    </div>
+                        
+                    </div>
+                </div>
+                
+    </form>
+</div>
+
+<div class="container p-3 mt-3">
 
 
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" >
+        <tr>
+            <td colspan="6" class="pt">
+               <p th:if="${baggageView.status == 'approved'}"> <img th:src="${adminUserInfo['signature']}"   alt="Signature Image" height="80" width="150"></p>
+                <p class="p" align="left" th:text="${adminUserInfo['fname']}"></p>
+                <p class="p b" align="left">[Signature of Customs Official]</p>
+                <p class="p" align="left" th:if="${baggageView.status == 'approved'}">Approve Date:<span th:text="${baggageView.approve_date}"></span></p>
+            </td>
+            <td colspan="6" class="pt mt-5">
+                <p class="p" align="right" th:text="${baggageView['passenger_name']}"></p>
+                <p class="p b" align="right">[Signature of Declarant]</p>
+                <p class="p" align="right" >Submit date: <span th:text="${baggageView['application_submit_date']}"></span></p>
+            </td>
+        </tr>
+    </table>
+    
+    
+
+</div>
 
 
 
@@ -290,7 +365,14 @@ function showDiv1() {
 
     document.getElementById('welcomeDiv1').style.display = "block";
 }
+function showTable() {
+       /// var buttonIds = ["toggleButton1", "hideDiv", "toggleButton","editDiv"];
 
+    // Hide each button
+
+    document.getElementById('table1').style.display = "block";
+
+}
 function showDiv() {
         var buttonIds = ["toggleButton1", "hideDiv", "toggleButton","editDiv"];
 
@@ -382,5 +464,5 @@ function qrcode() {
 
 
 </div>
-
+<script th:src="@{/js/paymentHistoryFromAdminAjax.js}"></script>
 <div th:replace="~{layout/footer}"></div>
