@@ -166,11 +166,9 @@ public ResponseEntity<?> getPaymentHistory(@RequestParam Long baggage_id) {
     try {
 
         List<Map<String, Object>> paymentHistoryList = fetchPaymentHistoryFromDatabase(baggage_id);
-
-        // Calculate total paid amount
         double totalPaidAmount = calculateTotalPaidAmount(paymentHistoryList);
         double totalTaxAmount  = calculateTotalTaxAmount(baggage_id);
-
+        //String UpdateBaggagePaymentStatus=UpdateBaggagePaymentStatus(baggage_id);
         Map<String, Object> responseData = new HashMap<>();
         responseData.put("paymentHistoryList", paymentHistoryList);
         responseData.put("totalPaidAmount", totalPaidAmount);
@@ -216,9 +214,53 @@ private double calculateTotalPaidAmount(List<Map<String, Object>> paymentHistory
     }
     return totalPaidAmount;
 }
+    // @PostMapping("/update-refund-amount")
+    // public String updateRefundAmount(@RequestParam Long id,Double refundAmount) {
+
+    //     System.out.println("refundAmount=================================="+refundAmount);
+    //    String is_refund = "yes";
+    //    String sqlBaggage = "UPDATE baggage SET paid_amount=?,is_refund=? WHERE id=?";
+    //    jdbcTemplate.update(sqlBaggage,refundAmount,is_refund,id);
+    //   // return "Refund Successfully";
+    // }
+    @ResponseBody
+    @PostMapping("/update-refund-amount")
+    public ResponseEntity<Map<String, Object>> updateRefundAmount(@RequestBody Map<String, Object> requestData) {
+        Long baggageId = Long.parseLong(requestData.get("baggage_id").toString());
+        Double refundAmount = Double.parseDouble(requestData.get("payableAmount").toString());
+        String paymentId = requestData.get("payment_id").toString();
+        LocalDateTime paymentDate = LocalDateTime.now();
+    
+        System.out.println("=============refundAmount======================================"+refundAmount);
+    
+        String is_refund = "yes";
+        double ref = 2.33;
+    
+        // Assuming some condition where refund is successful
+        // For simplicity, I'm using a boolean flag 'success'
+        boolean success = true;
+    
+        jdbcTemplate.update(
+            "INSERT INTO payment_history (baggage_id, paid_amount, payment_id, payment_date,is_refund) VALUES (?, ?, ?, ?,?)",
+            baggageId, refundAmount, paymentId, paymentDate,is_refund);
+    
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", success);
+        response.put("message", success ? "Refund Successfully" : "Refund Failed");
+    
+        return ResponseEntity.ok(response);
+    }
 
 
-
+//ipdate payment status
+    // private  String UpdateBaggagePaymentStatus(Long baggage_id) {
+        
+    //     String status = "Unpaid";
+    //     String sqlBaggage = "UPDATE baggage SET payment_status=? WHERE id=?";
+    //     jdbcTemplate.update(sqlBaggage,status,baggage_id);
+    //     return null;
+    
+    // }
 
 
 
@@ -233,6 +275,7 @@ private double calculateTotalPaidAmount(List<Map<String, Object>> paymentHistory
        return "redirect:/baggageshow/baggagetotalid?id="+id;
     }
     
+
     //Application Edit Controller 
 
         @GetMapping("/baggageApplicationEdit")
