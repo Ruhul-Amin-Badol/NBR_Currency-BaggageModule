@@ -10,7 +10,7 @@ function populateTableAdmin() {
   const tbody = $("#ajaxtable tbody");
   // Clear the table body before populating it again
   tbody.empty();
-  let totalTax = 0.0;
+  let totalTaxvalue = 0.0;
   let  totalAdditionalPayment=0.0
   addDataAdmin.forEach(function (item) {
     // Create a new table row for each item
@@ -91,7 +91,10 @@ function populateTableAdmin() {
   //  }
 
     let toatal=item.taxAmount
-    totalTax += parseFloat(toatal);
+    //alert(toatal)
+    totalTaxvalue += parseFloat(toatal);
+    totalTax = totalTaxvalue.toFixed(2)
+   // alert(totalTax)
     
 
     let additionalPayment = item.additional_payment;
@@ -99,30 +102,42 @@ function populateTableAdmin() {
       additionalPayment = 0;
     }
     totalAdditionalPayment +=  parseFloat(additionalPayment);
-  
+   // console.log("totalAdditionalPayment===="+totalAdditionalPayment)
 
     // Append the new row to the table body
     tbody.append(newRow);
   });
   var previousPaidAmount=document.getElementById("totalPaidAmountId").value
-  var parsedPreviousPaidAmount = parseFloat(previousPaidAmount);
-
-  console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhjjjjjjjjjjjjj"+parsedPreviousPaidAmount);
+  //alert(previousPaidAmount)
+  var parsedPreviousPaidAmount = parseFloat(previousPaidAmount).toFixed(2);
+  //alert(totalTax)
+  //console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhjjjjjjjjjjjjj"+parsedPreviousPaidAmount);
 
   let totalPayableAmount = totalTax + totalAdditionalPayment;
-  totalPayableAmount = totalPayableAmount-parsedPreviousPaidAmount
+  totalPayableAmount = (totalPayableAmount-parsedPreviousPaidAmount).toFixed(2)
+  //alert(totalPayableAmount)
 
   newRow1.append(`<th colspan="3" class="text-end"> Total Tax Amount:</th>`);
-  newRow1.append(`<td>${totalTax.toFixed(2)}</td>`);
+  newRow1.append(`<td>${totalTax}</td>`);
 
 
   newRow1.append(`<th colspan="4" class="text-end"> Additional Payment:</th>`);
   newRow1.append(`<td>${totalAdditionalPayment.toFixed(2)}</td>`);
 
-  newRow1.append(`<th colspan="4" class="text-end"> Payable Amount:</th>`);
-  newRow1.append(`<td colspan="4">${totalPayableAmount.toFixed(2)}</td>`);
 
 
+  if (totalPayableAmount>=0){
+
+    newRow1.append(`<th colspan="4" style="color:green" class="text-end"> Payable Amount :</th>`);
+    newRow1.append(`<td colspan="4">${totalPayableAmount}</td>`);
+
+    }else{
+          newRow1.append(`<th colspan="4" style="color:red"class="text-end"> Refund Amount :</th>`);
+
+          let absolutePayableAmount = Math.abs(totalPayableAmount);
+          newRow1.append(`<td colspan="4">${absolutePayableAmount}</td>`);
+       
+    }
   // newRow1.append(`<th colspan="6" class="text-end"> Pdditional Payment:</th>`);
   // newRow1.append(`<td>${parseFloat.totalAdditionalPayment(2)}</td>`);
   tbody.append(newRow1);

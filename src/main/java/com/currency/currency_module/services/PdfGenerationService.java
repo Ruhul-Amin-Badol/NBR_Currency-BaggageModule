@@ -205,13 +205,13 @@ public byte[] generatePdfPayByAdmin(List<Map<String, Object>>allProductQuery,Lis
                 double creditAmount = Math.abs(paidAmount);
                 contentStream.beginText();
                 contentStream.newLineAtOffset(xPosition, yPosition);
-                contentStream.showText("Your return amount is: " + creditAmount);
+                contentStream.showText("Refund amount is: " + creditAmount);
                 contentStream.endText();
                 yPosition -= rowHeight; // Adjust the Y-coordinate
               }else{
                 contentStream.beginText();
                 contentStream.newLineAtOffset(xPosition, yPosition);
-                contentStream.showText("You have now paid : " + paidAmount);
+                contentStream.showText("Payable amount : " + paidAmount);
                 contentStream.endText();
                 yPosition -= rowHeight; // Adjust the Y-coordinate
 

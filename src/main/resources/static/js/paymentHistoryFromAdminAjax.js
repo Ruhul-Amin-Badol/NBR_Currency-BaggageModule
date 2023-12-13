@@ -4,7 +4,7 @@ $("#addTOPaymenyHistory").click(function () {
     const calan_no = $("#calan_no").val();
     const paid_amount = $("#paid_amount").val();
     const baggage_id = $("#baggage_id").val();
-    console.log(baggage_id, payment_id, payment_date, calan_no, paid_amount);
+   // console.log(baggage_id, payment_id, payment_date, calan_no, paid_amount);
 
     const data = {
         baggage_id,
@@ -45,19 +45,32 @@ $("#addTOPaymenyHistory").click(function () {
 
 // Function to fetch and repopulate payment history
 function repopulatePaymentHistory() {
+    //alert("repopulatePaymentHistory")
     let baggage_id = $("#baggage_id").val();
     $.ajax({
         url: "/baggageshow/get-payment-history",
         type: "GET",
         data: { baggage_id },
         success: function(response) {
-           // populatePaymentHistoryTable(response);
-           //populatePaymentHistoryTable(response.paymentHistoryList);
-           //displayTotalPaidAmount(response.totalPaidAmount);
+
            populatePaymentHistoryTable(response.paymentHistoryList,response.totalPaidAmount,response.totalTaxAmount);
-
-
-            
+          // console.log("testing");
+         // alert("repopulatePaymentHistory");
+          totalPaidAmount =  parseFloat(response.totalPaidAmount).toFixed(2);
+          totalTaxAmount = parseFloat(response.totalTaxAmount).toFixed(2);
+          console.log(totalPaidAmount+"  "+totalTaxAmount)
+          const totalPayableAmount = totalTaxAmount - totalPaidAmount;
+          const approveButton = $("#toggleButton");
+          console.log("totalTaxAmount repopulatePaymentHistory==================="+totalTaxAmount);
+          console.log("totalPaidAmount repopulatePaymentHistory==================="+totalPaidAmount);
+          console.log("totalPayableAmount repopulatePaymentHistory==================="+totalPayableAmount);
+           if (totalPayableAmount == 0){
+            approveButton.prop('disabled', false); // Enable the button
+          //  console.log("disavle"+totalPayableAmount);
+        } else {
+            approveButton.prop('disabled', true); // Disable the button
+           // console.log("anable"+totalPayableAmount);
+        }
         },
         error: function(error) {
             console.error(error);
@@ -67,6 +80,7 @@ function repopulatePaymentHistory() {
 $(document).ready(function() {
     // When the document is ready, make an AJAX call to fetch payment history for baggage_id = 1
     let baggage_id = $("#baggage_id").val(); 
+   //alert(baggage_id)
     $.ajax({
         url: "/baggageshow/get-payment-history", // URL to your backend endpoint
         type: "GET",
@@ -75,7 +89,28 @@ $(document).ready(function() {
             // On success, populate the table with the fetched data
             //populatePaymentHistoryTable(response.paymentHistoryList);
             populatePaymentHistoryTable(response.paymentHistoryList,response.totalPaidAmount,response.totalTaxAmount);
-           // displayTotalPaidAmount(response.totalPaidAmount);
+           // alert("totalPayableAmount")
+           totalPaidAmount =  parseFloat(response.totalPaidAmount).toFixed(2);
+           totalTaxAmount = parseFloat(response.totalTaxAmount).toFixed(2);
+            console.log(totalPaidAmount+"  "+totalTaxAmount);
+           const totalPayableAmount = totalTaxAmount - totalPaidAmount;
+          //  alert(totalPayableAmount)
+            const approveButton = $("#toggleButton");
+            const totalPayableAmountFormatted = totalPayableAmount.toFixed(2);
+            console.log(totalPayableAmountFormatted+"  "+totalPayableAmount);
+          
+         // const approveButton = $("#toggleButton");
+         console.log("totalTaxAmount==================="+totalTaxAmount);
+         console.log("totalPaidAmount==================="+totalPaidAmount);
+         console.log("totalPayableAmount==================="+totalPayableAmount);
+         console.log("totalPayableAmountFormatted======================"+totalPayableAmountFormatted)
+           if (totalPayableAmountFormatted ==0 ){
+            approveButton.prop('disabled',false ); // Enable the button
+          //  console.log("disavle"+totalPayableAmount);
+        } else {
+            approveButton.prop('disabled', true); // Disable the button
+           // console.log("anable"+totalPayableAmount);
+        }
         },
         error: function(error) {
             // Handle errors here
@@ -106,28 +141,121 @@ function populatePaymentHistoryTable(data,totalPaidAmount,totalTaxAmount) {
 
         newRow.append(`<td>${formattedDate}</td>`);
         newRow.append(`<td>${item.calan_no}</td>`);
+        if (item.paid_amount>=0){
+
         newRow.append(`<td>${item.paid_amount}</td>`);
+        }else{
+            let absolutePayableAmount = Math.abs(item.paid_amount);
+            newRow.append(`<td>${absolutePayableAmount} <span  style="float: right;font-weight: bolder; color: orangered;">Refund</span></td>`);
+        }
       //  newRow.append(`<td><button onclick="performAction(${item.id})">Action</button></td>`);
         tableBody.append(newRow);
       //  tableBody.append("================================");
 
 
     });
+    //alert(item.payment_id[0])
     // Add the total payment amount as the last row
     const totalRow = $("<tr>");
+  
 
-    totalRow.append(`<td colspan="4">Total Text Amount: ${totalTaxAmount} ======== Total Paid Amount:${totalPaidAmount} ===== Total Payable Amount: ${totalPaidAmount-totalTaxAmount}</td>`); // colspan to cover the entire row
-   // totalRow.append(`<td>${totalTaxAmount}</td>`);
+    totalPaidAmount =  parseFloat(totalPaidAmount).toFixed(2);
+    totalTaxAmount = parseFloat(totalTaxAmount).toFixed(2);
+     //console.log(totalPaidAmount+"  "+totalTaxAmount);
+    const totalPayableAmount = totalTaxAmount - totalPaidAmount;
 
+    totalRow.append(`<td colspan="1">Total Text Amount : ${totalTaxAmount}</td>`); // colspan to cover the entire row
+    totalRow.append(`<td>Total Paid Amount : ${totalPaidAmount}</td>`);
+    payableAmount = totalPayableAmount.toFixed(2)
+    //totalRow.append(`<td colspan="2">Total Payable Amount : ${payableAmount}</td>`);
+    //alert(totalPayableAmount)
+    const refundAmountCell = $("#refundAmountCell");
+    if (payableAmount>=0){
 
-    //totalRow.append('<td>Total Paid Amount</td>'); // colspan to cover the entire row
-    //totalRow.append(`<td>${totalPaidAmount}</td>`);
+        totalRow.append(`<td colspan="2">Total Payable Amount : ${payableAmount}</td>`);
+    }else{
+        let absolutePayableAmount = Math.abs(payableAmount);
 
+        totalRow.append(`<td colspan="2"> Refund Amount : ${absolutePayableAmount}
+        <input type="hidden" id="payableAmount_id" name="payableAmount" value="${payableAmount}" />
+        <button style="float: right;" id="refundAmountBtnId" type="button" class="btn btn-warning" onclick="adjustRefund()">Adjust Refund ( ${absolutePayableAmount })</button>
+        </td>` );
+        
+    }
 
-
-    //totalRow.append('<td>Total Payable Amount</td>'); // colspan to cover the entire row
-   // totalRow.append(`<td>${totalPaidAmount-totalTaxAmount}</td>`);
-   // alert(totalPaidAmount)
     tableBody.append(totalRow);
+    //totalRow.append(`<td onclick="adjustRefund()"><button>ddd</button></td>`);
 
 }
+
+function adjustRefund() {
+    let baggage_id = $("#baggage_id").val();
+    let paymentId = $("#payment_id").val();
+    let payableAmountId = $("#payableAmount_id").val();
+
+    const data = {
+        baggage_id: baggage_id,
+        payableAmount: payableAmountId,
+        payment_id: paymentId
+    };
+
+    $.ajax({
+        url: "/baggageshow/update-refund-amount",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        success: function (response) {
+            $("#payment_date").val("");
+            console.log(response);
+
+            if (response && response.success === true) {
+                const refundAmountCell = $("#refundAmountCell");
+                const totalRow = $("#paymentHistoryAjaxtable tbody tr:last");
+
+                if (payableAmountId >= 0) {
+                    totalRow.find('td:eq(2)').html(`Total Payable Amount : ${payableAmountId}`);
+                    refundAmountCell.empty(); // Clear the refund cell if applicable
+                } else {
+                    let absolutePayableAmount = Math.abs(payableAmountId);
+                    totalRow.find('td:eq(2)').html(`Refund Amount: ${absolutePayableAmount}`);
+                    totalRow.find('td:eq(2)').append(`<button style="float: right;" id="refundAmountBtnId" type="button" class="btn btn-warning" onclick="adjustRefund(${payableAmountId})">Adjust Refund (${absolutePayableAmount})</button>`);
+                }
+
+                // Repopulate the payment history table after the refund adjustment
+                repopulatePaymentHistory();
+            }
+
+            // Check payable amount for enabling/disabling the approve button
+            totalPaidAmount = parseFloat(response.totalPaidAmount).toFixed(2);
+            totalTaxAmount = parseFloat(response.totalTaxAmount).toFixed(2);
+            const totalPayableAmount = totalTaxAmount - totalPaidAmount;
+            const approveButton = $("#toggleButton");
+
+            if (totalPayableAmount == 0) {
+                approveButton.prop('disabled', false); // Enable the button
+            } else {
+                approveButton.prop('disabled', true); // Disable the button
+            }
+
+   // Create a new row to display the success message
+
+   const successSpan = $('<p class="success-message text-center text-success">Refund Successfully</p>');
+
+   // Append the success message span to the payment history table
+   $('#paymentHistoryAjaxtable').append(successSpan);
+
+   setTimeout(function () {
+       // Fade out and remove the success message span after 5 seconds
+       successSpan.fadeOut('slow', function () {
+           $(this).remove();
+       });
+   }, 8000);
+        },
+        error: function (error) {
+            // Handle error
+            console.error(error);
+        }
+    });
+}
+
+
