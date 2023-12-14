@@ -42,8 +42,8 @@
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="passportIssuePlace" class="form-label" id="passportIssuePlaceLabel">Issue Place</label><span class="astrick">*</span>
-                                            <input type="text" class="form-control" id="example1" name="passportIssuePlace" th:value="${currencyDeclaration.passportIssuePlace}" placeholder="Enter Issue Place" required>
+                                            <label for="passportIssuePlace" class="form-label" id="passportIssuePlaceLabel">Issue Place</label>
+                                            <input type="text" class="form-control" id="example1" name="passportIssuePlace" th:value="${currencyDeclaration.passportIssuePlace}" placeholder="Enter Issue Place" >
                                         </div>
 
                                         <div class="mb-3">
@@ -526,12 +526,14 @@
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="stayTimeAbroad" class="form-label" id="stayTimeAbroad">Duration Of Stay In Abroad</label>
-                                            <input type="text" class="form-control" id="stayTimeAbroad" name="stayTimeAbroad" th:value="${currencyDeclaration.stayTimeAbroad}">
+                                            <label for="stayTimeAbroad" class="form-label" id="stayTimeAbroad">Duration Of Stay In Abroad</label><span
+                                            class="astrick">*</span>
+                                            <input type="text" class="form-control" id="stayTimeAbroad" name="stayTimeAbroad" th:value="${currencyDeclaration.stayTimeAbroad}" required>
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="mobileNo" class="form-label" id="mobileNoLabel">Mobile No</label>
+                                            <label for="mobileNo" class="form-label" id="mobileNoLabel">Mobile No</label><span
+                                            class="astrick">*</span>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <select class="form-select" name="countryCode" id="countryCode" required>
@@ -699,13 +701,14 @@
                                                     
                                                     
                                                 </div>
-                                                <input type="text" class="form-control"  id="contactNo" name="contactNo" placeholder="Enter Mobile No" th:value="${currencyDeclaration.contactNo}">
+                                                <input type="text" class="form-control"  id="contactNo" name="contactNo" placeholder="Enter Mobile No" th:value="${currencyDeclaration.contactNo}" required>
                                             </div>
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="email" class="form-label" id="emailLabel">Email</label>
-                                            <input type="email" class="form-control"  id="example1" name="email" th:value="${currencyDeclaration.email}"placeholder="Enter Your Email" >
+                                            <label for="email" class="form-label" id="emailLabel">Email</label><span
+                                            class="astrick">*</span>
+                                            <input type="email" class="form-control"  id="example1" name="email" th:value="${currencyDeclaration.email}"placeholder="Enter Your Email"required>
                                         </div>
 
                                     </div>

@@ -125,10 +125,10 @@ function finalsubmitcurrency(){
 }
 
 function finalsubmitcurrencyAdmin(){
-  const currencyId=$("#id").val();
+  const id=$("#currencyId").val();
   var form = document.getElementById("myForm");
-  form.action = "/currencystart/finalsubmit-form-admin";
-  form.submit();
+  window.location.href="/currencystart/show-currency-details?id="+id+"&page=currencyUnapprove"
+  
 
 }
 

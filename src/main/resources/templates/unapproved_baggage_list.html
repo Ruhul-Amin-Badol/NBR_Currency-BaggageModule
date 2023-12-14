@@ -13,6 +13,12 @@
       margin-bottom: 20px;
       text-align: center;
     }
+    .dataTables_filter{
+        padding: 10px;
+    }
+    .dt-buttons {
+        padding: 10px;
+    }
 </style>
 
 <span id="print_id" >
@@ -24,24 +30,24 @@
     Baggage Application
   </div>
 <table id="example" class="table table-striped " style="zoom: 70%;">
-    <thead>
-        <tr>
-            <th>sl</th>
-            <th>Entry Point</th>
-            <th>Passenger Name</th>
-            <th>Passport Number</th>
-            <th>Passport Validity Date</th>
-            <th>Nationality</th>
-            <th>Country From</th>
-            <th>Date of Arrival</th>
-            <th>Flight Number</th>
-            <th>Mobile Number</th>
-            <th>Email</th>
-            <th>Accompanied Baggage Count</th>
-            <th>Unaccompanied Baggage Count</th>
-            <th>Meat</th>
-            <th>Currency</th>
-            <th>Action</th>
+    <thead >
+        <tr style="background-color: aquamarine;">
+            <th class="bg-info">sl</th>
+            <th class="bg-info">Entry Point</th>
+            <th class="bg-info">Passenger Name</th>
+            <th class="bg-info">Passport Number</th>
+            <th class="bg-info">Passport Validity Date</th>
+            <th class="bg-info">Nationality</th>
+            <th class="bg-info">Country From</th>
+            <th class="bg-info">Date of Arrival</th>
+            <th class="bg-info">Flight Number</th>
+            <th class="bg-info">Mobile Number</th>
+            <th class="bg-info">Email</th>
+            <th class="bg-info">Accompanied Baggage Count</th>
+            <th class="bg-info">Unaccompanied Baggage Count</th>
+            <th class="bg-info">Meat</th>
+            <th class="bg-info">Currency</th>
+            <th class="bg-info">Action</th>
 
         </tr>
     </thead>
@@ -66,7 +72,7 @@
                 <td th:text="${show['foreign_currency']}"></td>
                 <!-- <td><a th:href="@{'/baggageshow/baggagetotalid/'+ ${show['id']}}">show</a></td> -->
                 <td>
-                    <a th:href="@{/baggageshow/baggagetotalid(id=${show.id},status=unapproved)}">View Application</a>
+                    <a th:href="@{/baggageshow/baggagetotalid(id=${show.id},status=unapproved)}"><button class="btn-sm btn-success">View Application</button></a>
                 </td>
               
         </tr>
