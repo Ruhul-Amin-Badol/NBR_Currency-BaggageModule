@@ -253,7 +253,7 @@ public class baggageController {
             System.out.println(airportname);
 
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Adjust format as needed
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy"); // Adjust format as needed
             String applicationSubmitDate = dateFormat.format(new Date());
 
 // paymentId,
@@ -974,6 +974,10 @@ public class baggageController {
            }
           
        }
+       LocalDateTime paymentDate = LocalDateTime.now();
+       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+       String formattedDatePayment = paymentDate.format(formatter);
+
        String payment_id= (String)requestParameters.get("payment_id");
        Integer baggage_id= (Integer)requestParameters.get("id");
        String officeCode= (String)requestParameters.get("office_code");
@@ -1003,6 +1007,7 @@ public class baggageController {
        paymentHistory.setPaymentId(payment_id);
        paymentHistory.setOfficeCode(officeCode);
        paymentHistory.setPaidAmount(Double.parseDouble(totalAmount));
+       paymentHistory.setPaymentDate(formattedDatePayment);
 
        paymentHistoryService.insertPaymehistory(paymentHistory);
 
@@ -1190,6 +1195,7 @@ public class baggageController {
         String payment_id= (String)baggagedata.get("payment_id");
         String passenger_name= (String)baggagedata.get("passenger_name");
         String cellular_phone= (String)baggagedata.get("mobile_no");
+
         LocalDateTime currentDateTime = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -1301,7 +1307,7 @@ public class baggageController {
         String payment_id= (String)requestParameters.get("payment_id");
         LocalDateTime currentDateTime = LocalDateTime.now();
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         // Format the LocalDateTime to a string using the formatter
         String formattedDate = currentDateTime.format(formatter);
@@ -1689,7 +1695,7 @@ if(airportname.equalsIgnoreCase("all")){
 public String currencApproveUpdate(@RequestParam int id, @RequestParam String status, @RequestParam String confNote, @RequestParam String page_route, Principal principal) {
     String paymentStatus = "Paid";
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); // Adjust format as needed
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy"); // Adjust format as needed
             String approveDate = dateFormat.format(new Date());
 
 

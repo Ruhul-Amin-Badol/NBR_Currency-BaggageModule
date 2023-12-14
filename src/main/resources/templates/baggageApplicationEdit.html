@@ -67,9 +67,13 @@
                 const dataSet = apiResponse.map((record, sl) => {
                     const formattedApplicationSubmitDate = moment(record.application_submit_date).format('MM-DD-YYYY');
 
-                    let actionContent = `<a href="/baggagestart/edit-baggage?generatedId=${record.id}" class="btn btn-primary">Edit</a>`;
+                    var actionContent =``
                     if (record.status === 'approved') {
-                        actionContent = `<span style="font-weight: bolder; color: forestgreen;">Approved</span>`;
+                       
+                         actionContent = `<a href="/baggageshow/baggagetotalid?id=${record.id}&status=approve" class="btn btn-info">View</a>`;
+                    }else{
+                         actionContent = `<a href="/baggagestart/edit-baggage?generatedId=${record.id}" class="btn btn-primary">Edit</a>`;
+
                     }
 
                     return [
@@ -80,6 +84,7 @@
                         formattedApplicationSubmitDate, // Formatted date
                         record.nationality,
                         record.passport_number,
+                        record.status,
                         actionContent,
                     ];
                 });
@@ -98,6 +103,7 @@
                         { title: 'Submit Date' },
                         { title: 'Nationality' },
                         { title: 'Passport No' },
+                        { title: 'Status' },
                         { title: 'Action' },
                     ],
                     data: dataSet,

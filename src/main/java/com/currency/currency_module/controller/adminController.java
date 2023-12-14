@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -128,7 +129,7 @@ public String confirmPaymentByAdmin(@RequestBody Map<String, Object> data) {
 
         if (paid_amount != null && paid_amount > 0) {
             jdbcTemplate.update(
-                "INSERT INTO payment_history (baggage_id, paid_amount, payment_id, payment_date, calan_no) VALUES (?, ?, ?, ?, ?)",
+                "INSERT INTO payment_history (baggage_id, paid_amount, payment_id, payment_date, transaction_id) VALUES (?, ?, ?, ?, ?)",
                 baggage_id, paid_amount, payment_id, payment_date, calan_no
             );
             
@@ -230,6 +231,9 @@ private double calculateTotalPaidAmount(List<Map<String, Object>> paymentHistory
         Double refundAmount = Double.parseDouble(requestData.get("payableAmount").toString());
         String paymentId = requestData.get("payment_id").toString();
         LocalDateTime paymentDate = LocalDateTime.now();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String formattedDatePayment = paymentDate.format(formatter);
     
         System.out.println("=============refundAmount======================================"+refundAmount);
     
@@ -242,7 +246,7 @@ private double calculateTotalPaidAmount(List<Map<String, Object>> paymentHistory
     
         jdbcTemplate.update(
             "INSERT INTO payment_history (baggage_id, paid_amount, payment_id, payment_date,is_refund) VALUES (?, ?, ?, ?,?)",
-            baggageId, refundAmount, paymentId, paymentDate,is_refund);
+            baggageId, refundAmount, paymentId, formattedDatePayment,is_refund);
     
         Map<String, Object> response = new HashMap<>();
         response.put("success", success);

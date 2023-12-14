@@ -125,7 +125,8 @@
         <thead style="width:100%">
         <tr>
             <td>
-                <span class="b"> Invoice Id : <span id="invoiceid"></span></span>
+                <span class="b"> Invoice Id : <span id="invoiceid"></span><div th:if="${Currency.status == 'checked'}">
+                    <span th:text="${Currency.invoice}"></span></div></span>
             </td>
             <td colspan="6" ‍align="center">
                 <p class="p b ft-30" align="center" style="margin-right:-30%;">বৈদেশিক মুদ্রা ঘোষণা ফরম</p>
