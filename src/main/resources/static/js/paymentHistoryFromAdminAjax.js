@@ -134,12 +134,12 @@ function populatePaymentHistoryTable(data,totalPaidAmount,totalTaxAmount) {
     data.forEach(function(item) {
         const newRow = $("<tr>");
         newRow.append(`<td>${item.payment_id}</td>`);
-        const date = new Date(item.payment_date);
+        // const date = new Date(item.payment_date);
 
 
-        const formattedDate = date.toISOString().split('T')[0]; // Extracting date (YYYY-MM-DD)
+        // const formattedDate = date.toISOString().split('T')[0]; // Extracting date (YYYY-MM-DD)
 
-        newRow.append(`<td>${formattedDate}</td>`);
+        newRow.append(`<td>${item.payment_date}</td>`);
         newRow.append(`<td>${item.calan_no}</td>`);
         if (item.paid_amount>=0){
 

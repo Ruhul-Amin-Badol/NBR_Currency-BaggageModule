@@ -326,7 +326,7 @@
                    <p id="signatureId"> <img id="signatureImage" th:src="${Signature}"   alt="Signature Image" height="80" width="150"></p>
                     <p class="p" align="left" th:text="${UserfullName}"></p>
                     <p class="p b" align="left">[Signature of Customs Official]</p>
-                    <p class="p" align="left" >Approve Date:<span id="timeapproveid"></span></p>
+                    <p class="p" align="left" >Approve Date:<span id="timeapproveid" th:text="${Currency.approveDate}"></span></p>
                 </td>
                 <td colspan="6" class="pt mt-5">
                     <p class="p" align="right" th:text="${Currency.passengerName}"></p>
