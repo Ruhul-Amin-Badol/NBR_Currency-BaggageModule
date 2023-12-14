@@ -17,6 +17,7 @@ import java.security.Principal;
 import java.text.SimpleDateFormat;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 
 import com.google.firebase.cloud.StorageClient;
@@ -122,15 +123,22 @@ public byte[] generatePdfPayByAdmin(List<Map<String, Object>>allProductQuery,Lis
             yTable -= 20; // Adjust the Y-coordinate for the table content
             contentStream.setNonStrokingColor(0,0,0);
 
-
+            int maxProductNameWidth = 28;
 
             for (Map<String, Object> row : allProductQuery) {
                 contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 10); // Adjust font size if needed
             
                 // Draw each column in the row
                 contentStream.beginText();
-                contentStream.newLineAtOffset(xTable-5, yTable);
-                contentStream.showText(row.get("item_name").toString());
+                String productName = row.get("item_name").toString();
+                // Adjust the displayed text if it exceeds the maximum width
+                if (productName.length() > maxProductNameWidth) {
+                    productName = productName.substring(0, maxProductNameWidth - 3) + "...";
+                }
+
+                contentStream.newLineAtOffset(xTable - 5, yTable);
+                contentStream.showText(productName);
+                
                 contentStream.newLineAtOffset(140, 0);
                 contentStream.showText(row.get("unit_name").toString());
                 contentStream.newLineAtOffset(90, 0);
@@ -458,14 +466,24 @@ public byte[] generatePdf(List<Map<String, Object>>allProductQuery,List<?> rowDa
                 contentStream.setNonStrokingColor(0,0,0);
 
 
-
+                int maxProductNameWidth = 28; // Maximum width for the column
+              //  float fontSize = 10; // Font size for the text
+              //  float yStart1 = yTable; // Initial Y-coordinate for the text
+               // float lineHeight = 22; // Line height for the text
                 for (Map<String, Object> row : allProductQuery) {
                     contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 10); // Adjust font size if needed
                 
                     // Draw each column in the row
                     contentStream.beginText();
-                    contentStream.newLineAtOffset(xTable-5, yTable);
-                    contentStream.showText(row.get("item_name").toString());
+                    String productName = row.get("item_name").toString();
+                    // Adjust the displayed text if it exceeds the maximum width
+                    if (productName.length() > maxProductNameWidth) {
+                        productName = productName.substring(0, maxProductNameWidth - 3) + "...";
+                    }
+
+                    contentStream.newLineAtOffset(xTable - 5, yTable);
+                    contentStream.showText(productName);
+                  
                     contentStream.newLineAtOffset(140, 0);
                     contentStream.showText(row.get("unit_name").toString());
                     contentStream.newLineAtOffset(90, 0);
@@ -701,14 +719,20 @@ public byte[] firebaseImageSignature(String usernameSession) throws IOException{
                 contentStream.setNonStrokingColor(0,0,0);
 
 
-
+                int maxProductNameWidth = 28;
                 for (Map<String, Object> row : allProductQuery) {
                     contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 10); // Adjust font size if needed
                 
                     // Draw each column in the row
                     contentStream.beginText();
-                    contentStream.newLineAtOffset(xTable-5, yTable);
-                    contentStream.showText(row.get("item_name").toString());
+                    String productName = row.get("item_name").toString();
+                    // Adjust the displayed text if it exceeds the maximum width
+                    if (productName.length() > maxProductNameWidth) {
+                        productName = productName.substring(0, maxProductNameWidth - 3) + "...";
+                    }
+
+                    contentStream.newLineAtOffset(xTable - 5, yTable);
+                    contentStream.showText(productName);
                     contentStream.newLineAtOffset(140, 0);
                     contentStream.showText(row.get("unit_name").toString());
                     contentStream.newLineAtOffset(90, 0);
@@ -898,14 +922,20 @@ public byte[] firebaseImageSignature(String usernameSession) throws IOException{
                 contentStream.setNonStrokingColor(0,0,0);
 
 
-
+                int maxProductNameWidth = 28;
                 for (Map<String, Object> row : allProductQuery) {
                     contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 10); // Adjust font size if needed
                 
                     // Draw each column in the row
                     contentStream.beginText();
-                    contentStream.newLineAtOffset(xTable-5, yTable);
-                    contentStream.showText(row.get("item_name").toString());
+                    String productName = row.get("item_name").toString();
+                    // Adjust the displayed text if it exceeds the maximum width
+                    if (productName.length() > maxProductNameWidth) {
+                        productName = productName.substring(0, maxProductNameWidth - 3) + "...";
+                    }
+
+                    contentStream.newLineAtOffset(xTable - 5, yTable);
+                    contentStream.showText(productName);
                     contentStream.newLineAtOffset(140, 0);
                     contentStream.showText(row.get("unit_name").toString());
                     contentStream.newLineAtOffset(90, 0);
@@ -1165,14 +1195,20 @@ public byte[] firebaseImageSignature(String usernameSession) throws IOException{
                 contentStream.setNonStrokingColor(0,0,0);
 
 
-
+                int maxProductNameWidth = 28;
                 for (Map<String, Object> row : allProductQuery) {
                     contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 10); // Adjust font size if needed
                 
                     // Draw each column in the row
                     contentStream.beginText();
-                    contentStream.newLineAtOffset(xTable-5, yTable);
-                    contentStream.showText(row.get("item_name").toString());
+                    String productName = row.get("item_name").toString();
+                    // Adjust the displayed text if it exceeds the maximum width
+                    if (productName.length() > maxProductNameWidth) {
+                        productName = productName.substring(0, maxProductNameWidth - 3) + "...";
+                    }
+
+                    contentStream.newLineAtOffset(xTable - 5, yTable);
+                    contentStream.showText(productName);
                     contentStream.newLineAtOffset(140, 0);
                     contentStream.showText(row.get("unit_name").toString());
                     contentStream.newLineAtOffset(90, 0);
@@ -1457,6 +1493,25 @@ public byte[] generatePdfCurrency(CurrencyDeclaration currencyDeclaration, List<
 
 
 
+// Method to split text into lines based on maximum width
+private List<String> splitTextIntoLines(String text, int maxLineLength) {
+    List<String> lines = new ArrayList<>();
+    String[] words = text.split("\\s+"); // Split text into words
+    StringBuilder line = new StringBuilder();
 
+    for (String word : words) {
+        if (line.length() + word.length() > maxLineLength) {
+            lines.add(line.toString());
+            line = new StringBuilder();
+        }
+        line.append(word).append(" ");
+    }
+
+    if (!line.toString().isEmpty()) {
+        lines.add(line.toString());
+    }
+
+    return lines;
+}
 
 }

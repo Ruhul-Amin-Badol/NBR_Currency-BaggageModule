@@ -28,11 +28,16 @@ public class PaymentHistory {
     private String sessionToken;
     private String status;
     private Double paidAmount;
+    private String isRefund;
+    
+
+
   
         // New fields
     private String calanNo;
     private String msg;
     private String transactionId;
+    private String paymentDate;
     private String transactionDate;
     private String invoiceNo;
     private String invoiceDate;
@@ -62,7 +67,21 @@ public class PaymentHistory {
     public String getCalanNo() {
         return this.calanNo;
     }
+    public String getIsRefund() {
+        return this.isRefund;
+    }
+    
+    public String getPaymentDate() {
+        return this.paymentDate;
+    }
 
+    public void setPaymentDate(String paymentDate) {
+        this.paymentDate = paymentDate;
+    }
+
+    public void setIsRefund(String isRefund) {
+        this.isRefund = isRefund;
+    }
     public void setCalanNo(String calanNo) {
         this.calanNo = calanNo;
     }
