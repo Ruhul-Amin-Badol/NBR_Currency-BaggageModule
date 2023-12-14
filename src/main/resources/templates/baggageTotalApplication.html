@@ -13,6 +13,18 @@
       margin-bottom: 20px;
       text-align: center;
     }
+    .dataTables_filter{
+        padding: 10px;
+    }
+    .dt-buttons {
+        padding: 10px;
+    }
+    .table >thead> tr> th{
+        background-color: rgb(232, 240, 199);
+    }
+    .table> tfoot > tr> th{
+        background-color: rgb(232, 240, 199);
+    }
 </style>
 
 <span id="print_id" >
@@ -74,7 +86,7 @@
                 <td th:text="${show['foreign_currency']}"></td>
                 <!-- <td><a th:href="@{'/baggageshow/baggagetotalid/'+ ${show['id']}}">show</a></td> -->
                 <td>
-                    <a th:href="@{/baggageshow/baggagetotalid(id=${show.id},status=total_baggage)}">View Application</a> 
+                    <a th:href="@{/baggageshow/baggagetotalid(id=${show.id},status=total_baggage)}"><button class="btn-sm btn-outline-info">View Application</button></a> 
                 </td>
         </tr>
 
@@ -84,7 +96,7 @@
     </tbody>
     <tfoot>
         <tr>
-            <th>SN</th>
+                <th>SN</th>
                 <th>Entry Point</th>
                 <th>Passenger Name</th>
                 <th>Passport Number</th>

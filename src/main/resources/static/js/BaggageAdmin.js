@@ -21,7 +21,7 @@ function populateTableAdmin() {
     if(item.duty_free !=0 && item.quantity>item.duty_free) {
       
       newRow.append(`<td style="color: red;">${item.productName}</td>`); // Use the correct field names
-      newRow.append(`<td style="color: red;">${item.otherItem}</td>`); // Use the correct field names
+      // newRow.append(`<td style="color: red;">${item.otherItem}</td>`); // Use the correct field names
       newRow.append(`<td style="color: red;">${item.unit}</td>`);
       newRow.append(`<td style="color: red;">${item.inchi}</td>`);
       newRow.append(`<td style="color: red;">${item.quantity}</td>`);
@@ -49,7 +49,7 @@ function populateTableAdmin() {
 
      newRow = $("<tr>");
      newRow.append(`<td>${item.productName}</td>`); // Use the correct field names
-     newRow.append(`<td>${item.otherItem}</td>`); // Use the correct field names
+    //  newRow.append(`<td>${item.otherItem}</td>`); // Use the correct field names
      newRow.append(`<td>${item.unit}</td>`);
      newRow.append(`<td>${item.inchi}</td>`);
      newRow.append(`<td >${item.quantity}</td>`);
@@ -86,7 +86,7 @@ function populateTableAdmin() {
       `<td  class="text-center text-danger"><button onClick="EditProductAdmin(${item.id})" type="button" class="btn btn-primary" id="addButtonAdmin"><i class="fa-solid fa-pen-to-square"></i></button></td>`
     );
     newRow.append(
-      `<td  class="text-center text-danger"><button onClick="DeleteProductAdmin(${item.id})" type="button" class="btn btn-danger" id="addButtonAdmin"><i class="fa-solid fa-trash"></i></button></td>`
+      `<td   class="text-center text-danger"><button onClick="DeleteProductAdmin(${item.id})" type="button" class="btn btn-danger" id="addButtonAdmin"><i class="fa-solid fa-trash"></i></button></td>`
     );
   //  }
 
@@ -121,7 +121,7 @@ function populateTableAdmin() {
   newRow1.append(`<td>${totalTax}</td>`);
 
 
-  newRow1.append(`<th colspan="4" class="text-end"> Additional Payment:</th>`);
+  newRow1.append(`<th colspan="3" class="text-end"> Additional Payment:</th>`);
   newRow1.append(`<td>${totalAdditionalPayment.toFixed(2)}</td>`);
 
 
@@ -129,7 +129,7 @@ function populateTableAdmin() {
   if (totalPayableAmount>=0){
 
     newRow1.append(`<th colspan="4" style="color:green" class="text-end"> Payable Amount :</th>`);
-    newRow1.append(`<td colspan="4">${totalPayableAmount}</td>`);
+    newRow1.append(`<td colspan="5">${totalPayableAmount}</td>`);
 
     }else{
           newRow1.append(`<th colspan="4" style="color:red"class="text-end"> Refund Amount :</th>`);

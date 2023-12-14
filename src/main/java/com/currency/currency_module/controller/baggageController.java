@@ -129,7 +129,7 @@ public class baggageController {
     @GetMapping("/edit-baggage")
     public String adminBaggageUpdate(@RequestParam(required = false, defaultValue = "") String generatedId, Model model){
 
-        String sql1 = "SELECT item_name FROM baggage_item_info";
+        String sql1 = "SELECT item_name FROM baggage_item_info ORDER BY item_name ASC";
         List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1);
         model.addAttribute("productshow", productshow);
 
