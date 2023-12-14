@@ -39,13 +39,13 @@
         <!-- <a href="#" class="dashboard-nav-item active" ><i
                 class="fas fa-tachometer-alt"></i> Baggage & Currency Module
         </a> -->
-        <h1 id="title_text" style="background: #0270b9; width: 100%; color: white; text-align:center; font-size:18px; margin:0px; margin-bottom:1px; padding: 10px 0px;">Baggage Module</h1>
+        <h1 id="title_text" style="background: #0270b9; width: 100%; color: white; text-align:center; font-size:18px; margin:0px; margin-bottom:1px; padding: 10px 0px;">Online Baggage Module</h1>
         <a href="/dashboard#" class="dashboard-nav-item active boxbox"><i
                 class="fas fa-tachometer-alt"></i> Dashboard
         </a>
 
         <div class='dashboard-nav-dropdown' th:if="${session['IsBaggage'] == 1}">
-            <a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle boxbox"><i class="fa-solid fa-suitcase-rolling"></i>Baggage Module</a>
+            <a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle boxbox"><i class="fa-solid fa-suitcase-rolling"></i>Online Baggage Declaration</a>
             <div class='dashboard-nav-dropdown-menu'>
                 <!-- <a href="/baggagestart/show" class="dashboard-nav-dropdown-item boxboxdown">→ Baggage Info Entry</a> -->
                 <a href="/baggageshow/baggageApplicationShow" class="dashboard-nav-dropdown-item boxboxdown">→ Baggage Information Edit</a>

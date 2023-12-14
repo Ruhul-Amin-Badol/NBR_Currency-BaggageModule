@@ -39,15 +39,16 @@ function populateTable() {
 
      newRow = $("<tr>");
      newRow.append(`<td>${item.productName}</td>`); // Use the correct field names
-     newRow.append(`<td>${item.otherItem}</td>`); // Use the correct field names
+    //  newRow.append(`<td>${item.otherItem}</td>`); // Use the correct field names
      newRow.append(`<td>${item.unit}</td>`);
      newRow.append(`<td>${item.inchi}</td>`);
      newRow.append(`<td >${item.quantity}</td>`);
-     newRow.append(`<td class="d-none" >${item.perUnitValue}</td>`);
+     newRow.append(`<td >${item.perUnitValue}</td>`);
      if(item.tofsilPercentage !='0'){
-      newRow.append(`<td >0</td>`);
-       
+      
+      newRow.append(`<td >${item.totalValue}</td>`);
     }else{
+      // newRow.append(`<td >0</td>`);
       newRow.append(`<td >${item.totalValue}</td>`);
     }
      newRow.append(`<td class="d-none">${item.tax}</td>`);
@@ -84,7 +85,7 @@ function populateTable() {
   });
   newRow1.append(`<th colspan="6" class="text-end"> Total Tax Amount:</th>`);
   newRow1.append(`<td>${totalTax.toFixed(2)}</td>`);
-  newRow1.append(`<td colspan="2"></td>`);
+  newRow1.append(`<td colspan="3"></td>`);
   tbody.append(newRow1);
 }
 
@@ -643,7 +644,7 @@ function calculateTotalValue() {
     document.getElementById("taxAmount").value = additionTaxAmount.toFixed(2);
   }else{
     document.getElementById("taxAmount").value = (perUnitValue_tofsil_amount*quantity).toFixed(2);
-    document.getElementById("totalValue").value = 0;
+    document.getElementById("totalValue").value = (perUnitValue*quantity);
   }
   } 
   else {
@@ -842,6 +843,8 @@ function tax_calc(){
       var tax_amount=((tot_value*tax_perc)/100).toFixed(2);
      }
    }
+   
    document.getElementById("taxAmount").value=tax_amount;
+   
   }
    }

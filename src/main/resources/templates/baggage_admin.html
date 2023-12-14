@@ -1385,9 +1385,9 @@
                                             <tr>
                                                 <td><input id="totalPaidAmountId" type="hidden" th:value="${totalPaidAmount}" readonly="readonly" />
                                                     <select class="form-select" style="width: 200px;" id="productName" name="productName" aria-label="Default select example" onchange="fetchProductDataAdmin()">
-                                                        <option selected> --Please Select-- </option>
+                                                        <option class="customproductcolor"> --Please Select-- </option>
                                                         <th:block th:each="productName : ${productshow}">
-                                                            <option th:text="${productName['item_name']}" th:value="${productName['item_name']}"></option>
+                                                            <option th:text="${productName['item_name']}" th:value="${productName['item_name']}" class="customproductclass" th:style="${productName['color_status'] == '1' ? 'color: red;' : ''}"></option>
                                                         </th:block>
                                                     </select>
                                                     <input style="display: none; margin-top: 10px; padding: 2px;" type="text" class="form-control" id="otherItem" name="other_item" placeholder=" Enter Other Product Name">
@@ -1425,7 +1425,7 @@
                                     <thead style="background-color: rgba(96, 204, 69, 0.952);">
                                         <tr>
                                             <th scope="col">Product Name</th>
-                                            <th scope="col">Other Item</th>
+                                            <!-- <th scope="col">Other Item</th> -->
                                             <th scope="col">Unit</th>
                                             <th scope="col">Inchi(For Telivision)</th>
                                             <th scope="col">Quantity</th>

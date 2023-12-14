@@ -14,9 +14,6 @@
       text-align: center;
     }
 </style>
-<p>
-    <a href="/usermatrix/adduser"><button class="btn btn-success text-center">Add New User <i class="fa-regular fa-plus"></i></button></a> 
-</p>
 <div class="sr-main-content-heading">
     <i class="fa fa-server" style="padding-right: 10px"></i>Payment History
   </div>
@@ -37,10 +34,10 @@
         <tr th:each="show,sl : ${tranjectionHistories}" th:object="${'tranjectionHistories'}">
             
            
-                <td th:text="${show['payment_id']}"></td>
-                <td th:text="${show['office_code']}"></td>
-                <td th:text="${show['paid_amount']}"></td>
-                <td th:text="${#temporals.format(show['payment_date'], 'dd/MM/yyyy HH:mm:ss')}"></td>
+                <td th:text="${show.payment_id}"></td>
+                <td th:text="${show.office_code}"></td>
+                <td th:text="${show.paid_amount}"></td>
+                <td th:text="${show.payment_date}"></td>
         </tr>
 
 
