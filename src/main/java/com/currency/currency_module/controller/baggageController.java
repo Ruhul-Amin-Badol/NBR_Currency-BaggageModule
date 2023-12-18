@@ -138,7 +138,7 @@ public class baggageController {
 
         String paymentSql = "SELECT * FROM payment_history WHERE baggage_id = ?";
         List<Map<String, Object>> paymentHistoryInfo = jdbcTemplate.queryForList(paymentSql, generatedId);
-        System.out.println("paymentHistoryInfo======================================="+paymentHistoryInfo+generatedId);
+      //  System.out.println("paymentHistoryInfo======================================="+paymentHistoryInfo+generatedId);
 
         if (!paymentHistoryInfo.isEmpty()) {
            // Map<String, Object> firstRow = paymentHistoryInfo.get(0);
@@ -905,6 +905,12 @@ public class baggageController {
                  Map<String, Object>requestParameters= jdbcTemplate.queryForMap(baggageSql, id);
                  model.addAttribute("reportShow", requestParameters);
 
+
+
+                String historySql= "SELECT * FROM payment_history WHERE baggage_id =?";   
+                 List<Map<String, Object>>paymentHistoryByBaggageId= jdbcTemplate.queryForList(historySql, id);
+                 model.addAttribute("paymentHistoryByBaggageId", paymentHistoryByBaggageId);
+
      
                  String sql1="SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
                  List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,id);
@@ -1012,25 +1018,6 @@ public class baggageController {
 
 
 
-   //     System.out.println("currentDateTime=============================="+currentDateTime);
-   //     try (Connection connection = jdbcTemplate.getDataSource().getConnection();
-   //     PreparedStatement preparedStatement = connection.prepareStatement(
-   //             "INSERT INTO payment_history (baggage_id,paid_amount, payment_id,payment_date,session_token,status,office_code) VALUES (?,?,?,?,?,?,?)"
-   //     )) {
-   //     //System.out.println("totalTaxAmount=============================================="+totalTaxAmount);
-   //    preparedStatement.setInt(1, baggage_id);
-   //    preparedStatement.setDouble(2, totalTaxAmount);
-   //    preparedStatement.setString(3, payment_id);
-   //    preparedStatement.setTimestamp(4, Timestamp.valueOf(currentDateTime));
-   //    preparedStatement.setString(5,Sessiontoken );
-   //    preparedStatement.setString(6, status);
-   //    preparedStatement.setString(7, officeCode);
-
-   //    preparedStatement.executeUpdate();
-   //     } catch (SQLException e) {
-   //         e.printStackTrace();
-   //     }
-
    String paymentStatus1 = "Paid";
    String sqlBaggage = "UPDATE baggage_product_add SET payment_status=? WHERE payment_id=?";
    jdbcTemplate.update(sqlBaggage,paymentStatus1,payment_id);
@@ -1041,6 +1028,12 @@ public class baggageController {
        context.setVariable("passengerName", requestParameters.get("passenger_name"));
        context.setVariable("totalTaxAmount", totalTaxAmount);
        context.setVariable("link", link);  
+
+
+            String paymentSql = "SELECT * FROM payment_history WHERE baggage_id = ?";
+            List<Map<String, Object>> paymentHistoryInfo = jdbcTemplate.queryForList(paymentSql, id);
+
+
        try {
            // Double totalPaidAmount = 0.0;
             String gmail = (String) requestParameters.get("email");
@@ -1059,8 +1052,12 @@ public class baggageController {
           //  List<String> includedFields = Arrays.asList("id","item_id","payment_id"); // Replace with your actual field names
             List<Object> rowData = new ArrayList<>(allProductQuery);
             rowData.add(baggageQuery);
+
+
+
+
         
-            byte[] pdfData = pdfGenerationService.generatePdf(allProductQuery,rowData, includedFields,totalTaxAmount,id, applicationSubmitDate, passangerName, paymentId);
+            byte[] pdfData = pdfGenerationService.generatePdf(allProductQuery,paymentHistoryInfo,rowData, includedFields,totalTaxAmount,id, applicationSubmitDate, passangerName, paymentId);
         
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_PDF);
@@ -1709,6 +1706,13 @@ public String currencApproveUpdate(@RequestParam int id, @RequestParam String st
             Map<String, Object>requestParameters= jdbcTemplate.queryForMap(baggageSql, id);
 
 
+            
+            String paymentSql = "SELECT * FROM payment_history WHERE baggage_id = ?";
+            List<Map<String, Object>> paymentHistoryInfo = jdbcTemplate.queryForList(paymentSql, id);
+
+
+            //System.out.println("paymentHistoryInfo================================================="+paymentHistoryInfo);
+
             try {
                 // Double totalPaidAmount = 0.0;
                  String gmail = (String) requestParameters.get("email");
@@ -1742,7 +1746,7 @@ public String currencApproveUpdate(@RequestParam int id, @RequestParam String st
                  rowData.add(baggageQuery);
                 
                 String  sessionToken="ddd";
-                 byte[] pdfData = pdfGenerationService.generatePdf(allProductQuery,rowData, includedFields,totalTaxAmount,id,principal,passangerName,approveDate,applicationSubmitDate,paymentId);
+                 byte[] pdfData = pdfGenerationService.generatePdf(allProductQuery,paymentHistoryInfo,rowData, includedFields,totalTaxAmount,id,principal,passangerName,approveDate,applicationSubmitDate,paymentId);
 
                  HttpHeaders headers = new HttpHeaders();
                  headers.setContentType(MediaType.APPLICATION_PDF);
