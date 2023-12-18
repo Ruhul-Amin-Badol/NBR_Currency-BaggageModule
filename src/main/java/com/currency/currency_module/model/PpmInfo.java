@@ -77,6 +77,15 @@ public class PpmInfo {
     private String buyerAddress;
     private String buyerNid;
     private String buyerTin;
+    private String organizationName;
+
+    public String getOrganizationName() {
+        return this.organizationName;
+    }
+
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
+    }
 
 
 

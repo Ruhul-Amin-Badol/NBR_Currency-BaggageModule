@@ -122,8 +122,10 @@
             <div class="d-flex justify-content-center">
                 <button type="button" class="btn btn-warning btn-lg my-2 mx-3" onclick="redirectToBaggagePage()">Edit</button>
                 <form method="post" th:action="@{'/baggagestart/makePaymentRequest/' + ${reportShow['ID']}}">
+
+                    <!-- <input type="text" name="${_csrf.parameterName}" value="${_csrf.token}"/> -->
                     <button class="btn btn-success btn-lg my-2 mx-5" id="PaymentSubmitId"  type="submit" > Submit and Payment</button>
-            </form>
+               </form>
                 
                 <button type="button" class="btn btn-danger btn-lg my-2" onclick="paymentNotAtThisTime()">Submit Without Payment</button>
             </div>

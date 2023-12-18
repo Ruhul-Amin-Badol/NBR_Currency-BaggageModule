@@ -1,0 +1,133 @@
+<div th:replace="~{layout/ppm_privilage/ppmheader}"></div>
+    <title>Organization Create</title>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <style>
+        .sr-main-content {
+            background-color: #ededf4;
+            font-family: Roboto, Helvetica, sans-serif !important;
+        }
+        .sr-main-content-padding {
+            background: white;
+            padding: 10px 20px;
+            border: 1px solid #e6e9ed;
+            border-radius: 5px;
+        }
+        .sr-main-content-heading {
+            margin: 0;
+            padding: 0;
+            font-size: 18px;
+            font-weight: 500;
+            color: #555369;
+        }
+        .fa, .fas {
+            font-weight: 900;
+        }
+        #example thead {
+            background-color: #49be78;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<div class="sr-main-content-padding">
+    <div class="sr-main-content-heading">
+        <i class="fa fa-plane" style="padding-right: 10px"></i>Organization List
+    </div>
+    <div class="container">
+        <form  action="/organization/create-organization" method="post" enctype="multipart/form-data">
+            <div class="row my-5">
+                <div class="col ">
+                    <input class="form-control" type="text" id="origanizationName" name="origanizationName" placeholder="Write Organization Name" >
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-warning ml-2" id="filterButton">Create Organization</button>
+                </div>
+            </div>
+        </form>
+ 
+    </div>
+
+    
+    <table id="example" class="table table-striped ">
+        <thead>
+            <tr>
+                <th>sl</th>
+                <th>Name</th>
+
+    
+            </tr>
+        </thead>
+        <tbody >
+    
+            <tr th:each="show,sl : ${allOrganization}" th:object="${'allOrganization'}">
+                
+                <td th:text="${sl.count}"></td>
+                <td th:text="${show.origanizationName}"></td>
+
+            </tr>
+    
+    
+    
+     
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>sl</th>
+                <th>Name</th>
+
+            </tr>
+        </tfoot>
+    </table>
+    <style>
+        /* Set a fixed height for table rows */
+        table#example tbody tr {
+            height: 50px; /* Adjust this value according to your preference */
+        }
+    
+        /* Ensure content doesn't overflow */
+        table#example tbody td {
+            overflow: hidden;
+            text-overflow: ellipsis; /* Truncate text if it's too long */
+            white-space: nowrap; /* Prevent text from wrapping */
+        }
+    </style>
+    <!-- <script src='https://code.jquery.com/jquery-3.7.0.js'></script>
+    <script src='https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js'></script>
+    <script src='https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js'></script>
+    <script src='https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js'></script>
+    <script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap5.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js'></script>
+    <script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js'></script>
+    <script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js'></script>
+    <script src='https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js'></script>
+     -->
+    
+    <!-- <script>
+        $(document).ready(function() {
+        var table = $('#example').DataTable( {
+            lengthChange: false,
+            buttons: [ 'copy', 'excel', 'pdf', 'colvis' ]
+        } );
+     
+        table.buttons().container()
+            .appendTo( '#example_wrapper .col-md-6:eq(0)' );
+    } );
+    
+    </script> -->
+    
+
+
+
+
+
+
+
+
+
+
+</div>
