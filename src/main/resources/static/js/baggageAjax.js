@@ -511,10 +511,13 @@ function fetchProductData() {
         //   document.getElementById("perUnitValue").readOnly = false;
         // }
         console.log(data);
-        document.getElementById("perUnitValue").value="";
+        document.getElementById("perUnitValue").value=0;
         $("#tax_tofsil_perUnit").val(data.perunitvalue);
         $("#unit").val(data.unit); // Update unit field
         $("#tax").val(data.taxPercentage);
+
+        $("#taxAmount").val(data.perunitvalue);
+        // $("#totalValue").val(0);
         
         $("#cd").val(data.cd);
         $("#rd").val(data.rd);

@@ -129,7 +129,7 @@ public class baggageController {
     @GetMapping("/edit-baggage")
     public String adminBaggageUpdate(@RequestParam(required = false, defaultValue = "") String generatedId, Model model){
 
-        String sql1 = "SELECT item_name FROM baggage_item_info ORDER BY item_name ASC";
+        String sql1 = "SELECT * FROM baggage_item_info ORDER BY item_name ASC";
         List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1);
         model.addAttribute("productshow", productshow);
 
@@ -900,7 +900,6 @@ public class baggageController {
                      }
                      else{
      
-                       
      
                  String baggageSql= "SELECT * FROM baggage WHERE id =?";   
                  Map<String, Object>requestParameters= jdbcTemplate.queryForMap(baggageSql, id);
@@ -1221,8 +1220,8 @@ public class baggageController {
         requestData.put("referenceInfo", Map.of(
                 "InvoiceNo", payment_id,
                 "invoiceDate", formattedDate,
-                //"returnUrl", "http://13.232.110.60:8080/baggagestart/takePaymentRequest/"+id+"/",
                 "returnUrl", "http://localhost:8080/baggagestart/takePaymentRequest/"+id+"/",
+                // "returnUrl", "http://13.232.110.60:8080/baggagestart/takePaymentRequest/"+id+"/",
                 "totalAmount", total_tax,
                 "applicentName", passenger_name,
                 "applicentContactNo", cellular_phone,

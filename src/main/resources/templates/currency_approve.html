@@ -13,6 +13,18 @@
       margin-bottom: 20px;
       text-align: center;
     }
+    .dataTables_filter{
+    padding: 10px;
+    }
+    .dt-buttons {
+        padding: 10px;
+    }
+    .table >thead> tr> th{
+        background-color: rgb(232, 240, 199);
+    }
+    .table> tfoot > tr> th{
+        background-color: rgb(232, 240, 199);
+    }
 </style>
 
 <!-- <span id="print_id" >
@@ -59,7 +71,7 @@
             <td th:text="${show.email}"></td>
 
             <td >
-                <a th:href="@{/currencystart/show-currency-details(id=${show.id}, page='currencyApprove')}">View Application</a>
+                <a th:href="@{/currencystart/show-currency-details(id=${show.id}, page='currencyApprove')}"><button class="btn-md btn-outline-success">View Application</button></a>
 
             </td>
         </tr>
@@ -82,7 +94,7 @@
             <th>Address In Bangladesh</th>
             <th>Stay Time Abroad</th>
             <th>Email</th>
-            <td style="font-weight: bold;">Action</td>
+            <th style="font-weight: bold;">Action</th>
         </tr>
     </tfoot>
 </table>

@@ -57,7 +57,7 @@
                 <th>Stay Time Abroad</th>
                 <th>Email</th>
     
-                <td>Action</td>
+                <th>Action</th>
     
             </tr>
         </thead>
@@ -81,7 +81,7 @@
                 <td th:text="${show.email}"></td>
     
                 <td >
-                    <a th:href="@{/currencystart/show-currency-details(id=${show.id})}"><button class="btn btn-sm btn-primary">View Application</button></a>
+                    <a th:href="@{/currencystart/show-currency-details(id=${show.id})}"><button class="btn-sm btn-success">View Application</button></a>
     
                 </td>
             </tr>
@@ -103,7 +103,7 @@
                 <th>Address In Bangladesh</th>
                 <th>Stay Time Abroad</th>
                 <th>Email</th>
-                <td>Action</td>
+                <th>Action</th>
             </tr>
         </tfoot>
     </table>

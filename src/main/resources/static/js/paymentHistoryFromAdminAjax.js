@@ -164,15 +164,15 @@ function populatePaymentHistoryTable(data,totalPaidAmount,totalTaxAmount) {
      //console.log(totalPaidAmount+"  "+totalTaxAmount);
     const totalPayableAmount = totalTaxAmount - totalPaidAmount;
 
-    totalRow.append(`<td colspan="1">Total Text Amount : ${totalTaxAmount}</td>`); // colspan to cover the entire row
-    totalRow.append(`<td>Total Paid Amount : ${totalPaidAmount}</td>`);
+    totalRow.append(`<td colspan="1" class="fw-bold">Total Tax Amount : ${totalTaxAmount}</td>`); // colspan to cover the entire row
+    totalRow.append(`<td class="fw-bold">Total Paid Amount : ${totalPaidAmount}</td>`);
     payableAmount = totalPayableAmount.toFixed(2)
     //totalRow.append(`<td colspan="2">Total Payable Amount : ${payableAmount}</td>`);
     //alert(totalPayableAmount)
     const refundAmountCell = $("#refundAmountCell");
     if (payableAmount>=0){
 
-        totalRow.append(`<td colspan="2">Total Payable Amount : ${payableAmount}</td>`);
+        totalRow.append(`<td colspan="2" class="fw-bold">Total Payable Amount : ${payableAmount}</td>`);
     }else{
         let absolutePayableAmount = Math.abs(payableAmount);
 
