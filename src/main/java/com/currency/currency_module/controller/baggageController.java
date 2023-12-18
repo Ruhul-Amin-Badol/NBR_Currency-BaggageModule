@@ -1074,8 +1074,8 @@ public class baggageController {
    }
         
 
-        @GetMapping("/takePaymentRequest/{id}/")
-        public String takePaymentRequest(@PathVariable Long id,@RequestParam("session_token") String Sessiontoken,@RequestParam("status") String status,Model model){
+    @GetMapping("/takePaymentRequest/{id}/")
+    public String takePaymentRequest(@PathVariable Long id,@RequestParam("session_token") String Sessiontoken,@RequestParam("status") String status,Model model){
             if(status.equalsIgnoreCase("success")){
 
     
@@ -1270,15 +1270,6 @@ public class baggageController {
 
       return new RedirectView("https://spg.sblesheba.com:6313/SpgLanding/SpgLanding/");
     }
-
-
-
-
-
-
-
-
-
 
 
     @PostMapping("/makePaymentRequest/{id}")

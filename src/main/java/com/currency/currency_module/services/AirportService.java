@@ -22,12 +22,7 @@ import java.util.List;
 public class AirportService {
    @Autowired 
    AirportRepository airportRepository;
-
-
-
-
-
-
+   
    public List<AirportList> getAllAirports() {
         return airportRepository.findAll();
     }
