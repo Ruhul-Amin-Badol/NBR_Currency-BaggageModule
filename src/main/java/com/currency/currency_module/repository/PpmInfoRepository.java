@@ -9,7 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PpmInfoRepository extends JpaRepository<PpmInfo,Long>  {
      List<PpmInfo> findAll();
-      List<PpmInfo> findByApplicationType(Integer applicationType);
-      Integer countByApplicationType(Integer applicationType);
+      List<PpmInfo> findByApplicationTypeAndEntryBy(Integer applicationType,String username);
+      Integer countByApplicationTypeAndEntryBy(Integer applicationType, String username);
+      List<PpmInfo> findAllByOrganizationNameAndEntryBy(String organigation, String name);
 
 }

@@ -51,10 +51,12 @@ public class pvtController {
     }
 
     @GetMapping("/pvt-entry")
-    public String pvrtEntry(Model model) {
+    public String pvrtEntry(Model model,Principal principal) {
+        String organization =airportInformation.getOrganization(principal);
+         model.addAttribute("organization", organization);
         return "pvt_entry";
     }
-
+ 
     @PostMapping("/insert-pvt")
     public String insertPvt(PvtInfo pvtInfo ,Principal principal) {
        pvtinfoService.insertPvt(pvtInfo,principal);

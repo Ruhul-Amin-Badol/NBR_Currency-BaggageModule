@@ -53,11 +53,15 @@ public class AirportInformation {
     
     }
     public String getOrganization(Principal principal ){
+       // System.out.println("principal============================================"+principal);
         if(principal != null){
         String usernameSession = principal.getName();
+        //System.out.println("usernameSession============================================"+usernameSession);
         UserActivityManagement  
         user= userActivityManagementService.findUserWithUserName(usernameSession);
         OrganizationList organization=organizationRepository.findById(Long.parseLong(user.getOrganizationId())).orElseThrow(()->new ResourceNotFound("User not found"));
+        
+        
         return organization.getOriganizationName();
     }else{
         return "nothing";
