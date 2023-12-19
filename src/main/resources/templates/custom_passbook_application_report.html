@@ -86,7 +86,9 @@
 
 <td th:text="${ppmInfo.unlpDuration}"></td>
 <td th:text="${ppmInfo.unlpNo}"></td>
-<td th:text="${ppmInfo.uploadFile}"></td>
+<td>
+    <img th:src="${ppmInfo.uploadFile}" alt="Uploaded Image" width="100" height="100">
+</td>
 
 <td th:text="${ppmInfo.visaDuration}"></td>
 <td th:text="${ppmInfo.visaNo}"></td>

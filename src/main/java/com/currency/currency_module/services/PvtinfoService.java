@@ -1,4 +1,5 @@
 package com.currency.currency_module.services;
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +18,19 @@ public class PvtinfoService {
    
    //Privilage CURD Oparation
 
-   public PvtInfo insertPvt (PvtInfo pvtInfo) {
+   public PvtInfo insertPvt (PvtInfo pvtInfo,Principal principal) {
+    pvtInfo.setEntryBy(principal.getName());
     return pvtInfoRepository.save(pvtInfo);
    }
 
 
-   public List<PvtInfo> getAllPvtInfo() {
-    return pvtInfoRepository.findAll();
+   public List<PvtInfo> getAllPvtInfo(String organigation,Principal principal) {
+    if(organigation.equalsIgnoreCase("all")){
+        return pvtInfoRepository.findAll();
+    }else{
+        return pvtInfoRepository.findAllByOrgNameAndEntryBy(organigation,principal.getName());
+    }
+    
 }
 
    public PvtInfo getPvtInfoEdit(Long id) {

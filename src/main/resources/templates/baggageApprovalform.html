@@ -104,8 +104,8 @@
              </tr> 
 
              <tr>
-                <td colspan="7" class="text-end"> Paid Amount</td>
-                <td colspan="1"> <span id="totalTaxAmount"></span></td>
+                <td colspan="6" class="text-end fw-bold"> Paid Amount</td>
+                <td colspan="2" class="fw-bold"> <span id="totalTaxAmount"></span></td>
 
 
 
@@ -162,12 +162,12 @@
                     </div>
                     
                     <div id="tableForPaymentHistory">
-                    <table id="paymentHistoryAjaxtable"class="table table-bordered ">
-                        <thead style="background-color: rgba(96, 204, 69, 0.952);">
+                    <table id="paymentHistoryAjaxtable"class="table table-bordered text-center">
+                        <thead style="background-color: rgba(96, 204, 69, 0.952);" >
                             <tr>
                                 <th scope="col">Payment Id</th>
                                 <th scope="col">Date</th>                                    
-                                <th scope="col">Calan No</th>  
+                                <th scope="col">Chalan No</th>  
                                 <th scope="col">Amount</th>
 
                             </tr>
@@ -194,12 +194,12 @@
             <td colspan="6" class="pt">
                <p th:if="${baggageView.status == 'approved'}"> <img th:src="${adminUserInfo['signature']}"   alt="Signature Image" height="80" width="150"></p>
                 <p class="p" align="left" th:text="${adminUserInfo['fname']}"></p>
-                <p class="p b" align="left">[Signature of Customs Official]</p>
+                <p class="p b fw-bold" align="left">[Signature of Customs Official]</p>
                 <p class="p" align="left" th:if="${baggageView.status == 'approved'}">Approve Date:<span th:text="${baggageView.approve_date}"></span></p>
             </td>
             <td colspan="6" class="pt mt-5">
                 <p class="p" align="right" th:text="${baggageView['passenger_name']}"></p>
-                <p class="p b" align="right">[Signature of Declarant]</p>
+                <p class="p b fw-bold" align="right">[Signature of Declarant]</p>
                 <p class="p" align="right" >Submit date: <span th:text="${baggageView['application_submit_date']}"></span></p>
             </td>
         </tr>

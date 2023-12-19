@@ -25,6 +25,7 @@ public class PaymentHistory {
     private String paymentId;
     private String officeCode;
     private Long baggageId;
+    @Column(unique = true)
     private String sessionToken;
     private String status;
     private Double paidAmount;

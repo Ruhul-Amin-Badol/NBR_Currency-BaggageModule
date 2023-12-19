@@ -27,7 +27,7 @@ function populateTableAdmin() {
       newRow.append(`<td style="color: red;">${item.quantity}</td>`);
       newRow.append(`<td style="color: red;" class="d-none" >${item.perUnitValue}</td>`);
       if(item.tofsilPercentage !='0'){
-        newRow.append(`<td style="color: red;">0</td>`);
+        // newRow.append(`<td style="color: red;">0</td>`);
          
       }else{
         newRow.append(`<td style="color: red;">${item.totalValue}</td>`);
@@ -117,22 +117,22 @@ function populateTableAdmin() {
   totalPayableAmount = (totalPayableAmount-parsedPreviousPaidAmount).toFixed(2)
   //alert(totalPayableAmount)
 
-  newRow1.append(`<th colspan="3" class="text-end"> Total Tax Amount:</th>`);
-  newRow1.append(`<td>${totalTax}</td>`);
+  newRow1.append(`<th colspan="3" class="text-end fw-bold"> Total Tax Amount:</th>`);
+  newRow1.append(`<td class="fw-bold">${totalTax}</td>`);
 
 
-  newRow1.append(`<th colspan="3" class="text-end"> Additional Payment:</th>`);
-  newRow1.append(`<td>${totalAdditionalPayment.toFixed(2)}</td>`);
+  newRow1.append(`<th colspan="3" class="text-end fw-bold"> Additional Payment:</th>`);
+  newRow1.append(`<td class="fw-bold">${totalAdditionalPayment.toFixed(2)}</td>`);
 
 
 
   if (totalPayableAmount>=0){
 
-    newRow1.append(`<th colspan="4" style="color:green" class="text-end"> Payable Amount :</th>`);
-    newRow1.append(`<td colspan="5">${totalPayableAmount}</td>`);
+    newRow1.append(`<th colspan="4" style="color:green" class="text-end fw-bold"> Payable Amount :</th>`);
+    newRow1.append(`<td colspan="5" class="fw-bold">${totalPayableAmount}</td>`);
 
     }else{
-          newRow1.append(`<th colspan="4" style="color:red"class="text-end"> Refund Amount :</th>`);
+          newRow1.append(`<th colspan="4" style="color:red"class="text-end fw-bold"> Refund Amount :</th>`);
 
           let absolutePayableAmount = Math.abs(totalPayableAmount);
           newRow1.append(`<td colspan="4">${absolutePayableAmount}</td>`);
@@ -461,10 +461,11 @@ function fetchProductDataAdmin() {
       data: { productString: selectedProductName },
       dataType: "json",
       success: function (data) {
-        document.getElementById("perUnitValue").value="";
+        document.getElementById("perUnitValue").value=0;
         $("#tax_tofsil_perUnit").val(data.perunitvalue);
         $("#unit").val(data.unit); // Update unit field
         $("#tax").val(data.taxPercentage);
+        $("#taxAmount").val(data.perunitvalue);
 
         $("#cd").val(data.cd);
         $("#rd").val(data.rd);
