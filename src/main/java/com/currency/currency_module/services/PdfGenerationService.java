@@ -62,7 +62,7 @@ public class PdfGenerationService {
     
 
 //payment by admin 
-public byte[] generatePdfPayByAdmin(List<Map<String, Object>>allProductQuery,List<?> rowData, List<String> includedFields, Double totalPaidAmount,Double paidAmount,Long id, String passangerName,String applicationSubmitDate,String paymentId) throws IOException {
+public byte[] generatePdfPayByAdmin(List<Map<String, Object>>allProductQuery,List<Map<String, Object>>paymentHistoryInfo,List<?> rowData, List<String> includedFields, Double totalPaidAmount,Double paidAmount,Long id, String passangerName,String applicationSubmitDate,String paymentId) throws IOException {
 
     byte[] logo  = firebaselogo("nbr_logo.png");
     try (PDDocument document = new PDDocument()) {
@@ -98,34 +98,37 @@ public byte[] generatePdfPayByAdmin(List<Map<String, Object>>allProductQuery,Lis
             float tableWidth1 = page.getMediaBox().getWidth() - 2 * margin;
             float tableHeight = 20f;
             
-            float red = 220 / 255f;
-            float green = 76 / 255f;
-            float blue = 100 / 255f;
-            // Draw table header
-            contentStream.setLineWidth(1f);
-            contentStream.setNonStrokingColor(red,green,blue); 
-            contentStream.addRect(xTable-39, yTable-7, 500,22);
-            contentStream.fill();
-            contentStream.setNonStrokingColor(0,0,0); 
-            contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA_BOLD), 10); // Adjust font and size if needed
-            contentStream.beginText();
-            contentStream.newLineAtOffset(xTable, yTable);
-            contentStream.showText("Product Name");
-            contentStream.newLineAtOffset(130, 0);
-            contentStream.showText("Unit");
-            contentStream.newLineAtOffset(86, 0);
-            contentStream.showText("Quantity");
-            contentStream.newLineAtOffset(86, 0);
-            contentStream.showText("Value");
-            contentStream.newLineAtOffset(86, 0);
-            contentStream.showText("Tax Amount");
-            contentStream.endText();
-            yTable -= 20; // Adjust the Y-coordinate for the table content
-            contentStream.setNonStrokingColor(0,0,0);
+                float red = 220 / 255f;
+                float green = 76 / 255f;
+                float blue = 100 / 255f;
+                // Draw table header
+                contentStream.setLineWidth(1f);
+                contentStream.setNonStrokingColor(red,green,blue); 
+                contentStream.addRect(xTable-39, yTable-7, 500,22);
+                contentStream.fill();
+                contentStream.setNonStrokingColor(0,0,0); 
+                contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA_BOLD), 10); // Adjust font and size if needed
+                contentStream.beginText();
+                contentStream.newLineAtOffset(xTable, yTable);
+                contentStream.showText("Product Name");
+                contentStream.newLineAtOffset(130, 0);
+                contentStream.showText("Unit");
+                contentStream.newLineAtOffset(86, 0);
+                contentStream.showText("Quantity");
+                contentStream.newLineAtOffset(86, 0);
+                contentStream.showText("Value");
+                contentStream.newLineAtOffset(86, 0);
+                contentStream.showText("Tax Amount");
+                contentStream.endText();
+                yTable -= 20; // Adjust the Y-coordinate for the table content
+                contentStream.setNonStrokingColor(0,0,0);
 
-            int maxProductNameWidth = 28;
 
-            for (Map<String, Object> row : allProductQuery) {
+                int maxProductNameWidth = 28; // Maximum width for the column
+              //  float fontSize = 10; // Font size for the text
+              //  float yStart1 = yTable; // Initial Y-coordinate for the text
+               // float lineHeight = 22; // Line height for the text
+               for (Map<String, Object> row : allProductQuery) {
                 contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 10); // Adjust font size if needed
             
                 // Draw each column in the row
@@ -138,7 +141,7 @@ public byte[] generatePdfPayByAdmin(List<Map<String, Object>>allProductQuery,Lis
 
                 contentStream.newLineAtOffset(xTable - 5, yTable);
                 contentStream.showText(productName);
-                
+              
                 contentStream.newLineAtOffset(140, 0);
                 contentStream.showText(row.get("unit_name").toString());
                 contentStream.newLineAtOffset(90, 0);
@@ -150,8 +153,78 @@ public byte[] generatePdfPayByAdmin(List<Map<String, Object>>allProductQuery,Lis
                 contentStream.endText();
             
                 yTable -= tableHeight; // Adjust the Y-coordinate for the next row
+
+
+                if (yTable < 50) {
+                // If it exceeds, create a new page
+                PDPage newPage = new PDPage();
+                document.addPage(newPage);
+                contentStream.close(); // Close current content stream
+                contentStream.moveTo(0, 0); // Move to a new location on the new page
+                //contentStream = new PDPageContentStream(document, newPage);
+                yTable = page.getMediaBox().getHeight() - 7 * margin - 100; // Reset Y-coordinate for new page
+                }
             }
+            // Set header background color
+             red = 3 / 255f;
+             green = 206 / 255f;
+             blue = 64 / 255f;
+
+            contentStream.setLineWidth(1f);
+            contentStream.setNonStrokingColor(red, green, blue);
+            contentStream.addRect(xTable - 39, yTable - 7, 500, 22);
+            contentStream.fill();
+            contentStream.setNonStrokingColor(0, 0, 0);
+            contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA_BOLD), 10); // Adjust font and size if needed
+            contentStream.beginText();
+            contentStream.newLineAtOffset(xTable, yTable);
+            contentStream.showText("Chalan No");
+            contentStream.newLineAtOffset(130, 0);
+            contentStream.showText("Date");
+            contentStream.newLineAtOffset(86, 0);
+            contentStream.showText("Status");
+            contentStream.newLineAtOffset(86, 0);
+            contentStream.showText("paid_amount");
+            contentStream.endText();
+            yTable -= 20; // Adjust the Y-coordinate for the table content
+
+            contentStream.setNonStrokingColor(0, 0, 0);
+
+            // Drawing the table content
+            for (Map<String, Object> row : paymentHistoryInfo) {
+                contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 10); // Adjust font size if needed
+                contentStream.beginText();
+
+                String transactionId = row.get("transaction_id") != null ? row.get("transaction_id").toString() : "";
+                String paymentDate = row.get("payment_date") != null ? row.get("payment_date").toString() : "";
+                String msg = row.get("msg") != null ? row.get("msg").toString() : "";
+                String paidAmount1 = row.get("paid_amount") != null ? row.get("paid_amount").toString() : "";
+
             
+                contentStream.newLineAtOffset(xTable, yTable);
+                contentStream.showText(transactionId);
+                contentStream.newLineAtOffset(130, 0);
+                contentStream.showText(paymentDate);
+                contentStream.newLineAtOffset(86, 0);
+                contentStream.showText(msg);
+                contentStream.newLineAtOffset(86, 0);
+                contentStream.showText(paidAmount1);
+                contentStream.endText();
+
+                yTable -= tableHeight; // Adjust the Y-coordinate for the next row
+
+
+                if (yTable < 50) {
+                // If it exceeds, create a new page
+                PDPage newPage = new PDPage();
+                document.addPage(newPage);
+                contentStream.close(); // Close current content stream
+                contentStream.moveTo(0, 0); // Move to a new location on the new page
+                //contentStream = new PDPageContentStream(document, newPage);
+                yTable = page.getMediaBox().getHeight() - 7 * margin - 100; // Reset Y-coordinate for new page
+                
+                }
+            }
 
 
 
@@ -621,10 +694,6 @@ public byte[] generatePdf(List<Map<String, Object>>allProductQuery,List<Map<Stri
         throw new EmailServiceException("Failed to generate PDF", e);
     }
 }
-
-
-
-
 
 
 
