@@ -129,7 +129,7 @@ function application(){
 			<div class="col-md-6">
 	
 			<label for="country">Name of Institute/Organization</label>
-		  <input type="text" id="organization" name="organization" placeholder="Enter Name of Institute/Organization"    autocomplete="off"  required ><br><br>
+		  <input type="text" id="organization" name="organization" th:value="${organization}" readonly    ><br><br>
 		    <label for="country">Name Of Ministry (if applicable)</label>
   <input type="text" id="ministry" name="ministry"  autocomplete="off"   >
    

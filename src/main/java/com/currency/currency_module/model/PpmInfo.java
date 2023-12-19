@@ -70,7 +70,9 @@ public class PpmInfo {
     private String buyerDesignation;
     private String buyerVisaNo;
     private String buyerVisaDate;
-    private Integer entryBy;
+    private String entryBy;
+
+
     private Integer editBy;
     private Timestamp entryAt;
     private String uploadFile;
@@ -113,7 +115,13 @@ public class PpmInfo {
     public void setOrganization(String organization) {
         this.organization = organization;
     }
+    public String getEntryBy() {
+        return this.entryBy;
+    }
 
+    public void setEntryBy(String entryBy) {
+        this.entryBy = entryBy;
+    }
     public String getMinistry() {
         return this.ministry;
     }
@@ -426,13 +434,7 @@ public class PpmInfo {
         this.buyerVisaDate = buyerVisaDate;
     }
 
-    public Integer getEntryBy() {
-        return this.entryBy;
-    }
 
-    public void setEntryBy(Integer entryBy) {
-        this.entryBy = entryBy;
-    }
 
     public Integer getEditBy() {
         return this.editBy;

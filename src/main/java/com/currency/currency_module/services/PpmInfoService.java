@@ -15,7 +15,7 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.StorageClient;
 
 import org.springframework.web.multipart.MultipartFile;
-
+import java.security.Principal;
 
 
 @Service
@@ -28,14 +28,15 @@ public class PpmInfoService {
 
 
 
-   public Integer ppmCount(Integer applicationType){
-    return ppmInfoRepository.countByApplicationType(applicationType);
+   public Integer ppmCount(Integer applicationType, String username){
+    return ppmInfoRepository.countByApplicationTypeAndEntryBy(applicationType,username);
 }
 
 
-   public PpmInfo insertPpm (PpmInfo ppmInfo,MultipartFile image) {
 
-                          try {
+
+   public PpmInfo insertPpm (PpmInfo ppmInfo,MultipartFile image,Principal principal) {
+            try {
             // Get a reference to the storage service
             var storage = StorageClient.getInstance().bucket();
 
@@ -47,6 +48,7 @@ public class PpmInfoService {
             storage.create(fileName, image.getInputStream(), image.getContentType());
 
             String downloadUrl = storage.get(fileName).signUrl(73000, java.util.concurrent.TimeUnit.DAYS).toString();
+            ppmInfo.setEntryBy(principal.getName());
             ppmInfo.setUploadFile(downloadUrl);
              
              
@@ -63,21 +65,29 @@ public class PpmInfoService {
    }
 
 
-   public List<PpmInfo> getAllPpmInfo() {
-    return ppmInfoRepository.findAll();
+   public List<PpmInfo> getAllPpmInfo(String organigation,Principal principal) {
+
+    if(organigation.equalsIgnoreCase("all")){
+        return ppmInfoRepository.findAll();
+    }else{
+         return ppmInfoRepository.findAllByOrganizationNameAndEntryBy(organigation,principal.getName());
+    }
+    
    }
 
 
-    public List<PpmInfo> passbookReport(Integer applicationType) {
-        return ppmInfoRepository.findByApplicationType(applicationType);
+    public List<PpmInfo> passbookReport(Integer applicationType,String username) {
+      
+
+        return ppmInfoRepository.findByApplicationTypeAndEntryBy(applicationType,username);
    }
 
-    public List<PpmInfo> carTransferRepost(Integer applicationType) {
-        return ppmInfoRepository.findByApplicationType(applicationType);
+    public List<PpmInfo> carTransferRepost(Integer applicationType,String username) {
+        return ppmInfoRepository.findByApplicationTypeAndEntryBy(applicationType,username);
    }
 
-    public List<PpmInfo> carSaleRepost(Integer applicationType) {
-        return ppmInfoRepository.findByApplicationType(applicationType);
+    public List<PpmInfo> carSaleRepost(Integer applicationType,String username) {
+        return ppmInfoRepository.findByApplicationTypeAndEntryBy(applicationType,username);
    }
 
 
