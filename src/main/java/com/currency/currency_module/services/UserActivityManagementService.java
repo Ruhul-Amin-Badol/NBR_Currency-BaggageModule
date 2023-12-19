@@ -57,6 +57,11 @@ public class UserActivityManagementService {
             existingUser.setEmployeeId(userActivityManagement.getEmployeeId());
             existingUser.setAirportList(userActivityManagement.getAirportList());
 
+
+
+            existingUser.setOrganizationId(userActivityManagement.getOrganizationId());
+            existingUser.setEmail(userActivityManagement.getEmail());
+
             try {
             
                 String saveDirectory = "./signatures"; // specify the directory path

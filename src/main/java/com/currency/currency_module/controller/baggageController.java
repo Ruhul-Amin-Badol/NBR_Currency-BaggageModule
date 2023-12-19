@@ -1413,8 +1413,11 @@ public class baggageController {
                 //  List<String> includedFields = Arrays.asList("id","item_id","payment_id"); // Replace with your actual field names
                     List<Object> rowData = new ArrayList<>(allProductQuery);
                     rowData.add(baggageQuery);
+
+                    String paymentSql = "SELECT * FROM payment_history WHERE baggage_id = ?";
+                    List<Map<String, Object>> paymentHistoryInfo = jdbcTemplate.queryForList(paymentSql, id);
                 
-                    byte[] pdfData = pdfGenerationService.generatePdfPayByAdmin(allProductQuery,rowData, includedFields,totalTaxAmount,paidAmount,id,passangerName,applicationSubmitDate,paymentId);
+                    byte[] pdfData = pdfGenerationService.generatePdfPayByAdmin(allProductQuery,paymentHistoryInfo,rowData, includedFields,totalTaxAmount,paidAmount,id,passangerName,applicationSubmitDate,paymentId);
                 
                     HttpHeaders headers = new HttpHeaders();
                     headers.setContentType(MediaType.APPLICATION_PDF);

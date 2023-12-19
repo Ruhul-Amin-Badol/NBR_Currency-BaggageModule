@@ -106,6 +106,11 @@ public class UserActivityManagement {
     private String Signature;
 
 
+    @Column(nullable = true)
+    private Long organizationId;
+
+
+
     
     @ManyToOne
     @JoinColumn(name = "airport_list_id")
@@ -358,6 +363,14 @@ public class UserActivityManagement {
 
     public void setCurrencyModule(int currencyModule) {
         this.currencyModule = currencyModule;
+    }
+
+    public Long getOrganizationId() {
+        return this.organizationId;
+    }
+
+    public void setOrganizationId(Long organizationId) {
+        this.organizationId = organizationId;
     }
 
 
