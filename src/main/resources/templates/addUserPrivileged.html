@@ -1,0 +1,123 @@
+<div th:replace="~{layout/ppm_privilage/ppmheader}"></div>
+<div class="container mt-5"> 
+    <div class="card shadow">
+        <div class="card-body">
+            <h3 class="card-title fw-bold mb-5 text-warning">User Management</h3>
+
+            <form th:action="@{/privileged/usermatrix/userinsert}" method="post" enctype="multipart/form-data">
+
+                <div class="form-group row">
+                    <label for="username" class="col-sm-2 col-form-label">User Name:</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="username" name="username">
+                    </div>
+
+                    <label for="fname" class="col-sm-2 col-form-label">Full Name:</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="fname" name="fname">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="password" class="col-sm-2 col-form-label">Password:</label>
+                    <div class="col-sm-4">
+                        <input type="password" class="form-control" id="password" name="password">
+                    </div>
+
+                    <label for="designation" class="col-sm-2 col-form-label">Designation:</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="designation" name="designation">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="status" class="col-sm-2 col-form-label">Status:</label>
+                    <div class="col-sm-4">
+                        <select class="form-control" id="status" name="status">
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                    </div>
+
+                    <label for="level" class="col-sm-2 col-form-label">Level:</label>
+                    <div class="col-sm-4">
+                        <select class="form-control" id="level" name="level">
+                            <option value="Viewer">Viewer</option>
+                            <option value="Purchase Officer">Purchase Officer</option>
+                            <option value="HRM Manager">HRM Manager</option>
+                            <option value="Sales & Store Manager">Sales & Store Manager</option>
+                            <option value="Supreme Administrator">Supreme Administrator</option>
+                            <option value="Envelope Print">Envelope Print</option>
+                            <option value="Damage Warehouse">Damage Warehouse</option>
+                            <option value="Marketing Coordinator">Marketing Coordinator</option>
+                            <option value="IT Specialist">IT Specialist</option>
+                            <option value="Customer Support">Customer Support</option>
+                            <option value="Project Manager">Project Manager</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="entry_date" class="col-sm-2 col-form-label">Entry Date:</label>
+                    <div class="col-sm-4">
+                        <input type="datetime-local" class="form-control" id="entry_date" name="entry_date">
+                    </div>
+                
+                    <label for="expire_date" class="col-sm-2 col-form-label">Expire Date:</label>
+                    <div class="col-sm-4">
+                        <input type="datetime-local" class="form-control" id="expire_date" name="expire_date">
+                    </div>
+
+                    
+                </div>
+
+                <div class="form-group row">
+                    <label for="employee_id" class="col-sm-2 col-form-label">Employee ID:</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="employeeId" name="employeeId">
+                    </div>
+                    <!-- <label for="file" class="col-sm-2 col-form-label">Upload File:</label>
+                    <div class="col-sm-4">
+                        <input type="file" class="form-control-file" id="file" name="file">
+                    </div> -->
+
+                    <label for="project_name" class="col-sm-2 col-form-label">Organization Name:</label>
+
+
+
+                    <div class="col-sm-4">
+                        <select class="form-control" id="organizationId" name="organizationId">
+                            <th:block th:each="organization : ${allOrganization}">
+                                <option th:text="${organization.origanizationName}" th:value="${organization.id}"></option>
+                            </th:block>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+
+                    <label for="employee_id" class="col-sm-2 col-form-label">Password:</label>
+                    <div class="col-sm-4">
+                        <input type="password" class="form-control" id="password" name="password">
+                    </div>
+
+
+
+                    <label for="entry_date" class="col-sm-2 col-form-label">Signature:</label>
+                    <div class="col-sm-4">
+                        <input class="form-control form-control-sm" id="formFileSm" type="file" name="signature">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-10 col-md-8 offset-sm-2 text-center">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+<div th:replace="~{layout/ppm_privilage/ppmfooter}"></div>
