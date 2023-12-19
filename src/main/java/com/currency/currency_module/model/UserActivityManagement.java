@@ -26,6 +26,9 @@ public class UserActivityManagement {
 
     @Column(name = "username", unique = true)
     private String username;
+    
+    @Column(name = "organization_id")
+    private String organizationId;
 
     @Column(name = "password")
     private String password;
@@ -358,6 +361,14 @@ public class UserActivityManagement {
 
     public void setCurrencyModule(int currencyModule) {
         this.currencyModule = currencyModule;
+    }
+
+        public String getOrganizationId() {
+        return this.organizationId;
+    }
+
+    public void setOrganizationId(String organizationId) {
+        this.organizationId = organizationId;
     }
 
 

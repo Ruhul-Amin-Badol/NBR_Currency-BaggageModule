@@ -517,7 +517,7 @@ public byte[] generatePdf(List<Map<String, Object>>allProductQuery,List<Map<Stri
             contentStream.newLineAtOffset(86, 0);
             contentStream.showText("Status");
             contentStream.newLineAtOffset(86, 0);
-            contentStream.showText("paid_amount");
+            contentStream.showText("Paid Amount");
             contentStream.endText();
             yTable -= 20; // Adjust the Y-coordinate for the table content
 

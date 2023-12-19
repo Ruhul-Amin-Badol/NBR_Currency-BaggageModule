@@ -43,8 +43,9 @@ public class privilegeaController {
 
 
     @GetMapping("/pvtdashboard") 
-    public String pvtdashboard() {
-        
+    public String pvtdashboard(Principal principal ,Model model) {
+        String organization =airportInformation.getOrganization(principal);
+        System.out.println("aaaaaaaaaaaaaaaaaiiiiiiiii/////////"+organization);
         return "pvtdashboard";
     }
     

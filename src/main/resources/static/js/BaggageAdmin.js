@@ -132,7 +132,7 @@ function populateTableAdmin() {
     newRow1.append(`<td colspan="5" class="fw-bold">${totalPayableAmount}</td>`);
 
     }else{
-          newRow1.append(`<th colspan="4" style="color:red"class="text-end"> Refund Amount :</th>`);
+          newRow1.append(`<th colspan="4" style="color:red"class="text-end fw-bold"> Refund Amount :</th>`);
 
           let absolutePayableAmount = Math.abs(totalPayableAmount);
           newRow1.append(`<td colspan="4">${absolutePayableAmount}</td>`);

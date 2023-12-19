@@ -1,5 +1,6 @@
 package com.currency.currency_module.controller;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -13,9 +14,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.currency.currency_module.AirportInformation;
 import com.currency.currency_module.model.PvtInfo;
+import com.currency.currency_module.services.AirportService;
 import com.currency.currency_module.services.CurrencyServices;
 import com.currency.currency_module.services.PvtinfoService;
+import com.currency.currency_module.services.UserActivityManagementService;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/pvt")
@@ -25,9 +31,21 @@ public class pvtController {
     PvtinfoService pvtinfoService;
     @Autowired
     PvtInfo pvtInfo;
+     @Autowired
+   UserActivityManagementService userActivityManagementService;
+   @Autowired
+   AirportInformation airportInformation;
+    @Autowired
+    AirportService airportService;
+   
+   
+   @Autowired
+   HttpSession httpSession;
     
     @GetMapping("/pvt-dashboard")
-    public String pvrtDashboard(Model model) {
+    public String pvrtDashboard(Model model ,Principal principal) {
+        String organization =airportInformation.getOrganization(principal);
+        System.out.println("aaaaaaaaaaaaaaaaaiiiiiiiii==================="+organization);
         model.addAttribute("allcount", pvtinfoService.privilageCount());
         return "pvt_dashboard";
     }
@@ -38,14 +56,16 @@ public class pvtController {
     }
 
     @PostMapping("/insert-pvt")
-    public String insertPvt(PvtInfo pvtInfo) {
-       pvtinfoService.insertPvt(pvtInfo);
+    public String insertPvt(PvtInfo pvtInfo ,Principal principal) {
+       pvtinfoService.insertPvt(pvtInfo,principal);
         return "redirect:/pvt/pvt-entry";
     }
 
     @GetMapping("/all-pvt")
-    public String index( Model model) {
-        model.addAttribute("allPvt", pvtinfoService.getAllPvtInfo());
+    public String index( Model model, Principal principal ) {
+          String organization =airportInformation.getOrganization(principal);
+        model.addAttribute("allPvt", pvtinfoService.getAllPvtInfo(organization,principal));
+
         return "get_all_pvt";
     }
 
