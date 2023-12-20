@@ -324,8 +324,8 @@
             </tr>
             <tr>
                 <td colspan="6" class="pt">
-                   <p id="signatureId"> <img id="signatureImage" th:src="${Signature}"   alt="Signature Image" height="80" width="150"></p>
-                    <p class="p" align="left" th:text="${UserfullName}"></p>
+                   <p id="signatureId"> <img id="signatureImage" th:src="${Currency.status == 'checked' ? ApprovedUserSignature : loginUserSignature}"   alt="Signature Image" height="80" width="150"></p>
+                    <p class="p" align="left" th:text="${Currency.status == 'checked' ? ApprovedUserFullName : loginUserFullName}"></p>
                     <p class="p b" align="left">[Signature of Customs Official]</p>
                     <p class="p" align="left" >Approve Date:<span id="timeapproveid" th:text="${Currency.approveDate}"></span></p>
                 </td>
