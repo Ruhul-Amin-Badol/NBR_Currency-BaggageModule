@@ -527,6 +527,7 @@ function fetchProductData() {
         $("#ait").val(data.ait);
         $("#at").val(data.at);
         $("#tax_tofsil").val(data.tofsilPercentage);
+        $("#inchi").val("");
 
 
         

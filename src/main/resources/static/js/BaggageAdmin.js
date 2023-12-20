@@ -478,6 +478,7 @@ function fetchProductDataAdmin() {
         $("#tax_tofsil").val(data.tofsilPercentage);
 
         $("#additional_payment").val(data.additional_payment);
+        $("#inchi").val("");
         
       },
       error: function () {
@@ -496,6 +497,7 @@ function fetchProductDataAdmin() {
     $("#vat").val("");
     $("#ait").val("");
     $("#at").val("");
+    $("#inchi").val("");
 
     $("#additional_payment").val("");
     

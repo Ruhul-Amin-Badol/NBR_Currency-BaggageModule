@@ -23,8 +23,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.currency.currency_module.AirportInformation;
 import com.currency.currency_module.model.AirportList;
 import com.currency.currency_module.model.PpmInfo;
-
+import com.currency.currency_module.model.UserActivityManagement;
+import com.currency.currency_module.services.AirportService;
 import com.currency.currency_module.services.PpmInfoService;
+import com.currency.currency_module.services.UserActivityManagementService;
+import jakarta.servlet.http.HttpSession;
 
 import jakarta.validation.Valid;
 
@@ -35,19 +38,29 @@ public class PpmController {
     PpmInfoService ppmInfoService;
     @Autowired
     PpmInfo ppmInfo;
+        @Autowired
+   UserActivityManagementService userActivityManagementService;
+    @Autowired
+    AirportService airportService;
 
    @Autowired
    AirportInformation airportInformation;
 
+   @Autowired
+   HttpSession httpSession;
+
 
     @GetMapping("/ppm-dashboard")
-    public String ppmDashboard(Model model,Principal principal) {
+    public String ppmDashboard(Model model,Principal principal,HttpSession httpSession) {
         Integer passbook = 1;
         Integer carTransfer = 2;
         Integer carSale = 3;
 
         String username =airportInformation.getUsername(principal);
-
+         UserActivityManagement  
+        user= userActivityManagementService.findUserWithUserName(username);
+        httpSession.setAttribute("org", Integer.parseInt( user.getOrganizationId()));
+    
 
         model.addAttribute("passbookCount", ppmInfoService.ppmCount(passbook,username));
         model.addAttribute("carTransferCount", ppmInfoService.ppmCount(carTransfer,username));

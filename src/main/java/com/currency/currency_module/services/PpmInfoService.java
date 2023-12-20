@@ -51,9 +51,6 @@ public class PpmInfoService {
    public PpmInfo insertPpm (PpmInfo ppmInfo,MultipartFile image,Principal principal) {
     // Instant currentTimestamp = Instant.now();
     // String timestampString = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS").format(currentTimestamp);
-    long timestampMillis = System.currentTimeMillis();
-SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-String formattedTimestamp = formatter.format(new Date(timestampMillis));
 UUID randomUUID = UUID.randomUUID();
 
         // Convert UUID to String for use as an ID
