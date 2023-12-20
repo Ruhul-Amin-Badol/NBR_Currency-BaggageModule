@@ -103,8 +103,9 @@ public static class App2ConfigurationAdapter {
        httpSecurity.csrf(csrf -> csrf.disable())
                .securityMatcher("/ppm/*")
                .authorizeHttpRequests()
-               .anyRequest()
-               .authenticated()
+            //    .anyRequest()
+            .requestMatchers("/ppm/**").hasAuthority("priviliges")
+            //    .authenticated()
                .and()
                .formLogin(login -> login
                        .loginPage("/ppm/signinppm")  // Specify the login page for the second form
@@ -140,6 +141,7 @@ public static class App4ConfigurationAdapter {
                .requestMatchers(HttpMethod.GET, "/error").permitAll()
                .requestMatchers(HttpMethod.GET, "/index1").permitAll()
                // .requestMatchers(HttpMethod.POST, "/baggagestart/*").permitAll()
+            //    .requestMatchers(HttpMethod.GET, "/dashboard").hasAuthority("baggage")
                .requestMatchers(HttpMethod.POST, "/baggagestart/valueStay").permitAll()
                .requestMatchers(HttpMethod.POST, "/currencystart/delete").permitAll()
                .requestMatchers(HttpMethod.POST, "/baggagestart/productDelete").permitAll()

@@ -341,6 +341,7 @@ console.log("productName"+productName)
         $("#vat").val("");
         $("#ait").val("");
         $("#at").val("");
+        $("#inchi").val("");
         
         // populateTable();
        

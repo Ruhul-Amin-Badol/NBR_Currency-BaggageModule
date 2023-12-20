@@ -71,7 +71,7 @@ public class UserActivityManagementService {
                     saveFile.mkdirs(); // create the directory if it doesn't exist
                 }
 
-				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + userActivityManagement.getUsername()+fileExtension);
+				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + userActivityManagement.getUsername()+"."+fileExtension);
 				
 				Files.copy(image.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
                 String fileLocation = path.toString();
@@ -125,8 +125,9 @@ public class UserActivityManagementService {
                 if (!saveFile.exists()) {
                     saveFile.mkdirs(); // create the directory if it doesn't exist
                 }
-
-				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + userActivityManagement.getUsername()+fileExtension);
+               String  username=userActivityManagement.getUsername();
+               System.out.println("uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu"+username);
+				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + username+"."+fileExtension);
 				
 				Files.copy(image.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
                 String fileLocation = path.toString();
