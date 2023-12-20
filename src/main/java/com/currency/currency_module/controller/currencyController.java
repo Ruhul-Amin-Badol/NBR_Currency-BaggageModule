@@ -393,20 +393,30 @@ public class currencyController {
 
         CurrencyDeclaration currencydata=currencyServices.findcurrency(id);
          List<BaggageCurrencyAdd> listcurrency= currencyServices.baggagecurrecylist(id);
-         
+        String entryBy=   currencydata.getEntryBy();
+
+
+        if (entryBy != null) {
+            // Assuming these lines were previously commented out
+           System.out.println("  if (entryBy != null) {==================================================");
+            UserActivityManagement approvedUserActivityManagement = userActivityManagementService.getUserByUserName(entryBy);
+             String approvedUserFullName = approvedUserActivityManagement.getFname();
+             String approvedUserSignature = approvedUserActivityManagement.getSignature();
+  System.out.println("  if (entryBy != null) {=================================================="+approvedUserFullName);
+            model.addAttribute("ApprovedUserFullName", approvedUserFullName);
+            model.addAttribute("ApprovedUserSignature", approvedUserSignature);
+
+        }
+
 
         String usernameSession=principal.getName();
-        //String currencyId=principal.getId();
+        UserActivityManagement  loginUserActivityManagement  = userActivityManagementService.getUserByUserName(usernameSession);
+        String loginUserFullName = loginUserActivityManagement.getFname();
+        String loginUserSignature = loginUserActivityManagement.getSignature();
 
-       UserActivityManagement  userActivityManagement  = userActivityManagementService.getUserByUserName(usernameSession);
-       String fullName = userActivityManagement.getFname();
 
-       System.out.println("fullName================================="+fullName);
-    String getSignature = userActivityManagement.getSignature();
-
-        model.addAttribute("UserfullName",fullName);
-        model.addAttribute("Signature",getSignature);
-
+        model.addAttribute("loginUserFullName",loginUserFullName);
+        model.addAttribute("loginUserSignature",loginUserSignature);
 
         model.addAttribute("Currency",currencydata);
         model.addAttribute("Baggagecurrency",listcurrency);

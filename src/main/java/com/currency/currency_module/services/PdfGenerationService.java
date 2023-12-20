@@ -81,6 +81,13 @@ public byte[] generatePdfPayByAdmin(List<Map<String, Object>>allProductQuery,Lis
 
             float xPosition = margin;
 
+            //border
+            float marginBroder =margin-20;    
+            contentStream.setStrokingColor(Color.BLACK);
+            contentStream.addRect(marginBroder, marginBroder, page.getMediaBox().getWidth() - 2 * marginBroder, page.getMediaBox().getHeight() - 2 * marginBroder);
+            contentStream.setLineWidth(2); // Adjust the border width as needed
+            contentStream.stroke();
+
         PDImageXObject logo1 = PDImageXObject.createFromByteArray(document, logo, "Firebase logo");
 
             // Set the position and size of the image
@@ -817,18 +824,21 @@ public byte[] firebaseImageSignature(String usernameSession) throws IOException{
         try (PDDocument document = new PDDocument()) {
             PDPage page = new PDPage();
             document.addPage(page);
-
             try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
                 contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 14);
-
                 float margin = 40;
                 float yStart = page.getMediaBox().getHeight() - margin;
                 System.out.println(page.getMediaBox().getHeight());
                 float tableWidth = page.getMediaBox().getWidth() - 2 * margin;
                 float yPosition = yStart;
                 float rowHeight = 13f;
-
                 float xPosition = margin;
+            //border
+            float marginBroder =margin-20;    
+            contentStream.setStrokingColor(Color.BLACK);
+            contentStream.addRect(marginBroder, marginBroder, page.getMediaBox().getWidth() - 2 * marginBroder, page.getMediaBox().getHeight() - 2 * marginBroder);
+            contentStream.setLineWidth(2); // Adjust the border width as needed
+            contentStream.stroke();
 
                 // Load image from resources/static/image
                 // File imageFile = ResourceUtils.getFile("classpath:static/img/logo/nbr.png");
@@ -1032,6 +1042,14 @@ public byte[] firebaseImageSignature(String usernameSession) throws IOException{
                 float rowHeight = 13f;
 
                 float xPosition = margin;
+
+            //border
+            float marginBroder =margin-20;    
+            contentStream.setStrokingColor(Color.BLACK);
+            contentStream.addRect(marginBroder, marginBroder, page.getMediaBox().getWidth() - 2 * marginBroder, page.getMediaBox().getHeight() - 2 * marginBroder);
+            contentStream.setLineWidth(2); // Adjust the border width as needed
+            contentStream.stroke();
+
 
                 // Load image from resources/static/image
                 // File imageFile = ResourceUtils.getFile("classpath:static/img/logo/nbr.png");

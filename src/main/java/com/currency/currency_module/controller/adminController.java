@@ -91,20 +91,30 @@ public class adminController {
     public String baggageById(Model model, @RequestParam("id") Integer id, @RequestParam("status") String page_route,Principal principal) {
 
 
-
-        String username = principal.getName();  
-
-        String userInfoSql= "SELECT * FROM user_activity_management WHERE username =?";
-       Map<String, Object>userInfo= jdbcTemplate.queryForMap(userInfoSql, username);
-
-       System.out.println("userInfo=================================="+userInfo);
-        model.addAttribute("adminUserInfo", userInfo);
-
-
         String sql = "SELECT * FROM baggage WHERE id = ?";
         Map<String, Object> baggageView = jdbcTemplate.queryForMap(sql,id);
         model.addAttribute("baggageView", baggageView);
-        System.out.println(baggageView);    
+        //System.out.println(baggageView);    
+
+        Object entryByValue = baggageView.get("entry_by");
+        if (entryByValue != null) {
+            String approveUserName = entryByValue.toString();
+            String approvedUserInfoSql = "SELECT * FROM user_activity_management WHERE username = ?";
+            Map<String, Object> approvedUserInfo = jdbcTemplate.queryForMap(approvedUserInfoSql, approveUserName);
+            System.out.println("userInfo==================================" + approvedUserInfo);
+            model.addAttribute("approvedUserInfo", approvedUserInfo);
+        }
+
+
+        String loginUsername = principal.getName();  
+        String loginUserInfoSql= "SELECT * FROM user_activity_management WHERE username =?";
+        Map<String, Object>loginUserInfo= jdbcTemplate.queryForMap(loginUserInfoSql, loginUsername);
+        System.out.println("userInfo=================================="+loginUserInfo);
+        model.addAttribute("loginUserInfo", loginUserInfo);
+
+
+
+
 
         String sql1="SELECT * FROM baggage_product_add  JOIN  baggage_item_info ON  baggage_item_info.id= baggage_product_add.item_id WHERE baggage_id=?";
         List<Map<String, Object>> productshow = jdbcTemplate.queryForList(sql1,id);
