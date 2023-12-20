@@ -1217,8 +1217,8 @@ public class baggageController {
         requestData.put("referenceInfo", Map.of(
                 "InvoiceNo", payment_id,
                 "invoiceDate", formattedDate,
-                // "returnUrl", "http://localhost:8080/baggagestart/takePaymentRequest/"+id+"/",
-                "returnUrl", "http://13.232.110.60:8080/baggagestart/takePaymentRequest/"+id+"/",
+                "returnUrl", "http://localhost:8080/baggagestart/takePaymentRequest/"+id+"/",
+                //"returnUrl", "http://13.232.110.60:8080/baggagestart/takePaymentRequest/"+id+"/",
                 "totalAmount", total_tax,
                 "applicentName", passenger_name,
                 "applicentContactNo", cellular_phone,

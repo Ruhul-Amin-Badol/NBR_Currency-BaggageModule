@@ -1,5 +1,5 @@
 package com.currency.currency_module.services;
-
+import java.awt.Color;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -368,6 +368,9 @@ public byte[] generatePdf(List<Map<String, Object>>allProductQuery,List<Map<Stri
 
         try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
 
+
+
+
             contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 14);
 
             float margin = 50;
@@ -377,8 +380,38 @@ public byte[] generatePdf(List<Map<String, Object>>allProductQuery,List<Map<Stri
             float rowHeight = 13f;
 
             float xPosition = margin;
+            
 
-            // Load image from resources/static/image
+                // Draw a black border around the content on each page
+
+            float marginBroder =margin-20;    
+            contentStream.setStrokingColor(Color.BLACK);
+            contentStream.addRect(marginBroder, marginBroder, page.getMediaBox().getWidth() - 2 * marginBroder, page.getMediaBox().getHeight() - 2 * marginBroder);
+            contentStream.setLineWidth(2); // Adjust the border width as needed
+            contentStream.stroke();
+//            byte[] watermarkImage = firebaselogo("nbr_logo.png"); // Replace with your watermark image
+
+            // try {
+            //     PDImageXObject watermark = PDImageXObject.createFromByteArray(document, watermarkImage, "Watermark Image");
+    
+            //     // Calculate watermark position
+            //     float watermarkWidth = watermark.getWidth();
+            //     float watermarkHeight = watermark.getHeight();
+            //     float watermarkX = (page.getMediaBox().getWidth() - watermarkWidth) / 2;
+            //     float watermarkY = (page.getMediaBox().getHeight() - watermarkHeight) / 2;
+    
+            //     // Draw watermark on each page
+            //     for (int i = 0; i < document.getNumberOfPages(); i++) {
+            //         PDPage currentPage = document.getPage(i);
+            //         contentStream.drawImage(watermark, watermarkX, watermarkY, watermarkWidth, watermarkHeight);
+            //     }
+    
+            //     // ... (rest of your code)
+            // }catch (IOException e) {
+            //     // Handle the exception
+            // }
+
+            // Load image from resources/static/image  nbr_logo
             try {
         PDImageXObject logo1 = PDImageXObject.createFromByteArray(document, logo, "Firebase logo");
             
@@ -468,7 +501,7 @@ public byte[] generatePdf(List<Map<String, Object>>allProductQuery,List<Map<Stri
             contentStream.endText();
             widthApproveDate = heightApproveDate; 
 
-            float xuser= 450;
+            float xuser= 420;
             float yuser = 70;
             float widthUser= 90;  // Adjust this value based on your image size
             float heightUser = 90; 
@@ -487,7 +520,7 @@ public byte[] generatePdf(List<Map<String, Object>>allProductQuery,List<Map<Stri
             widthUser = heightUser; 
 
 
-            float xSubmitDate=450;
+            float xSubmitDate=420;
             float ySubmitDate = 40;
             float widthSubmitDate= 90;  // Adjust this value based on your image size
             float heightSubmitDate = 90; 

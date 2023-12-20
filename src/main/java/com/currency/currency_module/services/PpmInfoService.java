@@ -44,22 +44,16 @@ public class PpmInfoService {
             // Generate a unique filename for the uploaded file
             
             String fileName ="ppfuploads/ppmdoc"+ppmInfo.getId();
-
             // Upload the file to Firebase Storage
             storage.create(fileName, image.getInputStream(), image.getContentType());
-
             String downloadUrl = storage.get(fileName).signUrl(73000, java.util.concurrent.TimeUnit.DAYS).toString();
             ppmInfo.setEntryBy(principal.getName());
             ppmInfo.setUploadFile(downloadUrl);
-             
-             
              return ppmInfoRepository.save(ppmInfo);
-
         } catch (IOException e) {
             e.printStackTrace();
             // Handle the exception
-            return null;
-            
+            return null;  
         }
 
 
