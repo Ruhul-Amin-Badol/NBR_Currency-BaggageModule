@@ -23,25 +23,17 @@
 <table id="example" class="table table-striped " style="zoom: 70%;">
     <thead>
         <tr>
-
-
             <th>Buyer Address</th>
-
             <th>Buyer Name</th>
             <th>Buyer NID</th>
             <th>Buyer Passport Date</th>
             <th>Buyer Passport BO No</th>
             <th>Buyer TIN</th>
-
             <th>CC</th>
             <th>Chassis No</th>
-
             <th>Custom Pass Date</th>
             <th>Custom Pass ID No</th>
-
             <th>Eng No</th>
-
-
             <th>Manufacture Date</th>
             <th>Ministry</th>
             <th>Ministry Foreign Ref Date</th>
@@ -51,16 +43,14 @@
             <th>Org Ref Date</th>
             <th>Org Ref No</th>
             <th>Organization</th>
-
             <th>Registration No</th>
             <th>Seller Designation</th>
             <th>Seller Name</th>
             <th>Seller Visa Date</th>
             <th>Seller Visa No</th>
 
-            <th>Upload File</th>
             <th>Vehicle Name</th>
-
+            <th>Action</th>
         </tr>
     </thead>
     <tbody >
@@ -101,12 +91,11 @@
 <td th:text="${ppmInfo.sellerName}"></td>
 <td th:text="${ppmInfo.sellerVisaDate}"></td>
 <td th:text="${ppmInfo.sellerVisaNo}"></td>
-
-<td th:text="${ppmInfo.uploadFile}"></td>
 <td th:text="${ppmInfo.vehicleName}"></td>
 
-
-            <!-- Include other fields similarly -->
+<td>
+    <a th:href="@{/ppm/view-details-car-sale(id=${ppmInfo.id})}">View Application</a>
+</td>
         </tr>
 
 
@@ -150,9 +139,8 @@
             <th>Seller Visa Date</th>
             <th>Seller Visa No</th>
 
-            <th>Upload File</th>
             <th>Vehicle Name</th>
-
+            <th>Action</th>
         </tr>
     </tfoot>
 </table>

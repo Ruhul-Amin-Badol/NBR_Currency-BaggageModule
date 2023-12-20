@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.currency.currency_module.model.PpmInfo;
+import com.currency.currency_module.model.PvtInfo;
 import com.currency.currency_module.repository.PpmInfoRepository;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
@@ -89,6 +90,10 @@ public class PpmInfoService {
     public List<PpmInfo> carSaleRepost(Integer applicationType,String username) {
         return ppmInfoRepository.findByApplicationTypeAndEntryBy(applicationType,username);
    }
+
+   public PpmInfo viewDetailsById(Long id) {
+    return ppmInfoRepository.findById(id).orElse(null);
+ }
 
 
 

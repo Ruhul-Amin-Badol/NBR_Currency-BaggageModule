@@ -60,10 +60,8 @@
             <th>Seller Name</th>
             <th>Seller Visa Date</th>
             <th>Seller Visa No</th>
-   
-
-            <th>Upload File</th>
             <th>Vehicle Name</th>
+            <th>Action</th>
 
 
         </tr>
@@ -111,11 +109,13 @@
 <td th:text="${ppmInfo.sellerVisaNo}"></td>
 
 
-<td th:text="${ppmInfo.uploadFile}"></td>
+
 <td th:text="${ppmInfo.vehicleName}"></td>
 
-
-            <!-- Include other fields similarly -->
+    
+<td>
+    <a th:href="@{/ppm/view-details-car-transfer(id=${ppmInfo.id})}">View Application</a>
+</td>
         </tr>
 
 
@@ -140,8 +140,6 @@
             <th>Contact Person Name</th>
             <th>Custom Pass Date</th>
             <th>Custom Pass ID No</th>
-
-
             <th>Eng No</th>
 
             <th>First Arrival Date</th>
@@ -162,8 +160,9 @@
             <th>Seller Visa No</th>
 
 
-            <th>Upload File</th>
+          
             <th>Vehicle Name</th>
+            <th>Action</th>
 
 
         </tr>
