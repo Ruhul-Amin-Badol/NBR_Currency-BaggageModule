@@ -10,8 +10,8 @@ function populateTable() {
   let totalTax = 0.0;
   addData.forEach(function (item) {
 
-     console.log("hi i am from add")
-    console.log(item)
+    // console.log("hi i am from add")
+    console.log("irem ========"+item.productName)
     let newRow = $("<tr>");
     // console.log(item.quantity);
     // console.log(item.duty_free);
@@ -259,8 +259,8 @@ function addProduct(){
   const tofsil_fix_per_unit = $("#tax_tofsil_perUnit").val();
   const additional_payment = $("#additional_payment").val();
   const taxAmount = $("#taxAmount").val();
-
-
+// alert("ee")
+console.log("productName"+productName)
   // Create a data object to send to the API
   const data = {
     baggageID,
@@ -295,7 +295,7 @@ function addProduct(){
       contentType: "application/json",
       data: JSON.stringify(data),
       success: function (item) {
-        console.log(item);
+        console.log("item"+item);
         // data.id = response;
       
       
@@ -325,7 +325,7 @@ function addProduct(){
          taxAmount: item.tax_amount,
         };
         console.log("ggggggggggggggggg")
-        console.log(extractedData);
+        console.log("extractedData"+extractedData);
         addData.push(extractedData);
         
         populateTable();

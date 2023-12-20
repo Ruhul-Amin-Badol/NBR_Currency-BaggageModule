@@ -90,7 +90,12 @@ public class pvtController {
         return "redirect:/pvt/all-pvt";  
     }
 
+    @GetMapping("/view-details")
+    public String viewDetails(Model model,@RequestParam Long id) { 
+        model.addAttribute("pvtById", pvtinfoService.getPvtInfoEdit(id));
+        return "pvt_view_details";  
 
+    }
 
 
 }

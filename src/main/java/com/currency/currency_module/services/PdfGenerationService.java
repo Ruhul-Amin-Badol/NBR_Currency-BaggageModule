@@ -277,7 +277,7 @@ public byte[] generatePdfPayByAdmin(List<Map<String, Object>>allProductQuery,Lis
             if (totalPaidAmount != null) {
                 contentStream.beginText();
                 contentStream.newLineAtOffset(xPosition, yPosition);
-                contentStream.showText("Total Paid Amount: " + totalPaidAmount);
+                contentStream.showText("Total Tax Amount: " + totalPaidAmount);
                 contentStream.endText();
                 yPosition -= rowHeight; // Adjust the Y-coordinate
             }
@@ -675,7 +675,7 @@ public byte[] generatePdf(List<Map<String, Object>>allProductQuery,List<Map<Stri
             if (totalPaidAmount != null) {
                 contentStream.beginText();
                 contentStream.newLineAtOffset(xPosition, yPosition);
-                contentStream.showText("Total Paid Amount: " + totalPaidAmount);
+                contentStream.showText("Total Tax Amount: " + totalPaidAmount);
                 contentStream.endText();
                 yPosition -= rowHeight; // Adjust the Y-coordinate
             }
@@ -1251,7 +1251,7 @@ public byte[] firebaseImageSignature(String usernameSession) throws IOException{
                 if (totalPaidAmount != null) {
                     contentStream.beginText();
                     contentStream.newLineAtOffset(xPosition, yPosition);
-                    contentStream.showText("Total Paid Amount: " + totalPaidAmount);
+                    contentStream.showText("Total Tax Amount: " + totalPaidAmount);
                     contentStream.endText();
                     yPosition -= rowHeight; // Adjust the Y-coordinate
                 }
@@ -1449,7 +1449,6 @@ public byte[] firebaseImageSignature(String usernameSession) throws IOException{
                 String qrCodeData = "http://13.232.110.60:8080/baggagestart/confrimPage?id="+id;
                 ByteArrayOutputStream qrCodeStream = generateQRCode(qrCodeData);
                 contentStream.drawImage(PDImageXObject.createFromByteArray(document, qrCodeStream.toByteArray(), "QR Code"), xQRCode, yQRCode, widthQRCode, heightQRCode);
-
                 yPosition -= heightQRCode;
 
 
@@ -1479,7 +1478,7 @@ public byte[] firebaseImageSignature(String usernameSession) throws IOException{
                 if (totalPaidAmount != null) {
                     contentStream.beginText();
                     contentStream.newLineAtOffset(xPosition, yPosition);
-                    contentStream.showText("Total Paid Amount: " + totalPaidAmount);
+                    contentStream.showText("Total Tax Amount: " + totalPaidAmount);
                     contentStream.endText();
                     yPosition -= rowHeight; // Adjust the Y-coordinate
                 }

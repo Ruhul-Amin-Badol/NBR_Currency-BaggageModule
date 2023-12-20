@@ -111,4 +111,23 @@ public class PpmController {
     }
 
 
+    @GetMapping("/view-details-passbook")
+    public String viewDetailsPassbook( Model model, @RequestParam Long id,Principal principal) {
+        model.addAttribute("ppmById", ppmInfoService.viewDetailsById(id));
+        return "ppm_view_details_custom_passbook";
+    }
+
+        @GetMapping("/view-details-car-transfer")
+    public String viewDetailsCarTranfer( Model model, @RequestParam Long id,Principal principal) {
+        model.addAttribute("ppmById", ppmInfoService.viewDetailsById(id));
+        return "ppm_view_details_car_transfer";
+    }
+
+    @GetMapping("/view-details-car-sale")
+    public String viewDetailsCarSale( Model model, @RequestParam Long id,Principal principal) {
+        model.addAttribute("ppmById", ppmInfoService.viewDetailsById(id));
+        return "ppm_view_details_car_sale";
+    }
+
+
 }

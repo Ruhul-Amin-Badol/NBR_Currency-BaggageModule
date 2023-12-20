@@ -54,6 +54,7 @@
             <th>Visa Duration</th>
             <th>Visa No</th>
             <th>Work Duration</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody >
@@ -87,14 +88,18 @@
 <td th:text="${ppmInfo.unlpDuration}"></td>
 <td th:text="${ppmInfo.unlpNo}"></td>
 <td>
+    
     <img th:src="${ppmInfo.uploadFile}" alt="Uploaded Image" width="100" height="100">
 </td>
 
 <td th:text="${ppmInfo.visaDuration}"></td>
 <td th:text="${ppmInfo.visaNo}"></td>
-<td th:text="${ppmInfo.workDuration}"></td> 
+<td th:text="${ppmInfo.workDuration}"></td>  
 
-            <!-- Include other fields similarly -->
+   
+<td>
+    <a th:href="@{/ppm/view-details-passbook(id=${ppmInfo.id})}">View Application</a>
+</td>
         </tr>
 
 
@@ -135,6 +140,7 @@
             <th>Visa Duration</th>
             <th>Visa No</th>
             <th>Work Duration</th>
+            <th>Action</th>
         </tr>
     </tfoot>
 </table>

@@ -4,7 +4,7 @@ $("#addTOPaymenyHistory").click(function () {
     const calan_no = $("#calan_no").val();
     const paid_amount = $("#paid_amount").val();
     const baggage_id = $("#baggage_id").val();
-   // console.log(baggage_id, payment_id, payment_date, calan_no, paid_amount);
+    console.log(baggage_id, payment_id, payment_date, calan_no, paid_amount);
 
     const data = {
         baggage_id,
@@ -55,7 +55,7 @@ function repopulatePaymentHistory() {
 
            populatePaymentHistoryTable(response.paymentHistoryList,response.totalPaidAmount,response.totalTaxAmount);
           // console.log("testing");
-         // alert("repopulatePaymentHistory");
+          //("repopulatePaymentHistory");
           totalPaidAmount =  parseFloat(response.totalPaidAmount).toFixed(2);
           totalTaxAmount = parseFloat(response.totalTaxAmount).toFixed(2);
           console.log(totalPaidAmount+"  "+totalTaxAmount)
@@ -178,11 +178,11 @@ function populatePaymentHistoryTable(data,totalPaidAmount,totalTaxAmount) {
 
         totalRow.append(`<td colspan="2"> Refund Amount : ${absolutePayableAmount}
         <input type="hidden" id="payableAmount_id" name="payableAmount" value="${payableAmount}" />
-        <button style="float: right;" id="refundAmountBtnId" type="button" class="btn btn-warning" onclick="adjustRefund()">Adjust Refund ( ${absolutePayableAmount })</button>
+      
         </td>` );
         
     }
-
+    // <button style="float: right;" id="refundAmountBtnId" type="button" class="btn btn-warning" onclick="adjustRefund()">Adjust Refund ( ${absolutePayableAmount })</button>
     tableBody.append(totalRow);
     //totalRow.append(`<td onclick="adjustRefund()"><button>ddd</button></td>`);
 

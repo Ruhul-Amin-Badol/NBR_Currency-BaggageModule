@@ -1,0 +1,185 @@
+
+<!DOCTYPE hrml>
+
+<html>
+
+	<head>
+
+		<title>Privileged Person Module</title>
+<link rel="icon" href="/benapole/assets/template/favicon.png" sizes="32x32" type="image/png">
+		<meta charset="utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link href="https://fonts.maateen.me/bangla/font.css" rel="stylesheet">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script></head>
+
+	
+
+	<body style="font-family: 'Bangla', sans-serif;">
+
+
+
+
+	<div class="container">
+		<form action="" method="post">
+	<div class="row">
+		<div class="col-md-2"></div>
+		<div class="col-md-8"><h2 style="text-align:center;font-weight:bold;"><u>Car Transfer Application</u></h2></div>
+		<div class="col-md-2"></div>
+	</div>
+	
+	<table class="table"   border="0" style="margin:0 auto;width:1100px;" >
+		<tbody style="font-size:20px;">
+		<tr>
+		<td style="  border:0px;font-weight:bold;">Name of Institute/Organization</td><td style="  border:0px;"  ><span th:text="${ppmById.organization}"></span></td>
+		
+		</tr>
+	<tr>
+		<td style=" border:0px;font-weight:bold;"> Reference No & Date of Institute/Organization</td><td style="  border:0px;"  ><span th:text="${ppmById.orgRefNo} "></span> &nbsp; <span th:text="${ppmById.orgRefDate}"></span></td>
+	</tr>
+
+	<tr>
+		<td style="border:0px;font-weight:bold;"> Name Of Ministry </td><td style="  border:0px;color:red;font-weight:bold;"  ><span th:text="${ppmById.ministry} "></span></td>
+	</tr>
+
+	<tr>
+		<td style=" border:0px;font-weight:bold;">Reference No & Date of Ministry</td><td style="  border:0px;"  ><span th:text="${ppmById.ministryRefNo} "></span> &nbsp; <span th:text="${ppmById.ministryRefDate}"></td>
+
+	</tr>
+
+	<tr>
+		<td style="border:0px;font-weight:bold;">Ministry of Foreign Affairs Reference No & Date (if applicable)</td><td style="  border:0px;color:green;font-weight:bold;"  >
+            <span th:text="${ppmById.ministryForeignRefNo} "></span> &nbsp;<span th:text="${ppmById.ministryForeignRefDate} "></span></td>
+
+	</tr>
+
+
+	<tr>
+		
+		<td style=" text-align: center;background: #2fc203;border:0px;font-weight:bold;" colspan="2">Seller Information</td>
+
+	</tr>
+
+    <tr>
+		<td style=" border:0px;font-weight:bold;">Name</td><td style="  border:0px;"  ><span th:text="${ppmById.sellerName} "></span></td>
+		
+	</tr>
+	<tr>
+		<td style=" border:0px;font-weight:bold;">Designation</td><td style="  border:0px;"  ><span th:text="${ppmById.sellerDesignation} "></span></td>
+		
+	</tr>
+
+	<tr>
+		<td style="border:0px;font-weight:bold;">Customs Passbook/Diplomat Id No & Date</td>
+        <td style="border:0px;" ><span th:text="${ppmById.customPassIdNo} "></span> &nbsp;<span th:text="${ppmById.customPassDate} "></span></td>
+		
+	</tr>
+	<tr>
+	
+		<td style="  border:0px;font-weight:bold;">Visa/Diplomat Visa No & Date</td>
+        <td style="border:0px;" ><span th:text="${ppmById.sellerVisaNo} "></span> &nbsp;<span th:text="${ppmById.sellerVisaDate} "></span></td>
+	
+	</tr>
+
+	<tr>
+		
+		<td style=" text-align: center;background: #e97b05;border:0px;font-weight:bold;" colspan="2">Vehicle Information</td>
+
+	</tr>
+
+
+	<tr>
+	<td style="  border:0px;font-weight:bold;" >Name</td><td style="  border:0px;"  ><span th:text="${ppmById.vehicleName} "></span></td>
+		
+	</tr>
+		<tr>
+			<td style="border:0px;font-weight:bold;"  >Registration No</td><td style="   border:0px;"> <span th:text="${ppmById.registrationNo}"></span></td>
+	
+		</tr>
+	
+	<tr>
+		<td style=" border:0px;font-weight:bold;">Engine No</td>
+		<td style="  border:0px;"> <span th:text="${ppmById.engNo}"></span></td>
+	
+	</tr>
+	<tr>
+		<td style=" border:0px;font-weight:bold;">Chassis No</td>
+		<td style="  border:0px;"> <span th:text="${ppmById.chassisNo}"></span></td>
+	
+	</tr>
+	<tr>
+		<td style=" border:0px;font-weight:bold;">Year Of Manufacture</td>
+		<td style="  border:0px;"> <span th:text="${ppmById.manufactureDate}"></span></td>
+	
+	</tr>
+	<tr>
+		<td style=" border:0px;font-weight:bold;">CC</td>
+		<td style="  border:0px;"> <span th:text="${ppmById.cc}"></span></td>
+	
+	</tr>
+
+
+	<tr>
+		
+		<td style=" text-align: center;background: #1ea1ed;border:0px;font-weight:bold;" colspan="2">Buyer Information</td>
+
+	</tr>
+
+
+	<tr>
+	<td style="  border:0px;font-weight:bold;" >Name</td><td style="  border:0px;"  ><span th:text="${ppmById.buyerName} "></span></td>
+		
+	</tr>
+		<tr>
+			<td style="border:0px;font-weight:bold;"  >Address</td><td style="   border:0px;"> <span th:text="${ppmById.buyerAddress}"></span></td>
+	
+		</tr>
+	
+	<tr>
+		<td style=" border:0px;font-weight:bold;">Customs Passbook/Diplomat Id No & Date</td>
+		<td style="  border:0px;"> <span th:text="${ppmById.buyerPassboNo}"></span> &nbsp; <span th:text="${ppmById.buyerPassDate}"></span></td>
+	
+	</tr>
+	<tr>
+		<td style=" border:0px;font-weight:bold;">NID</td>
+		<td style="  border:0px;">  <span th:text="${ppmById.buyerNid}"></span></td>
+	
+	</tr>
+	<tr>
+		<td style=" border:0px;font-weight:bold;">TIN</td>
+		<td style="  border:0px;"> <span th:text="${ppmById.buyerTin}"></span></td>
+	
+	</tr>
+	
+
+	</tbody>
+	
+	</table> <br>
+	<hr>
+
+	
+
+	</form>
+
+<div class="row">
+<div class="col-md-12">
+    <!-- <img th:src="${ppmInfo.uploadFile}" alt="Uploaded Image" width="100" height="100"> -->
+<embed type="application/pdf" th:src="${ppmById.uploadFile}" width="100%" height="150%">
+</div>
+</div>
+
+</div>
+	</body>
+
+</html>
+
+ <script>
+
+ //window.print();
+
+ </script>
