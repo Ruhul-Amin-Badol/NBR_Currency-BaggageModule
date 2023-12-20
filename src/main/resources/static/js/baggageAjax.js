@@ -341,6 +341,7 @@ console.log("productName"+productName)
         $("#vat").val("");
         $("#ait").val("");
         $("#at").val("");
+        $("#inchi").val("");
         
         // populateTable();
        
@@ -526,6 +527,7 @@ function fetchProductData() {
         $("#ait").val(data.ait);
         $("#at").val(data.at);
         $("#tax_tofsil").val(data.tofsilPercentage);
+        $("#inchi").val("");
 
 
         

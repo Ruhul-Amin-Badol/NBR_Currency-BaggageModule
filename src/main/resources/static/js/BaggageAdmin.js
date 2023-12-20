@@ -54,12 +54,13 @@ function populateTableAdmin() {
      newRow.append(`<td>${item.inchi}</td>`);
      newRow.append(`<td >${item.quantity}</td>`);
      newRow.append(`<td class="d-none" >${item.perUnitValue}</td>`);
-     if(item.tofsilPercentage !='0'){
-      newRow.append(`<td >0</td>`);
+    //  if(item.tofsilPercentage !='0'){
+    //   newRow.append(`<td >0</td>`);
        
-    }else{
-      newRow.append(`<td >${item.totalValue}</td>`);
-    }
+    // }else{
+    //   newRow.append(`<td >${item.totalValue}</td>`);
+    // }
+    newRow.append(`<td >${item.totalValue}</td>`);
      newRow.append(`<td>${item.tax}</td>`);
  
  
@@ -294,6 +295,7 @@ function adminadd() {
         $("#vat").val("");
         $("#ait").val("");
         $("#at").val("");
+        $("#inchi").val("");
         
         // populateTable();
        
@@ -476,6 +478,7 @@ function fetchProductDataAdmin() {
         $("#tax_tofsil").val(data.tofsilPercentage);
 
         $("#additional_payment").val(data.additional_payment);
+        $("#inchi").val("");
         
       },
       error: function () {
@@ -494,6 +497,7 @@ function fetchProductDataAdmin() {
     $("#vat").val("");
     $("#ait").val("");
     $("#at").val("");
+    $("#inchi").val("");
 
     $("#additional_payment").val("");
     
