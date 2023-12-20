@@ -62,8 +62,6 @@ public class PpmController {
 
         String organization =airportInformation.getOrganization(principal);
         model.addAttribute("organization", organization);
-
-
         return "ppm_entry";
     }
 
